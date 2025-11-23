@@ -5,8 +5,8 @@ interface Props {
 	title: string;
 	description?: string;
 }
-const base = import.meta.env.PUBLIC_BASE_PATH || '';
 const { title, description } = Astro.props;
+const base = import.meta.env.BASE_URL === '/' ? '' : import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
 <BaseLayout title={title} description={description}>

@@ -19,7 +19,7 @@ function formatDate(date: Date) {
 		<div class="space-y-8">
 			{sortedPosts.map((post) => (
 				<article class="group">
-					<a href={`/blog/${post.id}`} class="block">
+					<a href={`${import.meta.env.BASE_URL}blog/${post.id}`} class="block">
 						<div class="flex flex-col md:flex-row md:items-baseline md:justify-between mb-2">
 							<h2 class="text-2xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors">
 								{post.data.title}

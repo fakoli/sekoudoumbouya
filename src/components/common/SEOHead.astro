@@ -10,7 +10,7 @@ interface Props {
 const { 
 	title, 
 	description, 
-	image = '/og-image.png', // We'll need to ensure this exists or use a placeholder
+	image = `${import.meta.env.BASE_URL}og-image.png`, // We'll need to ensure this exists or use a placeholder
 	type = 'website',
 	publishDate
 } = Astro.props;
