@@ -41,8 +41,8 @@ const base = import.meta.env.BASE_URL === '/' ? '' : import.meta.env.BASE_URL.re
 
 <PageLayout title="Sekou Doumbouya | Senior Staff Cloud Systems Engineer" description="Portfolio of Sekou Doumbouya, a Senior Staff Cloud Systems Engineer specializing in multi-region architecture, networking, and platform engineering.">
 	
-	<!-- Hero Section -->
-	<section class="py-20 md:py-32 relative overflow-hidden">
+        <!-- Hero Section -->
+        <section class="py-20 md:py-32 relative overflow-hidden">
 		<div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row items-center gap-12">
 			<div class="flex-1 z-10">
 				{SITE_CONFIG.availableForHire && (
@@ -85,7 +85,25 @@ const base = import.meta.env.BASE_URL === '/' ? '' : import.meta.env.BASE_URL.re
 				<!-- TODO: Replace /headshot.jpg with actual image -->
 			</div>
 		</div>
-	</section>
+        </section>
+
+        <!-- Quick Navigation -->
+        <section class="max-w-6xl mx-auto -mt-12 md:-mt-16 mb-24 relative z-20">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        {[{ id: 'strategic', title: 'Strategic Initiatives', description: 'Scale architectures and exec-ready case studies' },
+                          { id: 'open-source', title: 'Open Source', description: 'Tooling and community-driven engineering' },
+                          { id: 'insights', title: 'Technical Insights', description: 'Writing on systems design and leadership' }
+                        ].map((item) => (
+                                <a href={`#${item.id}`} class="group bg-white border border-gray-100 rounded-xl p-5 shadow-sm hover:shadow-md transition-all flex items-start gap-3">
+                                        <span class="h-10 w-10 rounded-lg bg-blue-50 text-blue-700 flex items-center justify-center font-bold group-hover:bg-blue-100">→</span>
+                                        <div>
+                                                <h3 class="font-semibold text-gray-900 mb-1 group-hover:text-blue-700 transition-colors">{item.title}</h3>
+                                                <p class="text-sm text-gray-600 leading-snug">{item.description}</p>
+                                        </div>
+                                </a>
+                        ))}
+                </div>
+        </section>
 
 	<!-- Social Proof / Trusted By -->
 	<section class="border-y border-gray-100 py-10 bg-gray-50/50 -mx-4 px-4 md:-mx-0 md:px-0 md:rounded-2xl mb-24">
@@ -104,7 +122,7 @@ const base = import.meta.env.BASE_URL === '/' ? '' : import.meta.env.BASE_URL.re
 	</section>
 
 	<!-- Key Stats Grid -->
-	<section class="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 mb-24 border-b border-gray-100 pb-12">
+        <section class="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 mb-24 border-b border-gray-100 pb-12">
 		{stats.map(stat => (
 			<div>
 				<div class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-2">{stat.value}</div>
@@ -118,7 +136,7 @@ const base = import.meta.env.BASE_URL === '/' ? '' : import.meta.env.BASE_URL.re
 	</section>
 
 	<!-- Strategic Initiatives -->
-	<section class="max-w-6xl mx-auto mb-24">
+        <section id="strategic" class="max-w-6xl mx-auto mb-24">
 		<div class="flex justify-between items-end mb-12">
 			<div>
 				<h2 class="text-3xl font-bold text-gray-900 mb-2">Strategic Initiatives</h2>
@@ -166,7 +184,7 @@ const base = import.meta.env.BASE_URL === '/' ? '' : import.meta.env.BASE_URL.re
 	</section>
 
 	<!-- Open Source & Tooling -->
-	<section class="max-w-6xl mx-auto mb-24">
+        <section id="open-source" class="max-w-6xl mx-auto mb-24">
 		<div class="flex justify-between items-end mb-8">
 			<div>
 				<h2 class="text-2xl font-bold text-gray-900 mb-2">Open Source & Tooling</h2>
@@ -215,7 +233,7 @@ const base = import.meta.env.BASE_URL === '/' ? '' : import.meta.env.BASE_URL.re
 	</section>
 
 	<!-- Latest Writing -->
-	<section class="max-w-4xl mx-auto border-t border-gray-100 pt-20">
+        <section id="insights" class="max-w-4xl mx-auto border-t border-gray-100 pt-20">
 		<div class="flex justify-between items-baseline mb-12">
 			<h2 class="text-3xl font-bold text-gray-900">Technical Insights</h2>
 			<a href={`${base}/blog`} class="text-blue-600 font-medium hover:underline">Read all articles &rarr;</a>
