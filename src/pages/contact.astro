@@ -1,0 +1,31 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+
+const offerings = [
+        "Principal / Staff+ infrastructure and platform roles",
+        "Architecture and strategy advisory for multi-region, networking, and AI workloads",
+        "Speaking, workshops, and internal education for engineering teams",
+];
+---
+
+<PageLayout title="Contact | Sekou Doumbouya" description="Work with Sekou Doumbouya on infrastructure leadership, architecture advisory, and speaking engagements.">
+        <section class="max-w-3xl mx-auto px-4 py-12">
+                <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-8">Work With Me</h1>
+
+                <p class="text-lg text-gray-700 mb-8 leading-relaxed">
+                        I’m open to principal-level infrastructure roles, advisory engagements, and select speaking or teaching opportunities focused on cloud architecture, multi-region design, networking, and AI infrastructure.
+                </p>
+
+                <ul class="list-disc list-inside space-y-3 text-gray-700 mb-10">
+                        {offerings.map(item => (
+                                <li>{item}</li>
+                        ))}
+                </ul>
+
+                <div class="space-y-3 text-gray-700">
+                        <p>The best way to reach me is by email or through LinkedIn.</p>
+                        <p>Email: <a href="mailto:sdoumbouya81@gmail.com" class="text-blue-600 hover:underline">sdoumbouya81@gmail.com</a></p>
+                        <p>LinkedIn: use the LinkedIn icon in the header to connect.</p>
+                </div>
+        </section>
+</PageLayout>
