@@ -35,10 +35,10 @@ const community = [
 ---
 
 <PageLayout title="About | Sekou Doumbouya" description="About Sekou Doumbouya - Senior Staff Cloud Systems Engineer with 20+ years of experience.">
-	<section class="max-w-4xl mx-auto px-4 py-12">
-		<h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-8">About Me</h1>
-		
-                <div class="prose prose-lg text-gray-700 mb-16 max-w-none">
+        <section class="max-w-4xl mx-auto px-4 py-12">
+                <h1 class="text-4xl md:text-5xl font-bold text-text mb-8">About Me</h1>
+
+                <div class="prose prose-lg text-muted mb-16 max-w-none">
                         <p class="mb-6 text-xl leading-relaxed">
                                 I am a <strong>Senior Staff Cloud Systems Engineer</strong> and <strong>Technical Lead</strong> with over <strong>20 years</strong> of experience architecting scalable, reliable, and cost-effective cloud infrastructure solutions.
                         </p>
@@ -51,67 +51,67 @@ const community = [
                 </div>
 
                 <div class="mb-16">
-                        <h2 class="text-2xl font-bold text-gray-900 mb-4">How I Lead</h2>
-                        <p class="text-gray-700 mb-4">
+                        <h2 class="text-2xl font-bold text-text mb-4">How I Lead</h2>
+                        <p class="text-muted mb-4">
                                 I try to leave teams more infrastructure-literate than I found them. That means pairing architectural work with clear documentation, internal workshops, and mentorship so engineers can operate complex systems with confidence instead of fear.
                         </p>
-                        <ul class="list-disc list-inside space-y-2 text-gray-700">
+                        <ul class="list-disc list-inside space-y-2 text-muted">
                                 <li>Translating infrastructure strategy into language product, security, and data teams can act on</li>
                                 <li>Raising the floor of infra literacy through talks, office hours, and pairing</li>
                                 <li>Creating psychologically safe teams where engineers from underrepresented backgrounds can do their best work</li>
                         </ul>
                 </div>
 
-                <p class="text-gray-700 mb-16">
+                <p class="text-muted mb-16">
                         Recently my focus has been on scaling Kubernetes for AI workloads, designing multi-region architectures at Pinterest, and building safer AI tooling— including an AI Bridge MCP server and an AWS Security Group Mapper that help engineers reason about infrastructure more clearly.
                 </p>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16">
-			<div>
-				<h2 class="text-2xl font-bold text-gray-900 mb-6">Core Competencies</h2>
-				<ul class="space-y-3">
-					{skills.map(skill => (
-						<li class="flex items-center space-x-3 text-gray-700">
-							<span class="w-2 h-2 bg-blue-600 rounded-full shrink-0"></span>
-							<span>{skill}</span>
-						</li>
-					))}
+                        <div>
+                                <h2 class="text-2xl font-bold text-text mb-6">Core Competencies</h2>
+                                <ul class="space-y-3">
+                                        {skills.map(skill => (
+                                                <li class="flex items-center space-x-3 text-muted">
+                                                        <span class="w-2 h-2 bg-accent rounded-full shrink-0"></span>
+                                                        <span>{skill}</span>
+                                                </li>
+                                        ))}
 				</ul>
 			</div>
 
-			<div>
-				<h2 class="text-2xl font-bold text-gray-900 mb-6">Education & Development</h2>
-				<div class="space-y-6">
-					{education.map(edu => (
-						<div>
-							<h3 class="font-bold text-gray-900">{edu.school}</h3>
-							<p class="text-gray-700">{edu.location} • {edu.years}</p>
-						</div>
-					))}
-					<div>
-						<h3 class="font-bold text-gray-900">Emerge Global Executive Leadership Program</h3>
-						<p class="text-gray-700">Ross School of Business, University of Michigan</p>
-					</div>
-				</div>
-			</div>
-		</div>
+                        <div>
+                                <h2 class="text-2xl font-bold text-text mb-6">Education & Development</h2>
+                                <div class="space-y-6">
+                                        {education.map(edu => (
+                                                <div>
+                                                        <h3 class="font-bold text-text">{edu.school}</h3>
+                                                        <p class="text-muted">{edu.location} • {edu.years}</p>
+                                                </div>
+                                        ))}
+                                        <div>
+                                                <h3 class="font-bold text-text">Emerge Global Executive Leadership Program</h3>
+                                                <p class="text-muted">Ross School of Business, University of Michigan</p>
+                                        </div>
+                                </div>
+                        </div>
+                </div>
 
-		<div class="border-t border-gray-100 pt-12">
-			<h2 class="text-2xl font-bold text-gray-900 mb-8">Community & Awards</h2>
-			<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-				{community.map(item => (
-					<div class="bg-gray-50 p-6 rounded-xl border border-gray-100">
-						<h3 class="font-bold text-gray-900 mb-1">{item.org}</h3>
-						<div class="text-blue-600 text-sm font-medium mb-3 uppercase tracking-wide">{item.role}</div>
-						<p class="text-gray-700">{item.desc}</p>
-					</div>
-				))}
-				<div class="bg-amber-50 p-6 rounded-xl border border-amber-100">
-					<h3 class="font-bold text-gray-900 mb-1">LiveOps Amsterdam Datacenter Creation Award</h3>
-					<div class="text-amber-600 text-sm font-medium mb-3 uppercase tracking-wide">Honors & Awards</div>
-					<p class="text-gray-700">Recognition for excellence in datacenter infrastructure design and implementation.</p>
-				</div>
-			</div>
-		</div>
+                <div class="border-t border-border pt-12">
+                        <h2 class="text-2xl font-bold text-text mb-8">Community & Awards</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                {community.map(item => (
+                                        <div class="bg-surface-muted p-6 rounded-[var(--radius-md)] border border-border">
+                                                <h3 class="font-bold text-text mb-1">{item.org}</h3>
+                                                <div class="text-accent text-sm font-medium mb-3 uppercase tracking-wide">{item.role}</div>
+                                                <p class="text-muted">{item.desc}</p>
+                                        </div>
+                                ))}
+                                <div class="bg-amber-50 p-6 rounded-[var(--radius-md)] border border-amber-100">
+                                        <h3 class="font-bold text-text mb-1">LiveOps Amsterdam Datacenter Creation Award</h3>
+                                        <div class="text-amber-600 text-sm font-medium mb-3 uppercase tracking-wide">Honors & Awards</div>
+                                        <p class="text-muted">Recognition for excellence in datacenter infrastructure design and implementation.</p>
+                                </div>
+                        </div>
+                </div>
 	</section>
 </PageLayout>
