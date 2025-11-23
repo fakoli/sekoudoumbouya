@@ -13,11 +13,12 @@ const base = import.meta.env.BASE_URL === '/' ? '' : import.meta.env.BASE_URL.re
         <header class="border-b border-gray-100 sticky top-0 z-50 bg-white/90 backdrop-blur supports-[backdrop-filter]:bg-white/80">
 		<nav class="container mx-auto px-4 py-4 flex justify-between items-center">
 			<a href={`${base}/`} class="text-xl font-bold text-gray-900">Sekou Doumbouya</a>
-			<div class="space-x-6">
-				<a href={`${base}/about`} class="text-gray-600 hover:text-gray-900">About</a>
-				<a href={`${base}/experience`} class="text-gray-600 hover:text-gray-900">Experience</a>
-				<a href={`${base}/projects`} class="text-gray-600 hover:text-gray-900">Projects</a>
-				<a href={`${base}/blog`} class="text-gray-600 hover:text-gray-900">Technical Insights</a>
+                        <div class="space-x-6">
+                                <a href={`${base}/about`} class="text-gray-600 hover:text-gray-900">About</a>
+                                <a href={`${base}/experience`} class="text-gray-600 hover:text-gray-900">Experience</a>
+                                <a href={`${base}/projects`} class="text-gray-600 hover:text-gray-900">Projects</a>
+                                <a href={`${base}/contact`} class="text-gray-600 hover:text-gray-900">Contact</a>
+                                <a href={`${base}/blog`} class="text-gray-600 hover:text-gray-900">Technical Insights</a>
 				
 				<div class="flex items-center gap-4 pl-4 border-l border-gray-200">
 					<a href="https://linkedin.com/in/sekoudoumbouya" target="_blank" rel="noopener noreferrer" class="text-gray-500 hover:text-[#0077b5] transition-colors" aria-label="LinkedIn">
@@ -36,9 +37,9 @@ const base = import.meta.env.BASE_URL === '/' ? '' : import.meta.env.BASE_URL.re
 		<slot />
 	</main>
 
-	<footer class="border-t border-gray-100 mt-12">
-		<div class="container mx-auto px-4 py-8 text-center text-gray-500 text-sm">
-			&copy; {new Date().getFullYear()} Sekou Doumbouya. All rights reserved.
-		</div>
-	</footer>
+        <footer class="border-t border-gray-100 mt-12">
+                <div class="container mx-auto px-4 py-8 text-center text-gray-500 text-sm">
+                        &copy; {new Date().getFullYear()} Sekou Doumbouya. All rights reserved. • Contact: <a href="mailto:sdoumbouya81@gmail.com" class="text-blue-600 hover:underline">sdoumbouya81@gmail.com</a>
+                </div>
+        </footer>
 </BaseLayout>

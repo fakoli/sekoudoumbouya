@@ -8,7 +8,7 @@
     "description": "Strategic infrastructure leadership focused on multi-region architecture, networking optimization, and organizational change management.",
     "achievements": [
         "Architected Pinterest’s Next Generation Network Architecture, enabling scalable, secure, multi-platform environments.",
-        "Reduced annual networking costs from $10M to $0 by transitioning from Transit Gateway to direct VPC peering.",
+        "Eliminated $10M in annual AWS transit gateway and cross-VPC data transfer costs by transitioning from Transit Gateway to direct VPC peering.",
         "Served as DRI for Multi-Region and Multi-Account initiatives, collaborating with Chief Architect and Engineering Leadership.",
         "Founded and built the Cloud Architecture team, defining its charter, pillars, and roadmap.",
         "Established IaC standards and Terraform CI/CD pipelines to enhance operational safety and reduce deployment failures.",
