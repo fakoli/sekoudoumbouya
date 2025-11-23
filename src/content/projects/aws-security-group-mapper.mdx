@@ -25,10 +25,10 @@ Security Groups are one of those AWS primitives that start simple and end up **i
 
 Most teams are left with either:
 
-- Text-only views (CLI, console tables) that don’t show structure, or
+- Text-only views (CLI, console tables) that don’t show structure, or  
 - Heavy-weight commercial tools that are overkill for smaller environments or personal use.
 
-I wanted something in the middle: **a focused mapper that turns SG relationships into a graph you can actually see and discuss.**
+You wanted something in the middle: **a focused mapper that turns SG relationships into a graph you can actually see and discuss.**
 
 ## Approach
 
@@ -59,20 +59,14 @@ The core design principle: **no magic, no opaque scoring system**—just a clear
 
 ## Outcomes
 
-### Why this matters for leaders
-
-- Reduces time to assess blast radius from “days of grep and guesswork” to “one diagram.”
-- Lowers the risk of hidden, overly-permissive security groups across accounts.
-- Demonstrates a reusable pattern: lightweight infra visibility tools that plug into existing AWS usage instead of requiring a heavy new platform.
-
-- Turned “I think this SG is safe” into “Here’s a diagram that shows exactly how traffic can reach this cluster.”
-- Made it easier to run **blast radius reviews** before big infrastructure changes—especially when pairing with infra-as-code changes.
+- Turned “I think this SG is safe” into “Here’s a diagram that shows exactly how traffic can reach this cluster.”  
+- Made it easier to run **blast radius reviews** before big infrastructure changes—especially when pairing with infra-as-code changes.  
 - Helped highlight:
   - overly-permissive SGs  
   - unexpected transitive trusts (SG referencing SG referencing public CIDR)  
   - consolidation opportunities where multiple SGs duplicated rules.  
 
-Even as a personal tool, it serves as a strong demonstration of how I approach **security, observability, and developer ergonomics** at the cloud networking layer.
+Even as a personal tool, it serves as a strong demonstration of how you approach **security, observability, and developer ergonomics** at the cloud networking layer.
 
 ## Key Contributions
 
@@ -80,9 +74,7 @@ Even as a personal tool, it serves as a strong demonstration of how I approach *
 - Built a CLI that is usable by both infra engineers and security folks without forcing them into a specific workflow.  
 - Integrated Graphviz and Plotly to support both static diagrams and interactive views.  
 - Focused on the questions architects actually ask:
-  - “What can reach this subnet?”
-  - “Where do we have public exposure?”
-  - “What happens if we change this SG?”
-- Demonstrated my ability to move from **conceptual cloud security concerns** to a concrete, inspectable tooling solution.
-
-
+  - “What can reach this subnet?”  
+  - “Where do we have public exposure?”  
+  - “What happens if we change this SG?”  
+- Demonstrated your ability to move from **conceptual cloud security concerns** to a concrete, inspectable tooling solution.  

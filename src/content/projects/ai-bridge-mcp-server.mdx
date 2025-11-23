@@ -15,8 +15,6 @@ duration: "2025–Present"
 featured: true
 ---
 
-**For leaders, this means** a single, controllable entrypoint to powerful AI models instead of dozens of ungoverned connections.
-
 ## Problem
 Most developers wire Claude Code or other MCP clients directly to model APIs like OpenAI or Gemini. That works for experiments, but it doesn’t scale well for **secure, multi-model usage**:
 
@@ -58,11 +56,9 @@ The goal is simple: **centralize the risk** and make it easier to build safe AI 
 - Developers can add **a single MCP server** to Claude Code and immediately query both OpenAI and Gemini under a consistent security policy.  
 - Security posture improves by default: rate limits, prompt injection detection, and content filtering are all first-class configuration options rather than afterthoughts.  
 - Teams get a clear separation of concerns:
-  - MCP client config focuses on “what tools do I have?”
-  - AI Bridge focuses on “how do we safely talk to these providers?”
+  - MCP client config focuses on “what tools do I have?”  
+  - AI Bridge focuses on “how do we safely talk to these providers?”  
 - The project is discoverable in the MCP ecosystem (registries and directories), signaling both usability and real-world adoption.
-- Gives security and compliance teams a single surface area to monitor and harden.
-- Makes it easier to adopt new model providers without every team re-inventing integration and guardrails.
 
 ## Key Contributions
 - Designed and implemented a **secure MCP server** that unifies access to OpenAI and Gemini.
