@@ -10,13 +10,14 @@ interface Props {
 const { 
 	title, 
 	description, 
-	image = `${import.meta.env.BASE_URL}og-image.png`, // We'll need to ensure this exists or use a placeholder
+	image = 'og-image.png', // We'll need to ensure this exists or use a placeholder
 	type = 'website',
 	publishDate
 } = Astro.props;
 
+const base = import.meta.env.BASE_URL === '/' ? '' : import.meta.env.BASE_URL.replace(/\/$/, '');
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
-const socialImageURL = new URL(image, Astro.site);
+const socialImageURL = new URL(`${base}/${image.replace(/^\//, '')}`, Astro.site);
 ---
 
 <!-- Global Metadata -->
