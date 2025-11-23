@@ -17,8 +17,8 @@ const navLinks = [
         { href: `${base}/blog`, label: 'Technical Insights' },
 ];
 const socialLinks = [
-        { href: 'https://linkedin.com/in/sekoudoumbouya', label: 'LinkedIn', color: 'hover:text-[#0077b5]' },
-        { href: 'https://github.com/fakoli', label: 'GitHub', color: 'hover:text-gray-900' },
+        { href: 'https://linkedin.com/in/sekoudoumbouya', label: 'LinkedIn profile', color: 'hover:text-[#0077b5]' },
+        { href: 'https://github.com/fakoli', label: 'GitHub profile', color: 'hover:text-gray-900' },
 ];
 const isActive = (href: string) => {
         const normalizedHref = normalizePath(href);
@@ -48,6 +48,7 @@ const isActive = (href: string) => {
                                         <a
                                                 href={`${base}/Sekou_Doumbouya_Resume.pdf`}
                                                 target="_blank"
+                                                rel="noopener noreferrer"
                                                 class="inline-flex items-center rounded-full border border-slate-900/80 bg-slate-900/5 px-4 py-2 text-sm font-semibold text-slate-900 transition-colors hover:bg-slate-900 hover:text-white"
                                         >
                                                 Resume
@@ -119,6 +120,7 @@ const isActive = (href: string) => {
                                 <a
                                         href={`${base}/Sekou_Doumbouya_Resume.pdf`}
                                         target="_blank"
+                                        rel="noopener noreferrer"
                                         class="block rounded-lg border border-slate-900/80 bg-slate-900/5 px-3 py-3 text-base font-semibold text-slate-900 transition-colors hover:bg-slate-900 hover:text-white"
                                         data-mobile-link
                                 >
