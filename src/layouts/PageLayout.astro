@@ -1,0 +1,35 @@
+---
+import BaseLayout from './BaseLayout.astro';
+
+interface Props {
+	title: string;
+	description?: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<BaseLayout title={title} description={description}>
+	<header class="border-b border-gray-100">
+		<nav class="container mx-auto px-4 py-4 flex justify-between items-center">
+			<a href="/" class="text-xl font-bold text-gray-900">Sekou Doumbouya</a>
+			<div class="space-x-6">
+				<a href="/about" class="text-gray-600 hover:text-gray-900">About</a>
+				<a href="/experience" class="text-gray-600 hover:text-gray-900">Experience</a>
+				<a href="/projects" class="text-gray-600 hover:text-gray-900">Projects</a>
+				<a href="/blog" class="text-gray-600 hover:text-gray-900">Blog</a>
+				<a href="/Sekou_Doumbouya_Resume.pdf" target="_blank" class="px-4 py-2 bg-gray-900 text-white text-sm font-medium rounded-lg hover:bg-gray-800 transition-colors">Resume</a>
+			</div>
+		</nav>
+	</header>
+
+	<main class="container mx-auto px-4 py-8 min-h-[60vh]">
+		<slot />
+	</main>
+
+	<footer class="border-t border-gray-100 mt-12">
+		<div class="container mx-auto px-4 py-8 text-center text-gray-500 text-sm">
+			&copy; {new Date().getFullYear()} Sekou Doumbouya. All rights reserved.
+		</div>
+	</footer>
+</BaseLayout>

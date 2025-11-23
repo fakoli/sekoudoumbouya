@@ -1,0 +1,181 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import { getCollection } from 'astro:content';
+
+// Fetch Featured Projects
+const projects = await getCollection('projects');
+const featuredProjects = projects
+	.filter(p => p.data.featured)
+	.sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf())
+	.slice(0, 3);
+
+// Fetch Latest Blog Posts
+const posts = await getCollection('blog', ({ data }) => {
+	return import.meta.env.PROD ? data.draft !== true : true;
+});
+const latestPosts = posts
+	.sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf())
+	.slice(0, 3);
+
+const companies = [
+	{ name: "Pinterest", role: "Senior Staff Engineer" },
+	{ name: "Salesforce (Quip)", role: "Technical Lead" },
+	{ name: "Oracle", role: "Principal Engineer" },
+	{ name: "Groupon", role: "Senior Engineer" },
+];
+
+const stats = [
+	{ label: "Years Experience", value: "12+" },
+	{ label: "Cloud Spend Managed", value: "$10M+" },
+	{ label: "Engineers Mentored", value: "20+" },
+];
+---
+
+<PageLayout title="Sekou Doumbouya | Senior Staff Cloud Systems Engineer" description="Portfolio of Sekou Doumbouya, a Senior Staff Cloud Systems Engineer specializing in multi-region architecture, networking, and platform engineering.">
+	
+	<!-- Hero Section -->
+	<section class="py-20 md:py-32 relative overflow-hidden">
+		<div class="max-w-5xl relative z-10">
+			<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-100 text-blue-700 text-sm font-medium mb-6">
+				<span class="relative flex h-2 w-2">
+				  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+				  <span class="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+				</span>
+				Available for Senior Staff / Principal Roles
+			</div>
+			
+			<h1 class="text-5xl md:text-7xl font-bold text-gray-900 tracking-tight mb-8 leading-tight">
+				Building resilient cloud infrastructure <br class="hidden md:block" />
+				<span class="text-blue-600">at global scale.</span>
+			</h1>
+			
+			<p class="text-xl md:text-2xl text-gray-600 mb-10 max-w-2xl leading-relaxed">
+				I am a <strong>Senior Staff Cloud Systems Engineer</strong> and <strong>Technical Lead</strong>. I help organizations design massive distributed systems, optimize cloud economics, and build high-performing engineering teams.
+			</p>
+			
+			<div class="flex flex-wrap gap-4">
+				<a href="/experience" class="px-8 py-4 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition-all shadow-lg hover:shadow-blue-200 transform hover:-translate-y-0.5">
+					View Experience
+				</a>
+				<a href="/projects" class="px-8 py-4 bg-white text-gray-900 font-bold rounded-lg border border-gray-200 hover:border-gray-300 hover:bg-gray-50 transition-all">
+					See Case Studies
+				</a>
+			</div>
+		</div>
+	</section>
+
+	<!-- Social Proof / Trusted By -->
+	<section class="border-y border-gray-100 py-10 bg-gray-50/50 -mx-4 px-4 md:-mx-0 md:px-0 md:rounded-2xl mb-24">
+		<div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
+			<p class="text-sm font-semibold text-gray-500 uppercase tracking-wider shrink-0">
+				Trusted by engineering teams at
+			</p>
+			<div class="flex flex-wrap justify-center md:justify-end gap-8 md:gap-12 grayscale opacity-70 hover:opacity-100 transition-opacity duration-300">
+				{companies.map(company => (
+					<div class="flex items-center gap-2">
+						<span class="text-xl md:text-2xl font-bold text-gray-800">{company.name}</span>
+					</div>
+				))}
+			</div>
+		</div>
+	</section>
+
+	<!-- Key Stats Grid -->
+	<section class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-24 border-b border-gray-100 pb-12">
+		{stats.map(stat => (
+			<div>
+				<div class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-2">{stat.value}</div>
+				<div class="text-sm font-medium text-gray-500 uppercase tracking-wider">{stat.label}</div>
+			</div>
+		))}
+		<div>
+			<div class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-2">4+</div>
+			<div class="text-sm font-medium text-gray-500 uppercase tracking-wider">Major Clouds</div>
+		</div>
+	</section>
+
+	<!-- Featured Projects -->
+	<section class="mb-24">
+		<div class="flex justify-between items-end mb-12">
+			<div>
+				<h2 class="text-3xl font-bold text-gray-900 mb-2">Selected Work</h2>
+				<p class="text-gray-600">Flagship infrastructure and leadership initiatives.</p>
+			</div>
+			<a href="/projects" class="hidden md:inline-flex items-center text-blue-600 font-medium hover:underline">
+				View all projects &rarr;
+			</a>
+		</div>
+
+		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+			{featuredProjects.map((project) => (
+				<a href={`/projects/${project.id}`} class="group block h-full">
+					<article class="bg-white border border-gray-100 rounded-2xl overflow-hidden h-full hover:shadow-xl transition-all duration-300 flex flex-col relative">
+						<div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 to-purple-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
+						<div class="p-8 flex-1 flex flex-col">
+							<div class="flex items-center justify-between mb-4">
+								<span class="text-xs font-bold tracking-wider text-blue-600 uppercase bg-blue-50 px-2 py-1 rounded">
+									{project.data.organization}
+								</span>
+							</div>
+							
+							<h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors">
+								{project.data.title}
+							</h3>
+							
+							<p class="text-gray-600 text-sm mb-6 flex-1 leading-relaxed">
+								{project.data.impactSummary}
+							</p>
+
+							<div class="flex flex-wrap gap-2 mt-auto">
+								{project.data.primaryTech.slice(0, 3).map(tech => (
+									<span class="text-xs text-gray-500 bg-gray-50 px-2 py-1 rounded border border-gray-100">
+										{tech}
+									</span>
+								))}
+							</div>
+						</div>
+					</article>
+				</a>
+			))}
+		</div>
+		
+		<div class="mt-8 md:hidden">
+			<a href="/projects" class="text-blue-600 font-medium hover:underline">View all projects &rarr;</a>
+		</div>
+	</section>
+
+	<!-- Latest Writing -->
+	<section class="max-w-4xl mx-auto border-t border-gray-100 pt-20">
+		<div class="flex justify-between items-baseline mb-12">
+			<h2 class="text-3xl font-bold text-gray-900">Latest Writing</h2>
+			<a href="/blog" class="text-blue-600 font-medium hover:underline">Read blog &rarr;</a>
+		</div>
+
+		<div class="space-y-10">
+			{latestPosts.map((post) => (
+				<article class="group relative">
+					<div class="flex flex-col md:flex-row md:items-baseline md:justify-between mb-2">
+						<h3 class="text-xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors">
+							<a href={`/blog/${post.id}`}>
+								<span class="absolute inset-0"></span>
+								{post.data.title}
+							</a>
+						</h3>
+						<time datetime={post.data.publishDate.toISOString()} class="text-sm text-gray-500 shrink-0 md:ml-4">
+							{post.data.publishDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+						</time>
+					</div>
+					<p class="text-gray-600 mb-3 max-w-2xl">
+						{post.data.description}
+					</p>
+					<div class="flex gap-2 relative z-10">
+						{post.data.tags.map(tag => (
+							<span class="text-xs text-gray-400 font-medium">#{tag}</span>
+						))}
+					</div>
+				</article>
+			))}
+		</div>
+	</section>
+
+</PageLayout>

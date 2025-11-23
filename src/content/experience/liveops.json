@@ -1,0 +1,25 @@
+{
+    "company": "LiveOps",
+    "role": "Senior Systems Administrator",
+    "level": "Senior",
+    "location": "Redwood City, CA",
+    "startDate": "2013-04-01",
+    "endDate": "2014-09-01",
+    "description": "Led virtualization and storage initiatives, managing large-scale storage solutions.",
+    "achievements": [
+        "Led automation, virtualization, and storage initiatives; implemented Puppet and Foreman.",
+        "Designed and managed 600TB+ NetApp storage virtualization solutions.",
+        "Received LiveOps Amsterdam Datacenter Creation Award."
+    ],
+    "skills": [
+        "Puppet",
+        "Foreman",
+        "NetApp",
+        "Virtualization"
+    ],
+    "domainTags": [
+        "System Administration",
+        "Storage",
+        "Virtualization"
+    ]
+}

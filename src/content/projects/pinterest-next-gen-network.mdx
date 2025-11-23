@@ -1,0 +1,39 @@
+---
+title: "Pinterest Next-Generation Network Architecture"
+slug: "pinterest-next-gen-network"
+publishDate: 2025-11-22
+organization: "Pinterest"
+role: "Senior Staff Cloud Systems Engineer – Technical Lead"
+description: "Redesigned Pinterest’s AWS networking foundation to reduce costs by $10M and improve resiliency."
+impactSummary: "Redesigned Pinterest’s AWS networking foundation to improve resiliency, simplify routing, and reduce annual costs from $10M to $0 by shifting from centralized transit gateways to a distributed, peering-centric model."
+scale: ["Global network footprint", "$10M annual savings", "Multi-account AWS architecture"]
+primaryTech:
+  ["AWS Networking", "VPC Peering", "Transit Gateway Alternatives", "Terraform", "Routing Controls"]
+tags: ["Networking", "FinOps", "Cloud Architecture", "Cost Optimization", "Distributed Systems"]
+duration: "2021–Present"
+featured: true
+---
+
+## Problem
+Pinterest’s legacy AWS network leaned heavily on centralized transit gateways and broad, interconnected routing domains. While workable at moderate scale, this model inflated cross-zone data transfer costs, amplified blast radius during network events, and created operational ambiguity. As Pinterest’s traffic patterns grew more global and multi-account strategy solidified, the network no longer aligned with the company’s reliability, cost, or scaling goals.
+
+## Approach
+I led the architecture for Pinterest’s **Next-Generation Network (NGN)**—a shift toward a distributed, predictable, cost-efficient model grounded in modern cloud networking principles.
+
+The redesign centered on **centralized connectivity with distributed control**. Instead of treating the network as a single global fabric, we defined clear regional routing domains with isolated blast radii. This allowed each region to operate with its own control-plane boundaries while still benefiting from centrally governed egress, security layers, and shared services.
+
+A critical component was the analysis of **AZ balance and data transfer economics**. By modeling traffic paths and understanding how AWS charges for east-west movement, I demonstrated that the transit gateway–centric model was structurally misaligned with Pinterest’s architecture. This informed the recommendation—later adopted—to migrate toward **direct VPC peering**, simplified edge routing, and clearer account-level segmentation.
+
+## Outcomes
+- Eliminated \$10M in annual AWS transit gateway and data transfer costs  
+- Reduced network blast radius by decentralizing routing domains  
+- Improved observability and operational safety around edge and inter-VPC traffic  
+- Established a foundation that supports future multi-region expansion  
+- Simplified governance by aligning cloud networking with the multi-account model  
+
+## Key Contributions
+- Architected NGN and modeled routing control-plane boundaries  
+- Performed deep AZ-balancing and cost-transfer analysis  
+- Designed the shift from Transit Gateway → direct VPC peering  
+- Standardized centralized egress + distributed control patterns  
+- Influenced long-term networking roadmap adopted by Engineering Leadership  

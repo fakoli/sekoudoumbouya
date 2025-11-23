@@ -1,0 +1,127 @@
+Sekou M. Doumbouya
+
+215-485-2959 | sdoumbouya81@gmail.com | San Leandro, CA
+linkedin.com/in/sekoudoumbouya/ | github.com/fakoli
+
+⸻
+
+Professional Summary
+
+Senior Staff Cloud Systems Engineer and Technical Lead with more than 20 years of in-depth experience architecting scalable, reliable, and cost-effective cloud infrastructure solutions. Expertise includes multi-region networking, disaster recovery, infrastructure-as-code (IaC), Kubernetes, automation, and team leadership. Proven track record in strategic leadership roles — including serving as Director of Network Operations — demonstrating strong leadership, technical depth, and cross-functional influence.
+
+⸻
+
+Core Competencies
+
+Cloud Architecture:
+AWS (EC2, EKS, ECS, Glue, Kinesis), Oracle OCI (OKE), Kubernetes, HashiCorp Nomad & Consul, Kafka, Redis
+
+Infrastructure Automation:
+Terraform, Ansible, Chef, Puppet
+
+CI/CD:
+Jenkins, GitLab CI, Spinnaker, GitHub Actions
+
+Virtualization & Containerization:
+Docker, Kubernetes, Xen, KVM, VMware ESXi, OpenNebula, OpenStack
+
+Monitoring & Observability:
+Prometheus, Grafana, Nagios, ELK Stack, Circonus
+
+Languages:
+Bash, Python, Ruby, Golang
+
+Areas of Expertise:
+Technical Leadership & Documentation, Mentorship & Talent Development
+
+⸻
+
+Professional Experience
+
+Pinterest | Technical Lead – Senior Staff Cloud Systems Engineer
+June 2021 – Present
+
+Strategic Leadership
+	•	Served as the Directly Responsible Individual (DRI) for Pinterest’s Multi-Region and Multi-Account initiatives, collaborating directly with the Chief Architect and Engineering Leadership.
+	•	Successfully advocated for organizational adoption of a Multi-Account architecture, influencing Pinterest’s long-term infrastructure strategy.
+	•	Supported major Data Engineering initiatives, including Spark on EKS, facilitating transition to a robust Multi-Account environment.
+
+Next Generation Network Architecture
+	•	Architected Pinterest’s Next Generation Network Architecture, enhancing infrastructure stability by combining centralized connectivity with distributed control mechanisms, supporting scalable, secure, multi-platform environments.
+
+Infrastructure Optimization & Operational Efficiency
+	•	Conducted comprehensive analysis on AZ balances and data transfer costs, transitioning from Transit Gateway to direct VPC peering, reducing annual networking costs from $10 million to $0.
+	•	Established Infrastructure as Code (IaC) standards and Terraform CI/CD pipelines, enhancing operational safety, consistency, and reducing deployment failures.
+
+Team Building & Mentorship
+	•	Founded and built the Pinterest Cloud Architecture team, defining core pillars, team charter, and strategic roadmaps.
+	•	Directly mentored 12–14 engineers, significantly contributing to professional growth and retention.
+	•	Provided indirect mentorship across Security, Infrastructure Provisioning, and Site Reliability Engineering (SRE) teams, enhancing cross-functional expertise.
+	•	Led cross-team educational workshops increasing internal engineering capability in cloud networking and IaC.
+
+⸻
+
+Quip (Salesforce)
+Technical Lead – Data Platform SRE
+July 2020 – June 2021
+	•	Improved system reliability, increasing overall uptime by 15%.
+	•	Developed real-time clickstream analytics pipeline using AWS Kinesis, Lambda, and Athena.
+
+Site Reliability Engineer
+April 2019 – July 2020
+	•	Automated AWS infrastructure using Terraform and Ansible, improving efficiency.
+	•	Migrated applications to AWS ECS, reducing operational costs by 20%.
+
+⸻
+
+Oracle | Principal Systems Engineer
+May 2016 – April 2019
+	•	Developed CI/CD platforms, accelerating Oracle’s release cycles by 40%.
+	•	Architected GitOps-based container deployments and Kubernetes clusters.
+	•	Laid foundational strategy for Oracle’s migration to cloud-native SaaS.
+
+⸻
+
+Groupon | Senior Systems Engineer
+September 2014 – May 2016
+	•	Led adoption of Ansible, significantly streamlining automation and deployment.
+	•	Integrated Ansible with existing CI/CD tools, increasing operational efficiency.
+
+⸻
+
+LiveOps | Senior Systems Administrator
+April 2013 – September 2014
+	•	Led automation, virtualization, and storage initiatives; implemented Puppet and Foreman.
+	•	Designed and managed 600TB+ NetApp storage virtualization solutions.
+
+⸻
+
+Telvue Corporation | Director of Network Operations
+January 2012 – April 2013
+	•	Directed network infrastructure upgrades for IPTV services, significantly improving streaming performance and stability.
+	•	Engineered KVM-based virtualization solutions, reducing infrastructure costs.
+	•	Managed multi-vendor network solutions (Juniper, Cisco, Extreme, Dell).
+
+⸻
+
+Education
+	•	Penn State University, Schuylkill Haven, PA
+Attended 1999–2002
+
+⸻
+
+Professional Development & Certifications
+	•	Emerge Global Executive Leadership Program, Ross School of Business, University of Michigan
+
+⸻
+
+Honors & Awards
+	•	LiveOps Amsterdam Datacenter Creation Award
+
+⸻
+
+Professional Affiliations & Community Involvement
+	•	AI with Friends – Co-host of a weekly podcast breaking down complex technology topics through candid conversations, public speaking, and community engagement.
+	•	/Dev/Color – Active mentor promoting diversity and inclusion in technology.
+
+⸻

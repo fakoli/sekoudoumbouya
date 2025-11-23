@@ -1,0 +1,25 @@
+{
+    "company": "Oracle",
+    "role": "Principal Systems Engineer",
+    "level": "Principal",
+    "location": "Redwood City, CA",
+    "startDate": "2016-05-01",
+    "endDate": "2019-04-01",
+    "description": "Architected cloud-native deployment strategies and accelerated release cycles for Oracle’s SaaS migration.",
+    "achievements": [
+        "Developed CI/CD platforms, accelerating Oracle’s release cycles by 40%.",
+        "Architected GitOps-based container deployments and Kubernetes clusters.",
+        "Laid foundational strategy for Oracle’s migration to cloud-native SaaS."
+    ],
+    "skills": [
+        "Kubernetes",
+        "GitOps",
+        "CI/CD",
+        "Cloud-Native Strategy"
+    ],
+    "domainTags": [
+        "Cloud Architecture",
+        "DevOps",
+        "Containerization"
+    ]
+}

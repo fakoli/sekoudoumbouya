@@ -1,0 +1,38 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+
+const skills = [
+	"Cloud Architecture (AWS, GCP)",
+	"Infrastructure as Code (Terraform, CDK)",
+	"Container Orchestration (Kubernetes)",
+	"CI/CD Pipelines (GitHub Actions, GitLab CI)",
+	"System Design & Scalability",
+	"Technical Leadership"
+];
+---
+
+<PageLayout title="About | Sekou Doumbouya" description="About Sekou Doumbouya - Cloud & Infrastructure Leader">
+	<section class="max-w-3xl mx-auto">
+		<h1 class="text-4xl font-bold mb-8">About Me</h1>
+		
+		<div class="prose prose-lg text-gray-700 mb-12">
+			<p class="mb-4">
+				I am a senior cloud and infrastructure leader with over a decade of experience designing and operating large-scale distributed systems.
+				My passion lies in building resilient, scalable platforms that empower engineering teams to move faster.
+			</p>
+			<p>
+				I specialize in the intersection of software engineering and infrastructure, advocating for GitOps practices and platform engineering principles.
+			</p>
+		</div>
+
+		<h2 class="text-2xl font-bold mb-6">Core Competencies</h2>
+		<ul class="grid grid-cols-1 md:grid-cols-2 gap-4">
+			{skills.map(skill => (
+				<li class="flex items-center space-x-2 bg-gray-50 p-3 rounded-lg border border-gray-100">
+					<span class="w-2 h-2 bg-blue-500 rounded-full"></span>
+					<span>{skill}</span>
+				</li>
+			))}
+		</ul>
+	</section>
+</PageLayout>

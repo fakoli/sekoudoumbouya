@@ -1,0 +1,26 @@
+{
+    "company": "Quip (Salesforce)",
+    "role": "Technical Lead – Data Platform SRE",
+    "level": "Staff",
+    "location": "San Francisco, CA",
+    "startDate": "2020-07-01",
+    "endDate": "2021-06-01",
+    "description": "Led reliability engineering for the Data Platform, focusing on uptime improvement and analytics pipeline development.",
+    "achievements": [
+        "Improved system reliability, increasing overall uptime by 15%.",
+        "Developed real-time clickstream analytics pipeline using AWS Kinesis, Lambda, and Athena.",
+        "Supported major Data Engineering initiatives to facilitate robust multi-account environments."
+    ],
+    "skills": [
+        "AWS Kinesis",
+        "Lambda",
+        "Athena",
+        "SRE",
+        "Data Engineering"
+    ],
+    "domainTags": [
+        "Data Platform",
+        "SRE",
+        "Observability"
+    ]
+}

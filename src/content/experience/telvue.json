@@ -1,0 +1,26 @@
+{
+    "company": "Telvue Corporation",
+    "role": "Director of Network Operations",
+    "level": "Director",
+    "location": "Mount Laurel, NJ",
+    "startDate": "2012-01-01",
+    "endDate": "2013-04-01",
+    "description": "Directed network infrastructure and virtualization engineering for IPTV services.",
+    "achievements": [
+        "Directed network infrastructure upgrades for IPTV services, significantly improving streaming performance and stability.",
+        "Engineered KVM-based virtualization solutions, reducing infrastructure costs.",
+        "Managed multi-vendor network solutions (Juniper, Cisco, Extreme, Dell)."
+    ],
+    "skills": [
+        "Network Engineering",
+        "KVM",
+        "Leadership",
+        "Juniper",
+        "Cisco"
+    ],
+    "domainTags": [
+        "Networking",
+        "Virtualization",
+        "Management"
+    ]
+}

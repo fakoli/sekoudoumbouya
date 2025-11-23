@@ -1,0 +1,22 @@
+{
+    "company": "Groupon",
+    "role": "Senior Systems Engineer",
+    "level": "Senior",
+    "location": "Palo Alto, CA",
+    "startDate": "2014-09-01",
+    "endDate": "2016-05-01",
+    "description": "Streamlined automation and deployment processes through the adoption of Ansible.",
+    "achievements": [
+        "Led adoption of Ansible, significantly streamlining automation and deployment.",
+        "Integrated Ansible with existing CI/CD tools, increasing operational efficiency."
+    ],
+    "skills": [
+        "Ansible",
+        "Automation",
+        "CI/CD"
+    ],
+    "domainTags": [
+        "Infrastructure Automation",
+        "DevOps"
+    ]
+}
