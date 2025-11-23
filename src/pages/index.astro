@@ -3,10 +3,12 @@ import PageLayout from '../layouts/PageLayout.astro';
 import { getCollection } from 'astro:content';
 import { SITE_CONFIG } from '../config';
 
+const base = import.meta.env.BASE_URL === '/' ? '' : import.meta.env.BASE_URL.replace(/\/$/, '');
+
 // Fetch Featured Projects
 const projects = await getCollection('projects');
 const strategicProjects = projects
-	.filter(p => p.data.category === 'strategic')
+        .filter(p => p.data.category === 'strategic')
 	.sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf());
 
 const openSourceProjects = projects
@@ -22,21 +24,17 @@ const latestPosts = posts
 	.slice(0, 3);
 
 const companies = [
-	{ name: "Pinterest", role: "Senior Staff Engineer" },
-	{ name: "Salesforce (Quip)", role: "Technical Lead" },
-	{ name: "Oracle", role: "Principal Engineer" },
-	{ name: "Groupon", role: "Senior Engineer" },
+        { name: "Pinterest", role: "Senior Staff Engineer", logo: `${base}/assets/pinterest.svg` },
+        { name: "Salesforce (Quip)", role: "Technical Lead", logo: `${base}/assets/salesforce.svg` },
+        { name: "Oracle", role: "Principal Engineer", logo: `${base}/assets/oracle.svg` },
+        { name: "Groupon", role: "Senior Engineer", logo: `${base}/assets/groupon.svg` },
 ];
 
 const stats = [
-	{ label: "Years Experience", value: "20+" },
-	{ label: "Cloud Spend Managed", value: "$10M+" },
-	{ label: "Engineers Mentored", value: "20+" },
+        { label: "Years Experience", value: "20+" },
+        { label: "Cloud Spend Managed", value: "$10M+" },
+        { label: "Engineers Mentored", value: "20+" },
 ];
-
-
-
-const base = import.meta.env.BASE_URL === '/' ? '' : import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
 <PageLayout title="Sekou Doumbouya | Senior Staff Cloud Systems Engineer" description="Portfolio of Sekou Doumbouya, a Senior Staff Cloud Systems Engineer specializing in multi-region architecture, networking, and platform engineering.">
@@ -115,20 +113,27 @@ const base = import.meta.env.BASE_URL === '/' ? '' : import.meta.env.BASE_URL.re
         </section>
 
 	<!-- Social Proof / Trusted By -->
-	<section class="border-y border-gray-100 py-10 bg-gray-50/50 -mx-4 px-4 md:-mx-0 md:px-0 md:rounded-2xl mb-24">
-		<div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
-			<p class="text-sm font-semibold text-gray-500 uppercase tracking-wider shrink-0">
-				Trusted by engineering teams at
-			</p>
-			<div class="flex flex-wrap justify-center md:justify-end gap-8 md:gap-12 grayscale opacity-70 hover:opacity-100 transition-opacity duration-300">
-				{companies.map(company => (
-					<div class="flex items-center gap-2">
-						<span class="text-xl md:text-2xl font-bold text-gray-800">{company.name}</span>
-					</div>
-				))}
-			</div>
-		</div>
-	</section>
+        <section class="border-y border-gray-100 py-10 bg-gray-50/50 -mx-4 px-4 md:-mx-0 md:px-0 md:rounded-2xl mb-24">
+                <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 md:gap-8">
+                        <p class="text-sm font-semibold text-gray-500 uppercase tracking-wider shrink-0 text-center md:text-left">
+                                Trusted by engineering teams at
+                        </p>
+                        <div class="w-full md:flex-1">
+                                <div class="flex flex-wrap items-center justify-center md:justify-end gap-6 md:gap-10">
+                                        {companies.map(company => (
+                                                <div class="group flex items-center justify-center" aria-label={company.name}>
+                                                        <img
+                                                                src={company.logo}
+                                                                alt={`${company.name} logo`}
+                                                                loading="lazy"
+                                                                class="h-10 md:h-12 w-auto object-contain grayscale opacity-80 transition duration-300 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105"
+                                                        />
+                                                </div>
+                                        ))}
+                                </div>
+                        </div>
+                </div>
+        </section>
 
         <!-- Key Stats Grid -->
         <section class="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 mb-24 border-b border-gray-100 pb-12">
