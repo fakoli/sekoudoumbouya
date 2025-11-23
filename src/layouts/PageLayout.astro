@@ -39,7 +39,7 @@ const isActive = (href: string) => {
                                                         class={`text-sm font-medium transition-colors ${
                                                                 isActive(link.href)
                                                                         ? 'text-gray-900 underline decoration-2 underline-offset-8'
-                                                                        : 'text-gray-600 hover:text-gray-900'
+                                                                        : 'text-gray-700 hover:text-gray-900'
                                                         }`}
                                                 >
                                                         {link.label}
@@ -85,7 +85,7 @@ const isActive = (href: string) => {
 
                                 <button
                                         type="button"
-                                        class="inline-flex h-10 w-10 items-center justify-center rounded-md border border-gray-200 text-gray-600 transition-colors hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 md:hidden"
+                                        class="inline-flex h-10 w-10 items-center justify-center rounded-md border border-gray-200 text-gray-700 transition-colors hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 md:hidden"
                                         aria-controls="mobile-menu"
                                         aria-expanded="false"
                                         data-mobile-toggle
@@ -129,7 +129,7 @@ const isActive = (href: string) => {
                                                 href={socialLinks[0].href}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
-                                                class={`inline-flex h-11 w-11 items-center justify-center rounded-full border border-gray-200 text-gray-600 transition-colors hover:bg-gray-50 ${socialLinks[0].color}`}
+                                                class={`inline-flex h-11 w-11 items-center justify-center rounded-full border border-gray-200 text-gray-700 transition-colors hover:bg-gray-50 ${socialLinks[0].color}`}
                                                 aria-label={socialLinks[0].label}
                                                 data-mobile-link
                                         >
@@ -141,7 +141,7 @@ const isActive = (href: string) => {
                                                 href={socialLinks[1].href}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
-                                                class={`inline-flex h-11 w-11 items-center justify-center rounded-full border border-gray-200 text-gray-600 transition-colors hover:bg-gray-50 ${socialLinks[1].color}`}
+                                                class={`inline-flex h-11 w-11 items-center justify-center rounded-full border border-gray-200 text-gray-700 transition-colors hover:bg-gray-50 ${socialLinks[1].color}`}
                                                 aria-label={socialLinks[1].label}
                                                 data-mobile-link
                                         >
