@@ -9,7 +9,8 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://sekoudoumbouya.com', // Replace with your actual domain
+  site: 'https://fakoli.github.io/', // Replace with your actual domain
+  base: '/sekoudoumbouya',
   vite: {
     plugins: [tailwindcss()]
   },
