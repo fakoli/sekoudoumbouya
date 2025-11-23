@@ -35,13 +35,13 @@ const base = import.meta.env.BASE_URL === '/' ? '' : import.meta.env.BASE_URL.re
 						<p class="text-gray-700 mb-3">
 							{post.data.description}
 						</p>
-						<div class="flex gap-2">
-							{post.data.tags.map(tag => (
-								<span class="text-xs text-gray-400">#{tag}</span>
-							))}
-						</div>
-					</a>
-				</article>
+                                                <div class="flex gap-2">
+                                                        {post.data.tags.map(tag => (
+                                                                <span class="text-xs text-gray-700">#{tag}</span>
+                                                        ))}
+                                                </div>
+                                        </a>
+                                </article>
 			))}
 		</div>
 	</section>
