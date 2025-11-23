@@ -22,8 +22,8 @@ const base = import.meta.env.BASE_URL === '/' ? '' : import.meta.env.BASE_URL.re
 	<article class="max-w-4xl mx-auto px-4 py-12">
 		
 		{/* Navigation */}
-                <div class="mb-8">
-                        <a href={`${base}/projects`} class="inline-flex items-center text-sm font-medium text-muted hover:text-accent transition-colors">
+		<div class="mb-8">
+			<a href={`${base}/projects`} class="inline-flex items-center text-sm font-medium text-gray-500 hover:text-blue-600 transition-colors">
 				<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
 				</svg>
@@ -32,9 +32,9 @@ const base = import.meta.env.BASE_URL === '/' ? '' : import.meta.env.BASE_URL.re
 		</div>
 
 		{/* Header Section */}
-                <header class="mb-16 border-b border-border pb-12">
+		<header class="mb-16 border-b border-gray-100 pb-12">
 			<div class="flex items-center gap-3 mb-6">
-                                <span class="px-3 py-1 bg-[color:var(--color-accent)]/10 text-accent text-xs font-bold uppercase tracking-wider rounded-full">
+				<span class="px-3 py-1 bg-blue-50 text-blue-700 text-xs font-bold uppercase tracking-wider rounded-full">
 					{project.data.organization}
 				</span>
 				{project.data.featured && (
@@ -44,31 +44,31 @@ const base = import.meta.env.BASE_URL === '/' ? '' : import.meta.env.BASE_URL.re
 				)}
 			</div>
 
-                        <h1 class="text-4xl md:text-5xl font-extrabold text-text mb-8 leading-tight">
+			<h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-8 leading-tight">
 				{project.data.title}
 			</h1>
 
 			{/* Impact Summary Box */}
-                        <div class="bg-surface-muted border-l-4 border-[color:var(--color-accent)] p-6 md:p-8 rounded-r-lg mb-10">
-                                <h3 class="text-sm font-bold text-muted uppercase tracking-wider mb-2">Impact Summary</h3>
-                                <p class="text-xl md:text-2xl text-text font-medium leading-relaxed">
-                                        {project.data.impactSummary}
-                                </p>
-                        </div>
+			<div class="bg-gray-50 border-l-4 border-blue-600 p-6 md:p-8 rounded-r-lg mb-10">
+				<h3 class="text-sm font-bold text-gray-500 uppercase tracking-wider mb-2">Impact Summary</h3>
+				<p class="text-xl md:text-2xl text-gray-800 font-medium leading-relaxed">
+					{project.data.impactSummary}
+				</p>
+			</div>
 
 			{/* Metadata Grid */}
 			<div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
                                 <div>
-                                        <h3 class="text-xs font-bold text-muted uppercase tracking-wider mb-1">Role</h3>
-                                        <p class="text-sm font-medium text-text">{project.data.role}</p>
+                                        <h3 class="text-xs font-bold text-gray-600 uppercase tracking-wider mb-1">Role</h3>
+                                        <p class="text-sm font-medium text-gray-900">{project.data.role}</p>
                                 </div>
                                 <div>
-                                        <h3 class="text-xs font-bold text-muted uppercase tracking-wider mb-1">Timeline</h3>
-                                        <p class="text-sm font-medium text-text">{project.data.duration || formatDate(project.data.publishDate)}</p>
+                                        <h3 class="text-xs font-bold text-gray-600 uppercase tracking-wider mb-1">Timeline</h3>
+                                        <p class="text-sm font-medium text-gray-900">{project.data.duration || formatDate(project.data.publishDate)}</p>
                                 </div>
                                 <div>
-                                        <h3 class="text-xs font-bold text-muted uppercase tracking-wider mb-1">Scale</h3>
-                                        <div class="text-sm font-medium text-text">
+                                        <h3 class="text-xs font-bold text-gray-600 uppercase tracking-wider mb-1">Scale</h3>
+                                        <div class="text-sm font-medium text-gray-900">
 						{Array.isArray(project.data.scale) ? (
 							<ul class="list-none">
 								{project.data.scale.map(s => <li>{s}</li>)}
@@ -79,20 +79,20 @@ const base = import.meta.env.BASE_URL === '/' ? '' : import.meta.env.BASE_URL.re
 					</div>
 				</div>
                                 <div>
-                                        <h3 class="text-xs font-bold text-muted uppercase tracking-wider mb-1">Links</h3>
+                                        <h3 class="text-xs font-bold text-gray-600 uppercase tracking-wider mb-1">Links</h3>
                                         <div class="flex flex-col gap-1">
                                                 {project.data.repository && (
-                                                        <a href={project.data.repository} target="_blank" class="text-sm font-medium text-accent hover:underline">GitHub &rarr;</a>
+                                                        <a href={project.data.repository} target="_blank" class="text-sm font-medium text-blue-600 hover:underline">GitHub &rarr;</a>
                                                 )}
                                                 {project.data.externalLink && (
-                                                        <a href={project.data.externalLink} target="_blank" class="text-sm font-medium text-accent hover:underline">Live Site &rarr;</a>
-                                                )}
-                                                {!project.data.repository && !project.data.externalLink && (
-                                                        <span class="text-sm text-muted italic">Internal / Confidential</span>
-                                                )}
-                                        </div>
-                                </div>
-                        </div>
+							<a href={project.data.externalLink} target="_blank" class="text-sm font-medium text-blue-600 hover:underline">Live Site &rarr;</a>
+						)}
+						{!project.data.repository && !project.data.externalLink && (
+							<span class="text-sm text-gray-400 italic">Internal / Confidential</span>
+						)}
+					</div>
+				</div>
+			</div>
 		</header>
 
 		{/* Main Content */}
@@ -100,29 +100,29 @@ const base = import.meta.env.BASE_URL === '/' ? '' : import.meta.env.BASE_URL.re
 			{/* Sidebar (Tech Stack) */}
 			<aside class="lg:col-span-3 order-2 lg:order-1">
 				<div class="sticky top-8">
-                                        <h3 class="text-sm font-bold text-text uppercase tracking-wider mb-4">Tech Stack</h3>
-                                        <div class="flex flex-wrap lg:flex-col gap-2">
-                                                {project.data.primaryTech.map(tech => (
-                                                        <span class="px-3 py-1.5 bg-surface border border-border text-muted text-xs font-medium rounded-[var(--radius-sm)] shadow-[var(--shadow-soft)] text-center lg:text-left">
-                                                                {tech}
-                                                        </span>
-                                                ))}
-                                        </div>
+					<h3 class="text-sm font-bold text-gray-900 uppercase tracking-wider mb-4">Tech Stack</h3>
+					<div class="flex flex-wrap lg:flex-col gap-2">
+						{project.data.primaryTech.map(tech => (
+							<span class="px-3 py-1.5 bg-white border border-gray-200 text-gray-700 text-xs font-medium rounded-md shadow-sm text-center lg:text-left">
+								{tech}
+							</span>
+						))}
+					</div>
 
                                                 <div class="mt-8">
-                                                        <h3 class="text-sm font-bold text-text uppercase tracking-wider mb-4">Tags</h3>
+                                                        <h3 class="text-sm font-bold text-gray-900 uppercase tracking-wider mb-4">Tags</h3>
                                                         <div class="flex flex-wrap gap-2">
                                                                 {project.data.tags.map(tag => (
-                                                                        <span class="text-xs text-muted">#{tag}</span>
+                                                                        <span class="text-xs text-gray-700">#{tag}</span>
                                                                 ))}
                                                         </div>
                                                 </div>
                                         </div>
-                        </aside>
+			</aside>
 
 			{/* MDX Content */}
 			<div class="lg:col-span-9 order-1 lg:order-2">
-                                <div class="prose prose-lg prose-slate max-w-none prose-headings:font-bold prose-headings:text-text prose-p:text-muted prose-li:text-muted prose-strong:text-text prose-a:text-accent">
+				<div class="prose prose-lg prose-slate max-w-none prose-headings:font-bold prose-headings:text-gray-900 prose-p:text-gray-700 prose-li:text-gray-700 prose-strong:text-gray-900 prose-a:text-blue-600">
 					<Content />
 				</div>
 			</div>

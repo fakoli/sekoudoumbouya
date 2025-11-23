@@ -18,8 +18,8 @@ const navLinks = [
 ];
 const resumeHref = `${base}/Sekou_Doumbouya_Resume_2025.pdf`;
 const socialLinks = [
-        { href: 'https://linkedin.com/in/sekoudoumbouya', label: 'LinkedIn profile', color: 'hover:text-[color:var(--color-accent-strong)]' },
-        { href: 'https://github.com/fakoli', label: 'GitHub profile', color: 'hover:text-text' },
+        { href: 'https://linkedin.com/in/sekoudoumbouya', label: 'LinkedIn profile', color: 'hover:text-[#0077b5]' },
+        { href: 'https://github.com/fakoli', label: 'GitHub profile', color: 'hover:text-gray-900' },
 ];
 const isActive = (href: string) => {
         const normalizedHref = normalizePath(href);
@@ -28,9 +28,9 @@ const isActive = (href: string) => {
 ---
 
 <BaseLayout title={title} description={description}>
-        <header class="border-b border-border sticky top-0 z-50 bg-surface/90 backdrop-blur supports-[backdrop-filter]:bg-surface/80">
+        <header class="border-b border-gray-100 sticky top-0 z-50 bg-white/90 backdrop-blur supports-[backdrop-filter]:bg-white/80">
                 <nav class="container mx-auto px-4 py-4 flex items-center justify-between">
-                        <a href={`${base}/`} class="text-xl font-bold text-text">Sekou Doumbouya</a>
+                        <a href={`${base}/`} class="text-xl font-bold text-gray-900">Sekou Doumbouya</a>
 
                         <div class="flex items-center gap-4">
                                 <div class="hidden md:flex items-center gap-6">
@@ -39,8 +39,8 @@ const isActive = (href: string) => {
                                                         href={link.href}
                                                         class={`text-sm font-medium transition-colors ${
                                                                 isActive(link.href)
-                                                                        ? 'text-text underline decoration-2 underline-offset-8'
-                                                                        : 'text-muted hover:text-text'
+                                                                        ? 'text-gray-900 underline decoration-2 underline-offset-8'
+                                                                        : 'text-gray-700 hover:text-gray-900'
                                                         }`}
                                                 >
                                                         {link.label}
@@ -50,18 +50,18 @@ const isActive = (href: string) => {
                                                 href={resumeHref}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
-                                                class="inline-flex items-center rounded-full border border-[color:var(--color-border)] bg-[color:var(--color-accent)]/10 px-4 py-2 text-sm font-semibold text-text transition-colors hover:bg-[color:var(--color-accent)] hover:text-white"
+                                                class="inline-flex items-center rounded-full border border-slate-900/80 bg-slate-900/5 px-4 py-2 text-sm font-semibold text-slate-900 transition-colors hover:bg-slate-900 hover:text-white"
                                         >
                                                 Resume
                                         </a>
                                 </div>
 
-                                <div class="hidden md:flex items-center gap-4 pl-4 border-l border-border">
+                                <div class="hidden md:flex items-center gap-4 pl-4 border-l border-gray-200">
                                         <a
                                                 href={socialLinks[0].href}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
-                                                class={`text-muted transition-colors ${socialLinks[0].color}`}
+                                                class={`text-gray-500 transition-colors ${socialLinks[0].color}`}
                                                 aria-label={socialLinks[0].label}
                                         >
                                                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -72,7 +72,7 @@ const isActive = (href: string) => {
                                                 href={socialLinks[1].href}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
-                                                class={`text-muted transition-colors ${socialLinks[1].color}`}
+                                                class={`text-gray-500 transition-colors ${socialLinks[1].color}`}
                                                 aria-label={socialLinks[1].label}
                                         >
                                                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -87,7 +87,7 @@ const isActive = (href: string) => {
 
                                 <button
                                         type="button"
-                                        class="inline-flex h-10 w-10 items-center justify-center rounded-md border border-border text-muted transition-colors hover:bg-surface-muted focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[color:var(--color-border)] md:hidden"
+                                        class="inline-flex h-10 w-10 items-center justify-center rounded-md border border-gray-200 text-gray-700 transition-colors hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 md:hidden"
                                         aria-controls="mobile-menu"
                                         aria-expanded="false"
                                         data-mobile-toggle
@@ -103,15 +103,15 @@ const isActive = (href: string) => {
                         </div>
                 </nav>
 
-                <div id="mobile-menu" class="hidden md:hidden border-t border-border bg-surface" aria-label="Mobile navigation">
+                <div id="mobile-menu" class="hidden md:hidden border-t border-gray-100 bg-white" aria-label="Mobile navigation">
                         <div class="container mx-auto px-4 py-4 space-y-1">
                                 {navLinks.map((link) => (
                                         <a
                                                 href={link.href}
                                                 class={`block rounded-lg px-3 py-3 text-base font-medium transition-colors ${
                                                         isActive(link.href)
-                                                                ? 'bg-surface-muted text-text'
-                                                                : 'text-muted hover:bg-surface-muted hover:text-text'
+                                                                ? 'bg-gray-50 text-gray-900'
+                                                                : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
                                                 }`}
                                                 data-mobile-link
                                         >
@@ -122,7 +122,7 @@ const isActive = (href: string) => {
                                         href={resumeHref}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        class="block rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-accent)]/10 px-3 py-3 text-base font-semibold text-text transition-colors hover:bg-[color:var(--color-accent)] hover:text-white"
+                                        class="block rounded-lg border border-slate-900/80 bg-slate-900/5 px-3 py-3 text-base font-semibold text-slate-900 transition-colors hover:bg-slate-900 hover:text-white"
                                         data-mobile-link
                                 >
                                         Resume
@@ -132,7 +132,7 @@ const isActive = (href: string) => {
                                                 href={socialLinks[0].href}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
-                                                class={`inline-flex h-11 w-11 items-center justify-center rounded-full border border-border text-muted transition-colors hover:bg-surface-muted ${socialLinks[0].color}`}
+                                                class={`inline-flex h-11 w-11 items-center justify-center rounded-full border border-gray-200 text-gray-700 transition-colors hover:bg-gray-50 ${socialLinks[0].color}`}
                                                 aria-label={socialLinks[0].label}
                                                 data-mobile-link
                                         >
@@ -144,7 +144,7 @@ const isActive = (href: string) => {
                                                 href={socialLinks[1].href}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
-                                                class={`inline-flex h-11 w-11 items-center justify-center rounded-full border border-border text-muted transition-colors hover:bg-surface-muted ${socialLinks[1].color}`}
+                                                class={`inline-flex h-11 w-11 items-center justify-center rounded-full border border-gray-200 text-gray-700 transition-colors hover:bg-gray-50 ${socialLinks[1].color}`}
                                                 aria-label={socialLinks[1].label}
                                                 data-mobile-link
                                         >
@@ -161,13 +161,13 @@ const isActive = (href: string) => {
                 </div>
         </header>
 
-        <main class="container mx-auto px-4 py-[var(--space-xl)] min-h-[60vh]">
+        <main class="container mx-auto px-4 py-8 min-h-[60vh]">
                 <slot />
         </main>
 
-        <footer class="border-t border-border mt-12">
-                <div class="container mx-auto px-4 py-8 text-center text-muted text-sm">
-                        &copy; {new Date().getFullYear()} Sekou Doumbouya. All rights reserved. • Contact: <a href="mailto:sdoumbouya81@gmail.com" class="text-accent hover:underline">sdoumbouya81@gmail.com</a>
+        <footer class="border-t border-gray-100 mt-12">
+                <div class="container mx-auto px-4 py-8 text-center text-gray-500 text-sm">
+                        &copy; {new Date().getFullYear()} Sekou Doumbouya. All rights reserved. • Contact: <a href="mailto:sdoumbouya81@gmail.com" class="text-blue-600 hover:underline">sdoumbouya81@gmail.com</a>
                 </div>
         </footer>
 </BaseLayout>
