@@ -10,7 +10,7 @@ const base = import.meta.env.BASE_URL === '/' ? '' : import.meta.env.BASE_URL.re
 ---
 
 <BaseLayout title={title} description={description}>
-	<header class="border-b border-gray-100">
+        <header class="border-b border-gray-100 sticky top-0 z-50 bg-white/90 backdrop-blur supports-[backdrop-filter]:bg-white/80">
 		<nav class="container mx-auto px-4 py-4 flex justify-between items-center">
 			<a href={`${base}/`} class="text-xl font-bold text-gray-900">Sekou Doumbouya</a>
 			<div class="space-x-6">
