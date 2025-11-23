@@ -26,10 +26,10 @@ const base = import.meta.env.BASE_URL === '/' ? '' : import.meta.env.BASE_URL.re
 	<article class="max-w-3xl mx-auto">
 		<header class="mb-12 text-center">
 			<div class="mb-6">
-				<a href={`${base}/blog`} class="text-blue-600 hover:underline">&larr; Back to Technical Insights</a>
+                            <a href={`${base}/blog`} class="text-accent hover:underline">&larr; Back to Technical Insights</a>
 			</div>
 			<h1 class="text-4xl md:text-5xl font-bold mb-4">{post.data.title}</h1>
-			<div class="text-gray-500">
+                    <div class="text-muted">
 				<time datetime={post.data.publishDate.toISOString()}>
 					{formatDate(post.data.publishDate)}
 				</time>
