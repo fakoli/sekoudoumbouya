@@ -1,0 +1,67 @@
+# Sekou Doumbouya - Senior Staff Cloud Systems Engineer
+
+## Profile Summary
+Sekou Doumbouya is a Senior Staff Cloud Systems Engineer and Technical Lead with over 20 years of in-depth experience architecting scalable, reliable, and cost-effective cloud infrastructure solutions. He specializes in multi-region architecture, disaster recovery, infrastructure-as-code (IaC), Kubernetes, automation, and team leadership. He has a proven track record in strategic leadership roles, including serving as Director of Network Operations.
+
+## Core Competencies
+- **Cloud Architecture**: AWS (EC2, EKS, ECS, Glue, Kinesis), Oracle OCI (OKE), Kubernetes, HashiCorp Nomad & Consul, Kafka, Redis.
+- **Infrastructure Automation**: Terraform, Ansible, Chef, Puppet.
+- **CI/CD**: Jenkins, GitLab CI, Spinnaker, GitHub Actions.
+- **Virtualization & Containerization**: Docker, Kubernetes, Xen, KVM, VMware ESXi, OpenNebula, OpenStack.
+- **Monitoring & Observability**: Prometheus, Grafana, Nagios, ELK Stack, Circonus.
+- **Languages**: Bash, Python, Ruby, Golang.
+- **Leadership**: Technical Strategy, Team Building, Mentorship, Cross-Functional Alignment.
+
+## Professional Experience
+
+### Pinterest (June 2021 - Present)
+**Role**: Technical Lead – Senior Staff Cloud Systems Engineer
+- **Key Achievement**: Served as DRI for Multi-Region and Multi-Account initiatives, collaborating with the Chief Architect.
+- **Key Achievement**: Architected Next Generation Network Architecture, reducing annual costs from $10M to $0.
+- **Key Achievement**: Founded the Cloud Architecture team, mentoring 12–14 engineers and defining strategic pillars.
+
+### Quip (Salesforce) (July 2020 - June 2021)
+**Role**: Technical Lead – Data Platform SRE
+- **Key Achievement**: Improved system reliability, increasing uptime by 15%.
+- **Key Achievement**: Developed real-time clickstream analytics pipeline using AWS Kinesis, Lambda, and Athena.
+
+### Quip (Salesforce) (April 2019 - July 2020)
+**Role**: Site Reliability Engineer
+- **Key Achievement**: Migrated applications to AWS ECS, reducing operational costs by 20%.
+
+### Oracle (May 2016 - April 2019)
+**Role**: Principal Systems Engineer
+- **Key Achievement**: Developed CI/CD platforms, accelerating release cycles by 40%.
+- **Key Achievement**: Architected GitOps-based container deployments and Kubernetes clusters.
+
+### Groupon (September 2014 - May 2016)
+**Role**: Senior Systems Engineer
+- **Key Achievement**: Led adoption of Ansible, significantly streamlining automation and deployment.
+
+### LiveOps (April 2013 - September 2014)
+**Role**: Senior Systems Administrator
+- **Key Achievement**: Designed and managed 600TB+ NetApp storage virtualization solutions.
+
+### Telvue Corporation (January 2012 - April 2013)
+**Role**: Director of Network Operations
+- **Key Achievement**: Directed network infrastructure upgrades for IPTV services.
+
+## Education
+- **Penn State University**, Schuylkill Haven, PA (1999–2002)
+
+## Honors & Awards
+- **LiveOps Amsterdam Datacenter Creation Award**
+
+## Professional Development
+- **Emerge Global Executive Leadership Program**, Ross School of Business, University of Michigan
+
+## Community Involvement
+- **AI with Friends**: Co-host of a weekly podcast breaking down complex technology topics.
+- **/Dev/Color**: Active mentor promoting diversity and inclusion in technology.
+
+## Contact & Links
+- **Portfolio**: https://sekoudoumbouya.com
+- **Resume**: https://sekoudoumbouya.com/Sekou_Doumbouya_Resume.pdf
+- **GitHub**: https://github.com/fakoli
+- **LinkedIn**: https://linkedin.com/in/sekoudoumbouya/
+- **Location**: San Leandro, CA

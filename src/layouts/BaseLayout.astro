@@ -1,23 +1,25 @@
 ---
 import '../styles/global.css';
 
+import SEOHead from '../components/common/SEOHead.astro';
+import JSONLD from '../components/common/JSONLD.astro';
+
 interface Props {
 	title: string;
 	description?: string;
+	image?: string;
+	type?: 'website' | 'article';
+	publishDate?: Date;
 }
 
-const { title, description = "Senior Cloud & Infrastructure Leader Portfolio" } = Astro.props;
+const { title, description = "Senior Cloud & Infrastructure Leader Portfolio", image, type, publishDate } = Astro.props;
 ---
 
 <!doctype html>
 <html lang="en">
 	<head>
-		<meta charset="UTF-8" />
-		<meta name="description" content={description} />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>{title}</title>
+		<SEOHead title={title} description={description} image={image} type={type} publishDate={publishDate} />
+		<JSONLD type={type} title={title} description={description} />
 	</head>
 	<body class="bg-white text-gray-900 antialiased">
 		<slot />

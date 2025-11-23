@@ -2,37 +2,100 @@
 import PageLayout from '../layouts/PageLayout.astro';
 
 const skills = [
-	"Cloud Architecture (AWS, GCP)",
-	"Infrastructure as Code (Terraform, CDK)",
-	"Container Orchestration (Kubernetes)",
-	"CI/CD Pipelines (GitHub Actions, GitLab CI)",
-	"System Design & Scalability",
-	"Technical Leadership"
+	"Cloud Architecture (AWS, OCI)",
+	"Infrastructure as Code (Terraform, Ansible)",
+	"Container Orchestration (Kubernetes, EKS, ECS)",
+	"CI/CD (Jenkins, GitLab, Spinnaker)",
+	"Virtualization (KVM, VMware, OpenStack)",
+	"Observability (Prometheus, Grafana, ELK)",
+	"Technical Leadership & Mentorship",
+	"Multi-Region Networking"
+];
+
+const education = [
+	{
+		school: "Penn State University",
+		location: "Schuylkill Haven, PA",
+		years: "1999–2002"
+	}
+];
+
+const community = [
+	{
+		role: "Co-host",
+		org: "AI with Friends",
+		desc: "Weekly podcast breaking down complex technology topics through candid conversations."
+	},
+	{
+		role: "Active Mentor",
+		org: "/Dev/Color",
+		desc: "Promoting diversity and inclusion in technology."
+	}
 ];
 ---
 
-<PageLayout title="About | Sekou Doumbouya" description="About Sekou Doumbouya - Cloud & Infrastructure Leader">
-	<section class="max-w-3xl mx-auto">
-		<h1 class="text-4xl font-bold mb-8">About Me</h1>
+<PageLayout title="About | Sekou Doumbouya" description="About Sekou Doumbouya - Senior Staff Cloud Systems Engineer with 20+ years of experience.">
+	<section class="max-w-4xl mx-auto px-4 py-12">
+		<h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-8">About Me</h1>
 		
-		<div class="prose prose-lg text-gray-700 mb-12">
-			<p class="mb-4">
-				I am a senior cloud and infrastructure leader with over a decade of experience designing and operating large-scale distributed systems.
-				My passion lies in building resilient, scalable platforms that empower engineering teams to move faster.
+		<div class="prose prose-lg text-gray-700 mb-16 max-w-none">
+			<p class="mb-6 text-xl leading-relaxed">
+				I am a <strong>Senior Staff Cloud Systems Engineer</strong> and <strong>Technical Lead</strong> with over <strong>20 years</strong> of experience architecting scalable, reliable, and cost-effective cloud infrastructure solutions.
+			</p>
+			<p class="mb-6">
+				Operating at the intersection of software engineering and infrastructure, I build resilient platforms that empower engineering teams to move faster. My expertise spans multi-region networking, disaster recovery, infrastructure-as-code (IaC), and Kubernetes.
 			</p>
 			<p>
-				I specialize in the intersection of software engineering and infrastructure, advocating for GitOps practices and platform engineering principles.
+				In strategic leadership roles—including <strong>Director of Network Operations</strong>—I have demonstrated a track record of defining technical strategy and building high-performing teams. Currently at <strong>Pinterest</strong>, I serve as the Directly Responsible Individual (DRI) for Multi-Region and Multi-Account initiatives, enabling global scale while optimizing costs and reliability.
 			</p>
 		</div>
 
-		<h2 class="text-2xl font-bold mb-6">Core Competencies</h2>
-		<ul class="grid grid-cols-1 md:grid-cols-2 gap-4">
-			{skills.map(skill => (
-				<li class="flex items-center space-x-2 bg-gray-50 p-3 rounded-lg border border-gray-100">
-					<span class="w-2 h-2 bg-blue-500 rounded-full"></span>
-					<span>{skill}</span>
-				</li>
-			))}
-		</ul>
+		<div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16">
+			<div>
+				<h2 class="text-2xl font-bold text-gray-900 mb-6">Core Competencies</h2>
+				<ul class="space-y-3">
+					{skills.map(skill => (
+						<li class="flex items-center space-x-3 text-gray-700">
+							<span class="w-2 h-2 bg-blue-600 rounded-full shrink-0"></span>
+							<span>{skill}</span>
+						</li>
+					))}
+				</ul>
+			</div>
+
+			<div>
+				<h2 class="text-2xl font-bold text-gray-900 mb-6">Education & Development</h2>
+				<div class="space-y-6">
+					{education.map(edu => (
+						<div>
+							<h3 class="font-bold text-gray-900">{edu.school}</h3>
+							<p class="text-gray-600">{edu.location} • {edu.years}</p>
+						</div>
+					))}
+					<div>
+						<h3 class="font-bold text-gray-900">Emerge Global Executive Leadership Program</h3>
+						<p class="text-gray-600">Ross School of Business, University of Michigan</p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="border-t border-gray-100 pt-12">
+			<h2 class="text-2xl font-bold text-gray-900 mb-8">Community & Awards</h2>
+			<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+				{community.map(item => (
+					<div class="bg-gray-50 p-6 rounded-xl border border-gray-100">
+						<h3 class="font-bold text-gray-900 mb-1">{item.org}</h3>
+						<div class="text-blue-600 text-sm font-medium mb-3 uppercase tracking-wide">{item.role}</div>
+						<p class="text-gray-600">{item.desc}</p>
+					</div>
+				))}
+				<div class="bg-amber-50 p-6 rounded-xl border border-amber-100">
+					<h3 class="font-bold text-gray-900 mb-1">LiveOps Amsterdam Datacenter Creation Award</h3>
+					<div class="text-amber-600 text-sm font-medium mb-3 uppercase tracking-wide">Honors & Awards</div>
+					<p class="text-gray-700">Recognition for excellence in datacenter infrastructure design and implementation.</p>
+				</div>
+			</div>
+		</div>
 	</section>
 </PageLayout>

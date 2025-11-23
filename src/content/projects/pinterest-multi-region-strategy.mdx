@@ -15,10 +15,10 @@ featured: true
 ---
 
 ## Problem
-Pinterest was reaching the natural limits of a single-region model. As global traffic increased and reliability expectations tightened, the existing infrastructure lacked a coherent way to define, build, and operate regions. “Multi-region” existed in discussion but not as a programmable, repeatable system. Service teams, security, and platform engineering all carried different assumptions about what a new region required, creating ambiguity in planning and risk in execution.
+Pinterest approached the limits of a single-region model. As global traffic increased and reliability expectations tightened, the existing infrastructure lacked a coherent way to define, build, and operate regions. “Multi-region” existed in discussion but not as a programmable, repeatable system. Service teams, security, and platform engineering all carried different assumptions about what a new region required, creating ambiguity in planning and risk in execution.
 
 ## Approach
-I reframed multi-region expansion as an orchestration problem rather than a collection of one-off infrastructure tasks. The core step was introducing **region types**—Lightweight, Full, and Read-Only—giving the organization a taxonomy to anchor decisions. This definition allowed us to reason clearly about control-plane replication, data locality, and failure boundaries.
+I redefined multi-region expansion as an orchestration challenge rather than a collection of one-off infrastructure tasks. A key innovation was introducing **region types**—Lightweight, Full, and Read-Only—giving the organization a taxonomy to anchor decisions. This definition allowed us to reason clearly about control-plane replication, data locality, and failure boundaries.
 
 From there, I proposed a **spec-driven Region Artifact**: a single, declarative document expressing all requirements—network boundaries, account layout, IAM rules, sidecar dependencies, service discovery configuration, and workload readiness steps. The Region Artifact became the blueprint for automation and cross-team alignment.
 

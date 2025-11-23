@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://sekoudoumbouya.com/sitemap-index.xml

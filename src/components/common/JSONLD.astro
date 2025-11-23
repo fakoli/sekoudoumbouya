@@ -1,0 +1,46 @@
+---
+import { getCollection } from 'astro:content';
+
+const { title, description, type = 'website' } = Astro.props;
+const siteUrl = Astro.site ? Astro.site.toString() : 'https://sekoudoumbouya.com';
+
+// Person Schema
+const personSchema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Sekou Doumbouya",
+  "url": siteUrl,
+  "jobTitle": "Senior Staff Cloud Systems Engineer",
+  "worksFor": [
+    {
+      "@type": "Organization",
+      "name": "Pinterest"
+    }
+  ],
+  "sameAs": [
+    "https://www.linkedin.com/in/sekoudoumbouya", // Replace with actual
+    "https://github.com/sekoudoumbouya" // Replace with actual
+  ],
+  "description": "Senior Staff Cloud Systems Engineer specializing in multi-region architecture, networking, and platform engineering."
+};
+
+// Website Schema
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "Sekou Doumbouya Portfolio",
+  "url": siteUrl,
+  "author": {
+    "@type": "Person",
+    "name": "Sekou Doumbouya"
+  }
+};
+
+let schema = [personSchema, websiteSchema];
+
+// If it's a project or blog post, we could add more specific schema here
+// For now, we'll stick to the core identity schema to establish authority.
+
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />
