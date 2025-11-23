@@ -3,7 +3,7 @@ title: "Hello World"
 publishDate: 2023-11-22
 description: "A first post to test the blog content collection."
 tags: ["intro", "astro"]
-draft: false
+draft: true
 ---
 
 # Hello World

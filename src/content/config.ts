@@ -23,6 +23,7 @@ const projects = defineCollection({
         slug: z.string().optional(), // Optional because filename can be slug
         publishDate: z.coerce.date(),
         description: z.string(),
+        category: z.enum(['strategic', 'open-source']).default('strategic'),
 
         // Role & Context
         role: z.string().default("Principal Engineer"),
