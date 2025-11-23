@@ -41,7 +41,7 @@ const stats = [
 	
         <!-- Hero Section -->
         <section class="py-20 md:py-32 relative overflow-hidden">
-		<div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row items-center gap-12">
+                <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row items-center gap-12">
                         <div class="flex-1 z-10">
                                 <div class="flex flex-wrap items-center gap-3 mb-6">
                                         <p class="text-lg md:text-xl font-semibold text-gray-800">
@@ -68,10 +68,10 @@ const stats = [
                                 </p>
 				
                                 <div class="flex flex-wrap gap-4">
-                                        <a href={`${base}/experience`} class="px-8 py-4 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition-all shadow-lg hover:shadow-blue-200 transform hover:-translate-y-0.5">
+                                        <a href={`${base}/experience`} class="inline-flex h-12 items-center justify-center px-6 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition-all shadow-lg hover:shadow-blue-200 transform hover:-translate-y-0.5">
                                                 View Experience
                                         </a>
-                                        <a href={`${base}/projects`} class="px-8 py-4 bg-white text-gray-900 font-bold rounded-lg border border-gray-200 hover:border-gray-300 hover:bg-gray-50 transition-all">
+                                        <a href={`${base}/projects`} class="inline-flex h-12 items-center justify-center px-6 bg-white text-gray-900 font-bold rounded-lg border border-gray-200 hover:border-gray-300 hover:bg-gray-50 transition-all">
                                                 See Case Studies
                                         </a>
                                 </div>
@@ -95,7 +95,7 @@ const stats = [
         </section>
 
         <!-- Quick Navigation -->
-        <section class="max-w-6xl mx-auto -mt-12 md:-mt-16 mb-24 relative z-20">
+        <section class="max-w-6xl mx-auto -mt-4 sm:-mt-8 md:-mt-16 mb-24 relative z-20 px-4">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                         {[{ id: 'strategic', title: 'Strategic Initiatives', description: 'Scale architectures and exec-ready case studies' },
                           { id: 'open-source', title: 'Open Source', description: 'Tooling and community-driven engineering' },
@@ -136,14 +136,14 @@ const stats = [
         </section>
 
         <!-- Key Stats Grid -->
-        <section class="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 mb-24 border-b border-gray-100 pb-12">
+        <section class="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 mb-24 border-b border-gray-100 pb-12 px-4">
                 {stats.map(stat => (
                         <div>
                                 <div class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-2">{stat.value}</div>
-				<div class="text-sm font-medium text-gray-500 uppercase tracking-wider">{stat.label}</div>
-			</div>
-		))}
-		<div>
+                                <div class="text-sm font-medium text-gray-500 uppercase tracking-wider">{stat.label}</div>
+                        </div>
+                ))}
+                <div>
                         <div class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-2">4+</div>
                         <div class="text-sm font-medium text-gray-500 uppercase tracking-wider">Major Clouds</div>
                 </div>
@@ -171,10 +171,10 @@ const stats = [
 			</div>
 		</div>
 
-		<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-			{strategicProjects.map((project) => (
-				<a href={`${base}/projects/${project.id}`} class="group block h-full">
-					<article class="bg-white border border-gray-100 rounded-2xl overflow-hidden h-full hover:shadow-xl transition-all duration-300 flex flex-col relative">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10">
+                        {strategicProjects.map((project) => (
+                                <a href={`${base}/projects/${project.id}`} class="group block h-full">
+                                        <article class="bg-white border border-gray-100 rounded-2xl overflow-hidden h-full hover:shadow-xl transition-all duration-300 flex flex-col relative">
 						<div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-600 to-indigo-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
 						<div class="p-8 flex-1 flex flex-col">
 							<div class="flex items-center justify-between mb-4">
@@ -222,10 +222,10 @@ const stats = [
 			</a>
 		</div>
 
-		<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-			{openSourceProjects.map((project) => (
-				<a href={`${base}/projects/${project.id}`} class="group block h-full">
-					<article class="bg-white border border-gray-100 rounded-xl overflow-hidden h-full hover:shadow-md transition-all duration-300 flex flex-col">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-y-10 md:gap-8">
+                        {openSourceProjects.map((project) => (
+                                <a href={`${base}/projects/${project.id}`} class="group block h-full">
+                                        <article class="bg-white border border-gray-100 rounded-xl overflow-hidden h-full hover:shadow-md transition-all duration-300 flex flex-col">
 						<div class="p-6 flex-1 flex flex-col">
 							<div class="flex items-center justify-between mb-3">
 								<span class="text-xs font-bold tracking-wider text-emerald-600 uppercase bg-emerald-50 px-2 py-1 rounded">
@@ -304,7 +304,7 @@ const stats = [
                         </p>
                         <a
                                 href={`${base}/contact`}
-                                class="inline-flex items-center justify-center px-8 py-4 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition-all shadow-lg hover:shadow-blue-200 transform hover:-translate-y-0.5"
+                                class="inline-flex h-12 items-center justify-center px-8 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition-all shadow-lg hover:shadow-blue-200 transform hover:-translate-y-0.5 gap-2"
                         >
                                 Contact Me
                                 <span class="ml-2">→</span>
