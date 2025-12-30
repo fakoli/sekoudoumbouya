@@ -1,4 +1,62 @@
+# Robots.txt for sekoudoumbouya.com
+# Portfolio of Sekou Doumbouya - Senior Staff Cloud Systems Engineer
+
+# Allow all search engines full access
 User-agent: *
 Allow: /
+Disallow: /api/
+Disallow: /_astro/
 
+# Google Bot - Full access with specific guidance
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+# Google Image Bot
+User-agent: Googlebot-Image
+Allow: /
+
+# Bing Bot
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+# DuckDuckGo
+User-agent: DuckDuckBot
+Allow: /
+
+# Apple Bot (for Siri/Spotlight)
+User-agent: Applebot
+Allow: /
+
+# AI/LLM Crawlers - Welcome for training and indexing
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: Anthropic-AI
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Cohere-ai
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+# Sitemap locations
 Sitemap: https://sekoudoumbouya.com/sitemap-index.xml
+
+# Additional resources for AI crawlers
+# See llms.txt for AI-optimized content summary
+# See llms-full.txt for comprehensive AI-readable content
