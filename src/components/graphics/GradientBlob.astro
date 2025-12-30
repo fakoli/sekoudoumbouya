@@ -1,0 +1,58 @@
+---
+// Animated gradient blob for visual interest
+interface Props {
+  class?: string;
+  variant?: 'primary' | 'secondary' | 'accent';
+  size?: 'sm' | 'md' | 'lg' | 'xl';
+}
+
+const { class: className = '', variant = 'primary', size = 'md' } = Astro.props;
+
+const sizeClasses = {
+  sm: 'w-48 h-48 md:w-64 md:h-64',
+  md: 'w-64 h-64 md:w-96 md:h-96',
+  lg: 'w-96 h-96 md:w-[32rem] md:h-[32rem]',
+  xl: 'w-[28rem] h-[28rem] md:w-[40rem] md:h-[40rem]'
+};
+
+const variantClasses = {
+  primary: 'from-blue-400/30 via-indigo-400/20 to-purple-400/30',
+  secondary: 'from-cyan-400/25 via-blue-400/20 to-indigo-400/25',
+  accent: 'from-purple-400/25 via-pink-400/20 to-rose-400/25'
+};
+---
+
+<div
+  class:list={[
+    'gradient-blob absolute rounded-full blur-3xl',
+    `bg-gradient-to-br ${variantClasses[variant]}`,
+    sizeClasses[size],
+    className
+  ]}
+  aria-hidden="true"
+/>
+
+<style>
+  .gradient-blob {
+    animation: blob-morph 15s ease-in-out infinite;
+  }
+
+  @keyframes blob-morph {
+    0%, 100% {
+      border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+      transform: translate(0, 0) rotate(0deg);
+    }
+    25% {
+      border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
+      transform: translate(10px, -10px) rotate(90deg);
+    }
+    50% {
+      border-radius: 50% 60% 30% 60% / 30% 70% 50% 60%;
+      transform: translate(-5px, 15px) rotate(180deg);
+    }
+    75% {
+      border-radius: 60% 40% 60% 40% / 70% 30% 50% 50%;
+      transform: translate(5px, -5px) rotate(270deg);
+    }
+  }
+</style>

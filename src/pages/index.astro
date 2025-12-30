@@ -2,6 +2,9 @@
 import PageLayout from '../layouts/PageLayout.astro';
 import { getCollection } from 'astro:content';
 import { SITE_CONFIG } from '../config';
+import HeroGraphic from '../components/graphics/HeroGraphic.astro';
+import GradientBlob from '../components/graphics/GradientBlob.astro';
+import SectionDivider from '../components/graphics/SectionDivider.astro';
 
 const base = import.meta.env.BASE_URL === '/' ? '' : import.meta.env.BASE_URL.replace(/\/$/, '');
 
@@ -31,81 +34,120 @@ const companies = [
 ];
 
 const stats = [
-        { label: "Years Experience", value: "20+" },
-        { label: "Cloud Spend Managed", value: "$10M+" },
-        { label: "Engineers Mentored", value: "20+" },
+        { label: "Years Experience", value: "20+", icon: "calendar" },
+        { label: "Cloud Spend Managed", value: "$10M+", icon: "currency" },
+        { label: "Engineers Mentored", value: "20+", icon: "users" },
+        { label: "Major Clouds", value: "4+", icon: "cloud" },
 ];
 ---
 
 <PageLayout title="Sekou Doumbouya | Senior Staff Cloud Systems Engineer" description="Portfolio of Sekou Doumbouya, a Senior Staff Cloud Systems Engineer specializing in multi-region architecture, networking, and platform engineering.">
-	
-        <!-- Hero Section -->
-        <section class="py-20 md:py-32 relative overflow-hidden">
-                <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row items-center gap-12">
-                        <div class="flex-1 z-10">
-                                <div class="flex flex-wrap items-center gap-3 mb-6">
-                                        <p class="text-lg md:text-xl font-semibold text-gray-800">
-                                                Sekou Doumbouya — Senior Staff Cloud Systems Engineer
-                                        </p>
-                                        {SITE_CONFIG.availableForHire && (
-                                                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-100 text-blue-700 text-xs md:text-sm font-semibold">
-                                                        <span class="relative flex h-2 w-2">
-                                                          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-                                                          <span class="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
-                                                        </span>
-                                                        Available for Senior Staff / Principal Roles
+
+        <!-- Hero Section with Animated Graphics -->
+        <section class="py-16 md:py-24 lg:py-32 relative overflow-hidden hero-bg">
+                <!-- Decorative blobs -->
+                <GradientBlob variant="primary" size="xl" class="-top-32 -right-32 opacity-60" />
+                <GradientBlob variant="secondary" size="lg" class="-bottom-24 -left-24 opacity-40" />
+
+                <div class="max-w-7xl mx-auto px-4 relative z-10">
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center">
+                                <!-- Text Content -->
+                                <div class="order-2 lg:order-1 fade-in-up">
+                                        <div class="flex flex-wrap items-center gap-3 mb-6">
+                                                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-100/50">
+                                                        <span class="w-2 h-2 rounded-full bg-gradient-to-r from-blue-500 to-purple-500"></span>
+                                                        <span class="text-sm font-medium text-gray-700">Senior Staff Cloud Systems Engineer</span>
                                                 </div>
-                                        )}
+                                                {SITE_CONFIG.availableForHire && (
+                                                        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-50 border border-emerald-100 text-emerald-700 text-xs font-semibold">
+                                                                <span class="relative flex h-2 w-2">
+                                                                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                                                                  <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                                                                </span>
+                                                                Open to Opportunities
+                                                        </div>
+                                                )}
+                                        </div>
+
+                                        <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-gray-900 tracking-tight mb-6 leading-[1.1]">
+                                                Architecting <br class="hidden sm:block" />
+                                                <span class="text-gradient">Cloud Infrastructure</span><br class="hidden sm:block" />
+                                                at Global Scale
+                                        </h1>
+
+                                        <p class="text-lg md:text-xl text-gray-600 mb-8 max-w-xl leading-relaxed">
+                                                I architect multi-region distributed systems, optimize cloud economics at scale, and build high-performing engineering teams for AI and infrastructure workloads.
+                                        </p>
+
+                                        <div class="flex flex-wrap gap-4 mb-8">
+                                                <a href={`${base}/experience`} class="group inline-flex h-12 items-center justify-center px-6 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-xl hover:from-blue-700 hover:to-indigo-700 transition-all shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:shadow-xl transform hover:-translate-y-0.5">
+                                                        View Experience
+                                                        <svg class="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                                        </svg>
+                                                </a>
+                                                <a href={`${base}/projects`} class="inline-flex h-12 items-center justify-center px-6 bg-white text-gray-900 font-semibold rounded-xl border border-gray-200 hover:border-gray-300 hover:bg-gray-50 transition-all shadow-sm hover:shadow">
+                                                        See Case Studies
+                                                </a>
+                                        </div>
+
+                                        <p class="text-sm text-gray-500 flex items-center gap-2">
+                                                <svg class="w-4 h-4 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                </svg>
+                                                Best leveraged in 100+ engineer organizations navigating infrastructure transformations.
+                                        </p>
                                 </div>
 
-                                <h1 class="text-5xl md:text-7xl font-bold text-gray-900 tracking-tight mb-8 leading-tight">
-                                        Architecting Resilient Cloud Infrastructure <br class="hidden md:block" />
-                                        <span class="text-blue-600">at Global Scale.</span>
-                                </h1>
-				
-                                <p class="text-xl md:text-2xl text-gray-700 mb-10 max-w-2xl leading-relaxed">
-                                        I am a <strong>Senior Staff Cloud Systems Engineer</strong> and <strong>Technical Lead</strong>. I architect multi-region distributed systems for large-scale applications and AI workloads, optimize cloud economics, and build high-performing engineering teams.
-                                </p>
-				
-                                <div class="flex flex-wrap gap-4">
-                                        <a href={`${base}/experience`} class="inline-flex h-12 items-center justify-center px-6 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition-all shadow-lg hover:shadow-blue-200 transform hover:-translate-y-0.5">
-                                                View Experience
-                                        </a>
-                                        <a href={`${base}/projects`} class="inline-flex h-12 items-center justify-center px-6 bg-white text-gray-900 font-bold rounded-lg border border-gray-200 hover:border-gray-300 hover:bg-gray-50 transition-all">
-                                                See Case Studies
-                                        </a>
-                                </div>
+                                <!-- Hero Graphic -->
+                                <div class="order-1 lg:order-2 relative">
+                                        <div class="relative aspect-square max-w-lg mx-auto lg:max-w-none">
+                                                <!-- Profile Image with decorative elements -->
+                                                <div class="absolute inset-0 flex items-center justify-center">
+                                                        <div class="relative">
+                                                                <!-- Animated ring -->
+                                                                <div class="absolute -inset-4 rounded-full bg-gradient-to-r from-blue-500 via-purple-500 to-blue-500 opacity-20 blur-xl animate-pulse"></div>
+                                                                <div class="absolute -inset-2 rounded-2xl bg-gradient-to-r from-blue-500 to-purple-500 opacity-75 blur-sm"></div>
+                                                                <img
+                                                                        src="/headshot.jpg"
+                                                                        alt="Sekou Doumbouya"
+                                                                        class="relative w-48 h-48 md:w-64 md:h-64 object-cover rounded-2xl shadow-2xl border-4 border-white"
+                                                                        onerror="this.src='https://placehold.co/400x400?text=SD'"
+                                                                />
+                                                        </div>
+                                                </div>
 
-                                <p class="text-sm md:text-base text-gray-700 mt-6">
-                                        TL;DR: I’m best leveraged in 100+ engineer organizations navigating multi-region, multi-account, or AI infrastructure transformations.
-                                </p>
+                                                <!-- Background graphic -->
+                                                <div class="absolute inset-0 opacity-80 hidden md:block">
+                                                        <HeroGraphic />
+                                                </div>
+                                        </div>
+                                </div>
                         </div>
-			
-			<div class="w-64 h-64 md:w-96 md:h-96 shrink-0 relative">
-				<div class="absolute inset-0 bg-gradient-to-tr from-blue-100 to-purple-100 rounded-full blur-2xl opacity-70"></div>
-				<img 
-					src="/headshot.jpg" 
-					alt="Sekou Doumbouya" 
-					class="w-full h-full object-cover rounded-2xl shadow-2xl rotate-3 hover:rotate-0 transition-transform duration-500 border-4 border-white relative z-10"
-					onerror="this.src='https://placehold.co/400x400?text=Sekou'"
-				/>
-				<!-- TODO: Replace /headshot.jpg with actual image -->
-			</div>
-		</div>
+                </div>
         </section>
 
         <!-- Quick Navigation -->
-        <section class="max-w-6xl mx-auto -mt-4 sm:-mt-8 md:-mt-16 mb-24 relative z-20 px-4">
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        {[{ id: 'strategic', title: 'Strategic Initiatives', description: 'Scale architectures and exec-ready case studies' },
-                          { id: 'open-source', title: 'Open Source', description: 'Tooling and community-driven engineering' },
-                          { id: 'insights', title: 'Technical Insights', description: 'Writing on systems design, infrastructure leadership, and AI workloads' }
+        <section class="max-w-6xl mx-auto -mt-6 sm:-mt-10 md:-mt-14 mb-20 relative z-20 px-4">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 stagger-children">
+                        {[{ id: 'strategic', title: 'Strategic Initiatives', description: 'Scale architectures and exec-ready case studies', icon: 'M13 10V3L4 14h7v7l9-11h-7z' },
+                          { id: 'open-source', title: 'Open Source', description: 'Tooling and community-driven engineering', icon: 'M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4' },
+                          { id: 'insights', title: 'Technical Insights', description: 'Writing on systems design and infrastructure', icon: 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z' }
                         ].map((item) => (
-                                <a href={`#${item.id}`} class="group bg-white border border-gray-100 rounded-xl p-5 shadow-sm hover:shadow-md transition-all flex items-start gap-3">
-                                        <span class="h-10 w-10 rounded-lg bg-blue-50 text-blue-700 flex items-center justify-center font-bold group-hover:bg-blue-100">→</span>
-                                        <div>
-                                                <h3 class="font-semibold text-gray-900 mb-1 group-hover:text-blue-700 transition-colors">{item.title}</h3>
-                                                <p class="text-sm text-gray-700 leading-snug">{item.description}</p>
+                                <a href={`#${item.id}`} class="group bg-white/80 backdrop-blur-sm border border-gray-100 rounded-2xl p-6 shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+                                        <div class="flex items-start gap-4">
+                                                <span class="h-12 w-12 rounded-xl bg-gradient-to-br from-blue-50 to-indigo-50 text-blue-600 flex items-center justify-center group-hover:from-blue-100 group-hover:to-indigo-100 transition-colors">
+                                                        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d={item.icon} />
+                                                        </svg>
+                                                </span>
+                                                <div class="flex-1">
+                                                        <h3 class="font-semibold text-gray-900 mb-1 group-hover:text-blue-600 transition-colors">{item.title}</h3>
+                                                        <p class="text-sm text-gray-600 leading-snug">{item.description}</p>
+                                                </div>
+                                                <svg class="w-5 h-5 text-gray-400 group-hover:text-blue-500 transition-all group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                                </svg>
                                         </div>
                                 </a>
                         ))}
@@ -113,21 +155,72 @@ const stats = [
         </section>
 
 	<!-- Social Proof / Trusted By -->
-        <section class="border-y border-gray-100 py-10 bg-gray-50/50 -mx-4 px-4 md:-mx-0 md:px-0 md:rounded-2xl mb-24">
-                <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 md:gap-8">
-                        <p class="text-sm font-semibold text-gray-500 uppercase tracking-wider shrink-0 text-center md:text-left">
-                                Trusted by engineering teams at
-                        </p>
-                        <div class="w-full md:flex-1">
-                                <div class="flex flex-wrap items-center justify-center md:justify-end gap-6 md:gap-10">
-                                        {companies.map(company => (
-                                                <div class="group flex items-center justify-center" aria-label={company.name}>
-                                                        <img
-                                                                src={company.logo}
-                                                                alt={`${company.name} logo`}
-                                                                loading="lazy"
-                                                                class="h-10 md:h-12 w-auto object-contain grayscale opacity-80 transition duration-300 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105"
-                                                        />
+        <section class="relative py-12 mb-20">
+                <div class="absolute inset-0 bg-gradient-to-r from-gray-50 via-white to-gray-50"></div>
+                <div class="max-w-6xl mx-auto px-4 relative">
+                        <div class="flex flex-col md:flex-row items-center justify-between gap-8">
+                                <p class="text-sm font-semibold text-gray-400 uppercase tracking-wider shrink-0 text-center md:text-left">
+                                        Trusted by engineering teams at
+                                </p>
+                                <div class="w-full md:flex-1">
+                                        <div class="flex flex-wrap items-center justify-center md:justify-end gap-8 md:gap-12">
+                                                {companies.map(company => (
+                                                        <div class="group flex items-center justify-center" aria-label={company.name}>
+                                                                <img
+                                                                        src={company.logo}
+                                                                        alt={`${company.name} logo`}
+                                                                        loading="lazy"
+                                                                        class="h-8 md:h-10 w-auto object-contain grayscale opacity-60 transition-all duration-300 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-110"
+                                                                />
+                                                        </div>
+                                                ))}
+                                        </div>
+                                </div>
+                        </div>
+                </div>
+        </section>
+
+        <!-- Key Stats Grid -->
+        <section class="max-w-6xl mx-auto mb-24 px-4">
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
+                        {stats.map((stat, index) => (
+                                <div class="group relative bg-white rounded-2xl border border-gray-100 p-6 hover:shadow-lg transition-all duration-300 hover:-translate-y-1 overflow-hidden">
+                                        <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-blue-50 to-purple-50 rounded-full -translate-y-1/2 translate-x-1/2 opacity-50 group-hover:opacity-75 transition-opacity"></div>
+                                        <div class="relative">
+                                                <div class="text-3xl md:text-4xl font-bold text-gradient mb-2 stat-number">{stat.value}</div>
+                                                <div class="text-sm font-medium text-gray-500 uppercase tracking-wider">{stat.label}</div>
+                                        </div>
+                                </div>
+                        ))}
+                </div>
+        </section>
+
+        <!-- How I Work With Teams -->
+        <section class="max-w-6xl mx-auto mb-24 px-4">
+                <div class="bg-gradient-to-br from-slate-900 to-slate-800 rounded-3xl p-8 md:p-12 relative overflow-hidden">
+                        <!-- Decorative elements -->
+                        <div class="absolute top-0 right-0 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl"></div>
+                        <div class="absolute bottom-0 left-0 w-48 h-48 bg-purple-500/10 rounded-full blur-3xl"></div>
+
+                        <div class="relative z-10">
+                                <h2 class="text-2xl md:text-3xl font-bold text-white mb-4">How I Work With Teams</h2>
+                                <p class="text-gray-300 mb-8 max-w-2xl">
+                                        I partner with engineering organizations as a senior IC, architect, or advisor to untangle complex infrastructure problems and build durable systems and teams.
+                                </p>
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                        {[
+                                                { title: 'Staff+ Roles', desc: 'Principal / Staff+ infrastructure and platform engineering', icon: 'M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4' },
+                                                { title: 'Architecture Advisory', desc: 'Multi-region, networking, and AI workload strategy', icon: 'M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z' },
+                                                { title: 'Education & Speaking', desc: 'Workshops and internal education for teams', icon: 'M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z' },
+                                        ].map(item => (
+                                                <div class="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10 hover:bg-white/10 transition-colors">
+                                                        <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center mb-4">
+                                                                <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d={item.icon} />
+                                                                </svg>
+                                                        </div>
+                                                        <h3 class="text-white font-semibold mb-2">{item.title}</h3>
+                                                        <p class="text-gray-400 text-sm">{item.desc}</p>
                                                 </div>
                                         ))}
                                 </div>
@@ -135,73 +228,64 @@ const stats = [
                 </div>
         </section>
 
-        <!-- Key Stats Grid -->
-        <section class="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 mb-24 border-b border-gray-100 pb-12 px-4">
-                {stats.map(stat => (
-                        <div>
-                                <div class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-2">{stat.value}</div>
-                                <div class="text-sm font-medium text-gray-500 uppercase tracking-wider">{stat.label}</div>
-                        </div>
-                ))}
-                <div>
-                        <div class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-2">4+</div>
-                        <div class="text-sm font-medium text-gray-500 uppercase tracking-wider">Major Clouds</div>
-                </div>
-        </section>
-
-        <!-- How I Work With Teams -->
-        <section class="max-w-6xl mx-auto mb-24">
-                <h2 class="text-3xl font-bold text-gray-900 mb-4">How I Work With Teams</h2>
-                <p class="text-gray-700 mb-6 max-w-3xl">
-                        I partner with engineering organizations as a senior IC, architect, or advisor to untangle complex infrastructure problems and build durable systems and teams.
-                </p>
-                <ul class="list-disc list-inside space-y-2 text-gray-700">
-                        <li>Principal / Staff+ infrastructure and platform roles</li>
-                        <li>Architecture and strategy advisory for multi-region, networking, and AI workloads</li>
-                        <li>Speaking, workshops, and internal education for engineering teams</li>
-                </ul>
-        </section>
+        <SectionDivider variant="dots" />
 
         <!-- Strategic Initiatives -->
-        <section id="strategic" class="max-w-6xl mx-auto mb-24">
+        <section id="strategic" class="max-w-6xl mx-auto mb-24 px-4 pt-12">
                 <div class="flex justify-between items-end mb-12">
                         <div>
-                                <h2 class="text-3xl font-bold text-gray-900 mb-2">Strategic Initiatives</h2>
-				<p class="text-gray-700">High-impact architectural leadership and scale.</p>
+                                <span class="inline-block text-sm font-semibold text-blue-600 uppercase tracking-wider mb-2">Featured Work</span>
+                                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-2">Strategic Initiatives</h2>
+				<p class="text-gray-600 max-w-xl">High-impact architectural leadership driving scale and reliability at major tech companies.</p>
 			</div>
+                        <a href={`${base}/projects`} class="hidden md:inline-flex items-center text-blue-600 font-medium hover:text-blue-700 transition-colors group">
+                                View all
+                                <svg class="w-4 h-4 ml-1 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                </svg>
+                        </a>
 		</div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10">
-                        {strategicProjects.map((project) => (
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+                        {strategicProjects.map((project, index) => (
                                 <a href={`${base}/projects/${project.id}`} class="group block h-full">
-                                        <article class="bg-white border border-gray-100 rounded-2xl overflow-hidden h-full hover:shadow-xl transition-all duration-300 flex flex-col relative">
-						<div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-600 to-indigo-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
-						<div class="p-8 flex-1 flex flex-col">
+                                        <article class="bg-white border border-gray-100 rounded-2xl overflow-hidden h-full hover:shadow-xl transition-all duration-500 flex flex-col relative hover:-translate-y-1">
+                                                <!-- Gradient accent bar -->
+                                                <div class="h-1.5 bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500"></div>
+						<div class="p-6 lg:p-8 flex-1 flex flex-col">
 							<div class="flex items-center justify-between mb-4">
-								<span class="text-xs font-bold tracking-wider text-blue-600 uppercase bg-blue-50 px-2 py-1 rounded">
+								<span class="inline-flex items-center gap-2 text-xs font-bold tracking-wider text-blue-600 uppercase bg-blue-50 px-3 py-1.5 rounded-full">
+									<svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                                                                                <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a1 1 0 110 2h-3a1 1 0 01-1-1v-2a1 1 0 00-1-1H9a1 1 0 00-1 1v2a1 1 0 01-1 1H4a1 1 0 110-2V4zm3 1h2v2H7V5zm2 4H7v2h2V9zm2-4h2v2h-2V5zm2 4h-2v2h2V9z" clip-rule="evenodd" />
+                                                                        </svg>
 									{project.data.organization}
 								</span>
 								{project.data.scale && (
-									<span class="text-xs font-medium text-gray-500">
+									<span class="text-xs font-medium text-gray-400 bg-gray-50 px-2.5 py-1 rounded-full">
 										{Array.isArray(project.data.scale) ? project.data.scale[0] : project.data.scale}
 									</span>
 								)}
 							</div>
-							
-							<h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors">
+
+							<h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors leading-tight">
 								{project.data.title}
 							</h3>
-							
-							<p class="text-gray-700 text-sm mb-6 flex-1 leading-relaxed">
+
+							<p class="text-gray-600 text-sm mb-6 flex-1 leading-relaxed">
 								{project.data.impactSummary}
 							</p>
 
-							<div class="flex flex-wrap gap-2 mt-auto">
+							<div class="flex flex-wrap gap-2 mt-auto pt-4 border-t border-gray-50">
 								{project.data.primaryTech.slice(0, 4).map(tech => (
-									<span class="text-xs text-gray-500 bg-gray-50 px-2 py-1 rounded border border-gray-100">
+									<span class="text-xs text-gray-500 bg-gray-50 px-2.5 py-1 rounded-md font-medium">
 										{tech}
 									</span>
 								))}
+                                                                {project.data.primaryTech.length > 4 && (
+                                                                        <span class="text-xs text-gray-400 px-2 py-1">
+                                                                                +{project.data.primaryTech.length - 4} more
+                                                                        </span>
+                                                                )}
 							</div>
 						</div>
 					</article>
@@ -211,39 +295,46 @@ const stats = [
 	</section>
 
 	<!-- Open Source & Tooling -->
-        <section id="open-source" class="max-w-6xl mx-auto mb-24">
-		<div class="flex justify-between items-end mb-8">
+        <section id="open-source" class="max-w-6xl mx-auto mb-24 px-4">
+		<div class="flex justify-between items-end mb-10">
 			<div>
-				<h2 class="text-2xl font-bold text-gray-900 mb-2">Open Source & Tooling</h2>
-				<p class="text-gray-700">Technical innovations and community contributions.</p>
+                                <span class="inline-block text-sm font-semibold text-emerald-600 uppercase tracking-wider mb-2">Community</span>
+				<h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-2">Open Source & Tooling</h2>
+				<p class="text-gray-600">Technical innovations and community contributions.</p>
 			</div>
-			<a href={`${base}/projects`} class="hidden md:inline-flex items-center text-blue-600 font-medium hover:underline">
-				View all projects &rarr;
+			<a href={`${base}/projects`} class="hidden md:inline-flex items-center text-blue-600 font-medium hover:text-blue-700 transition-colors group">
+				View all projects
+                                <svg class="w-4 h-4 ml-1 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                </svg>
 			</a>
 		</div>
 
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-y-10 md:gap-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {openSourceProjects.map((project) => (
                                 <a href={`${base}/projects/${project.id}`} class="group block h-full">
-                                        <article class="bg-white border border-gray-100 rounded-xl overflow-hidden h-full hover:shadow-md transition-all duration-300 flex flex-col">
+                                        <article class="bg-white border border-gray-100 rounded-xl overflow-hidden h-full hover:shadow-lg transition-all duration-300 flex flex-col hover:-translate-y-1">
 						<div class="p-6 flex-1 flex flex-col">
-							<div class="flex items-center justify-between mb-3">
-								<span class="text-xs font-bold tracking-wider text-emerald-600 uppercase bg-emerald-50 px-2 py-1 rounded">
+							<div class="flex items-center justify-between mb-4">
+								<span class="inline-flex items-center gap-1.5 text-xs font-bold tracking-wider text-emerald-600 uppercase bg-emerald-50 px-2.5 py-1 rounded-full">
+                                                                        <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                                                                                <path fill-rule="evenodd" d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                                                        </svg>
 									Open Source
 								</span>
 							</div>
-							
-							<h3 class="text-lg font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
+
+							<h3 class="text-lg font-bold text-gray-900 mb-2 group-hover:text-emerald-600 transition-colors">
 								{project.data.title}
 							</h3>
-							
-							<p class="text-gray-700 text-sm mb-4 flex-1 leading-relaxed line-clamp-3">
+
+							<p class="text-gray-600 text-sm mb-4 flex-1 leading-relaxed line-clamp-3">
 								{project.data.description}
 							</p>
 
 							<div class="flex flex-wrap gap-2 mt-auto">
 								{project.data.primaryTech.slice(0, 3).map(tech => (
-									<span class="text-xs text-gray-500 bg-gray-50 px-2 py-1 rounded border border-gray-100">
+									<span class="text-xs text-gray-500 bg-gray-50 px-2 py-1 rounded-md font-medium">
 										{tech}
 									</span>
 								))}
@@ -253,62 +344,127 @@ const stats = [
 				</a>
 			))}
 		</div>
-		
-		<div class="mt-8 md:hidden">
-			<a href={`${base}/projects`} class="text-blue-600 font-medium hover:underline">View all projects &rarr;</a>
+
+		<div class="mt-8 md:hidden text-center">
+			<a href={`${base}/projects`} class="inline-flex items-center text-blue-600 font-medium hover:text-blue-700">
+                                View all projects
+                                <svg class="w-4 h-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                </svg>
+                        </a>
 		</div>
 	</section>
 
-	<!-- Latest Writing -->
-        <section id="insights" class="max-w-4xl mx-auto border-t border-gray-100 pt-20">
-                <div class="flex justify-between items-baseline mb-12">
-                        <h2 class="text-3xl font-bold text-gray-900">Technical Insights</h2>
-                        <a href={`${base}/blog`} class="text-blue-600 font-medium hover:underline">Read all articles &rarr;</a>
-                </div>
+        <SectionDivider variant="wave" color="#f8fafc" />
 
-                <p class="text-gray-700 mb-10">Selected essays on systems design, infrastructure leadership, and AI workloads.</p>
+	<!-- Latest Writing / Blog Section -->
+        <section id="insights" class="bg-slate-50 py-20 -mx-4 px-4 md:-mx-0 md:px-0">
+                <div class="max-w-4xl mx-auto">
+                        <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-4">
+                                <div>
+                                        <span class="inline-block text-sm font-semibold text-purple-600 uppercase tracking-wider mb-2">Blog</span>
+                                        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-2">Technical Insights</h2>
+                                        <p class="text-gray-600">Essays on systems design, infrastructure leadership, and AI workloads.</p>
+                                </div>
+                                <a href={`${base}/blog`} class="inline-flex items-center text-blue-600 font-medium hover:text-blue-700 transition-colors group whitespace-nowrap">
+                                        Read all articles
+                                        <svg class="w-4 h-4 ml-1 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                        </svg>
+                                </a>
+                        </div>
 
-                <div class="space-y-10">
-			{latestPosts.map((post) => (
-				<article class="group relative">
-					<div class="flex flex-col md:flex-row md:items-baseline md:justify-between mb-2">
-						<h3 class="text-xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors">
-							<a href={`${base}/blog/${post.id}`}>
-								<span class="absolute inset-0"></span>
-								{post.data.title}
-							</a>
-						</h3>
-						<time datetime={post.data.publishDate.toISOString()} class="text-sm text-gray-500 shrink-0 md:ml-4">
-							{post.data.publishDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
-						</time>
-					</div>
-					<p class="text-gray-700 mb-3 max-w-2xl">
-						{post.data.description}
-					</p>
-					<div class="flex gap-2 relative z-10">
-						{post.data.tags.map(tag => (
-							<span class="text-xs text-gray-400 font-medium">#{tag}</span>
-						))}
-					</div>
-                                </article>
-                        ))}
+                        <div class="space-y-6">
+                                {latestPosts.map((post, index) => (
+                                        <article class="group relative bg-white rounded-2xl p-6 md:p-8 shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100 hover:-translate-y-0.5">
+                                                <div class="flex flex-col md:flex-row md:items-start gap-4 md:gap-6">
+                                                        <div class="flex-shrink-0 w-12 h-12 rounded-xl bg-gradient-to-br from-purple-100 to-blue-100 flex items-center justify-center">
+                                                                <span class="text-lg font-bold text-purple-600">{String(index + 1).padStart(2, '0')}</span>
+                                                        </div>
+                                                        <div class="flex-1">
+                                                                <div class="flex flex-wrap items-center gap-3 mb-3">
+                                                                        <time datetime={post.data.publishDate.toISOString()} class="text-sm text-gray-400 font-medium">
+                                                                                {post.data.publishDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+                                                                        </time>
+                                                                        {post.data.readingTime && (
+                                                                                <span class="text-sm text-gray-400">{post.data.readingTime}</span>
+                                                                        )}
+                                                                </div>
+                                                                <h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors">
+                                                                        <a href={`${base}/blog/${post.id}`} class="after:absolute after:inset-0">
+                                                                                {post.data.title}
+                                                                        </a>
+                                                                </h3>
+                                                                <p class="text-gray-600 mb-4 leading-relaxed">
+                                                                        {post.data.description}
+                                                                </p>
+                                                                <div class="flex flex-wrap gap-2">
+                                                                        {post.data.tags.slice(0, 3).map(tag => (
+                                                                                <span class="text-xs font-medium text-purple-600 bg-purple-50 px-2.5 py-1 rounded-full">#{tag}</span>
+                                                                        ))}
+                                                                </div>
+                                                        </div>
+                                                        <div class="hidden md:block flex-shrink-0">
+                                                                <svg class="w-5 h-5 text-gray-300 group-hover:text-blue-500 transition-all group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                                                </svg>
+                                                        </div>
+                                                </div>
+                                        </article>
+                                ))}
+                        </div>
+
+                        {latestPosts.length === 0 && (
+                                <div class="text-center py-12">
+                                        <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gray-100 flex items-center justify-center">
+                                                <svg class="w-8 h-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                                </svg>
+                                        </div>
+                                        <h3 class="text-lg font-semibold text-gray-900 mb-2">Coming Soon</h3>
+                                        <p class="text-gray-600">New articles on cloud architecture and infrastructure leadership.</p>
+                                </div>
+                        )}
                 </div>
         </section>
 
+        <SectionDivider variant="wave" color="#ffffff" flip={true} />
+
         <!-- Work With Me CTA -->
-        <section class="bg-gray-50 mt-24">
-                <div class="max-w-3xl mx-auto px-4 py-12 md:py-16 text-center">
-                        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Interested in working together?</h2>
-                        <p class="text-lg text-gray-700 mb-8 leading-relaxed">
-                                Whether you're hiring, need an advisor, or want to connect—let's talk.
+        <section class="relative py-20 overflow-hidden">
+                <!-- Background decorations -->
+                <div class="absolute inset-0 bg-gradient-to-b from-white via-blue-50/30 to-white"></div>
+                <GradientBlob variant="accent" size="lg" class="top-0 left-1/4 opacity-30" />
+
+                <div class="max-w-4xl mx-auto px-4 relative z-10 text-center">
+                        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 border border-blue-100 mb-6">
+                                <span class="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
+                                <span class="text-sm font-medium text-blue-700">Let's Connect</span>
+                        </div>
+                        <h2 class="text-3xl md:text-5xl font-bold text-gray-900 mb-4">Interested in working together?</h2>
+                        <p class="text-lg md:text-xl text-gray-600 mb-10 max-w-2xl mx-auto leading-relaxed">
+                                Whether you're hiring for Staff+ roles, need an infrastructure advisor, or want to explore speaking opportunities—I'd love to hear from you.
                         </p>
-                        <a
-                                href={`${base}/contact`}
-                                class="inline-flex h-12 items-center justify-center px-8 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition-all shadow-lg hover:shadow-blue-200 transform hover:-translate-y-0.5 gap-2"
-                        >
-                                Contact Me
-                                <span class="ml-2">→</span>
-                        </a>
+                        <div class="flex flex-wrap justify-center gap-4">
+                                <a
+                                        href={`${base}/contact`}
+                                        class="group inline-flex h-14 items-center justify-center px-8 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-xl hover:from-blue-700 hover:to-indigo-700 transition-all shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:shadow-xl transform hover:-translate-y-0.5"
+                                >
+                                        Get in Touch
+                                        <svg class="ml-2 w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                        </svg>
+                                </a>
+                                <a
+                                        href="mailto:sdoumbouya81@gmail.com"
+                                        class="inline-flex h-14 items-center justify-center px-8 bg-white text-gray-700 font-semibold rounded-xl border border-gray-200 hover:border-gray-300 hover:bg-gray-50 transition-all shadow-sm hover:shadow"
+                                >
+                                        <svg class="w-5 h-5 mr-2 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                        </svg>
+                                        Email Me
+                                </a>
+                        </div>
                 </div>
         </section>
 
