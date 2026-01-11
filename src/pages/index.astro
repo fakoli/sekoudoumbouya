@@ -2,6 +2,7 @@
 import PageLayout from '../layouts/PageLayout.astro';
 import { getCollection } from 'astro:content';
 import { SITE_CONFIG } from '../config';
+import { fetchGitHubRepos } from '../utils/github';
 
 // Personal Information Constants
 const PERSONAL_INFO = {
@@ -14,12 +15,8 @@ const initials = PERSONAL_INFO.name.split(' ').map(n => n[0]).join('');
 
 const base = import.meta.env.BASE_URL === '/' ? '' : import.meta.env.BASE_URL.replace(/\/$/, '');
 
-// Fetch Featured Projects
+// Fetch Open Source Projects
 const projects = await getCollection('projects');
-const strategicProjects = projects
-        .filter(p => p.data.category === 'strategic')
-	.sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf());
-
 const openSourceProjects = projects
 	.filter(p => p.data.category === 'open-source')
 	.sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf());
@@ -32,12 +29,76 @@ const latestPosts = posts
 	.sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf())
 	.slice(0, 3);
 
-const companies = [
-        { name: "Pinterest", role: "Senior Staff Engineer", logo: `${base}/assets/pinterest.svg` },
-        { name: "Salesforce (Quip)", role: "Technical Lead", logo: `${base}/assets/salesforce.svg` },
-        { name: "Oracle", role: "Principal Engineer", logo: `${base}/assets/oracle.svg` },
-        { name: "Groupon", role: "Senior Engineer", logo: `${base}/assets/groupon.svg` },
+// Pinned GitHub repositories (my own projects) - fetch dynamically from GitHub API
+const pinnedRepoNames = [
+	"mcp-ai-bridge",
+	"AwsSecurityMapper",
+	"ai-driven-temporal-to-IAC",
+	"xenon-notes",
+	"devops-project-skeleton"
 ];
+
+// Fallback data in case API fetch fails (e.g., rate limiting during build)
+const fallbackRepos = [
+	{
+		name: "mcp-ai-bridge",
+		full_name: `${SITE_CONFIG.githubUsername}/mcp-ai-bridge`,
+		description: "Secure MCP server integrating Claude Code with OpenAI and Google Gemini APIs. Features multi-layer security, content filtering, and rate limiting.",
+		html_url: `https://github.com/${SITE_CONFIG.githubUsername}/mcp-ai-bridge`,
+		language: "JavaScript",
+		stargazers_count: 4,
+		topics: ["mcp", "ai", "security", "openai", "gemini"]
+	},
+	{
+		name: "AwsSecurityMapper",
+		full_name: `${SITE_CONFIG.githubUsername}/AwsSecurityMapper`,
+		description: "Python tool that visualizes AWS security group relationships with interactive Plotly graphs. Supports multi-region and cross-VPC analysis.",
+		html_url: `https://github.com/${SITE_CONFIG.githubUsername}/AwsSecurityMapper`,
+		language: "Python",
+		stargazers_count: 1,
+		topics: ["aws", "security", "visualization", "networking"]
+	},
+	{
+		name: "ai-driven-temporal-to-IAC",
+		full_name: `${SITE_CONFIG.githubUsername}/ai-driven-temporal-to-IAC`,
+		description: "Temporal-based workflow orchestration for multi-workspace Terraform deployments with dependency resolution and MCP server integration.",
+		html_url: `https://github.com/${SITE_CONFIG.githubUsername}/ai-driven-temporal-to-IAC`,
+		language: "Go",
+		stargazers_count: 2,
+		topics: ["temporal", "terraform", "iac", "workflow"]
+	},
+	{
+		name: "xenon-notes",
+		full_name: `${SITE_CONFIG.githubUsername}/xenon-notes`,
+		description: "AI-powered notetaking app for Apple platforms built with Swift and RealityKit.",
+		html_url: `https://github.com/${SITE_CONFIG.githubUsername}/xenon-notes`,
+		language: "Swift",
+		stargazers_count: 2,
+		topics: ["swift", "ai", "ios", "notes"]
+	},
+	{
+		name: "devops-project-skeleton",
+		full_name: `${SITE_CONFIG.githubUsername}/devops-project-skeleton`,
+		description: "Template repository with Terraform, Ansible, and Kubernetes configurations for bootstrapping DevOps projects.",
+		html_url: `https://github.com/${SITE_CONFIG.githubUsername}/devops-project-skeleton`,
+		language: "HCL",
+		stargazers_count: 0,
+		topics: ["terraform", "ansible", "kubernetes", "devops", "template"]
+	}
+];
+
+// Fetch repository data from GitHub API
+const repoData = await fetchGitHubRepos(
+	pinnedRepoNames.map(repo => ({ owner: SITE_CONFIG.githubUsername, repo }))
+);
+
+// Use live data from API if available, otherwise fallback to static data
+const pinnedRepos = repoData.every(repo => repo === null) 
+	? fallbackRepos 
+	: repoData.map((repo, index) => {
+		// Use API data if available, otherwise use fallback data
+		return repo || (fallbackRepos[index] || null);
+	}).filter(Boolean);
 
 const stats = [
         { label: "Years Experience", value: "20+" },
@@ -130,7 +191,7 @@ const stats = [
         <!-- Quick Navigation -->
         <section class="max-w-6xl mx-auto -mt-4 sm:-mt-8 md:-mt-16 mb-24 relative z-20 px-4">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        {[{ id: 'strategic', title: 'Strategic Initiatives', description: 'Scale architectures and exec-ready case studies' },
+                        {[{ id: 'my-projects', title: 'My Projects', description: 'Open source tools and applications I build' },
                           { id: 'open-source', title: 'Open Source', description: 'Tooling and community-driven engineering' },
                           { id: 'insights', title: 'Technical Insights', description: 'Writing on systems design, infrastructure leadership, and AI workloads' }
                         ].map((item) => (
@@ -145,28 +206,6 @@ const stats = [
                 </div>
         </section>
 
-	<!-- Social Proof / Trusted By -->
-        <section class="border-y border-gray-100 py-10 bg-gray-50/50 -mx-4 px-4 md:-mx-0 md:px-0 md:rounded-2xl mb-24">
-                <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 md:gap-8">
-                        <p class="text-sm font-semibold text-gray-500 uppercase tracking-wider shrink-0 text-center md:text-left">
-                                Trusted by engineering teams at
-                        </p>
-                        <div class="w-full md:flex-1">
-                                <div class="flex flex-wrap items-center justify-center md:justify-end gap-6 md:gap-10">
-                                        {companies.map(company => (
-                                                <div class="group flex items-center justify-center" aria-label={company.name}>
-                                                        <img
-                                                                src={company.logo}
-                                                                alt={`${company.name} logo`}
-                                                                loading="lazy"
-                                                                class="h-10 md:h-12 w-auto object-contain grayscale opacity-80 transition duration-300 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105"
-                                                        />
-                                                </div>
-                                        ))}
-                                </div>
-                        </div>
-                </div>
-        </section>
 
         <!-- Key Stats Grid -->
         <section class="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 mb-24 border-b border-gray-100 pb-12 px-4">
@@ -195,44 +234,51 @@ const stats = [
                 </ul>
         </section>
 
-        <!-- Strategic Initiatives -->
+        <!-- My Projects (Pinned Repos) -->
         <section id="strategic" class="max-w-6xl mx-auto mb-24">
                 <div class="flex justify-between items-end mb-12">
                         <div>
-                                <h2 class="text-3xl font-bold text-gray-900 mb-2">Strategic Initiatives</h2>
-				<p class="text-gray-700">High-impact architectural leadership and scale.</p>
+                                <h2 class="text-3xl font-bold text-gray-900 mb-2">My Projects</h2>
+				<p class="text-gray-700">Open source tools and applications I build and maintain.</p>
 			</div>
+			<a href={`https://github.com/${SITE_CONFIG.githubUsername}?tab=repositories`} class="hidden md:inline-flex items-center text-blue-600 font-medium hover:underline" target="_blank" rel="noopener noreferrer">
+				View all on GitHub &rarr;
+			</a>
 		</div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10">
-                        {strategicProjects.map((project) => (
-                                <a href={`${base}/projects/${project.id}`} class="group block h-full">
+                        {pinnedRepos.map((repo) => (
+                                <a href={repo.html_url} class="group block h-full" target="_blank" rel="noopener noreferrer">
                                         <article class="bg-white border border-gray-100 rounded-2xl overflow-hidden h-full hover:shadow-xl transition-all duration-300 flex flex-col relative">
 						<div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-600 to-indigo-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
 						<div class="p-8 flex-1 flex flex-col">
 							<div class="flex items-center justify-between mb-4">
 								<span class="text-xs font-bold tracking-wider text-blue-600 uppercase bg-blue-50 px-2 py-1 rounded">
-									{project.data.organization}
+									{repo.full_name.split('/')[0]}
 								</span>
-								{project.data.scale && (
+								{repo.language && (
 									<span class="text-xs font-medium text-gray-500">
-										{Array.isArray(project.data.scale) ? project.data.scale[0] : project.data.scale}
+										{repo.language}
 									</span>
 								)}
 							</div>
-							
+
 							<h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors">
-								{project.data.title}
+								{repo.name}
 							</h3>
-							
+
 							<p class="text-gray-700 text-sm mb-6 flex-1 leading-relaxed">
-								{project.data.impactSummary}
+								{repo.description || 'No description available'}
 							</p>
 
 							<div class="flex flex-wrap gap-2 mt-auto">
-								{project.data.primaryTech.slice(0, 4).map(tech => (
+								<span class="text-xs text-gray-500 bg-gray-50 px-2 py-1 rounded border border-gray-100 flex items-center gap-1">
+									<svg class="w-3 h-3" fill="currentColor" viewBox="0 0 16 16"><path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.751.751 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"/></svg>
+									{repo.stargazers_count}
+								</span>
+								{repo.topics?.slice(0, 3).map(topic => (
 									<span class="text-xs text-gray-500 bg-gray-50 px-2 py-1 rounded border border-gray-100">
-										{tech}
+										{topic}
 									</span>
 								))}
 							</div>
@@ -240,6 +286,9 @@ const stats = [
 					</article>
 				</a>
 			))}
+		</div>
+		<div class="mt-8 md:hidden">
+			<a href={`https://github.com/${SITE_CONFIG.githubUsername}?tab=repositories`} class="text-blue-600 font-medium hover:underline" target="_blank" rel="noopener noreferrer">View all on GitHub &rarr;</a>
 		</div>
 	</section>
 

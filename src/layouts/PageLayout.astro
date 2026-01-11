@@ -1,5 +1,6 @@
 ---
 import BaseLayout from './BaseLayout.astro';
+import { SITE_CONFIG } from '../config';
 
 interface Props {
         title: string;
@@ -19,7 +20,7 @@ const navLinks = [
 const resumeHref = `${base}/Sekou_Doumbouya_Resume_2025.pdf`;
 const socialLinks = [
         { href: 'https://linkedin.com/in/sekoudoumbouya', label: 'LinkedIn profile', color: 'hover:text-[#0077b5]' },
-        { href: 'https://github.com/fakoli', label: 'GitHub profile', color: 'hover:text-gray-900' },
+        { href: `https://github.com/${SITE_CONFIG.githubUsername}`, label: 'GitHub profile', color: 'hover:text-gray-900' },
 ];
 const isActive = (href: string) => {
         const normalizedHref = normalizePath(href);
