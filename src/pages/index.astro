@@ -14,12 +14,8 @@ const initials = PERSONAL_INFO.name.split(' ').map(n => n[0]).join('');
 
 const base = import.meta.env.BASE_URL === '/' ? '' : import.meta.env.BASE_URL.replace(/\/$/, '');
 
-// Fetch Featured Projects
+// Fetch Open Source Projects
 const projects = await getCollection('projects');
-const strategicProjects = projects
-        .filter(p => p.data.category === 'strategic')
-	.sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf());
-
 const openSourceProjects = projects
 	.filter(p => p.data.category === 'open-source')
 	.sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf());
@@ -32,12 +28,32 @@ const latestPosts = posts
 	.sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf())
 	.slice(0, 3);
 
-const companies = [
-        { name: "Pinterest", role: "Senior Staff Engineer", logo: `${base}/assets/pinterest.svg` },
-        { name: "Salesforce (Quip)", role: "Technical Lead", logo: `${base}/assets/salesforce.svg` },
-        { name: "Oracle", role: "Principal Engineer", logo: `${base}/assets/oracle.svg` },
-        { name: "Groupon", role: "Senior Engineer", logo: `${base}/assets/groupon.svg` },
-];
+// Fetch GitHub starred repositories
+const GITHUB_USERNAME = 'fakoli';
+let starredRepos: Array<{
+	id: number;
+	name: string;
+	full_name: string;
+	description: string | null;
+	html_url: string;
+	language: string | null;
+	stargazers_count: number;
+	topics: string[];
+}> = [];
+
+try {
+	const response = await fetch(`https://api.github.com/users/${GITHUB_USERNAME}/starred?per_page=12`, {
+		headers: {
+			'Accept': 'application/vnd.github.v3+json',
+			'User-Agent': 'Portfolio-Site'
+		}
+	});
+	if (response.ok) {
+		starredRepos = await response.json();
+	}
+} catch (error) {
+	console.error('Failed to fetch starred repos:', error);
+}
 
 const stats = [
         { label: "Years Experience", value: "20+" },
@@ -130,7 +146,7 @@ const stats = [
         <!-- Quick Navigation -->
         <section class="max-w-6xl mx-auto -mt-4 sm:-mt-8 md:-mt-16 mb-24 relative z-20 px-4">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        {[{ id: 'strategic', title: 'Strategic Initiatives', description: 'Scale architectures and exec-ready case studies' },
+                        {[{ id: 'strategic', title: 'Projects I Follow', description: 'Open source projects I find valuable' },
                           { id: 'open-source', title: 'Open Source', description: 'Tooling and community-driven engineering' },
                           { id: 'insights', title: 'Technical Insights', description: 'Writing on systems design, infrastructure leadership, and AI workloads' }
                         ].map((item) => (
@@ -145,28 +161,6 @@ const stats = [
                 </div>
         </section>
 
-	<!-- Social Proof / Trusted By -->
-        <section class="border-y border-gray-100 py-10 bg-gray-50/50 -mx-4 px-4 md:-mx-0 md:px-0 md:rounded-2xl mb-24">
-                <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 md:gap-8">
-                        <p class="text-sm font-semibold text-gray-500 uppercase tracking-wider shrink-0 text-center md:text-left">
-                                Trusted by engineering teams at
-                        </p>
-                        <div class="w-full md:flex-1">
-                                <div class="flex flex-wrap items-center justify-center md:justify-end gap-6 md:gap-10">
-                                        {companies.map(company => (
-                                                <div class="group flex items-center justify-center" aria-label={company.name}>
-                                                        <img
-                                                                src={company.logo}
-                                                                alt={`${company.name} logo`}
-                                                                loading="lazy"
-                                                                class="h-10 md:h-12 w-auto object-contain grayscale opacity-80 transition duration-300 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105"
-                                                        />
-                                                </div>
-                                        ))}
-                                </div>
-                        </div>
-                </div>
-        </section>
 
         <!-- Key Stats Grid -->
         <section class="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 mb-24 border-b border-gray-100 pb-12 px-4">
@@ -195,44 +189,51 @@ const stats = [
                 </ul>
         </section>
 
-        <!-- Strategic Initiatives -->
+        <!-- GitHub Starred Projects -->
         <section id="strategic" class="max-w-6xl mx-auto mb-24">
                 <div class="flex justify-between items-end mb-12">
                         <div>
-                                <h2 class="text-3xl font-bold text-gray-900 mb-2">Strategic Initiatives</h2>
-				<p class="text-gray-700">High-impact architectural leadership and scale.</p>
+                                <h2 class="text-3xl font-bold text-gray-900 mb-2">Projects I Follow</h2>
+				<p class="text-gray-700">Open source projects I've starred and find valuable.</p>
 			</div>
+			<a href={`https://github.com/${GITHUB_USERNAME}?tab=stars`} class="hidden md:inline-flex items-center text-blue-600 font-medium hover:underline" target="_blank" rel="noopener noreferrer">
+				View all on GitHub &rarr;
+			</a>
 		</div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10">
-                        {strategicProjects.map((project) => (
-                                <a href={`${base}/projects/${project.id}`} class="group block h-full">
+                        {starredRepos.slice(0, 6).map((repo) => (
+                                <a href={repo.html_url} class="group block h-full" target="_blank" rel="noopener noreferrer">
                                         <article class="bg-white border border-gray-100 rounded-2xl overflow-hidden h-full hover:shadow-xl transition-all duration-300 flex flex-col relative">
 						<div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-600 to-indigo-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
 						<div class="p-8 flex-1 flex flex-col">
 							<div class="flex items-center justify-between mb-4">
 								<span class="text-xs font-bold tracking-wider text-blue-600 uppercase bg-blue-50 px-2 py-1 rounded">
-									{project.data.organization}
+									{repo.full_name.split('/')[0]}
 								</span>
-								{project.data.scale && (
+								{repo.language && (
 									<span class="text-xs font-medium text-gray-500">
-										{Array.isArray(project.data.scale) ? project.data.scale[0] : project.data.scale}
+										{repo.language}
 									</span>
 								)}
 							</div>
-							
+
 							<h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors">
-								{project.data.title}
+								{repo.name}
 							</h3>
-							
+
 							<p class="text-gray-700 text-sm mb-6 flex-1 leading-relaxed">
-								{project.data.impactSummary}
+								{repo.description || 'No description available'}
 							</p>
 
 							<div class="flex flex-wrap gap-2 mt-auto">
-								{project.data.primaryTech.slice(0, 4).map(tech => (
+								<span class="text-xs text-gray-500 bg-gray-50 px-2 py-1 rounded border border-gray-100 flex items-center gap-1">
+									<svg class="w-3 h-3" fill="currentColor" viewBox="0 0 16 16"><path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.751.751 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"/></svg>
+									{repo.stargazers_count}
+								</span>
+								{repo.topics?.slice(0, 3).map(topic => (
 									<span class="text-xs text-gray-500 bg-gray-50 px-2 py-1 rounded border border-gray-100">
-										{tech}
+										{topic}
 									</span>
 								))}
 							</div>
@@ -240,6 +241,9 @@ const stats = [
 					</article>
 				</a>
 			))}
+		</div>
+		<div class="mt-8 md:hidden">
+			<a href={`https://github.com/${GITHUB_USERNAME}?tab=stars`} class="text-blue-600 font-medium hover:underline" target="_blank" rel="noopener noreferrer">View all on GitHub &rarr;</a>
 		</div>
 	</section>
 
