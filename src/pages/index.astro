@@ -3,6 +3,12 @@ import PageLayout from '../layouts/PageLayout.astro';
 import { getCollection } from 'astro:content';
 import { SITE_CONFIG } from '../config';
 
+// Personal Information Constants
+const PERSONAL_INFO = {
+	name: "Sekou Doumbouya",
+	title: "Senior Staff Cloud Systems Engineer",
+};
+
 const base = import.meta.env.BASE_URL === '/' ? '' : import.meta.env.BASE_URL.replace(/\/$/, '');
 
 // Fetch Featured Projects
@@ -37,7 +43,7 @@ const stats = [
 ];
 ---
 
-<PageLayout title="Sekou Doumbouya | Senior Staff Cloud Systems Engineer" description="Portfolio of Sekou Doumbouya, a Senior Staff Cloud Systems Engineer specializing in multi-region architecture, networking, and platform engineering.">
+<PageLayout title={`${PERSONAL_INFO.name} | ${PERSONAL_INFO.title}`} description={`Portfolio of ${PERSONAL_INFO.name}, a ${PERSONAL_INFO.title} specializing in multi-region architecture, networking, and platform engineering.`}>
 	
         <!-- Hero Section -->
         <section class="py-12 md:py-32 relative overflow-hidden">
@@ -47,13 +53,13 @@ const stats = [
                                 <div class="flex md:hidden items-center gap-4 mb-6">
                                         <img
                                                 src={`${base}/headshot.jpg`}
-                                                alt="Sekou Doumbouya"
+                                                alt={PERSONAL_INFO.name}
                                                 class="w-20 h-20 object-cover rounded-xl border-2 border-white shadow-lg shrink-0"
                                                 onerror="this.src='https://placehold.co/80x80?text=SD'"
                                         />
                                         <div>
-                                                <p class="text-lg font-semibold text-gray-900">Sekou Doumbouya</p>
-                                                <p class="text-sm text-gray-600 mb-2">Senior Staff Cloud Systems Engineer</p>
+                                                <p class="text-lg font-semibold text-gray-900">{PERSONAL_INFO.name}</p>
+                                                <p class="text-sm text-gray-600 mb-2">{PERSONAL_INFO.title}</p>
                                                 {SITE_CONFIG.availableForHire && (
                                                         <div class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-blue-50 border border-blue-100 text-blue-700 text-xs font-semibold">
                                                                 <span class="relative flex h-1.5 w-1.5">
@@ -69,7 +75,7 @@ const stats = [
                                 <!-- Desktop-only: Original name/title row -->
                                 <div class="hidden md:flex flex-wrap items-center gap-3 mb-6">
                                         <p class="text-lg md:text-xl font-semibold text-gray-800">
-                                                Sekou Doumbouya — Senior Staff Cloud Systems Engineer
+                                                {PERSONAL_INFO.name} — {PERSONAL_INFO.title}
                                         </p>
                                         {SITE_CONFIG.availableForHire && (
                                                 <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-100 text-blue-700 text-xs md:text-sm font-semibold">
@@ -110,7 +116,7 @@ const stats = [
 				<div class="absolute inset-0 bg-gradient-to-tr from-blue-100 to-purple-100 rounded-full blur-2xl opacity-70"></div>
 				<img
 					src={`${base}/headshot.jpg`}
-					alt="Sekou Doumbouya"
+					alt={PERSONAL_INFO.name}
 					class="w-full h-full object-cover rounded-2xl shadow-2xl rotate-3 hover:rotate-0 transition-transform duration-500 border-4 border-white relative z-10"
 					onerror="this.src='https://placehold.co/400x400?text=Sekou'"
 				/>
