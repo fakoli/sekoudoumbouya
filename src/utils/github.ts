@@ -20,14 +20,19 @@ export interface GitHubRepo {
  */
 export async function fetchGitHubRepo(owner: string, repo: string): Promise<GitHubRepo | null> {
 	try {
+		// Prepare headers
+		const headers: Record<string, string> = {
+			'Accept': 'application/vnd.github+json',
+		};
+		
+		// Add authorization header if token is available and valid
+		const token = import.meta.env.GITHUB_TOKEN;
+		if (token && typeof token === 'string' && token.trim().length > 0) {
+			headers['Authorization'] = `Bearer ${token.trim()}`;
+		}
+		
 		const response = await fetch(`https://api.github.com/repos/${owner}/${repo}`, {
-			headers: {
-				'Accept': 'application/vnd.github+json',
-				// Optional: Add GitHub token for higher rate limits if available
-				...(import.meta.env.GITHUB_TOKEN && {
-					'Authorization': `Bearer ${import.meta.env.GITHUB_TOKEN}`
-				})
-			}
+			headers
 		});
 
 		if (!response.ok) {

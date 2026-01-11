@@ -95,7 +95,10 @@ const repoData = await fetchGitHubRepos(
 // Use live data from API if available, otherwise fallback to static data
 const pinnedRepos = repoData.every(repo => repo === null) 
 	? fallbackRepos 
-	: repoData.map((repo, index) => repo || fallbackRepos[index]).filter(Boolean);
+	: repoData.map((repo, index) => {
+		// Use API data if available, otherwise use fallback data
+		return repo || (fallbackRepos[index] || null);
+	}).filter(Boolean);
 
 const stats = [
         { label: "Years Experience", value: "20+" },
