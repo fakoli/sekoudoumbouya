@@ -50,6 +50,20 @@ npm run build
 
 This portfolio uses **Astro Content Collections** for type-safe content management.
 
+### Dynamic GitHub Repository Data
+
+The homepage ("My Projects" section) automatically fetches live repository data from the GitHub API, including:
+- Current star counts
+- Repository descriptions
+- Primary language
+- Topic tags
+
+**How it works:**
+- At build time, the site attempts to fetch data from GitHub's API for pinned repositories
+- If the API is available and authenticated, it uses live data
+- If the API is rate-limited or unavailable, it falls back to cached static data
+- To enable live data fetching with higher rate limits, add a `GITHUB_TOKEN` to your `.env` file (see Environment Variables section)
+
 ### Projects (`src/content/projects/`)
 Add new case studies as `.md` or `.mdx` files.
 - **Required Fields:** `title`, `publishDate`, `description`, `organization`, `role`, `impactSummary`, `primaryTech`
@@ -79,6 +93,11 @@ PUBLIC_BASE_PATH=/
 # For GitHub Pages (Subpath)
 SITE=https://fakoli.github.io/
 PUBLIC_BASE_PATH=/sekoudoumbouya
+
+# Optional: GitHub API Token for fetching live repository data
+# Without this token, the site will use fallback data during build
+# Create a token at: https://github.com/settings/tokens (read-only access is sufficient)
+GITHUB_TOKEN=your_github_personal_access_token_here
 ```
 
 ### GitHub Pages
