@@ -66,27 +66,50 @@ Key Achievements:
 - Established IaC standards and Terraform CI/CD pipelines to enhance operational safety
 - Mentored 12-14 engineers directly and provided cross-functional guidance to Security and SRE teams
 
-### Salesforce / Quip (2019-2021)
-**Role**: Technical Lead – Principal SRE
+### Quip (Salesforce) – Technical Lead (July 2020 – June 2021)
+**Role**: Technical Lead – Data Platform SRE
 
 Key Achievements:
-- Increased overall system uptime by 15% through comprehensive reliability engineering
-- Built real-time clickstream analytics pipeline using AWS Kinesis, Lambda, and Athena
-- Reduced operational costs by 20% through ECS migration
-- Standardized Terraform usage across the data platform team
+- Improved system reliability, increasing overall uptime by 15%
+- Developed real-time clickstream analytics pipeline using AWS Kinesis, Lambda, and Athena
 
-### Oracle (2018-2019)
-**Role**: Principal Member of Technical Staff
-
-### Groupon (2016-2018)
+### Quip (Salesforce) – SRE (April 2019 – July 2020)
 **Role**: Site Reliability Engineer
 
-### LiveOps (2014-2016)
-**Role**: Site Reliability Engineer
+Key Achievements:
+- Automated AWS infrastructure using Terraform and Ansible, improving efficiency
+- Migrated applications to AWS ECS, reducing operational costs by 20%
+
+### Oracle (May 2016 – April 2019)
+**Role**: Principal Systems Engineer
+
+Key Achievements:
+- Developed CI/CD platforms, accelerating Oracle's release cycles by 40%
+- Architected GitOps-based container deployments and Kubernetes clusters
+- Laid foundational strategy for Oracle's migration to cloud-native SaaS
+
+### Groupon (September 2014 – May 2016)
+**Role**: Senior Systems Engineer
+
+Key Achievements:
+- Led adoption of Ansible, significantly streamlining automation and deployment
+- Integrated Ansible with existing CI/CD tools, increasing operational efficiency
+
+### LiveOps (April 2013 – September 2014)
+**Role**: Senior Systems Administrator
 Notable: Received LiveOps Amsterdam Datacenter Creation Award
 
-### Telvue (2012-2014)
-**Role**: Software Engineer
+Key Achievements:
+- Led automation, virtualization, and storage initiatives; implemented Puppet and Foreman
+- Designed and managed 600TB+ NetApp storage virtualization solutions
+
+### Telvue Corporation (January 2012 – April 2013)
+**Role**: Director of Network Operations
+
+Key Achievements:
+- Directed network infrastructure upgrades for IPTV services, significantly improving streaming performance and stability
+- Engineered KVM-based virtualization solutions, reducing infrastructure costs
+- Managed multi-vendor network solutions (Juniper, Cisco, Extreme, Dell)
 
 ---
 
