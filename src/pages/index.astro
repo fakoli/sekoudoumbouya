@@ -29,7 +29,6 @@ const latestPosts = posts
 	.slice(0, 3);
 
 // Pinned GitHub repositories (my own projects)
-const GITHUB_USERNAME = 'fakoli';
 const pinnedRepos = [
 	{
 		name: "mcp-ai-bridge",
@@ -219,7 +218,7 @@ const stats = [
                                 <h2 class="text-3xl font-bold text-gray-900 mb-2">My Projects</h2>
 				<p class="text-gray-700">Open source tools and applications I build and maintain.</p>
 			</div>
-			<a href={`https://github.com/${GITHUB_USERNAME}?tab=repositories`} class="hidden md:inline-flex items-center text-blue-600 font-medium hover:underline" target="_blank" rel="noopener noreferrer">
+			<a href={`https://github.com/${SITE_CONFIG.githubUsername}?tab=repositories`} class="hidden md:inline-flex items-center text-blue-600 font-medium hover:underline" target="_blank" rel="noopener noreferrer">
 				View all on GitHub &rarr;
 			</a>
 		</div>
@@ -266,7 +265,7 @@ const stats = [
 			))}
 		</div>
 		<div class="mt-8 md:hidden">
-			<a href={`https://github.com/${GITHUB_USERNAME}?tab=repositories`} class="text-blue-600 font-medium hover:underline" target="_blank" rel="noopener noreferrer">View all on GitHub &rarr;</a>
+			<a href={`https://github.com/${SITE_CONFIG.githubUsername}?tab=repositories`} class="text-blue-600 font-medium hover:underline" target="_blank" rel="noopener noreferrer">View all on GitHub &rarr;</a>
 		</div>
 	</section>
 
