@@ -17,12 +17,13 @@ Sekou Doumbouya is a Senior Staff Cloud Systems Engineer at Pinterest, specializ
 - Current Role: Technical Lead – Senior Staff Cloud Systems Engineer at Pinterest (2021-Present)
 
 ## Career History
-- Pinterest: Senior Staff Cloud Systems Engineer, Technical Lead (2021-Present)
-- Salesforce (Quip): Technical Lead, Principal SRE (2019-2021)
-- Oracle: Principal Member of Technical Staff (2018-2019)
-- Groupon: Site Reliability Engineer (2016-2018)
-- LiveOps: Site Reliability Engineer (2014-2016)
-- Telvue: Software Engineer (2012-2014)
+- Pinterest: Technical Lead – Senior Staff Cloud Systems Engineer (June 2021 – Present)
+- Quip (Salesforce): Technical Lead – Data Platform SRE (July 2020 – June 2021)
+- Quip (Salesforce): Site Reliability Engineer (April 2019 – July 2020)
+- Oracle: Principal Systems Engineer (May 2016 – April 2019)
+- Groupon: Senior Systems Engineer (September 2014 – May 2016)
+- LiveOps: Senior Systems Administrator (April 2013 – September 2014)
+- Telvue Corporation: Director of Network Operations (January 2012 – April 2013)
 
 ## Technical Expertise
 ### Core Competencies
