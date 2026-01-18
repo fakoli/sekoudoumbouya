@@ -27,6 +27,11 @@
 		--color-accent-muted: #99f6e4;
 		--color-accent-bg: #f0fdfa;
 
+		/* Amber - For awards and special highlights */
+		--color-amber-light: #fffbeb;
+		--color-amber-bg: #fef3c7;
+		--color-amber-text: #b45309;
+
 		/* Borders - Primary depth mechanism */
 		--border-default: rgba(15, 23, 42, 0.08);
 		--border-subtle: rgba(15, 23, 42, 0.05);
@@ -113,7 +118,7 @@
 	}
 
 	.card-award {
-		background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+		background: linear-gradient(135deg, var(--color-amber-light) 0%, var(--color-amber-bg) 100%);
 		border: 0.5px solid var(--border-default);
 		border-radius: var(--radius-lg);
 	}
@@ -147,8 +152,8 @@
 	}
 
 	.badge-award {
-		background: #fef3c7;
-		color: #b45309;
+		background: var(--color-amber-bg);
+		color: var(--color-amber-text);
 		border-color: transparent;
 	}
 
