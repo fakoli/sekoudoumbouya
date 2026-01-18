@@ -45,6 +45,9 @@
 		--space-8: 32px;
 		--space-12: 48px;
 
+		/* Layout */
+		--header-height: 72px;
+
 		/* Border Radius - Sharp technical feel */
 		--radius-sm: 4px;
 		--radius-md: 6px;
@@ -82,10 +85,6 @@
 		font-family: 'Geist Mono', 'SF Mono', 'Fira Code', monospace;
 	}
 
-	.tabular-nums {
-		font-variant-numeric: tabular-nums;
-	}
-
 	/* Focus States */
 	:focus-visible {
 		outline: 2px solid var(--color-accent);
@@ -113,6 +112,12 @@
 		box-shadow: var(--shadow-sm);
 	}
 
+	.card-award {
+		background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+		border: 0.5px solid var(--border-default);
+		border-radius: var(--radius-lg);
+	}
+
 	/* Badge Component */
 	.badge {
 		display: inline-flex;
@@ -134,6 +139,18 @@
 		border-color: transparent;
 	}
 
+	.badge-featured {
+		background: var(--color-accent-bg);
+		color: var(--color-accent);
+		border-color: transparent;
+	}
+
+	.badge-award {
+		background: #fef3c7;
+		color: #b45309;
+		border-color: transparent;
+	}
+
 	/* Button Components */
 	.btn {
 		display: inline-flex;
@@ -144,7 +161,12 @@
 		font-size: 14px;
 		font-weight: 500;
 		border-radius: var(--radius-md);
-		transition: all var(--transition-fast);
+		transition:
+			background-color var(--transition-fast),
+			color var(--transition-fast),
+			border-color var(--transition-fast),
+			box-shadow var(--transition-fast),
+			transform var(--transition-fast);
 		cursor: pointer;
 		white-space: nowrap;
 	}
@@ -311,6 +333,11 @@
 		text-transform: uppercase;
 		letter-spacing: 0.08em;
 		color: var(--color-muted);
+	}
+
+	/* Number formatting */
+	.tabular-nums {
+		font-variant-numeric: tabular-nums;
 	}
 
 	/* Spacing utilities on 4px grid */
