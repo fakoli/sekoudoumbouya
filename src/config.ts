@@ -15,6 +15,7 @@ export const SITE_CONFIG = {
 
 	// Current Employment
 	currentCompany: "Pinterest",
+	currentRole: "Senior Staff Cloud Systems Engineer",
 
 	// Feature Flags
 	availableForHire: false,
