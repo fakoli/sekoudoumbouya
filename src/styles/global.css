@@ -27,6 +27,11 @@
 		--color-accent-muted: #99f6e4;
 		--color-accent-bg: #f0fdfa;
 
+		/* Amber - For awards and special highlights */
+		--color-amber-light: #fffbeb;
+		--color-amber-bg: #fef3c7;
+		--color-amber-text: #b45309;
+
 		/* Borders - Primary depth mechanism */
 		--border-default: rgba(15, 23, 42, 0.08);
 		--border-subtle: rgba(15, 23, 42, 0.05);
@@ -44,6 +49,9 @@
 		--space-6: 24px;
 		--space-8: 32px;
 		--space-12: 48px;
+
+		/* Layout */
+		--header-height: 72px;
 
 		/* Border Radius - Sharp technical feel */
 		--radius-sm: 4px;
@@ -82,10 +90,6 @@
 		font-family: 'Geist Mono', 'SF Mono', 'Fira Code', monospace;
 	}
 
-	.tabular-nums {
-		font-variant-numeric: tabular-nums;
-	}
-
 	/* Focus States */
 	:focus-visible {
 		outline: 2px solid var(--color-accent);
@@ -113,6 +117,12 @@
 		box-shadow: var(--shadow-sm);
 	}
 
+	.card-award {
+		background: linear-gradient(135deg, var(--color-amber-light) 0%, var(--color-amber-bg) 100%);
+		border: 0.5px solid var(--border-default);
+		border-radius: var(--radius-lg);
+	}
+
 	/* Badge Component */
 	.badge {
 		display: inline-flex;
@@ -134,6 +144,19 @@
 		border-color: transparent;
 	}
 
+	/* Featured badge - currently matches accent but kept separate for future customization */
+	.badge-featured {
+		background: var(--color-accent-bg);
+		color: var(--color-accent);
+		border-color: transparent;
+	}
+
+	.badge-award {
+		background: var(--color-amber-bg);
+		color: var(--color-amber-text);
+		border-color: transparent;
+	}
+
 	/* Button Components */
 	.btn {
 		display: inline-flex;
@@ -144,7 +167,12 @@
 		font-size: 14px;
 		font-weight: 500;
 		border-radius: var(--radius-md);
-		transition: all var(--transition-fast);
+		transition:
+			background-color var(--transition-fast),
+			color var(--transition-fast),
+			border-color var(--transition-fast),
+			box-shadow var(--transition-fast),
+			transform var(--transition-fast);
 		cursor: pointer;
 		white-space: nowrap;
 	}
@@ -311,6 +339,11 @@
 		text-transform: uppercase;
 		letter-spacing: 0.08em;
 		color: var(--color-muted);
+	}
+
+	/* Number formatting */
+	.tabular-nums {
+		font-variant-numeric: tabular-nums;
 	}
 
 	/* Spacing utilities on 4px grid */

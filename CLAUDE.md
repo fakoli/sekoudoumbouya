@@ -52,9 +52,17 @@ The `astro.config.mjs` reads these via Vite's `loadEnv()`.
 
 ### Site Configuration
 
-Global settings in `src/config.ts`:
-- `SITE_CONFIG.githubUsername` - Used for GitHub API calls and repo links
+Global site and profile settings in `src/config.ts`:
+- `SITE_CONFIG.name` - Primary display name used across the site
+- `SITE_CONFIG.title` - Short title/tagline shown in metadata and UI
+- `SITE_CONFIG.email` - Contact email surfaced in contact sections or CTAs
+- `SITE_CONFIG.currentCompany` - Current role or company shown in hero/about sections
+- `SITE_CONFIG.githubUsername` - Used for GitHub API calls and repository links
+- `SITE_CONFIG.linkedInUsername` - LinkedIn profile username for social links
 - `SITE_CONFIG.availableForHire` - Feature flag for "Available for Hire" badge
+- `NAV_LINKS` - Structured list of navigation links for the main site header/footer
+- `SOCIAL_LINKS` - Derived social/profile links (GitHub, LinkedIn, email)
+- `RESUME_PATH` - Path or URL to the resume/CV asset used for download links
 
 ## Deployment
 
