@@ -139,6 +139,7 @@
 		border-color: transparent;
 	}
 
+	/* Featured badge - currently matches accent but kept separate for future customization */
 	.badge-featured {
 		background: var(--color-accent-bg);
 		color: var(--color-accent);
