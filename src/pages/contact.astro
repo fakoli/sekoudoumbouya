@@ -3,7 +3,7 @@ import PageLayout from '../layouts/PageLayout.astro';
 import { SITE_CONFIG, SOCIAL_LINKS } from '../config';
 
 const offerings = [
-	"Principal / Staff+ infrastructure and platform roles",
+	...(SITE_CONFIG.availableForHire ? ["Principal / Staff+ infrastructure and platform roles"] : []),
 	"Architecture and strategy advisory for multi-region, networking, and AI workloads",
 	"Speaking, workshops, and internal education for engineering teams",
 ];
@@ -14,7 +14,10 @@ const offerings = [
 		<h1 class="heading-xl text-foreground mb-8">Work With Me</h1>
 
 		<p class="body-lg text-secondary mb-8 leading-relaxed">
-			I'm open to principal-level infrastructure roles, advisory engagements, and select speaking or teaching opportunities focused on cloud architecture, multi-region design, networking, and AI infrastructure.
+			{SITE_CONFIG.availableForHire
+				? "I'm open to principal-level infrastructure roles, advisory engagements, and select speaking or teaching opportunities focused on cloud architecture, multi-region design, networking, and AI infrastructure."
+				: "I'm open to advisory engagements and select speaking or teaching opportunities focused on cloud architecture, multi-region design, networking, and AI infrastructure."
+			}
 		</p>
 
 		<ul class="space-y-3 text-secondary mb-10">
