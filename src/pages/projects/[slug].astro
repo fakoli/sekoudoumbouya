@@ -1,6 +1,9 @@
 ---
 import { getCollection, render } from 'astro:content';
 import PageLayout from '../../layouts/PageLayout.astro';
+import { getBasePath } from '../../utils/paths';
+import { formatDate } from '../../utils/dates';
+import ArrowLeftIcon from '../../components/icons/ArrowLeftIcon.astro';
 
 export async function getStaticPaths() {
 	const projects = await getCollection('projects');
@@ -12,63 +15,58 @@ export async function getStaticPaths() {
 
 const { project } = Astro.props;
 const { Content } = await render(project);
-
-const formatDate = (date: Date) => date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
-
-const base = import.meta.env.BASE_URL === '/' ? '' : import.meta.env.BASE_URL.replace(/\/$/, '');
+const base = getBasePath();
 ---
 
 <PageLayout title={`${project.data.title} | Projects`} description={project.data.description}>
 	<article class="max-w-4xl mx-auto px-4 py-12">
-		
-		{/* Navigation */}
+
+		<!-- Navigation -->
 		<div class="mb-8">
-			<a href={`${base}/projects`} class="inline-flex items-center text-sm font-medium text-gray-500 hover:text-blue-600 transition-colors">
-				<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-				</svg>
+			<a href={`${base}/projects`} class="inline-flex items-center body-sm text-muted hover:text-accent transition-colors">
+				<ArrowLeftIcon class="h-4 w-4 mr-1" />
 				Back to Projects
 			</a>
 		</div>
 
-		{/* Header Section */}
-		<header class="mb-16 border-b border-gray-100 pb-12">
+		<!-- Header Section -->
+		<header class="mb-16 border-b border-[var(--border-default)] pb-12">
 			<div class="flex items-center gap-3 mb-6">
-				<span class="px-3 py-1 bg-blue-50 text-blue-700 text-xs font-bold uppercase tracking-wider rounded-full">
+				<span class="badge badge-accent">
 					{project.data.organization}
 				</span>
 				{project.data.featured && (
-					<span class="px-3 py-1 bg-amber-50 text-amber-700 text-xs font-bold uppercase tracking-wider rounded-full flex items-center gap-1">
-						<span>★</span> Featured
+					<span class="badge badge-featured">
+						★ Featured
 					</span>
 				)}
 			</div>
 
-			<h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-8 leading-tight">
+			<h1 class="heading-xl text-foreground mb-8 leading-tight">
 				{project.data.title}
 			</h1>
 
-			{/* Impact Summary Box */}
-			<div class="bg-gray-50 border-l-4 border-blue-600 p-6 md:p-8 rounded-r-lg mb-10">
-				<h3 class="text-sm font-bold text-gray-500 uppercase tracking-wider mb-2">Impact Summary</h3>
-				<p class="text-xl md:text-2xl text-gray-800 font-medium leading-relaxed">
+			<!-- Impact Summary Box -->
+			<div class="bg-[var(--color-bg)] border-l-4 border-[var(--color-accent)] p-6 md:p-8 rounded-r-lg mb-10">
+				<h3 class="label mb-2">Impact Summary</h3>
+				<p class="body-lg text-foreground font-medium leading-relaxed">
 					{project.data.impactSummary}
 				</p>
 			</div>
 
-			{/* Metadata Grid */}
+			<!-- Metadata Grid -->
 			<div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
-                                <div>
-                                        <h3 class="text-xs font-bold text-gray-600 uppercase tracking-wider mb-1">Role</h3>
-                                        <p class="text-sm font-medium text-gray-900">{project.data.role}</p>
-                                </div>
-                                <div>
-                                        <h3 class="text-xs font-bold text-gray-600 uppercase tracking-wider mb-1">Timeline</h3>
-                                        <p class="text-sm font-medium text-gray-900">{project.data.duration || formatDate(project.data.publishDate)}</p>
-                                </div>
-                                <div>
-                                        <h3 class="text-xs font-bold text-gray-600 uppercase tracking-wider mb-1">Scale</h3>
-                                        <div class="text-sm font-medium text-gray-900">
+				<div>
+					<h3 class="label mb-1">Role</h3>
+					<p class="body-sm font-medium text-foreground">{project.data.role}</p>
+				</div>
+				<div>
+					<h3 class="label mb-1">Timeline</h3>
+					<p class="body-sm font-medium text-foreground tabular-nums">{project.data.duration || formatDate(project.data.publishDate, 'long')}</p>
+				</div>
+				<div>
+					<h3 class="label mb-1">Scale</h3>
+					<div class="body-sm font-medium text-foreground">
 						{Array.isArray(project.data.scale) ? (
 							<ul class="list-none">
 								{project.data.scale.map(s => <li>{s}</li>)}
@@ -78,51 +76,51 @@ const base = import.meta.env.BASE_URL === '/' ? '' : import.meta.env.BASE_URL.re
 						)}
 					</div>
 				</div>
-                                <div>
-                                        <h3 class="text-xs font-bold text-gray-600 uppercase tracking-wider mb-1">Links</h3>
-                                        <div class="flex flex-col gap-1">
-                                                {project.data.repository && (
-                                                        <a href={project.data.repository} target="_blank" class="text-sm font-medium text-blue-600 hover:underline">GitHub &rarr;</a>
-                                                )}
-                                                {project.data.externalLink && (
-							<a href={project.data.externalLink} target="_blank" class="text-sm font-medium text-blue-600 hover:underline">Live Site &rarr;</a>
+				<div>
+					<h3 class="label mb-1">Links</h3>
+					<div class="flex flex-col gap-1">
+						{project.data.repository && (
+							<a href={project.data.repository} target="_blank" class="link body-sm">GitHub &rarr;</a>
+						)}
+						{project.data.externalLink && (
+							<a href={project.data.externalLink} target="_blank" class="link body-sm">Live Site &rarr;</a>
 						)}
 						{!project.data.repository && !project.data.externalLink && (
-							<span class="text-sm text-gray-400 italic">Internal / Confidential</span>
+							<span class="body-sm text-muted italic">Internal / Confidential</span>
 						)}
 					</div>
 				</div>
 			</div>
 		</header>
 
-		{/* Main Content */}
+		<!-- Main Content -->
 		<div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
-			{/* Sidebar (Tech Stack) */}
+			<!-- Sidebar (Tech Stack) -->
 			<aside class="lg:col-span-3 order-2 lg:order-1">
-				<div class="sticky top-8">
-					<h3 class="text-sm font-bold text-gray-900 uppercase tracking-wider mb-4">Tech Stack</h3>
+				<div class="sticky" style="top: calc(var(--header-height) + 1rem);">
+					<h3 class="label mb-4">Tech Stack</h3>
 					<div class="flex flex-wrap lg:flex-col gap-2">
 						{project.data.primaryTech.map(tech => (
-							<span class="px-3 py-1.5 bg-white border border-gray-200 text-gray-700 text-xs font-medium rounded-md shadow-sm text-center lg:text-left">
+							<span class="tag text-center lg:text-left">
 								{tech}
 							</span>
 						))}
 					</div>
 
-                                                <div class="mt-8">
-                                                        <h3 class="text-sm font-bold text-gray-900 uppercase tracking-wider mb-4">Tags</h3>
-                                                        <div class="flex flex-wrap gap-2">
-                                                                {project.data.tags.map(tag => (
-                                                                        <span class="text-xs text-gray-700">#{tag}</span>
-                                                                ))}
-                                                        </div>
-                                                </div>
-                                        </div>
+					<div class="mt-8">
+						<h3 class="label mb-4">Tags</h3>
+						<div class="flex flex-wrap gap-2">
+							{project.data.tags.map(tag => (
+								<span class="body-sm text-muted">#{tag}</span>
+							))}
+						</div>
+					</div>
+				</div>
 			</aside>
 
-			{/* MDX Content */}
+			<!-- MDX Content -->
 			<div class="lg:col-span-9 order-1 lg:order-2">
-				<div class="prose prose-lg prose-slate max-w-none prose-headings:font-bold prose-headings:text-gray-900 prose-p:text-gray-700 prose-li:text-gray-700 prose-strong:text-gray-900 prose-a:text-blue-600">
+				<div class="prose prose-lg prose-slate max-w-none prose-headings:font-semibold prose-headings:tracking-tight prose-headings:text-foreground prose-p:text-secondary prose-li:text-secondary prose-strong:text-foreground prose-a:text-[var(--color-accent)] prose-a:no-underline hover:prose-a:underline">
 					<Content />
 				</div>
 			</div>

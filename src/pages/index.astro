@@ -2,18 +2,12 @@
 import PageLayout from '../layouts/PageLayout.astro';
 import { getCollection } from 'astro:content';
 import { SITE_CONFIG } from '../config';
+import { getBasePath, withBasePath } from '../utils/paths';
+import { formatDate } from '../utils/dates';
 import { fetchGitHubRepos } from '../utils/github';
+import StarIcon from '../components/icons/StarIcon.astro';
 
-// Personal Information Constants
-const PERSONAL_INFO = {
-	name: "Sekou Doumbouya",
-	title: "Senior Staff Cloud Systems Engineer",
-};
-
-// Generate initials for fallback images
-const initials = PERSONAL_INFO.name.split(' ').map(n => n[0]).join('');
-
-const base = import.meta.env.BASE_URL === '/' ? '' : import.meta.env.BASE_URL.replace(/\/$/, '');
+const base = getBasePath();
 
 // Fetch Open Source Projects
 const projects = await getCollection('projects');
@@ -29,7 +23,7 @@ const latestPosts = posts
 	.sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf())
 	.slice(0, 3);
 
-// Pinned GitHub repositories (my own projects) - fetch dynamically from GitHub API
+// Pinned GitHub repositories
 const pinnedRepoNames = [
 	"mcp-ai-bridge",
 	"AwsSecurityMapper",
@@ -38,7 +32,7 @@ const pinnedRepoNames = [
 	"devops-project-skeleton"
 ];
 
-// Fallback data in case API fetch fails (e.g., rate limiting during build)
+// Fallback data in case API fetch fails
 const fallbackRepos = [
 	{
 		name: "mcp-ai-bridge",
@@ -93,305 +87,291 @@ const repoData = await fetchGitHubRepos(
 );
 
 // Use live data from API if available, otherwise fallback to static data
-const pinnedRepos = repoData.every(repo => repo === null) 
-	? fallbackRepos 
+const pinnedRepos = repoData.every(repo => repo === null)
+	? fallbackRepos
 	: repoData.map((repo, index) => {
-		// Use API data if available, otherwise use fallback data
 		return repo || (fallbackRepos[index] || null);
 	}).filter(Boolean);
 
 const stats = [
-        { label: "Years Experience", value: "20+" },
-        { label: "Cloud Spend Managed", value: "$10M+" },
-        { label: "Engineers Mentored", value: "20+" },
+	{ label: "Years Experience", value: "20+" },
+	{ label: "Cloud Spend Managed", value: "$10M+" },
+	{ label: "Engineers Mentored", value: "20+" },
 ];
+
+// Generate initials for fallback images
+const initials = SITE_CONFIG.name.split(' ').map(n => n[0]).join('');
 ---
 
-<PageLayout title={`${PERSONAL_INFO.name} | ${PERSONAL_INFO.title}`} description={`Portfolio of ${PERSONAL_INFO.name}, a ${PERSONAL_INFO.title} specializing in multi-region architecture, networking, and platform engineering.`}>
-	
-        <!-- Hero Section -->
-        <section class="py-12 md:py-32 relative overflow-hidden">
-                <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row items-center gap-8 md:gap-12">
-                        <div class="flex-1 z-10">
-                                <!-- Mobile-only: Compact intro with headshot + name side-by-side -->
-                                <div class="flex md:hidden items-center gap-4 mb-6">
-                                        <img
-                                                src={`${base}/headshot.jpg`}
-                                                alt={PERSONAL_INFO.name}
-                                                class="w-20 h-20 object-cover rounded-xl border-2 border-white shadow-lg shrink-0"
-                                                onerror={`this.src='https://placehold.co/80x80?text=${initials}'`}
-                                        />
-                                        <div>
-                                                <p class="text-lg font-semibold text-gray-900">{PERSONAL_INFO.name}</p>
-                                                <p class="text-sm text-gray-600 mb-2">{PERSONAL_INFO.title}</p>
-                                                {SITE_CONFIG.availableForHire && (
-                                                        <div class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-blue-50 border border-blue-100 text-blue-700 text-xs font-semibold">
-                                                                <span class="relative flex h-1.5 w-1.5">
-                                                                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-                                                                        <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-blue-500"></span>
-                                                                </span>
-                                                                Available for Hire
-                                                        </div>
-                                                )}
-                                        </div>
-                                </div>
+<PageLayout title={`${SITE_CONFIG.name} | ${SITE_CONFIG.title}`} description={`Portfolio of ${SITE_CONFIG.name}, a ${SITE_CONFIG.title} specializing in multi-region architecture, networking, and platform engineering.`}>
 
-                                <!-- Desktop-only: Original name/title row -->
-                                <div class="hidden md:flex flex-wrap items-center gap-3 mb-6">
-                                        <p class="text-lg md:text-xl font-semibold text-gray-800">
-                                                {PERSONAL_INFO.name} — {PERSONAL_INFO.title}
-                                        </p>
-                                        {SITE_CONFIG.availableForHire && (
-                                                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-100 text-blue-700 text-xs md:text-sm font-semibold">
-                                                        <span class="relative flex h-2 w-2">
-                                                          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-                                                          <span class="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
-                                                        </span>
-                                                        Available for Senior Staff / Principal Roles
-                                                </div>
-                                        )}
-                                </div>
+	<!-- Hero Section -->
+	<section class="py-12 md:py-24 relative overflow-hidden">
+		<div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row items-center gap-8 md:gap-12">
+			<div class="flex-1 z-10">
+				<!-- Mobile-only: Compact intro with headshot + name side-by-side -->
+				<div class="flex md:hidden items-center gap-4 mb-6">
+					<img
+						src={`${base}/headshot.jpg`}
+						alt={SITE_CONFIG.name}
+						class="w-20 h-20 object-cover rounded-lg border border-[var(--border-default)] shrink-0"
+						onerror={`this.src='https://placehold.co/80x80?text=${initials}'`}
+					/>
+					<div>
+						<p class="heading-sm text-foreground">{SITE_CONFIG.name}</p>
+						<p class="body-sm text-muted mb-2">{SITE_CONFIG.title}</p>
+						{SITE_CONFIG.availableForHire && (
+							<span class="status-available">
+								<span class="status-dot"></span>
+								Available for Hire
+							</span>
+						)}
+					</div>
+				</div>
 
-                                <h1 class="text-5xl md:text-7xl font-bold text-gray-900 tracking-tight mb-8 leading-tight">
-                                        Architecting Resilient Cloud Infrastructure <br class="hidden md:block" />
-                                        <span class="text-blue-600">at Global Scale.</span>
-                                </h1>
-				
-                                <p class="text-xl md:text-2xl text-gray-700 mb-10 max-w-2xl leading-relaxed">
-                                        I am a <strong>Senior Staff Cloud Systems Engineer</strong> and <strong>Technical Lead</strong>. I architect multi-region distributed systems for large-scale applications and AI workloads, optimize cloud economics, and build high-performing engineering teams.
-                                </p>
-				
-                                <div class="flex flex-wrap gap-4">
-                                        <a href={`${base}/experience`} class="inline-flex h-12 items-center justify-center px-6 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition-all shadow-lg hover:shadow-blue-200 transform hover:-translate-y-0.5">
-                                                View Experience
-                                        </a>
-                                        <a href={`${base}/projects`} class="inline-flex h-12 items-center justify-center px-6 bg-white text-gray-900 font-bold rounded-lg border border-gray-200 hover:border-gray-300 hover:bg-gray-50 transition-all">
-                                                See Case Studies
-                                        </a>
-                                </div>
+				<!-- Desktop-only: Original name/title row -->
+				<div class="hidden md:flex flex-wrap items-center gap-3 mb-6">
+					<p class="body-lg font-medium text-secondary">
+						{SITE_CONFIG.name} — {SITE_CONFIG.title}
+					</p>
+					{SITE_CONFIG.availableForHire && (
+						<span class="status-available">
+							<span class="status-dot"></span>
+							Available for Senior Staff / Principal Roles
+						</span>
+					)}
+				</div>
 
-                                <p class="text-sm md:text-base text-gray-700 mt-6">
-                                        TL;DR: I’m best leveraged in 100+ engineer organizations navigating multi-region, multi-account, or AI infrastructure transformations.
-                                </p>
-                        </div>
-			
+				<h1 class="text-4xl md:text-6xl font-bold text-foreground tracking-tight mb-8 leading-tight">
+					Architecting Resilient Cloud Infrastructure <br class="hidden md:block" />
+					<span class="text-accent">at Global Scale.</span>
+				</h1>
+
+				<p class="body-lg text-secondary mb-10 max-w-2xl leading-relaxed">
+					I am a <strong class="text-foreground">{SITE_CONFIG.title}</strong> and <strong class="text-foreground">Technical Lead</strong>. I architect multi-region distributed systems for large-scale applications and AI workloads, optimize cloud economics, and build high-performing engineering teams.
+				</p>
+
+				<div class="flex flex-wrap gap-4">
+					<a href={withBasePath('/experience')} class="btn btn-primary">
+						View Experience
+					</a>
+					<a href={withBasePath('/projects')} class="btn btn-secondary">
+						See Case Studies
+					</a>
+				</div>
+
+				<p class="body-sm text-muted mt-6">
+					TL;DR: I'm best leveraged in 100+ engineer organizations navigating multi-region, multi-account, or AI infrastructure transformations.
+				</p>
+			</div>
+
 			<!-- Desktop-only: Large decorative headshot -->
-			<div class="hidden md:block w-64 h-64 md:w-96 md:h-96 shrink-0 relative">
-				<div class="absolute inset-0 bg-gradient-to-tr from-blue-100 to-purple-100 rounded-full blur-2xl opacity-70"></div>
+			<div class="hidden md:block w-64 h-64 md:w-80 md:h-80 shrink-0 relative">
+				<div class="absolute inset-0 bg-gradient-to-tr from-[var(--color-accent-bg)] to-[var(--color-bg)] rounded-full blur-2xl opacity-70"></div>
 				<img
 					src={`${base}/headshot.jpg`}
-					alt={PERSONAL_INFO.name}
-					class="w-full h-full object-cover rounded-2xl shadow-2xl rotate-3 hover:rotate-0 transition-transform duration-500 border-4 border-white relative z-10"
+					alt={SITE_CONFIG.name}
+					class="w-full h-full object-cover rounded-xl border border-[var(--border-default)] relative z-10 transition-transform duration-300 hover:scale-[1.02]"
 					onerror={`this.src='https://placehold.co/400x400?text=${initials}'`}
 				/>
 			</div>
 		</div>
-        </section>
+	</section>
 
-        <!-- Quick Navigation -->
-        <section class="max-w-6xl mx-auto -mt-4 sm:-mt-8 md:-mt-16 mb-24 relative z-20 px-4">
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        {[{ id: 'my-projects', title: 'My Projects', description: 'Open source tools and applications I build' },
-                          { id: 'open-source', title: 'Open Source', description: 'Tooling and community-driven engineering' },
-                          { id: 'insights', title: 'Technical Insights', description: 'Writing on systems design, infrastructure leadership, and AI workloads' }
-                        ].map((item) => (
-                                <a href={`#${item.id}`} class="group bg-white border border-gray-100 rounded-xl p-5 shadow-sm hover:shadow-md transition-all flex items-start gap-3">
-                                        <span class="h-10 w-10 rounded-lg bg-blue-50 text-blue-700 flex items-center justify-center font-bold group-hover:bg-blue-100">→</span>
-                                        <div>
-                                                <h3 class="font-semibold text-gray-900 mb-1 group-hover:text-blue-700 transition-colors">{item.title}</h3>
-                                                <p class="text-sm text-gray-700 leading-snug">{item.description}</p>
-                                        </div>
-                                </a>
-                        ))}
-                </div>
-        </section>
+	<!-- Quick Navigation -->
+	<section class="max-w-6xl mx-auto mb-24 px-4">
+		<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+			{[
+				{ id: 'my-projects', title: 'My Projects', description: 'Open source tools and applications I build' },
+				{ id: 'open-source', title: 'Open Source', description: 'Tooling and community-driven engineering' },
+				{ id: 'insights', title: 'Technical Insights', description: 'Writing on systems design, infrastructure leadership, and AI workloads' }
+			].map((item) => (
+				<a href={`#${item.id}`} class="group card p-5 flex items-start gap-3">
+					<span class="h-10 w-10 rounded-md bg-[var(--color-accent-bg)] text-accent flex items-center justify-center font-bold group-hover:bg-[var(--color-accent)] group-hover:text-white transition-colors">→</span>
+					<div>
+						<h3 class="font-semibold text-foreground mb-1 group-hover:text-accent transition-colors">{item.title}</h3>
+						<p class="body-sm text-muted leading-snug">{item.description}</p>
+					</div>
+				</a>
+			))}
+		</div>
+	</section>
 
-
-        <!-- Key Stats Grid -->
-        <section class="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 mb-24 border-b border-gray-100 pb-12 px-4">
-                {stats.map(stat => (
-                        <div>
-                                <div class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-2">{stat.value}</div>
-                                <div class="text-sm font-medium text-gray-500 uppercase tracking-wider">{stat.label}</div>
-                        </div>
-                ))}
-                <div>
-                        <div class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-2">4+</div>
-                        <div class="text-sm font-medium text-gray-500 uppercase tracking-wider">Major Clouds</div>
-                </div>
-        </section>
-
-        <!-- How I Work With Teams -->
-        <section class="max-w-6xl mx-auto mb-24">
-                <h2 class="text-3xl font-bold text-gray-900 mb-4">How I Work With Teams</h2>
-                <p class="text-gray-700 mb-6 max-w-3xl">
-                        I partner with engineering organizations as a senior IC, architect, or advisor to untangle complex infrastructure problems and build durable systems and teams.
-                </p>
-                <ul class="list-disc list-inside space-y-2 text-gray-700">
-                        <li>Principal / Staff+ infrastructure and platform roles</li>
-                        <li>Architecture and strategy advisory for multi-region, networking, and AI workloads</li>
-                        <li>Speaking, workshops, and internal education for engineering teams</li>
-                </ul>
-        </section>
-
-        <!-- My Projects (Pinned Repos) -->
-        <section id="strategic" class="max-w-6xl mx-auto mb-24">
-                <div class="flex justify-between items-end mb-12">
-                        <div>
-                                <h2 class="text-3xl font-bold text-gray-900 mb-2">My Projects</h2>
-				<p class="text-gray-700">Open source tools and applications I build and maintain.</p>
+	<!-- Key Stats Grid -->
+	<section class="max-w-6xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-8 mb-24 border-b border-[var(--border-default)] pb-12 px-4">
+		{stats.map(stat => (
+			<div>
+				<div class="text-4xl md:text-5xl font-bold text-foreground mb-2 tabular-nums">{stat.value}</div>
+				<div class="label">{stat.label}</div>
 			</div>
-			<a href={`https://github.com/${SITE_CONFIG.githubUsername}?tab=repositories`} class="hidden md:inline-flex items-center text-blue-600 font-medium hover:underline" target="_blank" rel="noopener noreferrer">
+		))}
+		<div>
+			<div class="text-4xl md:text-5xl font-bold text-foreground mb-2 tabular-nums">4+</div>
+			<div class="label">Major Clouds</div>
+		</div>
+	</section>
+
+	<!-- How I Work With Teams -->
+	<section class="max-w-6xl mx-auto mb-24 px-4">
+		<h2 class="heading-lg text-foreground mb-4">How I Work With Teams</h2>
+		<p class="body-md text-secondary mb-6 max-w-3xl">
+			I partner with engineering organizations as a senior IC, architect, or advisor to untangle complex infrastructure problems and build durable systems and teams.
+		</p>
+		<ul class="space-y-2 text-secondary">
+			{[
+				"Principal / Staff+ infrastructure and platform roles",
+				"Architecture and strategy advisory for multi-region, networking, and AI workloads",
+				"Speaking, workshops, and internal education for engineering teams"
+			].map(item => (
+				<li class="flex items-start">
+					<span class="mr-3 text-accent mt-1">●</span>
+					<span class="body-md">{item}</span>
+				</li>
+			))}
+		</ul>
+	</section>
+
+	<!-- My Projects (Pinned Repos) -->
+	<section id="my-projects" class="max-w-6xl mx-auto mb-24 px-4">
+		<div class="flex justify-between items-end mb-12">
+			<div>
+				<h2 class="heading-lg text-foreground mb-2">My Projects</h2>
+				<p class="body-md text-muted">Open source tools and applications I build and maintain.</p>
+			</div>
+			<a href={`https://github.com/${SITE_CONFIG.githubUsername}?tab=repositories`} class="hidden md:inline-flex items-center link body-sm" target="_blank" rel="noopener noreferrer">
 				View all on GitHub &rarr;
 			</a>
 		</div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10">
-                        {pinnedRepos.map((repo) => (
-                                <a href={repo.html_url} class="group block h-full" target="_blank" rel="noopener noreferrer">
-                                        <article class="bg-white border border-gray-100 rounded-2xl overflow-hidden h-full hover:shadow-xl transition-all duration-300 flex flex-col relative">
-						<div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-600 to-indigo-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
-						<div class="p-8 flex-1 flex flex-col">
-							<div class="flex items-center justify-between mb-4">
-								<span class="text-xs font-bold tracking-wider text-blue-600 uppercase bg-blue-50 px-2 py-1 rounded">
-									{repo.full_name.split('/')[0]}
-								</span>
-								{repo.language && (
-									<span class="text-xs font-medium text-gray-500">
-										{repo.language}
-									</span>
-								)}
-							</div>
+		<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+			{pinnedRepos.map((repo) => (
+				<a href={repo.html_url} class="group card p-6 flex flex-col h-full" target="_blank" rel="noopener noreferrer">
+					<div class="flex items-center justify-between mb-4">
+						<span class="badge badge-accent">
+							{repo.full_name.split('/')[0]}
+						</span>
+						{repo.language && (
+							<span class="body-sm text-muted mono">{repo.language}</span>
+						)}
+					</div>
 
-							<h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors">
-								{repo.name}
-							</h3>
+					<h3 class="heading-sm text-foreground mb-3 group-hover:text-accent transition-colors">
+						{repo.name}
+					</h3>
 
-							<p class="text-gray-700 text-sm mb-6 flex-1 leading-relaxed">
-								{repo.description || 'No description available'}
-							</p>
+					<p class="body-sm text-secondary mb-6 flex-1 leading-relaxed">
+						{repo.description || 'No description available'}
+					</p>
 
-							<div class="flex flex-wrap gap-2 mt-auto">
-								<span class="text-xs text-gray-500 bg-gray-50 px-2 py-1 rounded border border-gray-100 flex items-center gap-1">
-									<svg class="w-3 h-3" fill="currentColor" viewBox="0 0 16 16"><path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.751.751 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"/></svg>
-									{repo.stargazers_count}
-								</span>
-								{repo.topics?.slice(0, 3).map(topic => (
-									<span class="text-xs text-gray-500 bg-gray-50 px-2 py-1 rounded border border-gray-100">
-										{topic}
-									</span>
-								))}
-							</div>
-						</div>
-					</article>
+					<div class="flex flex-wrap gap-2 mt-auto">
+						<span class="tag flex items-center gap-1">
+							<StarIcon />
+							<span class="tabular-nums">{repo.stargazers_count}</span>
+						</span>
+						{repo.topics?.slice(0, 3).map(topic => (
+							<span class="tag">{topic}</span>
+						))}
+					</div>
 				</a>
 			))}
 		</div>
+
 		<div class="mt-8 md:hidden">
-			<a href={`https://github.com/${SITE_CONFIG.githubUsername}?tab=repositories`} class="text-blue-600 font-medium hover:underline" target="_blank" rel="noopener noreferrer">View all on GitHub &rarr;</a>
+			<a href={`https://github.com/${SITE_CONFIG.githubUsername}?tab=repositories`} class="link body-sm" target="_blank" rel="noopener noreferrer">
+				View all on GitHub &rarr;
+			</a>
 		</div>
 	</section>
 
 	<!-- Open Source & Tooling -->
-        <section id="open-source" class="max-w-6xl mx-auto mb-24">
+	<section id="open-source" class="max-w-6xl mx-auto mb-24 px-4">
 		<div class="flex justify-between items-end mb-8">
 			<div>
-				<h2 class="text-2xl font-bold text-gray-900 mb-2">Open Source & Tooling</h2>
-				<p class="text-gray-700">Technical innovations and community contributions.</p>
+				<h2 class="heading-md text-foreground mb-2">Open Source & Tooling</h2>
+				<p class="body-md text-muted">Technical innovations and community contributions.</p>
 			</div>
-			<a href={`${base}/projects`} class="hidden md:inline-flex items-center text-blue-600 font-medium hover:underline">
+			<a href={withBasePath('/projects')} class="hidden md:inline-flex items-center link body-sm">
 				View all projects &rarr;
 			</a>
 		</div>
 
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-y-10 md:gap-8">
-                        {openSourceProjects.map((project) => (
-                                <a href={`${base}/projects/${project.id}`} class="group block h-full">
-                                        <article class="bg-white border border-gray-100 rounded-xl overflow-hidden h-full hover:shadow-md transition-all duration-300 flex flex-col">
-						<div class="p-6 flex-1 flex flex-col">
-							<div class="flex items-center justify-between mb-3">
-								<span class="text-xs font-bold tracking-wider text-emerald-600 uppercase bg-emerald-50 px-2 py-1 rounded">
-									Open Source
-								</span>
-							</div>
-							
-							<h3 class="text-lg font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
-								{project.data.title}
-							</h3>
-							
-							<p class="text-gray-700 text-sm mb-4 flex-1 leading-relaxed line-clamp-3">
-								{project.data.description}
-							</p>
+		<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+			{openSourceProjects.map((project) => (
+				<a href={`${base}/projects/${project.id}`} class="group card p-6 flex flex-col h-full">
+					<div class="flex items-center justify-between mb-3">
+						<span class="badge badge-open-source">Open Source</span>
+					</div>
 
-							<div class="flex flex-wrap gap-2 mt-auto">
-								{project.data.primaryTech.slice(0, 3).map(tech => (
-									<span class="text-xs text-gray-500 bg-gray-50 px-2 py-1 rounded border border-gray-100">
-										{tech}
-									</span>
-								))}
-							</div>
-						</div>
-					</article>
+					<h3 class="heading-sm text-foreground mb-2 group-hover:text-accent transition-colors">
+						{project.data.title}
+					</h3>
+
+					<p class="body-sm text-secondary mb-4 flex-1 leading-relaxed line-clamp-3">
+						{project.data.description}
+					</p>
+
+					<div class="flex flex-wrap gap-2 mt-auto">
+						{project.data.primaryTech.slice(0, 3).map(tech => (
+							<span class="tag">{tech}</span>
+						))}
+					</div>
 				</a>
 			))}
 		</div>
-		
+
 		<div class="mt-8 md:hidden">
-			<a href={`${base}/projects`} class="text-blue-600 font-medium hover:underline">View all projects &rarr;</a>
+			<a href={withBasePath('/projects')} class="link body-sm">View all projects &rarr;</a>
 		</div>
 	</section>
 
 	<!-- Latest Writing -->
-        <section id="insights" class="max-w-4xl mx-auto border-t border-gray-100 pt-20">
-                <div class="flex justify-between items-baseline mb-12">
-                        <h2 class="text-3xl font-bold text-gray-900">Technical Insights</h2>
-                        <a href={`${base}/blog`} class="text-blue-600 font-medium hover:underline">Read all articles &rarr;</a>
-                </div>
+	<section id="insights" class="max-w-4xl mx-auto border-t border-[var(--border-default)] pt-20 px-4">
+		<div class="flex justify-between items-baseline mb-12">
+			<h2 class="heading-lg text-foreground">Technical Insights</h2>
+			<a href={withBasePath('/blog')} class="link body-sm">Read all articles &rarr;</a>
+		</div>
 
-                <p class="text-gray-700 mb-10">Selected essays on systems design, infrastructure leadership, and AI workloads.</p>
+		<p class="body-md text-muted mb-10">Selected essays on systems design, infrastructure leadership, and AI workloads.</p>
 
-                <div class="space-y-10">
+		<div class="space-y-10">
 			{latestPosts.map((post) => (
 				<article class="group relative">
 					<div class="flex flex-col md:flex-row md:items-baseline md:justify-between mb-2">
-						<h3 class="text-xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors">
+						<h3 class="heading-sm text-foreground group-hover:text-accent transition-colors">
 							<a href={`${base}/blog/${post.id}`}>
 								<span class="absolute inset-0"></span>
 								{post.data.title}
 							</a>
 						</h3>
-						<time datetime={post.data.publishDate.toISOString()} class="text-sm text-gray-500 shrink-0 md:ml-4">
-							{post.data.publishDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+						<time datetime={post.data.publishDate.toISOString()} class="body-sm text-muted shrink-0 md:ml-4 tabular-nums">
+							{formatDate(post.data.publishDate)}
 						</time>
 					</div>
-					<p class="text-gray-700 mb-3 max-w-2xl">
+					<p class="body-md text-secondary mb-3 max-w-2xl">
 						{post.data.description}
 					</p>
 					<div class="flex gap-2 relative z-10">
 						{post.data.tags.map(tag => (
-							<span class="text-xs text-gray-400 font-medium">#{tag}</span>
+							<span class="body-sm text-faint">#{tag}</span>
 						))}
 					</div>
-                                </article>
-                        ))}
-                </div>
-        </section>
+				</article>
+			))}
+		</div>
+	</section>
 
-        <!-- Work With Me CTA -->
-        <section class="bg-gray-50 mt-24">
-                <div class="max-w-3xl mx-auto px-4 py-12 md:py-16 text-center">
-                        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Interested in working together?</h2>
-                        <p class="text-lg text-gray-700 mb-8 leading-relaxed">
-                                Whether you're hiring, need an advisor, or want to connect—let's talk.
-                        </p>
-                        <a
-                                href={`${base}/contact`}
-                                class="inline-flex h-12 items-center justify-center px-8 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition-all shadow-lg hover:shadow-blue-200 transform hover:-translate-y-0.5 gap-2"
-                        >
-                                Contact Me
-                                <span class="ml-2">→</span>
-                        </a>
-                </div>
-        </section>
+	<!-- Work With Me CTA -->
+	<section class="bg-[var(--color-bg)] mt-24">
+		<div class="max-w-3xl mx-auto px-4 py-12 md:py-16 text-center">
+			<h2 class="heading-lg text-foreground mb-4">Interested in working together?</h2>
+			<p class="body-lg text-secondary mb-8 leading-relaxed">
+				Whether you're hiring, need an advisor, or want to connect—let's talk.
+			</p>
+			<a href={withBasePath('/contact')} class="btn btn-accent">
+				Contact Me
+				<span class="ml-1">→</span>
+			</a>
+		</div>
+	</section>
 
 </PageLayout>
