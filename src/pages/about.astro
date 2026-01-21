@@ -1,16 +1,160 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
 import { SITE_CONFIG } from '../config';
+import PhilosophyCard from '../components/PhilosophyCard.astro';
+import FocusAreaCard from '../components/FocusAreaCard.astro';
 
-const skills = [
-	"Cloud Architecture (AWS, OCI)",
-	"Infrastructure as Code (Terraform, Ansible)",
-	"Container Orchestration (Kubernetes, EKS, ECS)",
-	"CI/CD (Jenkins, GitLab, Spinnaker)",
-	"Virtualization (KVM, VMware, OpenStack)",
-	"Observability (Prometheus, Grafana, ELK)",
-	"Technical Leadership & Mentorship",
-	"Multi-Region Networking"
+// Leadership principles
+const leadershipPrinciples = [
+	{
+		title: "Lead by Example",
+		description: "Player-coach who tackles complex problems alongside the team. 40% of my time stays hands-on with code and design reviews.",
+		icon: "⚡"
+	},
+	{
+		title: "Small Teams, Big Impact",
+		description: "4-6 person pods maximize velocity and ownership. Tight feedback loops beat large committees.",
+		icon: "🎯"
+	},
+	{
+		title: "Mentorship as Multiplier",
+		description: "Helping others level up compounds into organizational gains. I measure success by team capability growth.",
+		icon: "📈"
+	},
+	{
+		title: "High-Trust, Inclusive Culture",
+		description: "Psychological safety enables high performance. Diverse perspectives make better systems.",
+		icon: "🤝"
+	},
+	{
+		title: "Cross-Functional Connector",
+		description: "Bridging engineering with product, design, and data science. Shared context creates alignment.",
+		icon: "🔗"
+	}
+];
+
+// Strategic approach cards
+const strategicApproach = [
+	{
+		title: "Aligning Tech with Business",
+		description: "Translate strategy into executable plans, communicate technical realities back to leadership.",
+		icon: "📊"
+	},
+	{
+		title: "Looking Around Corners",
+		description: "Anticipate scaling challenges before they're urgent. Proactive architecture over reactive firefighting.",
+		icon: "🔭"
+	},
+	{
+		title: "Influence Without Authority",
+		description: "Lead through credibility and trust as a senior IC. Build consensus across org boundaries.",
+		icon: "🎪"
+	},
+	{
+		title: "Builder at Heart",
+		description: "Drive change through tangible results, not slide decks. Ship working systems that prove the vision.",
+		icon: "🛠️"
+	}
+];
+
+// Technical focus areas with detailed content
+const focusAreas = [
+	{
+		id: "platform-engineering",
+		title: "Platform Engineering & Developer Experience",
+		summary: "Building internal platforms that treat developers as customers. Self-service infrastructure that accelerates delivery.",
+		details: [
+			"Platform-as-product mindset with clear value propositions",
+			"Golden-path solutions abstracting infrastructure complexity",
+			"Self-service CI/CD, monitoring, and provisioning capabilities",
+			"FinOps integration for cost visibility and optimization"
+		],
+		metrics: "Lead time, onboarding friction, infrastructure costs"
+	},
+	{
+		id: "sre-scalability",
+		title: "Site Reliability Engineering & Scalability",
+		summary: "Designing distributed systems that stay up at scale. From SLOs to chaos engineering.",
+		details: [
+			"Distributed systems and multi-region deployments",
+			"Performance optimization and database scalability",
+			"Observability: dashboards, SLOs, root cause analysis",
+			"Chaos engineering and automated recovery patterns"
+		],
+		metrics: "Availability, latency percentiles, incident recovery time"
+	},
+	{
+		id: "ai-ml-infrastructure",
+		title: "Generative AI & ML Infrastructure",
+		summary: "Pragmatic AI integration with robust observability and governance. Utility over hype.",
+		details: [
+			"ML observability: drift detection, accuracy monitoring",
+			"Governance frameworks for responsible AI deployment",
+			"Scalable training pipelines and model serving",
+			"Cost-effective inference infrastructure"
+		],
+		metrics: "Model performance, deployment velocity, compliance adherence"
+	},
+	{
+		id: "cloud-native-evolution",
+		title: "Cloud-Native Evolution",
+		summary: "Evaluating emerging technologies and driving adoption of what actually works.",
+		details: [
+			"Evaluating emerging CNCF projects for fit",
+			"Serverless, edge computing, and orchestration advances",
+			"Infrastructure-as-code and security automation",
+			"PoC development for promising technologies"
+		],
+		metrics: "Adoption success rate, innovation velocity, technical debt reduction"
+	}
+];
+
+// External engagement sections
+const externalEngagement = {
+	speaking: {
+		title: "Speaking & Thought Leadership",
+		items: [
+			"Conference talks on cloud architecture, SRE, and AI infrastructure",
+			"Technical blog posts and case studies",
+			"Podcast co-host: AI with Friends"
+		]
+	},
+	community: {
+		title: "Community & Open Source",
+		items: [
+			"Contributing to infrastructure tools and frameworks",
+			"Developer evangelism and internal talks shared externally",
+			"Building bridges between practitioners and tooling vendors"
+		]
+	},
+	dei: {
+		title: "DEI Advocacy",
+		items: [
+			"Active mentor at /dev/color",
+			"Building inclusive engineering cultures",
+			"Speaking on inclusive leadership in tech"
+		]
+	}
+};
+
+// Restructured competencies into 4 groups
+const competencyGroups = [
+	{
+		title: "Cloud & Platform",
+		skills: ["Multi-Region Architecture", "AWS / OCI / GCP", "Kubernetes / EKS / ECS", "Terraform / IaC"]
+	},
+	{
+		title: "Networking & Reliability",
+		skills: ["Network Architecture", "VPC Design", "SRE Practices", "Observability Stack"]
+	},
+	{
+		title: "AI & Automation",
+		skills: ["ML Infrastructure", "CI/CD Pipelines", "GenAI Integration", "Cost Optimization"]
+	},
+	{
+		title: "Leadership & Strategy",
+		skills: ["Technical Strategy", "Team Building", "Cross-Functional Leadership", "Mentorship"]
+	}
 ];
 
 const education = [
@@ -29,66 +173,120 @@ const community = [
 	},
 	{
 		role: "Active Mentor",
-		org: "/Dev/Color",
+		org: "/dev/color",
 		desc: "Mentoring and supporting Black engineers and other underrepresented technologists navigating senior-level careers in tech."
 	}
 ];
 ---
 
-<PageLayout title="About | Sekou Doumbouya" description="About Sekou Doumbouya - Senior Staff Cloud Systems Engineer with 20+ years of experience.">
+<PageLayout title="About | Sekou Doumbouya" description={`About ${SITE_CONFIG.name} - ${SITE_CONFIG.title} with 20+ years of experience building resilient cloud platforms.`}>
 	<section class="max-w-4xl mx-auto px-4 py-12">
 		<h1 class="heading-xl text-foreground mb-8">About Me</h1>
 
+		<!-- Introduction -->
 		<div class="prose prose-lg text-secondary mb-16 max-w-none">
 			<p class="mb-6 body-lg leading-relaxed">
-				I am a <strong class="text-foreground">{SITE_CONFIG.title}</strong> and <strong class="text-foreground">Technical Lead</strong> with over <strong class="text-foreground">20 years</strong> of experience architecting scalable, reliable, and cost-effective cloud infrastructure solutions.
+				I'm a <strong class="text-foreground">builder who happens to lead</strong>. With over <strong class="text-foreground">20 years</strong> in infrastructure and platform engineering, I've learned that the best technical leaders stay close to the work—understanding systems deeply enough to make good decisions and mentor others effectively.
 			</p>
 			<p class="mb-6 body-md">
-				Operating at the intersection of software engineering and infrastructure, I build resilient platforms that empower engineering teams to move faster. My expertise spans multi-region networking, disaster recovery, infrastructure-as-code (IaC), and Kubernetes.
+				Currently at <strong class="text-foreground">{SITE_CONFIG.currentCompany}</strong>, I serve as the Directly Responsible Individual (DRI) for Multi-Region and Multi-Account initiatives—architecting systems that enable global scale while keeping costs and complexity in check.
 			</p>
 			<p class="body-md">
-				In strategic leadership roles—including <strong class="text-foreground">Director of Network Operations</strong>—I have demonstrated a track record of defining technical strategy and building high-performing teams. Currently at <strong class="text-foreground">{SITE_CONFIG.currentCompany}</strong>, I serve as the Directly Responsible Individual (DRI) for Multi-Region and Multi-Account initiatives, enabling global scale while optimizing costs and reliability.
+				My approach: design systems that multiply team impact. The platforms I build should make engineers more productive, not just keep infrastructure running. I'm happiest when I'm solving hard problems alongside a team, then watching them take those solutions further than I imagined.
 			</p>
 		</div>
 
+		<!-- How I Lead (Expanded) -->
 		<div class="mb-16">
-			<h2 class="heading-md text-foreground mb-4">How I Lead</h2>
-			<p class="body-md text-secondary mb-4">
-				I try to leave teams more infrastructure-literate than I found them. That means pairing architectural work with clear documentation, internal workshops, and mentorship so engineers can operate complex systems with confidence instead of fear.
+			<h2 class="heading-lg text-foreground mb-6">How I Lead</h2>
+			<p class="body-md text-secondary mb-8 max-w-3xl">
+				Leadership at the principal level means setting direction while staying hands-on. I believe in leaving teams more capable than I found them.
 			</p>
-			<ul class="space-y-3 text-secondary">
-				<li class="flex items-start">
-					<span class="mr-3 text-accent mt-1">●</span>
-					<span class="body-md">Translating infrastructure strategy into language product, security, and data teams can act on</span>
-				</li>
-				<li class="flex items-start">
-					<span class="mr-3 text-accent mt-1">●</span>
-					<span class="body-md">Raising the floor of infra literacy through talks, office hours, and pairing</span>
-				</li>
-				<li class="flex items-start">
-					<span class="mr-3 text-accent mt-1">●</span>
-					<span class="body-md">Creating psychologically safe teams where engineers from underrepresented backgrounds can do their best work</span>
-				</li>
-			</ul>
+			<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+				{leadershipPrinciples.map(principle => (
+					<PhilosophyCard title={principle.title} description={principle.description} icon={principle.icon} />
+				))}
+			</div>
 		</div>
 
-		<p class="body-md text-secondary mb-16">
-			Recently my focus has been on scaling Kubernetes for AI workloads, designing multi-region architectures at {SITE_CONFIG.currentCompany}, and building safer AI tooling— including an AI Bridge MCP server and an AWS Security Group Mapper that help engineers reason about infrastructure more clearly.
-		</p>
-
-		<div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16">
-			<div>
-				<h2 class="heading-md text-foreground mb-6">Core Competencies</h2>
-				<ul class="space-y-3">
-					{skills.map(skill => (
-						<li class="flex items-center space-x-3 text-secondary">
-							<span class="w-2 h-2 bg-[var(--color-accent)] rounded-full shrink-0"></span>
-							<span class="body-md">{skill}</span>
-						</li>
-					))}
-				</ul>
+		<!-- Strategic Approach (NEW) -->
+		<div class="mb-16">
+			<h2 class="heading-lg text-foreground mb-6">Strategic Approach</h2>
+			<p class="body-md text-secondary mb-8 max-w-3xl">
+				Principal engineers influence through expertise and trust, not organizational authority. These principles guide how I drive technical direction.
+			</p>
+			<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+				{strategicApproach.map(item => (
+					<PhilosophyCard title={item.title} description={item.description} icon={item.icon} />
+				))}
 			</div>
+		</div>
 
+		<!-- Technical Focus Areas (NEW) -->
+		<div id="technical-focus-areas" class="mb-16 scroll-mt-8">
+			<h2 class="heading-lg text-foreground mb-6">Technical Focus Areas</h2>
+			<p class="body-md text-secondary mb-8 max-w-3xl">
+				Where I invest my engineering energy. These four domains represent the intersection of my expertise and current interests.
+			</p>
+			<div class="grid grid-cols-1 gap-6">
+				{focusAreas.map(area => (
+					<div id={area.id} class="scroll-mt-8">
+						<FocusAreaCard
+							title={area.title}
+							summary={area.summary}
+							details={area.details}
+							metrics={area.metrics}
+						/>
+					</div>
+				))}
+			</div>
+		</div>
+
+		<!-- External Engagement (NEW) -->
+		<div id="external-engagement" class="mb-16 scroll-mt-8">
+			<h2 class="heading-lg text-foreground mb-6">External Engagement</h2>
+			<p class="body-md text-secondary mb-8 max-w-3xl">
+				Building community beyond the day job. I believe senior engineers have a responsibility to share knowledge and lift others.
+			</p>
+			<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+				{Object.values(externalEngagement).map(section => (
+					<div class="card p-6">
+						<h3 class="heading-sm text-foreground mb-4">{section.title}</h3>
+						<ul class="space-y-3">
+							{section.items.map(item => (
+								<li class="flex items-start text-secondary">
+									<span class="mr-2 text-accent mt-1 text-xs">●</span>
+									<span class="body-sm">{item}</span>
+								</li>
+							))}
+						</ul>
+					</div>
+				))}
+			</div>
+		</div>
+
+		<!-- Core Competencies (Restructured) -->
+		<div class="mb-16">
+			<h2 class="heading-lg text-foreground mb-6">Core Competencies</h2>
+			<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+				{competencyGroups.map(group => (
+					<div class="card p-6">
+						<h3 class="heading-sm text-foreground mb-4">{group.title}</h3>
+						<ul class="space-y-2">
+							{group.skills.map(skill => (
+								<li class="flex items-center space-x-3 text-secondary">
+									<span class="w-2 h-2 bg-[var(--color-accent)] rounded-full shrink-0"></span>
+									<span class="body-md">{skill}</span>
+								</li>
+							))}
+						</ul>
+					</div>
+				))}
+			</div>
+		</div>
+
+		<!-- Education & Development -->
+		<div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16">
 			<div>
 				<h2 class="heading-md text-foreground mb-6">Education & Development</h2>
 				<div class="space-y-6">
@@ -106,6 +304,7 @@ const community = [
 			</div>
 		</div>
 
+		<!-- Community & Awards -->
 		<div class="border-t border-[var(--border-default)] pt-12">
 			<h2 class="heading-md text-foreground mb-8">Community & Awards</h2>
 			<div class="grid grid-cols-1 md:grid-cols-2 gap-6">

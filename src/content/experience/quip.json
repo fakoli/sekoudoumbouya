@@ -1,0 +1,33 @@
+{
+    "company": "Quip (Salesforce)",
+    "role": "Site Reliability Engineer → Technical Lead, Data Platform",
+    "level": "Senior → Staff",
+    "location": "San Francisco, CA",
+    "startDate": "2019-04-01",
+    "endDate": "2021-06-01",
+    "description": "Progressed from SRE to Technical Lead, driving infrastructure automation, application migrations, and reliability improvements for the Data Platform.",
+    "achievements": [
+        "Automated AWS infrastructure using Terraform and Ansible, significantly improving operational efficiency.",
+        "Migrated legacy applications to AWS ECS, reducing operational costs by 20%.",
+        "Improved system reliability, increasing overall uptime by 15%.",
+        "Developed real-time clickstream analytics pipeline using AWS Kinesis, Lambda, and Athena.",
+        "Supported major Data Engineering initiatives to facilitate robust multi-account environments."
+    ],
+    "skills": [
+        "AWS ECS",
+        "AWS Kinesis",
+        "Lambda",
+        "Athena",
+        "Terraform",
+        "Ansible",
+        "SRE",
+        "Data Engineering"
+    ],
+    "domainTags": [
+        "Infrastructure Automation",
+        "Containerization",
+        "Data Platform",
+        "SRE",
+        "Observability"
+    ]
+}

@@ -20,15 +20,10 @@ const { title, description = "Senior Cloud & Infrastructure Leader Portfolio", i
         <head>
                 <SEOHead title={title} description={description} image={image} type={type} publishDate={publishDate} />
                 <JSONLD type={type} title={title} description={description} />
+                <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
+                <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,600,700&f[]=general-sans@400,500,600&display=swap" rel="stylesheet" />
                 <link rel="preconnect" href="https://fonts.cdnfonts.com" crossorigin />
-                <link
-                        href="https://fonts.cdnfonts.com/css/geist-sans"
-                        rel="stylesheet"
-                />
-                <link
-                        href="https://fonts.cdnfonts.com/css/geist-mono"
-                        rel="stylesheet"
-                />
+                <link href="https://fonts.cdnfonts.com/css/geist-mono" rel="stylesheet" />
         </head>
         <body class="antialiased">
                 <slot />
