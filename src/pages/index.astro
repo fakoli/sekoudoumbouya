@@ -6,14 +6,9 @@ import { getBasePath, withBasePath } from '../utils/paths';
 import { formatDate } from '../utils/dates';
 import { fetchGitHubRepos } from '../utils/github';
 import StarIcon from '../components/icons/StarIcon.astro';
+import PhilosophyCard from '../components/PhilosophyCard.astro';
 
 const base = getBasePath();
-
-// Fetch Open Source Projects
-const projects = await getCollection('projects');
-const openSourceProjects = projects
-	.filter(p => p.data.category === 'open-source')
-	.sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf());
 
 // Fetch Latest Blog Posts
 const posts = await getCollection('blog', ({ data }) => {
@@ -93,17 +88,58 @@ const pinnedRepos = repoData.every(repo => repo === null)
 		return repo || (fallbackRepos[index] || null);
 	}).filter(Boolean);
 
+// Updated stats with impact-focused metrics
 const stats = [
-	{ label: "Years Experience", value: "20+" },
-	{ label: "Cloud Spend Managed", value: "$10M+" },
-	{ label: "Engineers Mentored", value: "20+" },
+	{ label: "Years Building at Scale", value: "20+" },
+	{ label: "Infrastructure Costs Eliminated", value: "$10M+" },
+	{ label: "Engineers Developed to Senior+", value: "20+" },
+	{ label: "Regions Architected", value: "4+" },
+];
+
+// Leadership philosophy cards
+const philosophyCards = [
+	{
+		title: "Player-Coach Leadership",
+		description: "I lead by solving hard problems alongside the team. 40% of my time stays in code and design reviews.",
+		icon: "⚡"
+	},
+	{
+		title: "Platform as Product",
+		description: "Internal platforms should treat developers as customers. I build golden-path solutions that reduce cognitive load.",
+		icon: "🎯"
+	},
+	{
+		title: "Strategic Translation",
+		description: "I bridge engineering and business — ensuring technical decisions align with company goals.",
+		icon: "🔗"
+	},
+	{
+		title: "Knowledge Multiplication",
+		description: "My success metric: teams more capable after working with me.",
+		icon: "📈"
+	}
+];
+
+// Technical focus areas for preview
+const focusAreas = [
+	{ title: "Platform Engineering", subtitle: "DevEx & Tooling", href: `${base}/about#platform-engineering` },
+	{ title: "SRE & Scalability", subtitle: "Reliability at Scale", href: `${base}/about#sre-scalability` },
+	{ title: "AI/ML Infrastructure", subtitle: "Observability & Governance", href: `${base}/about#ai-ml-infrastructure` },
+	{ title: "Cloud-Native Evolution", subtitle: "State of the Art", href: `${base}/about#cloud-native-evolution` }
+];
+
+// External engagement items
+const externalEngagement = [
+	{ title: "AI with Friends", role: "Podcast Co-host", desc: "Weekly conversations on AI, engineering, and tech culture" },
+	{ title: "/dev/color", role: "Active Mentor", desc: "Supporting Black engineers navigating senior-level careers" },
+	{ title: "Speaking & Writing", role: "Thought Leadership", desc: "Conference talks and technical posts on cloud architecture" }
 ];
 
 // Generate initials for fallback images
 const initials = SITE_CONFIG.name.split(' ').map(n => n[0]).join('');
 ---
 
-<PageLayout title={`${SITE_CONFIG.name} | ${SITE_CONFIG.title}`} description={`Portfolio of ${SITE_CONFIG.name}, a ${SITE_CONFIG.title} specializing in multi-region architecture, networking, and platform engineering.`}>
+<PageLayout title={`${SITE_CONFIG.name} | ${SITE_CONFIG.title}`} description={SITE_CONFIG.description}>
 
 	<!-- Hero Section -->
 	<section class="py-12 md:py-24 relative overflow-hidden">
@@ -137,32 +173,32 @@ const initials = SITE_CONFIG.name.split(' ').map(n => n[0]).join('');
 					{SITE_CONFIG.availableForHire && (
 						<span class="status-available">
 							<span class="status-dot"></span>
-							Available for Senior Staff / Principal Roles
+							Available for Principal Roles
 						</span>
 					)}
 				</div>
 
 				<h1 class="text-4xl md:text-6xl font-bold text-foreground tracking-tight mb-8 leading-tight">
-					Architecting Resilient Cloud Infrastructure <br class="hidden md:block" />
-					<span class="text-accent">at Global Scale.</span>
+					Where architecture <br class="hidden md:block" />
+					<span class="text-accent">meets execution.</span>
 				</h1>
 
-				<p class="body-lg text-secondary mb-10 max-w-2xl leading-relaxed">
-					I am a <strong class="text-foreground">{SITE_CONFIG.title}</strong> and <strong class="text-foreground">Technical Lead</strong>. I architect multi-region distributed systems for large-scale applications and AI workloads, optimize cloud economics, and build high-performing engineering teams.
+				<p class="body-lg text-secondary mb-6 max-w-2xl leading-relaxed">
+					Principal-level infrastructure leader with <strong class="text-foreground">20+ years</strong> building resilient, cost-efficient cloud platforms. I operate at the intersection of hands-on engineering and strategic architecture — designing systems that scale and developing the engineers who run them.
 				</p>
 
-				<div class="flex flex-wrap gap-4">
-					<a href={withBasePath('/experience')} class="btn btn-primary">
+				<p class="body-md text-muted mb-10 max-w-2xl border-l-2 border-[var(--color-accent)] pl-4 italic">
+					TL;DR: I'm best leveraged as a player-coach in organizations navigating multi-region architecture, platform engineering, or AI infrastructure at scale.
+				</p>
+
+				<div class="flex flex-col sm:flex-row gap-3 sm:gap-4">
+					<a href={withBasePath('/experience')} class="btn btn-primary w-full sm:w-auto">
 						View Experience
 					</a>
-					<a href={withBasePath('/projects')} class="btn btn-secondary">
+					<a href={withBasePath('/projects')} class="btn btn-secondary w-full sm:w-auto">
 						See Case Studies
 					</a>
 				</div>
-
-				<p class="body-sm text-muted mt-6">
-					TL;DR: I'm best leveraged in 100+ engineer organizations navigating multi-region, multi-account, or AI infrastructure transformations.
-				</p>
 			</div>
 
 			<!-- Desktop-only: Large decorative headshot -->
@@ -182,11 +218,11 @@ const initials = SITE_CONFIG.name.split(' ').map(n => n[0]).join('');
 	<section class="max-w-6xl mx-auto mb-24 px-4">
 		<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
 			{[
-				{ id: 'my-projects', title: 'My Projects', description: 'Open source tools and applications I build' },
-				{ id: 'open-source', title: 'Open Source', description: 'Tooling and community-driven engineering' },
-				{ id: 'insights', title: 'Technical Insights', description: 'Writing on systems design, infrastructure leadership, and AI workloads' }
+				{ href: '#my-projects', title: 'Featured Projects', description: 'Open source tools and applications I build' },
+				{ href: withBasePath('/experience'), title: 'Career Timeline', description: '20+ years building cloud infrastructure at scale' },
+				{ href: '#insights', title: 'Technical Insights', description: 'Writing on systems design, infrastructure leadership, and AI workloads' }
 			].map((item) => (
-				<a href={`#${item.id}`} class="group card p-5 flex items-start gap-3">
+				<a href={item.href} class="group card p-5 flex items-start gap-3">
 					<span class="h-10 w-10 rounded-md bg-[var(--color-accent-bg)] text-accent flex items-center justify-center font-bold group-hover:bg-[var(--color-accent)] group-hover:text-white transition-colors">→</span>
 					<div>
 						<h3 class="font-semibold text-foreground mb-1 group-hover:text-accent transition-colors">{item.title}</h3>
@@ -205,30 +241,77 @@ const initials = SITE_CONFIG.name.split(' ').map(n => n[0]).join('');
 				<div class="label">{stat.label}</div>
 			</div>
 		))}
-		<div>
-			<div class="text-4xl md:text-5xl font-bold text-foreground mb-2 tabular-nums">4+</div>
-			<div class="label">Major Clouds</div>
+	</section>
+
+	<!-- How I Work With Teams (Expanded with Philosophy Cards) -->
+	<section class="max-w-6xl mx-auto mb-24 px-4">
+		<h2 class="heading-lg text-foreground mb-4">How I Work With Teams</h2>
+		<p class="body-md text-secondary mb-8 max-w-3xl">
+			I partner with engineering organizations as a senior IC, architect, or advisor to untangle complex infrastructure problems and build durable systems and teams.
+		</p>
+
+		<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+			{philosophyCards.map(card => (
+				<PhilosophyCard title={card.title} description={card.description} icon={card.icon} />
+			))}
 		</div>
 	</section>
 
-	<!-- How I Work With Teams -->
-	<section class="max-w-6xl mx-auto mb-24 px-4">
-		<h2 class="heading-lg text-foreground mb-4">How I Work With Teams</h2>
-		<p class="body-md text-secondary mb-6 max-w-3xl">
-			I partner with engineering organizations as a senior IC, architect, or advisor to untangle complex infrastructure problems and build durable systems and teams.
-		</p>
-		<ul class="space-y-2 text-secondary">
-			{[
-				"Principal / Staff+ infrastructure and platform roles",
-				"Architecture and strategy advisory for multi-region, networking, and AI workloads",
-				"Speaking, workshops, and internal education for engineering teams"
-			].map(item => (
-				<li class="flex items-start">
-					<span class="mr-3 text-accent mt-1">●</span>
-					<span class="body-md">{item}</span>
-				</li>
+	<!-- Technical Focus Areas Preview -->
+	<section id="focus-areas" class="max-w-6xl mx-auto mb-24 px-4">
+		<div class="flex justify-between items-end mb-8">
+			<div>
+				<h2 class="heading-lg text-foreground mb-2">Technical Focus Areas</h2>
+				<p class="body-md text-muted">Where I invest my engineering energy.</p>
+			</div>
+			<a href={`${base}/about#technical-focus-areas`} class="hidden md:inline-flex items-center link body-sm">
+				View details &rarr;
+			</a>
+		</div>
+
+		<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+			{focusAreas.map(area => (
+				<a href={area.href} class="group card p-5 text-center">
+					<h3 class="heading-sm text-foreground mb-1 group-hover:text-accent transition-colors">{area.title}</h3>
+					<p class="body-sm text-muted">{area.subtitle}</p>
+				</a>
 			))}
-		</ul>
+		</div>
+
+		<div class="mt-6 md:hidden">
+			<a href={`${base}/about#technical-focus-areas`} class="link body-sm">
+				View details &rarr;
+			</a>
+		</div>
+	</section>
+
+	<!-- External Engagement Preview -->
+	<section id="external-engagement" class="max-w-6xl mx-auto mb-24 px-4">
+		<div class="flex justify-between items-end mb-8">
+			<div>
+				<h2 class="heading-lg text-foreground mb-2">External Engagement</h2>
+				<p class="body-md text-muted">Thought leadership and community.</p>
+			</div>
+			<a href={`${base}/about#external-engagement`} class="hidden md:inline-flex items-center link body-sm">
+				Learn more &rarr;
+			</a>
+		</div>
+
+		<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+			{externalEngagement.map(item => (
+				<div class="card p-5">
+					<div class="badge badge-accent text-xs mb-3">{item.role}</div>
+					<h3 class="heading-sm text-foreground mb-2">{item.title}</h3>
+					<p class="body-sm text-secondary">{item.desc}</p>
+				</div>
+			))}
+		</div>
+
+		<div class="mt-6 md:hidden">
+			<a href={`${base}/about#external-engagement`} class="link body-sm">
+				Learn more &rarr;
+			</a>
+		</div>
 	</section>
 
 	<!-- My Projects (Pinned Repos) -->
@@ -280,47 +363,6 @@ const initials = SITE_CONFIG.name.split(' ').map(n => n[0]).join('');
 			<a href={`https://github.com/${SITE_CONFIG.githubUsername}?tab=repositories`} class="link body-sm" target="_blank" rel="noopener noreferrer">
 				View all on GitHub &rarr;
 			</a>
-		</div>
-	</section>
-
-	<!-- Open Source & Tooling -->
-	<section id="open-source" class="max-w-6xl mx-auto mb-24 px-4">
-		<div class="flex justify-between items-end mb-8">
-			<div>
-				<h2 class="heading-md text-foreground mb-2">Open Source & Tooling</h2>
-				<p class="body-md text-muted">Technical innovations and community contributions.</p>
-			</div>
-			<a href={withBasePath('/projects')} class="hidden md:inline-flex items-center link body-sm">
-				View all projects &rarr;
-			</a>
-		</div>
-
-		<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-			{openSourceProjects.map((project) => (
-				<a href={`${base}/projects/${project.id}`} class="group card p-6 flex flex-col h-full">
-					<div class="flex items-center justify-between mb-3">
-						<span class="badge badge-open-source">Open Source</span>
-					</div>
-
-					<h3 class="heading-sm text-foreground mb-2 group-hover:text-accent transition-colors">
-						{project.data.title}
-					</h3>
-
-					<p class="body-sm text-secondary mb-4 flex-1 leading-relaxed line-clamp-3">
-						{project.data.description}
-					</p>
-
-					<div class="flex flex-wrap gap-2 mt-auto">
-						{project.data.primaryTech.slice(0, 3).map(tech => (
-							<span class="tag">{tech}</span>
-						))}
-					</div>
-				</a>
-			))}
-		</div>
-
-		<div class="mt-8 md:hidden">
-			<a href={withBasePath('/projects')} class="link body-sm">View all projects &rarr;</a>
 		</div>
 	</section>
 

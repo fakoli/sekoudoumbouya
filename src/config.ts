@@ -5,9 +5,9 @@
 export const SITE_CONFIG = {
 	// Personal Information
 	name: "Sekou Doumbouya",
-	title: "Senior Staff Cloud Systems Engineer",
+	title: "Principal Infrastructure Engineer",
 	email: "sdoumbouya81@gmail.com",
-	description: "Senior Staff Cloud Systems Engineer specializing in multi-region architecture, networking, and platform engineering.",
+	description: "Principal-level infrastructure leader specializing in platform engineering, multi-region architecture, and building high-leverage systems that multiply team impact.",
 
 	// Social Profiles
 	githubUsername: "fakoli",
@@ -15,7 +15,7 @@ export const SITE_CONFIG = {
 
 	// Current Employment
 	currentCompany: "Pinterest",
-	currentRole: "Senior Staff Cloud Systems Engineer",
+	currentRole: "Principal Infrastructure Engineer",
 
 	// Feature Flags
 	availableForHire: false,

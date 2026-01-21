@@ -7,8 +7,9 @@
 
 @layer base {
 	:root {
-		/* Typography - Geist for technical precision */
-		font-family: 'Geist', system-ui, -apple-system, 'Segoe UI', sans-serif;
+		/* Typography - General Sans for body, Satoshi for headlines */
+		font-family: 'General Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+		--font-headline: 'Satoshi', system-ui, sans-serif;
 
 		/* Color Foundation - Cool Slate */
 		--color-bg: #fafbfc;
@@ -75,10 +76,16 @@
 		background-color: var(--color-bg);
 		color: var(--color-foreground);
 		line-height: 1.6;
+		/* Subtle grid pattern for depth */
+		background-image:
+			linear-gradient(to right, rgba(15, 23, 42, 0.02) 1px, transparent 1px),
+			linear-gradient(to bottom, rgba(15, 23, 42, 0.02) 1px, transparent 1px);
+		background-size: 24px 24px;
 	}
 
 	/* Typography Scale */
 	h1, h2, h3, h4, h5, h6 {
+		font-family: var(--font-headline);
 		font-weight: 600;
 		letter-spacing: -0.02em;
 		line-height: 1.25;
@@ -109,12 +116,13 @@
 		background: var(--color-surface);
 		border: 0.5px solid var(--border-default);
 		border-radius: var(--radius-lg);
-		transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+		transition: transform 200ms ease, box-shadow 200ms ease, border-color var(--transition-fast);
 	}
 
 	.card:hover {
+		transform: translateY(-2px);
 		border-color: var(--border-strong);
-		box-shadow: var(--shadow-sm);
+		box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
 	}
 
 	.card-award {
@@ -289,33 +297,56 @@
 	.border-subtle { border-color: var(--border-subtle); }
 	.border-strong { border-color: var(--border-strong); }
 
-	/* Typography */
+	/* Typography - Headlines use Satoshi */
 	.heading-xl {
-		font-size: 48px;
+		font-family: var(--font-headline);
+		font-size: 32px;
 		font-weight: 700;
 		letter-spacing: -0.03em;
 		line-height: 1.1;
 	}
 
 	.heading-lg {
-		font-size: 32px;
+		font-family: var(--font-headline);
+		font-size: 26px;
 		font-weight: 600;
 		letter-spacing: -0.02em;
 		line-height: 1.2;
 	}
 
 	.heading-md {
-		font-size: 24px;
+		font-family: var(--font-headline);
+		font-size: 20px;
 		font-weight: 600;
 		letter-spacing: -0.02em;
 		line-height: 1.25;
 	}
 
 	.heading-sm {
-		font-size: 18px;
+		font-family: var(--font-headline);
+		font-size: 16px;
 		font-weight: 600;
 		letter-spacing: -0.01em;
 		line-height: 1.3;
+	}
+
+	/* Responsive typography scale */
+	@media (min-width: 768px) {
+		.heading-xl {
+			font-size: 48px;
+		}
+
+		.heading-lg {
+			font-size: 32px;
+		}
+
+		.heading-md {
+			font-size: 24px;
+		}
+
+		.heading-sm {
+			font-size: 18px;
+		}
 	}
 
 	.body-lg {
@@ -353,4 +384,14 @@
 	.gap-4 { gap: var(--space-4); }
 	.gap-6 { gap: var(--space-6); }
 	.gap-8 { gap: var(--space-8); }
+
+	/* Mobile touch target improvements */
+	@media (max-width: 767px) {
+		.btn-primary,
+		.btn-secondary,
+		.btn-accent {
+			min-height: 44px;
+			padding: 12px 20px;
+		}
+	}
 }
