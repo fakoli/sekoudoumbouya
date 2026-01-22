@@ -110,4 +110,8 @@ This site includes a `public/llms.txt` file, specifically designed to help AI mo
 
 ## 📄 License
 
-All rights reserved. Content and design by Sekou Doumbouya.
+This project is licensed under the [MIT License](LICENSE).
+
+## 🤝 Contributing
+
+Contributions are welcome! Please read our [Contributing Guide](CONTRIBUTING.md) for details on how to get started.
