@@ -25,3 +25,7 @@ pnpm-debug.log*
 
 # claude code
 .claude/
+
+# Auto-generated CLAUDE.md files (keep root CLAUDE.md tracked)
+**/CLAUDE.md
+!/CLAUDE.md
