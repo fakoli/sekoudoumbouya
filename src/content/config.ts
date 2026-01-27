@@ -3,7 +3,7 @@ import { glob } from 'astro/loaders';
 
 // 1. BLOG COLLECTION
 const blog = defineCollection({
-    loader: glob({ pattern: '**/*.{md,mdx}', base: "./src/content/blog" }),
+    loader: glob({ pattern: ['**/*.{md,mdx}', '!**/CLAUDE.md'], base: "./src/content/blog" }),
     schema: z.object({
         title: z.string(),
         publishDate: z.coerce.date(),
@@ -17,7 +17,7 @@ const blog = defineCollection({
 
 // 2. PROJECTS COLLECTION
 const projects = defineCollection({
-    loader: glob({ pattern: '**/*.{md,mdx}', base: "./src/content/projects" }),
+    loader: glob({ pattern: ['**/*.{md,mdx}', '!**/CLAUDE.md'], base: "./src/content/projects" }),
     schema: z.object({
         title: z.string(),
         slug: z.string().optional(), // Optional because filename can be slug
@@ -47,6 +47,10 @@ const projects = defineCollection({
 
         // Media
         heroImage: z.string().optional(),
+
+        // Auto-generation metadata
+        generated: z.boolean().default(false),
+        generatedAt: z.coerce.date().optional(),
     }),
 });
 

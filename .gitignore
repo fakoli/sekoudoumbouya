@@ -25,3 +25,10 @@ pnpm-debug.log*
 
 # claude code
 .claude/
+
+# CLAUDE.md files in subdirectories (keep only root CLAUDE.md)
+*/CLAUDE.md
+**/*/CLAUDE.md
+
+# custom prompts (user-specific)
+scripts/prompts-custom/
