@@ -69,113 +69,14 @@ export function hasExistingCaseStudy(
 }
 
 /**
- * Format frontmatter value for YAML output
- */
-function formatValue(value: unknown, indent = 0): string {
-  const spaces = '  '.repeat(indent);
-
-  if (value === null || value === undefined) {
-    return 'null';
-  }
-
-  if (typeof value === 'boolean') {
-    return value ? 'true' : 'false';
-  }
-
-  if (typeof value === 'number') {
-    return String(value);
-  }
-
-  if (typeof value === 'string') {
-    // Check if string needs quoting
-    if (
-      value.includes(':') ||
-      value.includes('#') ||
-      value.includes('\n') ||
-      value.startsWith('"') ||
-      value.startsWith("'") ||
-      value === ''
-    ) {
-      return `"${value.replace(/"/g, '\\"')}"`;
-    }
-    return value;
-  }
-
-  if (Array.isArray(value)) {
-    if (value.length === 0) {
-      return '[]';
-    }
-    return '\n' + value.map(v => `${spaces}  - ${formatValue(v, 0)}`).join('\n');
-  }
-
-  return String(value);
-}
-
-/**
- * Serialize frontmatter to YAML format
- */
-function serializeFrontmatter(frontmatter: Record<string, unknown>): string {
-  const lines: string[] = [];
-
-  // Define field order for consistency
-  const fieldOrder = [
-    'title',
-    'slug',
-    'publishDate',
-    'organization',
-    'role',
-    'description',
-    'category',
-    'impactSummary',
-    'scale',
-    'primaryTech',
-    'tags',
-    'duration',
-    'featured',
-    'repository',
-    'generated',
-    'generatedAt',
-  ];
-
-  // Output fields in order
-  for (const key of fieldOrder) {
-    if (key in frontmatter) {
-      const value = frontmatter[key];
-      const formatted = formatValue(value);
-
-      if (formatted.startsWith('\n')) {
-        lines.push(`${key}:${formatted}`);
-      } else {
-        lines.push(`${key}: ${formatted}`);
-      }
-    }
-  }
-
-  // Output any remaining fields not in the order list
-  for (const [key, value] of Object.entries(frontmatter)) {
-    if (!fieldOrder.includes(key)) {
-      const formatted = formatValue(value);
-      if (formatted.startsWith('\n')) {
-        lines.push(`${key}:${formatted}`);
-      } else {
-        lines.push(`${key}: ${formatted}`);
-      }
-    }
-  }
-
-  return lines.join('\n');
-}
-
-/**
  * Write a generated case study to an MDX file
+ * Uses gray-matter stringify for consistent YAML formatting
  */
 export async function writeCaseStudy(
   caseStudy: GeneratedCaseStudy,
   outputPath: string
 ): Promise<void> {
-  const yaml = serializeFrontmatter(caseStudy.frontmatter);
-  const mdx = `---\n${yaml}\n---\n\n${caseStudy.content}\n`;
-
+  const mdx = matter.stringify(caseStudy.content, caseStudy.frontmatter);
   writeFileSync(outputPath, mdx, 'utf-8');
 }
 

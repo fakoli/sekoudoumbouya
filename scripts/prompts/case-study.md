@@ -39,6 +39,8 @@ Generate frontmatter with these exact fields:
 - `impactSummary`: 2-3 sentences describing the high-level impact
 - `scale`: Array of 2-4 scale indicators (e.g., "Multi-tenant", "Production-grade")
 - `primaryTech`: Array of 3-6 key technologies used
+- `contributions`: Array of 4-6 key technical contributions (action verb phrases, e.g., "Designed modular plugin architecture")
+- `outcomes`: Array of 2-4 measurable results or impact statements (e.g., "Reduced deployment time by 60%")
 - `tags`: Array of 3-5 relevant tags
 - `duration`: Time range (e.g., "2024-Present")
 - `featured`: true if stars > 50 or particularly notable, otherwise false

@@ -202,6 +202,8 @@ export async function generateCaseStudy(
     impactSummary: String(parsedFm.impactSummary || ''),
     scale: Array.isArray(parsedFm.scale) ? parsedFm.scale.map(String) : [],
     primaryTech: Array.isArray(parsedFm.primaryTech) ? parsedFm.primaryTech.map(String) : [],
+    contributions: Array.isArray(parsedFm.contributions) ? parsedFm.contributions.map(String) : [],
+    outcomes: Array.isArray(parsedFm.outcomes) ? parsedFm.outcomes.map(String) : [],
     tags: Array.isArray(parsedFm.tags) ? parsedFm.tags.map(String) : [],
     duration: String(parsedFm.duration || `${repo.created_at.split('T')[0].slice(0, 4)}-Present`),
     featured: Boolean(parsedFm.featured),
