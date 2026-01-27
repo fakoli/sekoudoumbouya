@@ -1,0 +1,113 @@
+---
+/**
+ * Mobile navigation menu component
+ */
+import { SOCIAL_LINKS, NAV_LINKS, RESUME_PATH } from '../../config';
+import { withBasePath, isActivePath } from '../../utils/paths';
+import LinkedInIcon from '../icons/LinkedInIcon.astro';
+import GitHubIcon from '../icons/GitHubIcon.astro';
+import MenuIcon from '../icons/MenuIcon.astro';
+import CloseIcon from '../icons/CloseIcon.astro';
+
+interface Props {
+	currentPath: string;
+}
+
+const { currentPath } = Astro.props;
+const resumeHref = withBasePath(RESUME_PATH);
+---
+
+<button
+	type="button"
+	class="inline-flex h-10 w-10 items-center justify-center rounded-md border border-[var(--border-default)] text-muted transition-colors hover:bg-[var(--color-bg)] hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] md:hidden"
+	aria-controls="mobile-menu"
+	aria-expanded="false"
+	data-mobile-toggle
+>
+	<span class="sr-only">Toggle menu</span>
+	<span data-icon-open><MenuIcon /></span>
+	<span class="hidden" data-icon-close><CloseIcon /></span>
+</button>
+
+<div id="mobile-menu" class="hidden md:hidden border-t border-[var(--border-default)] bg-[var(--color-surface)] absolute left-0 right-0 top-full" aria-label="Mobile navigation">
+	<div class="container mx-auto px-4 py-4 space-y-1">
+		{NAV_LINKS.map((link) => (
+			<a
+				href={withBasePath(link.href)}
+				class={`block rounded-md px-3 py-3 text-base font-medium transition-colors ${
+					isActivePath(currentPath, withBasePath(link.href))
+						? 'bg-[var(--color-bg)] text-foreground'
+						: 'text-secondary hover:bg-[var(--color-bg)] hover:text-foreground'
+				}`}
+				data-mobile-link
+			>
+				{link.label}
+			</a>
+		))}
+		<a
+			href={resumeHref}
+			target="_blank"
+			rel="noopener noreferrer"
+			class="block rounded-md border border-[var(--border-strong)] bg-[var(--color-bg)] px-3 py-3 text-base font-medium text-foreground transition-colors hover:bg-[var(--color-foreground)] hover:text-[var(--color-surface)]"
+			data-mobile-link
+		>
+			Resume
+		</a>
+		<div class="flex items-center gap-4 pt-4">
+			<a
+				href={SOCIAL_LINKS.linkedin}
+				target="_blank"
+				rel="noopener noreferrer"
+				class="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[var(--border-default)] text-muted transition-colors hover:bg-[var(--color-bg)] hover:text-[#0077b5]"
+				aria-label="LinkedIn profile"
+				data-mobile-link
+			>
+				<LinkedInIcon />
+			</a>
+			<a
+				href={SOCIAL_LINKS.github}
+				target="_blank"
+				rel="noopener noreferrer"
+				class="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[var(--border-default)] text-muted transition-colors hover:bg-[var(--color-bg)] hover:text-foreground"
+				aria-label="GitHub profile"
+				data-mobile-link
+			>
+				<GitHubIcon />
+			</a>
+		</div>
+	</div>
+</div>
+
+<script>
+	const menuButton = document.querySelector('[data-mobile-toggle]');
+	const mobileMenu = document.getElementById('mobile-menu');
+
+	const closeMenu = () => {
+		if (!menuButton || !mobileMenu) return;
+		menuButton.setAttribute('aria-expanded', 'false');
+		menuButton.querySelector('[data-icon-open]')?.classList.remove('hidden');
+		menuButton.querySelector('[data-icon-close]')?.classList.add('hidden');
+		mobileMenu.classList.add('hidden');
+	};
+
+	const openMenu = () => {
+		if (!menuButton || !mobileMenu) return;
+		menuButton.setAttribute('aria-expanded', 'true');
+		menuButton.querySelector('[data-icon-open]')?.classList.add('hidden');
+		menuButton.querySelector('[data-icon-close]')?.classList.remove('hidden');
+		mobileMenu.classList.remove('hidden');
+	};
+
+	menuButton?.addEventListener('click', () => {
+		const isOpen = menuButton.getAttribute('aria-expanded') === 'true';
+		if (isOpen) {
+			closeMenu();
+		} else {
+			openMenu();
+		}
+	});
+
+	mobileMenu?.querySelectorAll('[data-mobile-link]').forEach((link) => {
+		link.addEventListener('click', closeMenu);
+	});
+</script>

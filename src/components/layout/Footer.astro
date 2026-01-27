@@ -1,0 +1,14 @@
+---
+/**
+ * Site footer component
+ */
+import { SITE_CONFIG, SOCIAL_LINKS } from '../../config';
+---
+
+<footer class="border-t border-[var(--border-default)] mt-12">
+	<div class="container mx-auto px-4 py-8 text-center text-muted text-sm">
+		&copy; {new Date().getFullYear()} {SITE_CONFIG.name}. All rights reserved.
+		<span class="mx-2">·</span>
+		<a href={SOCIAL_LINKS.email} class="link">{SITE_CONFIG.email}</a>
+	</div>
+</footer>
