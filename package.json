@@ -4,7 +4,7 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "astro dev",
-    "build": "npm run generate:case-studies && astro build",
+    "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
     "generate:case-studies": "tsx scripts/generate-case-studies.ts",
