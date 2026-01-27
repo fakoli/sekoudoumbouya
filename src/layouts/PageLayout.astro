@@ -1,11 +1,13 @@
 ---
+/**
+ * Main page layout with navigation and footer
+ */
 import BaseLayout from './BaseLayout.astro';
-import { SITE_CONFIG, SOCIAL_LINKS, NAV_LINKS, RESUME_PATH } from '../config';
-import { getBasePath, normalizePath, withBasePath } from '../utils/paths';
-import LinkedInIcon from '../components/icons/LinkedInIcon.astro';
-import GitHubIcon from '../components/icons/GitHubIcon.astro';
-import MenuIcon from '../components/icons/MenuIcon.astro';
-import CloseIcon from '../components/icons/CloseIcon.astro';
+import Navigation from '../components/layout/Navigation.astro';
+import MobileMenu from '../components/layout/MobileMenu.astro';
+import Footer from '../components/layout/Footer.astro';
+import { SITE_CONFIG } from '../config';
+import { getBasePath, normalizePath } from '../utils/paths';
 
 interface Props {
 	title: string;
@@ -15,176 +17,24 @@ interface Props {
 const { title, description } = Astro.props;
 const base = getBasePath();
 const currentPath = normalizePath(Astro.url.pathname);
-const resumeHref = withBasePath(RESUME_PATH);
-
-const isActive = (href: string) => {
-	const normalizedHref = normalizePath(href);
-	return currentPath === normalizedHref || currentPath.startsWith(`${normalizedHref}/`);
-};
 ---
 
 <BaseLayout title={title} description={description}>
-	<header class="border-b border-[var(--border-default)] sticky top-0 z-50 bg-[var(--color-surface)]/95 backdrop-blur supports-[backdrop-filter]:bg-[var(--color-surface)]/80">
+	<header class="border-b border-[var(--border-default)] sticky top-0 z-50 bg-[var(--color-surface)]/95 backdrop-blur supports-[backdrop-filter]:bg-[var(--color-surface)]/80 relative">
 		<nav class="container mx-auto px-4 py-4 flex items-center justify-between">
 			<a href={`${base}/`} class="text-lg font-semibold text-foreground tracking-tight hover:text-accent transition-colors">
 				{SITE_CONFIG.name}
 			</a>
 
-			<div class="flex items-center gap-4">
-				<div class="hidden md:flex items-center gap-6">
-					{NAV_LINKS.map((link) => (
-						<a
-							href={withBasePath(link.href)}
-							class={`text-sm font-medium transition-colors ${
-								isActive(withBasePath(link.href))
-									? 'text-foreground'
-									: 'text-muted hover:text-foreground'
-							}`}
-						>
-							{link.label}
-							{isActive(withBasePath(link.href)) && (
-								<span class="block h-0.5 bg-[var(--color-accent)] mt-1 rounded-full"></span>
-							)}
-						</a>
-					))}
-					<a
-						href={resumeHref}
-						target="_blank"
-						rel="noopener noreferrer"
-						class="btn btn-secondary text-sm"
-					>
-						Resume
-					</a>
-				</div>
-
-				<div class="hidden md:flex items-center gap-3 pl-4 border-l border-[var(--border-default)]">
-					<a
-						href={SOCIAL_LINKS.linkedin}
-						target="_blank"
-						rel="noopener noreferrer"
-						class="text-muted hover:text-[#0077b5] transition-colors p-1"
-						aria-label="LinkedIn profile"
-					>
-						<LinkedInIcon />
-					</a>
-					<a
-						href={SOCIAL_LINKS.github}
-						target="_blank"
-						rel="noopener noreferrer"
-						class="text-muted hover:text-foreground transition-colors p-1"
-						aria-label="GitHub profile"
-					>
-						<GitHubIcon />
-					</a>
-				</div>
-
-				<button
-					type="button"
-					class="inline-flex h-10 w-10 items-center justify-center rounded-md border border-[var(--border-default)] text-muted transition-colors hover:bg-[var(--color-bg)] hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] md:hidden"
-					aria-controls="mobile-menu"
-					aria-expanded="false"
-					data-mobile-toggle
-				>
-					<span class="sr-only">Toggle menu</span>
-					<span data-icon-open><MenuIcon /></span>
-					<span class="hidden" data-icon-close><CloseIcon /></span>
-				</button>
-			</div>
+			<Navigation currentPath={currentPath}>
+				<MobileMenu currentPath={currentPath} />
+			</Navigation>
 		</nav>
-
-		<div id="mobile-menu" class="hidden md:hidden border-t border-[var(--border-default)] bg-[var(--color-surface)]" aria-label="Mobile navigation">
-			<div class="container mx-auto px-4 py-4 space-y-1">
-				{NAV_LINKS.map((link) => (
-					<a
-						href={withBasePath(link.href)}
-						class={`block rounded-md px-3 py-3 text-base font-medium transition-colors ${
-							isActive(withBasePath(link.href))
-								? 'bg-[var(--color-bg)] text-foreground'
-								: 'text-secondary hover:bg-[var(--color-bg)] hover:text-foreground'
-						}`}
-						data-mobile-link
-					>
-						{link.label}
-					</a>
-				))}
-				<a
-					href={resumeHref}
-					target="_blank"
-					rel="noopener noreferrer"
-					class="block rounded-md border border-[var(--border-strong)] bg-[var(--color-bg)] px-3 py-3 text-base font-medium text-foreground transition-colors hover:bg-[var(--color-foreground)] hover:text-[var(--color-surface)]"
-					data-mobile-link
-				>
-					Resume
-				</a>
-				<div class="flex items-center gap-4 pt-4">
-					<a
-						href={SOCIAL_LINKS.linkedin}
-						target="_blank"
-						rel="noopener noreferrer"
-						class="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[var(--border-default)] text-muted transition-colors hover:bg-[var(--color-bg)] hover:text-[#0077b5]"
-						aria-label="LinkedIn profile"
-						data-mobile-link
-					>
-						<LinkedInIcon />
-					</a>
-					<a
-						href={SOCIAL_LINKS.github}
-						target="_blank"
-						rel="noopener noreferrer"
-						class="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[var(--border-default)] text-muted transition-colors hover:bg-[var(--color-bg)] hover:text-foreground"
-						aria-label="GitHub profile"
-						data-mobile-link
-					>
-						<GitHubIcon />
-					</a>
-				</div>
-			</div>
-		</div>
 	</header>
 
 	<main class="container mx-auto px-4 py-8 min-h-[60vh]">
 		<slot />
 	</main>
 
-	<footer class="border-t border-[var(--border-default)] mt-12">
-		<div class="container mx-auto px-4 py-8 text-center text-muted text-sm">
-			&copy; {new Date().getFullYear()} {SITE_CONFIG.name}. All rights reserved.
-			<span class="mx-2">·</span>
-			<a href={SOCIAL_LINKS.email} class="link">{SITE_CONFIG.email}</a>
-		</div>
-	</footer>
+	<Footer />
 </BaseLayout>
-
-<script>
-	const menuButton = document.querySelector('[data-mobile-toggle]');
-	const mobileMenu = document.getElementById('mobile-menu');
-
-	const closeMenu = () => {
-		if (!menuButton || !mobileMenu) return;
-		menuButton.setAttribute('aria-expanded', 'false');
-		menuButton.querySelector('[data-icon-open]')?.classList.remove('hidden');
-		menuButton.querySelector('[data-icon-close]')?.classList.add('hidden');
-		mobileMenu.classList.add('hidden');
-	};
-
-	const openMenu = () => {
-		if (!menuButton || !mobileMenu) return;
-		menuButton.setAttribute('aria-expanded', 'true');
-		menuButton.querySelector('[data-icon-open]')?.classList.add('hidden');
-		menuButton.querySelector('[data-icon-close]')?.classList.remove('hidden');
-		mobileMenu.classList.remove('hidden');
-	};
-
-	menuButton?.addEventListener('click', () => {
-		const isOpen = menuButton.getAttribute('aria-expanded') === 'true';
-		if (isOpen) {
-			closeMenu();
-		} else {
-			openMenu();
-		}
-	});
-
-	mobileMenu?.querySelectorAll('[data-mobile-link]').forEach((link) => {
-		link.addEventListener('click', closeMenu);
-	});
-</script>

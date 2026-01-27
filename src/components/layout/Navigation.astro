@@ -1,0 +1,68 @@
+---
+/**
+ * Desktop navigation component
+ */
+import { SITE_CONFIG, SOCIAL_LINKS, NAV_LINKS, RESUME_PATH } from '../../config';
+import { getBasePath, withBasePath, isActivePath } from '../../utils/paths';
+import LinkedInIcon from '../icons/LinkedInIcon.astro';
+import GitHubIcon from '../icons/GitHubIcon.astro';
+
+interface Props {
+	currentPath: string;
+}
+
+const { currentPath } = Astro.props;
+const base = getBasePath();
+const resumeHref = withBasePath(RESUME_PATH);
+---
+
+<div class="flex items-center gap-4">
+	<div class="hidden md:flex items-center gap-6">
+		{NAV_LINKS.map((link) => (
+			<a
+				href={withBasePath(link.href)}
+				class={`text-sm font-medium transition-colors ${
+					isActivePath(currentPath, withBasePath(link.href))
+						? 'text-foreground'
+						: 'text-muted hover:text-foreground'
+				}`}
+			>
+				{link.label}
+				{isActivePath(currentPath, withBasePath(link.href)) && (
+					<span class="block h-0.5 bg-[var(--color-accent)] mt-1 rounded-full"></span>
+				)}
+			</a>
+		))}
+		<a
+			href={resumeHref}
+			target="_blank"
+			rel="noopener noreferrer"
+			class="btn btn-secondary text-sm"
+		>
+			Resume
+		</a>
+	</div>
+
+	<div class="hidden md:flex items-center gap-3 pl-4 border-l border-[var(--border-default)]">
+		<a
+			href={SOCIAL_LINKS.linkedin}
+			target="_blank"
+			rel="noopener noreferrer"
+			class="text-muted hover:text-[#0077b5] transition-colors p-1"
+			aria-label="LinkedIn profile"
+		>
+			<LinkedInIcon />
+		</a>
+		<a
+			href={SOCIAL_LINKS.github}
+			target="_blank"
+			rel="noopener noreferrer"
+			class="text-muted hover:text-foreground transition-colors p-1"
+			aria-label="GitHub profile"
+		>
+			<GitHubIcon />
+		</a>
+	</div>
+
+	<slot />
+</div>

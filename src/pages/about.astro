@@ -4,179 +4,16 @@ import { SITE_CONFIG } from '../config';
 import PhilosophyCard from '../components/PhilosophyCard.astro';
 import FocusAreaCard from '../components/FocusAreaCard.astro';
 
-// Leadership principles
-const leadershipPrinciples = [
-	{
-		title: "Lead by Example",
-		description: "Player-coach who tackles complex problems alongside the team. 40% of my time stays hands-on with code and design reviews.",
-		icon: "⚡"
-	},
-	{
-		title: "Small Teams, Big Impact",
-		description: "4-6 person pods maximize velocity and ownership. Tight feedback loops beat large committees.",
-		icon: "🎯"
-	},
-	{
-		title: "Mentorship as Multiplier",
-		description: "Helping others level up compounds into organizational gains. I measure success by team capability growth.",
-		icon: "📈"
-	},
-	{
-		title: "High-Trust, Inclusive Culture",
-		description: "Psychological safety enables high performance. Diverse perspectives make better systems.",
-		icon: "🤝"
-	},
-	{
-		title: "Cross-Functional Connector",
-		description: "Bridging engineering with product, design, and data science. Shared context creates alignment.",
-		icon: "🔗"
-	}
-];
-
-// Strategic approach cards
-const strategicApproach = [
-	{
-		title: "Aligning Tech with Business",
-		description: "Translate strategy into executable plans, communicate technical realities back to leadership.",
-		icon: "📊"
-	},
-	{
-		title: "Looking Around Corners",
-		description: "Anticipate scaling challenges before they're urgent. Proactive architecture over reactive firefighting.",
-		icon: "🔭"
-	},
-	{
-		title: "Influence Without Authority",
-		description: "Lead through credibility and trust as a senior IC. Build consensus across org boundaries.",
-		icon: "🎪"
-	},
-	{
-		title: "Builder at Heart",
-		description: "Drive change through tangible results, not slide decks. Ship working systems that prove the vision.",
-		icon: "🛠️"
-	}
-];
-
-// Technical focus areas with detailed content
-const focusAreas = [
-	{
-		id: "platform-engineering",
-		title: "Platform Engineering & Developer Experience",
-		summary: "Building internal platforms that treat developers as customers. Self-service infrastructure that accelerates delivery.",
-		details: [
-			"Platform-as-product mindset with clear value propositions",
-			"Golden-path solutions abstracting infrastructure complexity",
-			"Self-service CI/CD, monitoring, and provisioning capabilities",
-			"FinOps integration for cost visibility and optimization"
-		],
-		metrics: "Lead time, onboarding friction, infrastructure costs"
-	},
-	{
-		id: "sre-scalability",
-		title: "Site Reliability Engineering & Scalability",
-		summary: "Designing distributed systems that stay up at scale. From SLOs to chaos engineering.",
-		details: [
-			"Distributed systems and multi-region deployments",
-			"Performance optimization and database scalability",
-			"Observability: dashboards, SLOs, root cause analysis",
-			"Chaos engineering and automated recovery patterns"
-		],
-		metrics: "Availability, latency percentiles, incident recovery time"
-	},
-	{
-		id: "ai-ml-infrastructure",
-		title: "Generative AI & ML Infrastructure",
-		summary: "Pragmatic AI integration with robust observability and governance. Utility over hype.",
-		details: [
-			"ML observability: drift detection, accuracy monitoring",
-			"Governance frameworks for responsible AI deployment",
-			"Scalable training pipelines and model serving",
-			"Cost-effective inference infrastructure"
-		],
-		metrics: "Model performance, deployment velocity, compliance adherence"
-	},
-	{
-		id: "cloud-native-evolution",
-		title: "Cloud-Native Evolution",
-		summary: "Evaluating emerging technologies and driving adoption of what actually works.",
-		details: [
-			"Evaluating emerging CNCF projects for fit",
-			"Serverless, edge computing, and orchestration advances",
-			"Infrastructure-as-code and security automation",
-			"PoC development for promising technologies"
-		],
-		metrics: "Adoption success rate, innovation velocity, technical debt reduction"
-	}
-];
-
-// External engagement sections
-const externalEngagement = {
-	speaking: {
-		title: "Speaking & Thought Leadership",
-		items: [
-			"Conference talks on cloud architecture, SRE, and AI infrastructure",
-			"Technical blog posts and case studies",
-			"Podcast co-host: AI with Friends"
-		]
-	},
-	community: {
-		title: "Community & Open Source",
-		items: [
-			"Contributing to infrastructure tools and frameworks",
-			"Developer evangelism and internal talks shared externally",
-			"Building bridges between practitioners and tooling vendors"
-		]
-	},
-	dei: {
-		title: "DEI Advocacy",
-		items: [
-			"Active mentor at /dev/color",
-			"Building inclusive engineering cultures",
-			"Speaking on inclusive leadership in tech"
-		]
-	}
-};
-
-// Restructured competencies into 4 groups
-const competencyGroups = [
-	{
-		title: "Cloud & Platform",
-		skills: ["Multi-Region Architecture", "AWS / OCI / GCP", "Kubernetes / EKS / ECS", "Terraform / IaC"]
-	},
-	{
-		title: "Networking & Reliability",
-		skills: ["Network Architecture", "VPC Design", "SRE Practices", "Observability Stack"]
-	},
-	{
-		title: "AI & Automation",
-		skills: ["ML Infrastructure", "CI/CD Pipelines", "GenAI Integration", "Cost Optimization"]
-	},
-	{
-		title: "Leadership & Strategy",
-		skills: ["Technical Strategy", "Team Building", "Cross-Functional Leadership", "Mentorship"]
-	}
-];
-
-const education = [
-	{
-		school: "Penn State University",
-		location: "Schuylkill Haven, PA",
-		years: "1999–2002"
-	}
-];
-
-const community = [
-	{
-		role: "Co-host",
-		org: "AI with Friends",
-		desc: "Weekly podcast breaking down complex technology topics through candid conversations."
-	},
-	{
-		role: "Active Mentor",
-		org: "/dev/color",
-		desc: "Mentoring and supporting Black engineers and other underrepresented technologists navigating senior-level careers in tech."
-	}
-];
+// Data imports
+import {
+	LEADERSHIP_PRINCIPLES,
+	STRATEGIC_APPROACH,
+	FOCUS_AREAS,
+	EXTERNAL_ENGAGEMENT,
+	COMPETENCY_GROUPS,
+	EDUCATION,
+	COMMUNITY,
+} from '../data/about';
 ---
 
 <PageLayout title="About | Sekou Doumbouya" description={`About ${SITE_CONFIG.name} - ${SITE_CONFIG.title} with 20+ years of experience building resilient cloud platforms.`}>
@@ -203,33 +40,33 @@ const community = [
 				Leadership at the principal level means setting direction while staying hands-on. I believe in leaving teams more capable than I found them.
 			</p>
 			<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-				{leadershipPrinciples.map(principle => (
+				{LEADERSHIP_PRINCIPLES.map(principle => (
 					<PhilosophyCard title={principle.title} description={principle.description} icon={principle.icon} />
 				))}
 			</div>
 		</div>
 
-		<!-- Strategic Approach (NEW) -->
+		<!-- Strategic Approach -->
 		<div class="mb-16">
 			<h2 class="heading-lg text-foreground mb-6">Strategic Approach</h2>
 			<p class="body-md text-secondary mb-8 max-w-3xl">
 				Principal engineers influence through expertise and trust, not organizational authority. These principles guide how I drive technical direction.
 			</p>
 			<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-				{strategicApproach.map(item => (
+				{STRATEGIC_APPROACH.map(item => (
 					<PhilosophyCard title={item.title} description={item.description} icon={item.icon} />
 				))}
 			</div>
 		</div>
 
-		<!-- Technical Focus Areas (NEW) -->
+		<!-- Technical Focus Areas -->
 		<div id="technical-focus-areas" class="mb-16 scroll-mt-8">
 			<h2 class="heading-lg text-foreground mb-6">Technical Focus Areas</h2>
 			<p class="body-md text-secondary mb-8 max-w-3xl">
 				Where I invest my engineering energy. These four domains represent the intersection of my expertise and current interests.
 			</p>
 			<div class="grid grid-cols-1 gap-6">
-				{focusAreas.map(area => (
+				{FOCUS_AREAS.map(area => (
 					<div id={area.id} class="scroll-mt-8">
 						<FocusAreaCard
 							title={area.title}
@@ -242,14 +79,14 @@ const community = [
 			</div>
 		</div>
 
-		<!-- External Engagement (NEW) -->
+		<!-- External Engagement -->
 		<div id="external-engagement" class="mb-16 scroll-mt-8">
 			<h2 class="heading-lg text-foreground mb-6">External Engagement</h2>
 			<p class="body-md text-secondary mb-8 max-w-3xl">
 				Building community beyond the day job. I believe senior engineers have a responsibility to share knowledge and lift others.
 			</p>
 			<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-				{Object.values(externalEngagement).map(section => (
+				{Object.values(EXTERNAL_ENGAGEMENT).map(section => (
 					<div class="card p-6">
 						<h3 class="heading-sm text-foreground mb-4">{section.title}</h3>
 						<ul class="space-y-3">
@@ -265,11 +102,11 @@ const community = [
 			</div>
 		</div>
 
-		<!-- Core Competencies (Restructured) -->
+		<!-- Core Competencies -->
 		<div class="mb-16">
 			<h2 class="heading-lg text-foreground mb-6">Core Competencies</h2>
 			<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-				{competencyGroups.map(group => (
+				{COMPETENCY_GROUPS.map(group => (
 					<div class="card p-6">
 						<h3 class="heading-sm text-foreground mb-4">{group.title}</h3>
 						<ul class="space-y-2">
@@ -290,7 +127,7 @@ const community = [
 			<div>
 				<h2 class="heading-md text-foreground mb-6">Education & Development</h2>
 				<div class="space-y-6">
-					{education.map(edu => (
+					{EDUCATION.map(edu => (
 						<div>
 							<h3 class="font-semibold text-foreground">{edu.school}</h3>
 							<p class="body-sm text-muted">{edu.location} · {edu.years}</p>
@@ -308,7 +145,7 @@ const community = [
 		<div class="border-t border-[var(--border-default)] pt-12">
 			<h2 class="heading-md text-foreground mb-8">Community & Awards</h2>
 			<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-				{community.map(item => (
+				{COMMUNITY.map(item => (
 					<div class="card p-6">
 						<h3 class="font-semibold text-foreground mb-1">{item.org}</h3>
 						<div class="badge badge-accent text-xs mb-3">{item.role}</div>

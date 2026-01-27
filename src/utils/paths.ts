@@ -26,3 +26,11 @@ export function withBasePath(path: string): string {
 export function normalizePath(path: string): string {
 	return path.replace(/\/$/, '') || '/';
 }
+
+/**
+ * Checks if a given href matches the current path (for active link detection)
+ */
+export function isActivePath(currentPath: string, href: string): boolean {
+	const normalizedHref = normalizePath(href);
+	return currentPath === normalizedHref || currentPath.startsWith(`${normalizedHref}/`);
+}

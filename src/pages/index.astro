@@ -8,6 +8,10 @@ import { fetchGitHubRepos } from '../utils/github';
 import StarIcon from '../components/icons/StarIcon.astro';
 import PhilosophyCard from '../components/PhilosophyCard.astro';
 
+// Data imports
+import { PINNED_REPO_NAMES, FALLBACK_REPOS, mergeReposWithFallback } from '../data/repos';
+import { STATS, PHILOSOPHY_CARDS, EXTERNAL_ENGAGEMENT, getFocusAreasPreviews, getQuickNavItems } from '../data/homepage';
+
 const base = getBasePath();
 
 // Fetch Latest Blog Posts
@@ -18,132 +22,15 @@ const latestPosts = posts
 	.sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf())
 	.slice(0, 3);
 
-// Pinned GitHub repositories
-const pinnedRepoNames = [
-	"mcp-ai-bridge",
-	"AwsSecurityMapper",
-	"ai-driven-temporal-to-IAC",
-	"xenon-notes",
-	"sekoudoumbouya",
-	"my-ai-study-buddy"
-];
-
-// Fallback data in case API fetch fails
-const fallbackRepos = [
-	{
-		name: "mcp-ai-bridge",
-		full_name: `${SITE_CONFIG.githubUsername}/mcp-ai-bridge`,
-		description: "Secure MCP server integrating Claude Code with OpenAI and Google Gemini APIs. Features multi-layer security, content filtering, and rate limiting.",
-		html_url: `https://github.com/${SITE_CONFIG.githubUsername}/mcp-ai-bridge`,
-		language: "JavaScript",
-		stargazers_count: 4,
-		topics: ["mcp", "ai", "security", "openai", "gemini"]
-	},
-	{
-		name: "AwsSecurityMapper",
-		full_name: `${SITE_CONFIG.githubUsername}/AwsSecurityMapper`,
-		description: "Python tool that visualizes AWS security group relationships with interactive Plotly graphs. Supports multi-region and cross-VPC analysis.",
-		html_url: `https://github.com/${SITE_CONFIG.githubUsername}/AwsSecurityMapper`,
-		language: "Python",
-		stargazers_count: 1,
-		topics: ["aws", "security", "visualization", "networking"]
-	},
-	{
-		name: "ai-driven-temporal-to-IAC",
-		full_name: `${SITE_CONFIG.githubUsername}/ai-driven-temporal-to-IAC`,
-		description: "Temporal-based workflow orchestration for multi-workspace Terraform deployments with dependency resolution and MCP server integration.",
-		html_url: `https://github.com/${SITE_CONFIG.githubUsername}/ai-driven-temporal-to-IAC`,
-		language: "Go",
-		stargazers_count: 2,
-		topics: ["temporal", "terraform", "iac", "workflow"]
-	},
-	{
-		name: "xenon-notes",
-		full_name: `${SITE_CONFIG.githubUsername}/xenon-notes`,
-		description: "AI-powered notetaking app for Apple platforms built with Swift and RealityKit.",
-		html_url: `https://github.com/${SITE_CONFIG.githubUsername}/xenon-notes`,
-		language: "Swift",
-		stargazers_count: 2,
-		topics: ["swift", "ai", "ios", "notes"]
-	},
-	{
-		name: "sekoudoumbouya",
-		full_name: `${SITE_CONFIG.githubUsername}/sekoudoumbouya`,
-		description: "Building bridges between bytes – infrastructure case studies & technical musings.",
-		html_url: `https://github.com/${SITE_CONFIG.githubUsername}/sekoudoumbouya`,
-		language: "Astro",
-		stargazers_count: 1,
-		topics: ["portfolio", "astro", "infrastructure"]
-	},
-	{
-		name: "my-ai-study-buddy",
-		full_name: `${SITE_CONFIG.githubUsername}/my-ai-study-buddy`,
-		description: "AI-powered learning platform for visual learners. Features course authoring, flashcard ratings, progress tracking, code sandboxes, and AI content generation.",
-		html_url: `https://github.com/${SITE_CONFIG.githubUsername}/my-ai-study-buddy`,
-		language: "TypeScript",
-		stargazers_count: 0,
-		topics: ["ai", "education", "typescript", "learning"]
-	}
-];
-
 // Fetch repository data from GitHub API
 const repoData = await fetchGitHubRepos(
-	pinnedRepoNames.map(repo => ({ owner: SITE_CONFIG.githubUsername, repo }))
+	PINNED_REPO_NAMES.map(repo => ({ owner: SITE_CONFIG.githubUsername, repo }))
 );
+const pinnedRepos = mergeReposWithFallback(repoData, FALLBACK_REPOS);
 
-// Use live data from API if available, otherwise fallback to static data
-const pinnedRepos = repoData.every(repo => repo === null)
-	? fallbackRepos
-	: repoData.map((repo, index) => {
-		return repo || (fallbackRepos[index] || null);
-	}).filter(Boolean);
-
-// Updated stats with impact-focused metrics
-const stats = [
-	{ label: "Years Building at Scale", value: "20+" },
-	{ label: "Infrastructure Costs Eliminated", value: "$10M+" },
-	{ label: "Engineers Developed to Senior+", value: "20+" },
-	{ label: "Regions Architected", value: "4+" },
-];
-
-// Leadership philosophy cards
-const philosophyCards = [
-	{
-		title: "Player-Coach Leadership",
-		description: "I lead by solving hard problems alongside the team. 40% of my time stays in code and design reviews.",
-		icon: "⚡"
-	},
-	{
-		title: "Platform as Product",
-		description: "Internal platforms should treat developers as customers. I build golden-path solutions that reduce cognitive load.",
-		icon: "🎯"
-	},
-	{
-		title: "Strategic Translation",
-		description: "I bridge engineering and business — ensuring technical decisions align with company goals.",
-		icon: "🔗"
-	},
-	{
-		title: "Knowledge Multiplication",
-		description: "My success metric: teams more capable after working with me.",
-		icon: "📈"
-	}
-];
-
-// Technical focus areas for preview
-const focusAreas = [
-	{ title: "Platform Engineering", subtitle: "DevEx & Tooling", href: `${base}/about#platform-engineering` },
-	{ title: "SRE & Scalability", subtitle: "Reliability at Scale", href: `${base}/about#sre-scalability` },
-	{ title: "AI/ML Infrastructure", subtitle: "Observability & Governance", href: `${base}/about#ai-ml-infrastructure` },
-	{ title: "Cloud-Native Evolution", subtitle: "State of the Art", href: `${base}/about#cloud-native-evolution` }
-];
-
-// External engagement items
-const externalEngagement = [
-	{ title: "AI with Friends", role: "Podcast Co-host", desc: "Weekly conversations on AI, engineering, and tech culture" },
-	{ title: "/dev/color", role: "Active Mentor", desc: "Supporting Black engineers navigating senior-level careers" },
-	{ title: "Speaking & Writing", role: "Thought Leadership", desc: "Conference talks and technical posts on cloud architecture" }
-];
+// Get dynamic data
+const focusAreas = getFocusAreasPreviews();
+const quickNavItems = getQuickNavItems();
 
 // Generate initials for fallback images
 const initials = SITE_CONFIG.name.split(' ').map(n => n[0]).join('');
@@ -227,11 +114,7 @@ const initials = SITE_CONFIG.name.split(' ').map(n => n[0]).join('');
 	<!-- Quick Navigation -->
 	<section class="max-w-6xl mx-auto mb-24 px-4">
 		<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-			{[
-				{ href: '#my-projects', title: 'Featured Projects', description: 'Open source tools and applications I build' },
-				{ href: withBasePath('/experience'), title: 'Career Timeline', description: '20+ years building cloud infrastructure at scale' },
-				{ href: '#insights', title: 'Technical Insights', description: 'Writing on systems design, infrastructure leadership, and AI workloads' }
-			].map((item) => (
+			{quickNavItems.map((item) => (
 				<a href={item.href} class="group card p-5 flex items-start gap-3">
 					<span class="h-10 w-10 rounded-md bg-[var(--color-accent-bg)] text-accent flex items-center justify-center font-bold group-hover:bg-[var(--color-accent)] group-hover:text-white transition-colors">→</span>
 					<div>
@@ -245,7 +128,7 @@ const initials = SITE_CONFIG.name.split(' ').map(n => n[0]).join('');
 
 	<!-- Key Stats Grid -->
 	<section class="max-w-6xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-8 mb-24 border-b border-[var(--border-default)] pb-12 px-4">
-		{stats.map(stat => (
+		{STATS.map(stat => (
 			<div>
 				<div class="text-4xl md:text-5xl font-bold text-foreground mb-2 tabular-nums">{stat.value}</div>
 				<div class="label">{stat.label}</div>
@@ -261,7 +144,7 @@ const initials = SITE_CONFIG.name.split(' ').map(n => n[0]).join('');
 		</p>
 
 		<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-			{philosophyCards.map(card => (
+			{PHILOSOPHY_CARDS.map(card => (
 				<PhilosophyCard title={card.title} description={card.description} icon={card.icon} />
 			))}
 		</div>
@@ -308,7 +191,7 @@ const initials = SITE_CONFIG.name.split(' ').map(n => n[0]).join('');
 		</div>
 
 		<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-			{externalEngagement.map(item => (
+			{EXTERNAL_ENGAGEMENT.map(item => (
 				<div class="card p-5">
 					<div class="badge badge-accent text-xs mb-3">{item.role}</div>
 					<h3 class="heading-sm text-foreground mb-2">{item.title}</h3>
