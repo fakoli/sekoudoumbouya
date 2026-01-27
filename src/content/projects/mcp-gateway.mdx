@@ -1,0 +1,69 @@
+---
+title: MCP Gateway - Unified API Gateway for Model Context Protocol Servers
+slug: mcp-gateway
+publishDate: 2026-01-26
+organization: Open Source
+role: Creator & Maintainer
+description: Centralized API gateway enabling LLM clients to connect to multiple MCP servers through a single endpoint with authentication, routing, and analytics.
+category: open-source
+impactSummary: Built a production-grade API gateway that simplifies MCP server integration for LLM applications by providing unified authentication, namespace routing, and comprehensive analytics in a single service.
+scale:
+  - Multi-tenant
+  - Real-time Analytics
+  - Production-grade
+  - Streaming Support
+primaryTech:
+  - Go
+  - DuckDB
+  - JSON-RPC 2.0
+  - Server-Sent Events
+  - REST API
+  - YAML Configuration
+tags:
+  - api-gateway
+  - llm-integration
+  - model-context-protocol
+  - microservices
+  - analytics
+duration: 2026-Present
+featured: false
+repository: "https://github.com/fakoli/mcp-gateway"
+generated: true
+generatedAt: "2026-01-27T10:07:16.363Z"
+---
+
+## Problem
+
+The Model Context Protocol (MCP) ecosystem presents a significant integration challenge for LLM applications. Each MCP server operates independently with its own endpoint, authentication mechanism, and API surface. This fragmentation forces developers to manage multiple connections, implement separate authentication flows, and handle different tool sets across various MCP servers. Without centralized management, it becomes nearly impossible to monitor usage patterns, enforce consistent security policies, or gain insights into how different tools are being utilized across an organization.
+
+Existing solutions typically require point-to-point integrations between LLM clients and individual MCP servers, creating a brittle architecture that doesn't scale. There was no unified way to route requests based on functionality, apply consistent rate limiting, or aggregate analytics across multiple MCP services. This architectural gap was limiting the adoption of MCP in production environments where reliability, observability, and security are paramount.
+
+## Approach
+
+I designed MCP Gateway as a centralized proxy service that abstracts the complexity of managing multiple MCP servers behind a single, well-defined API. The architecture implements namespace-based routing, where each MCP server is mapped to a logical namespace, allowing clients to access different tool sets through intuitive URL patterns like `/mcp/filesystem` or `/mcp/search`.
+
+The core architecture leverages Go's robust HTTP handling capabilities with a custom JSON-RPC 2.0 proxy layer. I implemented middleware-based authentication using API keys with fine-grained namespace permissions, enabling organizations to control which users can access specific MCP servers. The gateway maintains full compatibility with MCP's streaming requirements by supporting Server-Sent Events (SSE) for real-time responses.
+
+For observability, I integrated DuckDB as an embedded analytics database, capturing every request with detailed metrics including latency, payload sizes, and error rates. This enables comprehensive usage analytics without requiring external database infrastructure.
+
+### Key Design Elements
+
+- **Namespace-based routing system** that maps logical names to MCP server endpoints
+- **Middleware authentication pipeline** with API key validation and namespace authorization
+- **Embedded DuckDB analytics store** for real-time usage tracking and historical analysis
+- **JSON-RPC 2.0 proxy layer** with full SSE streaming support
+- **Tool filtering capabilities** allowing granular control over which tools are exposed per namespace
+- **YAML-based configuration** with environment variable expansion for deployment flexibility
+
+## Outcomes
+
+The gateway successfully abstracts the complexity of multi-MCP server architectures, reducing integration effort for LLM applications from weeks to hours. Organizations can now implement unified security policies across all MCP services while gaining unprecedented visibility into tool usage patterns and performance characteristics. The embedded analytics system provides actionable insights into which tools are most valuable, helping teams optimize their MCP server deployments and identify usage trends that inform product decisions.
+
+## Key Contributions
+
+- **Designed a scalable proxy architecture** that handles JSON-RPC 2.0 message routing with full streaming support
+- **Implemented namespace-based routing system** enabling logical organization of MCP servers and tools
+- **Built comprehensive API key authentication** with fine-grained namespace permissions and rate limiting
+- **Integrated embedded DuckDB analytics** capturing request metrics, tool popularity, and time-series usage data
+- **Developed RESTful analytics API** providing usage statistics, user insights, and tool performance metrics
+- **Created flexible configuration system** supporting YAML files and environment variable overrides for production deployment

@@ -1,0 +1,66 @@
+---
+title: AI-Powered Visual Learning Platform
+slug: my-ai-study-buddy
+publishDate: 2024-01-27
+organization: Open Source
+role: Creator & Maintainer
+description: Full-stack learning platform combining flashcards, quizzes, and AI-generated content with spaced repetition for visual learners.
+category: open-source
+impactSummary: Built a comprehensive learning platform that combines traditional study methods with AI-powered content generation, featuring 74+ API endpoints and multi-modal AI integration for personalized education.
+scale:
+  - Multi-tenant
+  - AI-Integrated
+  - Production-grade
+  - Full-stack
+primaryTech:
+  - TypeScript
+  - Python
+  - FastAPI
+  - React
+  - Claude API
+  - Gemini API
+tags:
+  - AI
+  - Education
+  - Full-stack
+  - API Design
+  - Machine Learning
+duration: 2026-Present
+featured: false
+repository: "https://github.com/fakoli/my-ai-study-buddy"
+generated: true
+generatedAt: "2026-01-27T10:06:09.447Z"
+---
+
+## Problem
+
+Visual learners often struggle with traditional text-based study platforms that don't cater to their learning style or provide interactive, hands-on experiences. Most existing educational tools either lack AI integration for personalized content generation or fail to combine multiple learning modalities effectively. The challenge was creating a platform that could adapt to different learning preferences while maintaining educational effectiveness through proven techniques like spaced repetition.
+
+I needed a solution that would support course authoring, progress tracking, and AI-powered content generation while remaining flexible enough to accommodate both individual learners and educational institutions. The platform also needed to handle user-provided API keys to reduce operational costs while maintaining security.
+
+## Approach
+
+I architected a full-stack TypeScript and Python solution using FastAPI for the backend and React with Vite for the frontend. The decision to use FastAPI was driven by its automatic OpenAPI documentation generation and excellent TypeScript integration, which streamlined the development of the 74+ API endpoints across 12 resource categories.
+
+The AI integration strategy involved implementing dual AI providers - Claude API for text generation and Gemini for image generation - allowing users to leverage different AI models' strengths. I implemented a flexible storage backend system supporting JSON for development, SQLite for single-tenant deployments, and Supabase for production multi-tenant scenarios.
+
+### Key Design Elements
+
+- **Multi-modal AI Integration**: Separate text and image generation pipelines using Claude and Gemini APIs
+- **Flexible Storage Architecture**: Abstracted storage layer supporting multiple backends with consistent interfaces
+- **Comprehensive API Design**: RESTful endpoints covering authentication, content management, progress tracking, and AI services
+- **User-Centric API Key Management**: Secure handling of user-provided API keys to reduce platform costs
+- **Spaced Repetition Engine**: Built-in algorithms for optimizing learning retention through flashcard reviews
+
+## Outcomes
+
+The platform successfully integrates multiple learning modalities with AI-powered content generation, providing a comprehensive solution for visual learners. The architecture supports both individual users and educational institutions through its flexible storage and authentication system. The extensive API surface area enables rich frontend interactions while maintaining clear separation of concerns between business logic and presentation layers.
+
+## Key Contributions
+
+- **Designed and implemented** a full-stack learning platform with 74+ REST API endpoints across 12 resource categories
+- **Built multi-modal AI integration** using Claude API for text generation and Gemini for image content creation
+- **Architected flexible storage system** supporting JSON, SQLite, and Supabase backends with consistent interfaces
+- **Implemented spaced repetition algorithms** for optimizing learning retention in flashcard systems
+- **Created comprehensive course authoring system** with markdown support and modular content organization
+- **Developed secure user API key management** allowing cost-effective AI service access while maintaining security

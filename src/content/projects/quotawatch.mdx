@@ -1,0 +1,72 @@
+---
+title: "QuotaWatch: Multi-Cloud Quota Management System"
+slug: quotawatch
+publishDate: 2026-01-27
+organization: Open Source
+role: Creator & Maintainer
+description: A comprehensive CLI tool for monitoring and managing service quotas across AWS, GCP, and Azure to prevent deployment failures.
+category: open-source
+impactSummary: Built a production-grade multi-cloud quota monitoring system that prevents infrastructure deployment failures by proactively tracking service limits. The tool provides real-time visibility across hundreds of networking and compute quotas with intelligent alerting.
+scale:
+  - Multi-cloud
+  - Production-grade
+  - Enterprise-ready
+  - Real-time monitoring
+primaryTech:
+  - Python
+  - SQLite
+  - AWS Service Quotas API
+  - Click CLI
+  - Pydantic
+  - Anthropic Claude
+tags:
+  - infrastructure
+  - devops
+  - cloud-management
+  - monitoring
+  - networking
+duration: 2026-Present
+featured: false
+repository: "https://github.com/fakoli/quotawatch"
+generated: true
+generatedAt: "2026-01-27T10:06:32.082Z"
+---
+
+## Problem
+
+Managing cloud quotas across multiple providers and accounts is a critical but often overlooked aspect of infrastructure operations. I've seen too many deployments fail silently when hitting unexpected limits on VPC subnets, Transit Gateway attachments, or PrivateLink endpoints. While cloud providers offer service quota APIs, they lack comprehensive documentation context and cross-service visibility.
+
+The existing tooling landscape was fragmented - AWS CloudWatch could monitor some metrics, but quota information was scattered across different APIs and documentation pages. Teams needed a unified way to track quotas across AWS, GCP, and Azure, with the intelligence to understand which quotas were adjustable, their scope, and their relationship to actual infrastructure usage.
+
+I built QuotaWatch to solve this gap, creating a comprehensive quota intelligence platform that combines real-time API data with enriched documentation context, enabling proactive quota management before limits impact production systems.
+
+## Approach
+
+I designed QuotaWatch around a hybrid architecture that combines local intelligence with cloud API integration. The core is a SQLite database that serves as the canonical quota repository, storing not just current values but metadata about adjustability, scope, and documentation context that's missing from provider APIs.
+
+The system implements a three-tier data enrichment strategy. First, I built parsers that extract quota information from AWS documentation using Anthropic's Claude API for intelligent parsing. Second, the AWS Service Quotas API provides real-time values and usage data. Third, an enrichment layer cross-references these sources to create comprehensive quota profiles with both technical specifications and operational context.
+
+For multi-cloud and multi-account scenarios, I implemented a profile-based configuration system that allows teams to manage quotas across different AWS accounts, regions, and eventually other cloud providers. The CLI interface provides both interactive exploration and automation-friendly commands for CI/CD integration.
+
+### Key Design Elements
+
+- **Hybrid data model**: Local SQLite database enriched with real-time API data
+- **Intelligent documentation parsing**: Claude-powered extraction from AWS documentation
+- **Multi-account architecture**: Profile-based configuration for enterprise environments
+- **Usage-aware monitoring**: Threshold-based alerting with utilization tracking
+- **Service-focused organization**: Grouped by AWS services (VPC, Transit Gateway, etc.)
+
+## Outcomes
+
+QuotaWatch provides complete visibility into hundreds of networking and compute quotas that can silently block deployments. The tool enables proactive quota management by tracking utilization trends and alerting before critical thresholds are reached. Teams can now confidently scale infrastructure knowing they have comprehensive quota intelligence across their entire cloud footprint.
+
+The enrichment capabilities create a centralized knowledge base that combines technical quota data with operational context, making quota management accessible to both infrastructure engineers and platform teams.
+
+## Key Contributions
+
+- **Built comprehensive quota database schema** with support for metadata, adjustability flags, and cross-service relationships
+- **Implemented AWS Service Quotas API integration** with efficient syncing and multi-account support
+- **Designed intelligent documentation parsing pipeline** using Claude to extract quota information from AWS docs
+- **Created flexible CLI interface** with filtering, watchlist management, and export capabilities
+- **Developed multi-cloud architecture** with provider-agnostic data models and extensible service definitions
+- **Implemented usage monitoring system** with threshold-based alerting and trend analysis

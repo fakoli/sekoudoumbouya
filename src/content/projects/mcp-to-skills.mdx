@@ -1,0 +1,70 @@
+---
+title: "MCP-to-Skills: AI-Powered Developer Tool Integration"
+slug: mcp-to-skills
+publishDate: 2025-01-27
+organization: Open Source
+role: Creator & Maintainer
+description: CLI tool that automatically converts MCP servers into Claude Code and Cursor skills using AI-powered source analysis.
+category: open-source
+impactSummary: Built an intelligent CLI tool that bridges the gap between Model Context Protocol servers and developer environments, enabling seamless AI workflow integration through automated conversion and analysis.
+scale:
+  - Cross-platform
+  - Multi-format support
+  - Production-ready
+primaryTech:
+  - Python
+  - Claude API
+  - MCP Protocol
+  - CLI
+  - PEP 723
+  - uv
+tags:
+  - ai-tooling
+  - developer-experience
+  - cli
+  - automation
+  - code-generation
+duration: 2026-Present
+featured: false
+repository: "https://github.com/fakoli/mcp-to-skills"
+generated: true
+generatedAt: "2026-01-27T10:06:54.178Z"
+---
+
+## Problem
+
+The Model Context Protocol (MCP) ecosystem provides powerful server capabilities, but integrating these tools into modern AI-assisted development workflows remained fragmented. Developers working with Claude Code and Cursor needed to manually create skill wrappers and documentation for each MCP server they wanted to use, leading to inconsistent implementations and barriers to adoption.
+
+Existing solutions required deep knowledge of both the MCP protocol and the target skill format specifications. This manual process was error-prone, time-consuming, and didn't scale well for teams wanting to leverage multiple MCP servers across their development stack. The lack of standardized conversion tooling created friction between the growing MCP ecosystem and practical developer workflows.
+
+## Approach
+
+I designed mcp-to-skills as an intelligent CLI tool that automates the entire conversion pipeline from MCP servers to usable skills. The architecture leverages Claude's code analysis capabilities to understand MCP server implementations and generate appropriate skill wrappers.
+
+The core conversion process involves three stages: source code fetching from package registries (npm/PyPI), AI-powered analysis to extract tool definitions and parameters, and automated generation of skill files with proper documentation and executable scripts. I implemented robust configuration auto-detection to work seamlessly with existing Claude Desktop setups while supporting multiple output formats.
+
+### Key Design Elements
+
+- **Multi-source package fetching** supporting both npm and PyPI ecosystems
+- **AI-powered static analysis** using Claude to understand tool interfaces and generate documentation
+- **PEP 723 compliant script generation** enabling `uv run` compatibility without environment setup
+- **Flexible configuration detection** supporting Claude Desktop, custom configs, and multiple file formats
+- **Cross-platform skill output** targeting both Claude Code and Cursor environments
+- **Comprehensive CLI interface** with dry-run capabilities and granular conversion controls
+
+## Outcomes
+
+The tool enables developers to instantly convert any MCP server into production-ready skills with a single command. Generated skills include complete documentation, parameter validation, and executable wrapper scripts that work seamlessly with modern Python tooling like `uv run`.
+
+• **Zero-configuration operation** through automatic config file detection and environment setup
+• **Production-ready output** with proper error handling, JSON output options, and standardized interfaces
+• **Cross-platform compatibility** supporting macOS, Linux, and multiple skill target formats
+
+## Key Contributions
+
+• **Architected intelligent conversion pipeline** that combines package registry APIs, AI analysis, and template generation
+• **Implemented robust CLI framework** with comprehensive argument parsing, dry-run modes, and flexible output targeting
+• **Built multi-format configuration parser** supporting Claude Desktop configs and custom MCP server definitions
+• **Designed PEP 723 compliant script templates** enabling dependency-free execution with modern Python tooling
+• **Integrated Claude API for source analysis** with structured prompting to extract tool definitions and generate documentation
+• **Created comprehensive test suite** with CI/CD pipeline ensuring reliability across Python versions and platforms
