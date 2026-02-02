@@ -1,0 +1,87 @@
+---
+import ChevronDownIcon from '../icons/ChevronDownIcon.astro';
+import NarrativeTabs from './NarrativeTabs.astro';
+
+interface Props {
+	id: string;
+	communication?: {
+		summary: string;
+		highlights: string[];
+	};
+	behavior?: {
+		summary: string;
+		highlights: string[];
+	};
+	impact?: {
+		summary: string;
+		metrics: Array<{
+			value: string;
+			label: string;
+			context?: string;
+		}>;
+	};
+}
+
+const { id, communication, behavior, impact } = Astro.props;
+---
+
+<div class="narrative-accordion" data-accordion-id={id}>
+	<button
+		type="button"
+		class="narrative-accordion-trigger"
+		aria-expanded="false"
+		aria-controls={`${id}-content`}
+	>
+		<span class="narrative-accordion-trigger-text">Explore Story</span>
+		<ChevronDownIcon class="narrative-accordion-icon" />
+	</button>
+
+	<div
+		id={`${id}-content`}
+		class="narrative-accordion-content"
+		role="region"
+		aria-hidden="true"
+	>
+		<div class="narrative-accordion-inner">
+			<NarrativeTabs
+				id={id}
+				communication={communication}
+				behavior={behavior}
+				impact={impact}
+			/>
+		</div>
+	</div>
+</div>
+
+<script>
+	function initAccordions() {
+		document.querySelectorAll('.narrative-accordion').forEach(accordion => {
+			const trigger = accordion.querySelector('.narrative-accordion-trigger');
+			const content = accordion.querySelector('.narrative-accordion-content');
+
+			if (!trigger || !content) return;
+
+			trigger.addEventListener('click', () => {
+				const isExpanded = trigger.getAttribute('aria-expanded') === 'true';
+
+				trigger.setAttribute('aria-expanded', String(!isExpanded));
+				content.setAttribute('aria-hidden', String(isExpanded));
+				accordion.classList.toggle('expanded', !isExpanded);
+			});
+
+			// Keyboard support
+			trigger.addEventListener('keydown', (e) => {
+				if (e.key === 'Enter' || e.key === ' ') {
+					e.preventDefault();
+					(trigger as HTMLButtonElement).click();
+				}
+			});
+		});
+	}
+
+	// Initialize on page load
+	initAccordions();
+
+	// Re-initialize on Astro page transitions
+	document.addEventListener('astro:page-load', initAccordions);
+</script>

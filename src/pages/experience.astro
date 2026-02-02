@@ -4,10 +4,15 @@ import { getCollection } from 'astro:content';
 import { getBasePath, withBasePath } from '../utils/paths';
 import { formatDate, formatDateRange } from '../utils/dates';
 import { RESUME_PATH } from '../config';
+import NarrativeAccordion from '../components/experience/NarrativeAccordion.astro';
 
 const experience = await getCollection('experience');
+const narratives = await getCollection('narratives');
 const sortedExperience = experience.sort((a, b) => b.data.startDate.valueOf() - a.data.startDate.valueOf());
 const resumeHref = withBasePath(RESUME_PATH);
+
+// Create a map of narratives by experienceSlug for efficient lookup
+const narrativeMap = new Map(narratives.map(n => [n.data.experienceSlug, n]));
 ---
 
 <PageLayout title="Experience | Sekou Doumbouya" description="Professional experience and career timeline.">
@@ -33,44 +38,59 @@ const resumeHref = withBasePath(RESUME_PATH);
 		</header>
 
 		<div class="relative border-l-2 border-[var(--border-default)] ml-3 md:ml-6 space-y-16">
-			{sortedExperience.map((entry) => (
-				<div class="relative pl-8 md:pl-12">
-					<div class="absolute -left-[7px] top-2 timeline-dot"></div>
+			{sortedExperience.map((entry) => {
+				// Get the slug from the entry id (filename without extension)
+				const slug = entry.id.replace(/\.(json|yaml)$/, '');
+				const narrative = narrativeMap.get(slug);
 
-					<div class="flex flex-col md:flex-row md:items-baseline md:justify-between mb-4">
-						<div>
-							<h2 class="heading-md text-foreground">{entry.data.role}</h2>
-							<div class="text-lg font-medium text-accent">{entry.data.company}</div>
+				return (
+					<div class="relative pl-8 md:pl-12">
+						<div class="absolute -left-[7px] top-2 timeline-dot"></div>
+
+						<div class="flex flex-col md:flex-row md:items-baseline md:justify-between mb-4">
+							<div>
+								<h2 class="heading-md text-foreground">{entry.data.role}</h2>
+								<div class="text-lg font-medium text-accent">{entry.data.company}</div>
+							</div>
+							<div class="badge mt-2 md:mt-0">
+								{formatDateRange(entry.data.startDate, entry.data.endDate)}
+							</div>
 						</div>
-						<div class="badge mt-2 md:mt-0">
-							{formatDateRange(entry.data.startDate, entry.data.endDate)}
+
+						<div class="mb-6">
+							<p class="text-secondary body-md mb-4 italic border-l-4 border-[var(--border-subtle)] pl-4 py-1">
+								{entry.data.description}
+							</p>
+
+							{entry.data.achievements.length > 0 && (
+								<ul class="space-y-3 mb-6">
+									{entry.data.achievements.map(achievement => (
+										<li class="flex items-start text-secondary">
+											<span class="mr-3 text-accent mt-1.5 text-xs">●</span>
+											<span class="leading-relaxed">{achievement}</span>
+										</li>
+									))}
+								</ul>
+							)}
 						</div>
-					</div>
 
-					<div class="mb-6">
-						<p class="text-secondary body-md mb-4 italic border-l-4 border-[var(--border-subtle)] pl-4 py-1">
-							{entry.data.description}
-						</p>
+						<div class="flex flex-wrap gap-2">
+							{entry.data.skills.map(skill => (
+								<span class="tag">{skill}</span>
+							))}
+						</div>
 
-						{entry.data.achievements.length > 0 && (
-							<ul class="space-y-3 mb-6">
-								{entry.data.achievements.map(achievement => (
-									<li class="flex items-start text-secondary">
-										<span class="mr-3 text-accent mt-1.5 text-xs">●</span>
-										<span class="leading-relaxed">{achievement}</span>
-									</li>
-								))}
-							</ul>
+						{narrative && (
+							<NarrativeAccordion
+								id={`narrative-${slug}`}
+								communication={narrative.data.communication}
+								behavior={narrative.data.behavior}
+								impact={narrative.data.impact}
+							/>
 						)}
 					</div>
-
-					<div class="flex flex-wrap gap-2">
-						{entry.data.skills.map(skill => (
-							<span class="tag">{skill}</span>
-						))}
-					</div>
-				</div>
-			))}
+				);
+			})}
 		</div>
 	</section>
 </PageLayout>
