@@ -29,7 +29,7 @@ const domains = Array.from(allDomains);
 		<header class="mb-12">
 			<h1 class="heading-xl text-foreground mb-4">20+ Years Building at Scale</h1>
 			<p class="body-lg text-secondary max-w-2xl mb-8">
-				Career focus: turning brittle, expensive infrastructure into resilient multi-region platforms across consumer and enterprise SaaS.
+				Principal engineer who ships architecture, not just advises. I partner with technical leadership to turn business goals into resilient platforms—then build and drive adoption until it becomes the organizational default. Architecture that ships. Cost as an engineering constraint.
 			</p>
 			<a
 				href={resumeHref}
@@ -71,7 +71,7 @@ const domains = Array.from(allDomains);
 				const entryDomains = entry.data.domainTags?.map(d => d.toLowerCase()).join(' ') || '';
 
 				return (
-					<div class="relative pl-8 md:pl-12 experience-entry" data-domains={entryDomains}>
+					<div id={`exp-${slug}`} class="relative pl-8 md:pl-12 experience-entry scroll-mt-24" data-domains={entryDomains}>
 						<div class="absolute -left-[7px] top-2 timeline-dot"></div>
 
 						<div class="flex flex-col md:flex-row md:items-baseline md:justify-between mb-4">
@@ -164,5 +164,20 @@ const domains = Array.from(allDomains);
 	.domain-filter.active {
 		background: var(--color-accent-bg);
 		color: var(--color-accent);
+	}
+
+	/* Highlight effect for scrolled-to experience entry */
+	.experience-entry.highlight-entry {
+		animation: highlight-pulse 2s ease-out;
+	}
+
+	@keyframes highlight-pulse {
+		0% {
+			background-color: var(--color-accent-bg);
+			border-radius: var(--radius-md);
+		}
+		100% {
+			background-color: transparent;
+		}
 	}
 </style>

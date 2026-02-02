@@ -1,0 +1,107 @@
+---
+title: 'MCP AI Bridge: Secure Multi-Provider LLM Gateway'
+slug: mcp-ai-bridge
+publishDate: '2025-01-18'
+description: >-
+  A secure Model Context Protocol server bridging Claude Code with OpenAI and
+  Google Gemini APIs, featuring multi-layer security and configurable protection
+  levels.
+category: open-source
+role: Creator & Maintainer
+organization: Open Source
+impactSummary: >-
+  Built a production-ready MCP server enabling seamless integration between
+  Claude Code and multiple AI providers. Implemented comprehensive security
+  features including prompt injection detection, content filtering, and rate
+  limiting to protect against API abuse.
+scale:
+  - Multi-provider integration
+  - Production-grade security
+  - Configurable protection levels
+primaryTech:
+  - JavaScript
+  - Node.js
+  - Model Context Protocol
+  - OpenAI API
+  - Google Gemini API
+  - Winston Logging
+contributions:
+  - >-
+    Designed multi-layer security architecture with configurable protection
+    levels
+  - Implemented prompt injection detection with pattern caching for performance
+  - Built content filtering system with granular control over blocked categories
+  - Created rate limiting mechanism with sliding window tracking
+  - Developed comprehensive input sanitization pipeline
+  - Established structured logging with Winston for operational visibility
+outcomes:
+  - >-
+    Enabled secure access to GPT-4o, o1, o3-mini, and Gemini models from Claude
+    Code
+  - >-
+    Provided three security levels (basic, moderate, strict) for flexible
+    deployment
+  - Published as open source with MIT license for community adoption
+tags:
+  - mcp
+  - ai-integration
+  - security
+  - llm
+  - api-gateway
+duration: 2025-Present
+featured: false
+repository: 'https://github.com/fakoli/mcp-ai-bridge'
+generated: true
+generatedAt: '2026-02-02T13:13:33.415Z'
+---
+## Problem
+
+As AI assistants become more integrated into development workflows, the ability to leverage multiple LLM providers becomes increasingly valuable. Claude Code's Model Context Protocol (MCP) provides an extensible interface for tool integration, but securely bridging to external AI APIs introduces significant challenges around input validation, prompt injection, and API abuse.
+
+I needed a way to query OpenAI and Google Gemini models directly from my Claude Code environment—for comparison, specialized tasks, or accessing models with different capabilities. However, simply proxying requests to external APIs creates security vulnerabilities: malicious prompts could attempt to manipulate the system, excessive requests could drive up costs, and improper error handling could leak sensitive information like API keys.
+
+Existing solutions either lacked security considerations entirely or were too rigid in their protection mechanisms. I wanted configurable security that could adapt to different use cases—strict for production, relaxed for development and testing.
+
+## Approach
+
+I architected the MCP AI Bridge as a security-first integration layer that sits between Claude Code and external AI providers. The design prioritizes defense in depth: multiple security layers work together so that bypassing one control doesn't compromise the system.
+
+The core architecture separates concerns into distinct modules: API integration handlers for OpenAI and Gemini, a unified security validation pipeline, structured logging, and the MCP protocol interface. This modularity allows each component to be tested independently and makes the security logic auditable.
+
+### Key Design Elements
+
+- **Multi-layer input validation**: Every request passes through type checking, length validation, and content analysis before reaching the API. The validation pipeline uses early termination—once an issue is found, processing stops immediately.
+
+- **Prompt injection detection**: I implemented pattern matching to identify common injection techniques including instruction override attempts ("ignore previous instructions"), system role injection, and template injection patterns. Compiled regex patterns are cached to minimize performance overhead.
+
+- **Configurable security levels**: Three preset levels (basic, moderate, strict) provide sensible defaults, but administrators can also toggle individual features like violence filtering or script removal independently. This granularity lets teams tune protection to their specific risk tolerance.
+
+- **Sliding window rate limiting**: Per-session request tracking prevents API abuse without requiring external infrastructure. The rate limiter provides clear feedback on remaining quota and reset times.
+
+- **Secure error handling**: All error responses are sanitized to prevent information leakage. Stack traces and API keys never appear in error messages—instead, users receive actionable error descriptions.
+
+For logging, I chose Winston to provide structured, level-aware logging that can be adjusted at runtime. This visibility is critical for detecting unusual patterns that might indicate abuse attempts.
+
+## Outcomes
+
+- **Unified multi-model access**: Developers can now query GPT-4o, GPT-4 Turbo, o1, o3-mini, Gemini 1.5 Pro, and Gemini Flash models directly from Claude Code using a consistent interface
+
+- **Configurable security posture**: The three-tier security system allows teams to balance protection and flexibility based on their deployment context
+
+- **Comprehensive test coverage**: The project includes unit tests, security tests, and integration tests with mocking to validate behavior without incurring API costs
+
+- **Easy adoption**: Published under MIT license with detailed documentation, environment variable configuration, and Claude Code CLI integration support
+
+## Key Contributions
+
+- **Designed the security architecture** with defense in depth principles, ensuring no single bypass compromises the system
+
+- **Implemented prompt injection detection** covering instruction override, system role injection, and template injection attack vectors
+
+- **Built granular content filtering** with individual toggles for violence, illegal activities, and adult content categories
+
+- **Created the rate limiting system** using sliding window tracking with clear user feedback on limits
+
+- **Developed input sanitization** that removes script tags, control characters, and repeated character sequences (DoS prevention)
+
+- **Established the configuration system** supporting environment files, system variables, and Claude Code config with clear precedence rules

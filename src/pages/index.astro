@@ -104,16 +104,30 @@ const initials = SITE_CONFIG.name.split(' ').map(n => n[0]).join('');
 						<span class="text-accent">meets execution.</span>
 					</h1>
 
-					<!-- Dek (subheadline) -->
-					<p class="body-lg text-secondary mb-6 max-w-2xl">
-						Principal engineer building resilient systems at Pinterest scale.
-						<span class="font-semibold text-foreground">$10M+ saved. 8-hour DR recovery.</span>
+					<!-- Dek (subheadline) - Value proposition -->
+					<p class="body-lg text-secondary mb-4 max-w-2xl">
+						I build the foundations other teams build on—designed to scale,
+						priced to survive scrutiny. Twenty years turning business goals
+						into technical strategy, then turning strategy into running systems.
 					</p>
 
-					<!-- Byline with disambiguation (appears once) -->
-					<p class="body-md text-muted mb-10 max-w-2xl">
-						<span class="font-medium text-foreground">{SITE_CONFIG.name}</span> — infrastructure/cloud architecture leader.
-						<span class="italic">Not the basketball player.</span>
+					<!-- Scale descriptors -->
+					<div class="flex flex-wrap gap-x-6 gap-y-2 mb-6 body-sm text-muted font-mono">
+						<span class="text-accent font-semibold">Hyperscale platforms</span>
+						<span class="text-accent font-semibold">Global infrastructure</span>
+						<span class="text-accent font-semibold">Consumer-scale systems</span>
+					</div>
+
+					<!-- Differentiator -->
+					<p class="body-md text-foreground mb-6 max-w-xl pl-4 border-l-2 border-[var(--color-accent)]">
+						Not just strategy. I write the designs, build the first versions,
+						and drive adoption until the org changes its default behavior.
+					</p>
+
+					<!-- Byline with disambiguation (visually hidden, kept for crawlers) -->
+					<p class="sr-only">
+						{SITE_CONFIG.name} — infrastructure/cloud architecture leader.
+						Not the basketball player.
 					</p>
 
 					<!-- CTA buttons -->
@@ -137,7 +151,7 @@ const initials = SITE_CONFIG.name.split(' ').map(n => n[0]).join('');
 							onerror={`this.src='https://placehold.co/300x400?text=${initials}'`}
 						/>
 						<figcaption class="mt-3 body-sm text-muted italic">
-							DRI for Multi-Region at Pinterest, 2021–present
+							Lead Cloud Architect at Pinterest, 2021–present
 						</figcaption>
 					</figure>
 				</div>

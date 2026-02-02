@@ -7,14 +7,14 @@
     "endDate": null,
     "description": "Strategic infrastructure leadership focused on multi-region architecture, networking optimization, and organizational change management.",
     "achievements": [
-        "Led Next-Gen Network Architecture initiative, delivering foundational components one month ahead of schedule.",
-        "Drove $10M annual cost savings by converting Prod-Data VPC from Transit Gateway to peering without downtime (2023).",
-        "Built DR tooling at ~12% of vendor cost; reduced production data recovery from 20 days to 8 hours.",
-        "Led EC2 provisioning at hyperscale—hundreds of thousands of instances and petabytes of S3 storage as one of AWS's largest customers.",
-        "Designed AWS organizational structure and multi-account patterns adopted as Pinterest's foundation.",
+        "Led Next-Gen Network Architecture initiative, delivering foundational components ahead of schedule.",
+        "Drove significant annual cost savings by converting Prod-Data VPC from Transit Gateway to peering without downtime (2023).",
+        "Built DR tooling at a fraction of vendor cost; achieved order-of-magnitude improvement in recovery time.",
+        "Led EC2 provisioning at hyperscale—large-scale compute infrastructure and petabytes of storage.",
+        "Designed AWS organizational structure and multi-account patterns adopted as foundation.",
         "Led multi-region cost analysis that drove executive decision to pause and redirect resources.",
         "Founded IaC working group; created Terraform CI/CD pipeline reducing deployment failures org-wide.",
-        "Mentored 12+ engineers across AWS, networking, EKS, IAM, and DR systems."
+        "Mentored engineers across AWS, networking, EKS, IAM, and DR systems."
     ],
     "skills": [
         "AWS",

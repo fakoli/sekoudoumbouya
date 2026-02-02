@@ -94,6 +94,19 @@ Automatic via GitHub Actions (`.github/workflows/astro.yml`) on push to `main`. 
 - **GitHub rate limits**: Without `GITHUB_TOKEN`, homepage falls back to `fallbackRepos` array
 - **Base path**: When deploying to subpath, update both `SITE` and `PUBLIC_BASE_PATH` in `.env`
 
+## CRITICAL: No Embellishment or Fabrication
+
+This is a professional portfolio representing a real person. **Never invent, embellish, or assume metrics, achievements, or claims.**
+
+- **Only use facts explicitly provided by the user** or found in existing content they've approved
+- **Never fabricate numbers** (dollar amounts, percentages, timelines, team sizes, region counts)
+- **Never assume scope or scale** - if you don't know, ask
+- **When writing case studies or achievements**, use only what the user has explicitly stated
+- **If content feels "light"**, ask the user for more details rather than making things up
+- **Legal risk**: False claims on a portfolio can damage professional reputation and create liability
+
+When in doubt, use placeholders like `[X regions]` or `[specific metric]` and ask the user to fill in accurate numbers.
+
 ## Frontend Design Principles
 
 Avoid "AI slop" aesthetics. Make distinctive, creative frontends:

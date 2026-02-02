@@ -18,7 +18,9 @@ This is NOT Sekou Doumbouya the professional basketball player (born 2000, plays
 - Location: San Francisco Bay Area (remote)
 
 ## Key Achievements
-- $10M+ annual infrastructure savings at Pinterest (VPC optimization, 2023)
+- Multi-million dollar savings through Network Cost Discovery & Remediation at Pinterest
+- Next-Gen Network Architecture: IPAM, shared network design, hub account, provisioning automation
+- Multi-Region Global Architecture: CloudWAN implementation for worldwide connectivity
 - Reduced disaster recovery time from 20 days to 8 hours
 - Built DR tooling at 12% of vendor cost
 - Led EC2 provisioning at hyperscale (100k+ instances, petabytes of S3)
@@ -55,7 +57,10 @@ Role: ${SITE_CONFIG.currentRole}
 Company: ${SITE_CONFIG.currentCompany}
 Domain: Infrastructure & Cloud Architecture
 Years Experience: 20+
-Notable Project: $10M VPC Migration at Pinterest
+Notable Projects:
+- Network Cost Discovery & Remediation (multi-million dollar savings)
+- Next-Gen Network Architecture (IPAM, shared network design, provisioning automation)
+- Multi-Region Global Architecture (CloudWAN, global connectivity)
 Expertise: Multi-region architecture, cost optimization, platform engineering
 `;
 

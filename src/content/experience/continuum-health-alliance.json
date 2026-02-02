@@ -16,13 +16,19 @@
         "Technical lead for all data center maintenance, upgrades, rack layout, and power distribution"
     ],
     "skills": [
+        "Technical Leadership",
         "IBM Power Systems",
         "VMware vSphere",
         "Linux KVM",
         "NetApp",
         "Wireless Networking",
         "AIX",
-        "High Availability"
+        "High Availability",
+        "iSCSI",
+        "NFS",
+        "Gluster",
+        "DRBD",
+        "Storage Area Network (SAN)"
     ],
     "domainTags": [
         "Healthcare IT",

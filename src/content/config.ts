@@ -40,6 +40,7 @@ const projects = defineCollection({
 
         // Metadata
         featured: z.boolean().default(false),
+        confidential: z.boolean().default(false).describe("Hide unless availableForHire is true - for current employer projects"),
         tags: z.array(z.string()).default([]),
         repository: z.string().url().optional(),
         externalLink: z.string().url().optional(),

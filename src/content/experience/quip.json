@@ -7,11 +7,14 @@
     "endDate": "2021-06-01",
     "description": "Progressed from SRE to Technical Lead, driving infrastructure automation, application migrations, and reliability improvements for the Data Platform.",
     "achievements": [
-        "Automated AWS infrastructure using Terraform and Ansible, significantly improving operational efficiency.",
-        "Migrated legacy applications to AWS ECS, reducing operational costs by 20%.",
-        "Improved system reliability, increasing overall uptime by 15%.",
+        "Automated AWS infrastructure using Terraform and Ansible, improving operational efficiency.",
+        "Migrated applications to AWS ECS from standalone EC2 instances, reducing operational costs.",
+        "Improved system reliability, increasing overall uptime.",
         "Developed real-time clickstream analytics pipeline using AWS Kinesis, Lambda, and Athena.",
-        "Supported major Data Engineering initiatives to facilitate robust multi-account environments."
+        "Designed zero-downtime AMI image deployment process across AWS ECS Clusters.",
+        "Contributed to development and maintenance of automation tools for AWS cloud infrastructure management.",
+        "Created and maintained documentation of systems and processes for existing and new systems.",
+        "Configured and maintained AWS Cloud Computing environments using Terraform."
     ],
     "skills": [
         "AWS ECS",
@@ -21,7 +24,16 @@
         "Terraform",
         "Ansible",
         "SRE",
-        "Data Engineering"
+        "Data Engineering",
+        "AWS EC2",
+        "AMI Deployment",
+        "Zero-Downtime Deployments",
+        "Clickstream Analytics",
+        "System Reliability",
+        "Technical Documentation",
+        "Cloud Infrastructure Automation",
+        "Problem Analysis",
+        "ECS Migration"
     ],
     "domainTags": [
         "Infrastructure Automation",

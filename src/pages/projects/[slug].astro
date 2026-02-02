@@ -5,9 +5,14 @@ import DecisionCard from '../../components/projects/DecisionCard.astro';
 import { getBasePath } from '../../utils/paths';
 import { formatDate } from '../../utils/dates';
 import ArrowLeftIcon from '../../components/icons/ArrowLeftIcon.astro';
+import { SITE_CONFIG } from '../../config';
 
 export async function getStaticPaths() {
-	const projects = await getCollection('projects');
+	const allProjects = await getCollection('projects');
+	// Filter out confidential projects unless availableForHire is true
+	const projects = allProjects.filter(p =>
+		SITE_CONFIG.availableForHire || !p.data.confidential
+	);
 	return projects.map((project) => ({
 		params: { slug: project.id },
 		props: { project, allProjects: projects },

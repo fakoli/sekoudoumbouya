@@ -370,11 +370,37 @@ const roleDescriptions: Record<string, string> = {
 	});
 
 	// Node click for details (scroll to experience section)
+	// Map node labels to experience entry IDs (based on actual JSON file names)
+	const labelToExpMap: Record<string, string> = {
+		'sage': 'exp-sage-software',
+		'jones ny': 'exp-nine-west-group',
+		'continuum': 'exp-continuum-health-alliance',
+		'telvue': 'exp-telvue',
+		'liveops': 'exp-liveops',
+		'groupon': 'exp-groupon',
+		'oracle': 'exp-oracle',
+		'quip': 'exp-quip',
+		'pinterest': 'exp-pinterest',
+	};
+
 	nodes.forEach(node => {
 		node.addEventListener('click', () => {
-			// Could scroll to specific experience entry if IDs match
-			const label = node.getAttribute('aria-label');
-			console.log('Selected:', label);
+			const nodeGroup = node as SVGGElement;
+			const labelElement = nodeGroup.querySelector('text');
+			if (!labelElement) return;
+
+			const labelText = labelElement.textContent?.toLowerCase().trim() || '';
+			const expId = labelToExpMap[labelText];
+
+			if (expId) {
+				const expElement = document.getElementById(expId);
+				if (expElement) {
+					expElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+					// Add a brief highlight effect
+					expElement.classList.add('highlight-entry');
+					setTimeout(() => expElement.classList.remove('highlight-entry'), 2000);
+				}
+			}
 		});
 	});
 </script>
