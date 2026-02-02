@@ -6,6 +6,7 @@ import { SITE_CONFIG, SOCIAL_LINKS, NAV_LINKS, RESUME_PATH } from '../../config'
 import { getBasePath, withBasePath, isActivePath } from '../../utils/paths';
 import LinkedInIcon from '../icons/LinkedInIcon.astro';
 import GitHubIcon from '../icons/GitHubIcon.astro';
+import ThemeToggle from './ThemeToggle.astro';
 
 interface Props {
 	currentPath: string;
@@ -62,6 +63,7 @@ const resumeHref = withBasePath(RESUME_PATH);
 		>
 			<GitHubIcon />
 		</a>
+		<ThemeToggle />
 	</div>
 
 	<slot />

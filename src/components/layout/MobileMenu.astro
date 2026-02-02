@@ -74,6 +74,33 @@ const resumeHref = withBasePath(RESUME_PATH);
 			>
 				<GitHubIcon />
 			</a>
+			<button
+				type="button"
+				class="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[var(--border-default)] text-muted transition-colors hover:bg-[var(--color-bg)] hover:text-foreground"
+				aria-label="Toggle theme"
+				data-mobile-theme-toggle
+			>
+				<!-- Sun icon (shown in dark mode) -->
+				<svg
+					class="mobile-sun-icon w-5 h-5 hidden"
+					fill="none"
+					viewBox="0 0 24 24"
+					stroke="currentColor"
+					stroke-width="2"
+				>
+					<path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+				</svg>
+				<!-- Moon icon (shown in light mode) -->
+				<svg
+					class="mobile-moon-icon w-5 h-5"
+					fill="none"
+					viewBox="0 0 24 24"
+					stroke="currentColor"
+					stroke-width="2"
+				>
+					<path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+				</svg>
+			</button>
 		</div>
 	</div>
 </div>
@@ -110,4 +137,27 @@ const resumeHref = withBasePath(RESUME_PATH);
 	mobileMenu?.querySelectorAll('[data-mobile-link]').forEach((link) => {
 		link.addEventListener('click', closeMenu);
 	});
+
+	// Mobile theme toggle - uses shared function from ThemeToggle.astro
+	document.querySelector('[data-mobile-theme-toggle]')?.addEventListener('click', () => {
+		if (typeof window.toggleTheme === 'function') {
+			window.toggleTheme();
+		}
+	});
+
+	// Initialize mobile icons - wait for ThemeToggle to be ready
+	function initMobileIcons() {
+		if (typeof window.updateAllToggleIcons === 'function') {
+			window.updateAllToggleIcons();
+		} else {
+			// ThemeToggle hasn't loaded yet, retry after a short delay
+			setTimeout(initMobileIcons, 50);
+		}
+	}
+
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', initMobileIcons);
+	} else {
+		initMobileIcons();
+	}
 </script>

@@ -16,9 +16,9 @@ import type {
  */
 export const STATS: StatItem[] = [
 	{ label: 'Years Building at Scale', value: '20+' },
-	{ label: 'Infrastructure Costs Eliminated', value: '$10M+' },
-	{ label: 'Engineers Developed to Senior+', value: '20+' },
-	{ label: 'Regions Architected', value: '4+' },
+	{ label: 'Saved at Pinterest (3 years)', value: '$10M+' },
+	{ label: 'Engineers Mentored to Senior+', value: '20+' },
+	{ label: 'AWS Regions Architected', value: '4+' },
 ];
 
 /**
