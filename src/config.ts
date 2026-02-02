@@ -3,11 +3,12 @@
  */
 
 export const SITE_CONFIG = {
-	// Personal Information
-	name: "Sekou Doumbouya",
+	// Personal Information - Middle initial for disambiguation from basketball player
+	name: "Sekou M. Doumbouya",
+	shortName: "Sekou Doumbouya", // For backwards compatibility
 	title: "Principal Infrastructure Engineer",
 	email: "sdoumbouya81@gmail.com",
-	description: "Principal-level infrastructure leader specializing in platform engineering, multi-region architecture, and building high-leverage systems that multiply team impact.",
+	description: "Principal-level infrastructure leader specializing in platform engineering, multi-region architecture, and building high-leverage systems that multiply team impact. Not affiliated with professional basketball.",
 
 	// Social Profiles
 	githubUsername: "fakoli",
@@ -28,13 +29,13 @@ export const SOCIAL_LINKS = {
 	email: `mailto:${SITE_CONFIG.email}`,
 } as const;
 
-// Navigation configuration
+// Navigation configuration - Updated for redesign
 export const NAV_LINKS = [
 	{ href: '/about', label: 'About' },
 	{ href: '/experience', label: 'Experience' },
 	{ href: '/projects', label: 'Projects' },
+	{ href: '/writing', label: 'Writing' },
 	{ href: '/contact', label: 'Contact' },
-	{ href: '/blog', label: 'Technical Insights' },
 ] as const;
 
 // Resume path

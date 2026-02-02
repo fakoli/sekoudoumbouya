@@ -1,0 +1,231 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import { SITE_CONFIG, SOCIAL_LINKS } from '../config';
+import { getBasePath, withBasePath } from '../utils/paths';
+
+const base = getBasePath();
+
+// Bio variants
+const bios = {
+	oneLiner: `Principal Infrastructure Engineer at Pinterest, building resilient multi-region systems that save millions.`,
+	short: `${SITE_CONFIG.name} is a Principal Infrastructure Engineer at Pinterest with over 20 years of experience in cloud architecture and platform engineering. He currently serves as DRI for Multi-Region initiatives, leading efforts that have saved $10M+ annually in infrastructure costs while achieving 8-hour disaster recovery times. Previously, he held leadership roles at Sage Software, Zynga, and McKesson.`,
+	full: `${SITE_CONFIG.name} is a Principal Infrastructure Engineer at Pinterest, where he serves as the Directly Responsible Individual (DRI) for Multi-Region and Multi-Account Architecture. With over 20 years of experience building cloud platforms at scale, Sekou specializes in the intersection of hands-on engineering and strategic architecture.
+
+At Pinterest, he led the $10M VPC Architecture Transformation, redesigning multi-region network architecture to eliminate Transit Gateway bottlenecks while maintaining zero production downtime. He also built the company's disaster recovery capability, reducing recovery time from 20 days to 8 hours at 12% of vendor cost.
+
+Before Pinterest, Sekou held senior engineering leadership roles at Sage Software (Cloud Infrastructure Lead), Zynga (Lead Platform Engineer), and McKesson (Senior Network Engineer). He is an active mentor in the /dev/color community and co-hosts the "AI with Friends" podcast.
+
+${SITE_CONFIG.name} is not affiliated with Sekou Doumbouya, the professional basketball player.`
+};
+
+// Talk topics
+const talkTopics = [
+	{
+		title: 'Multi-Region Architecture at Pinterest Scale',
+		abstract: 'A deep dive into building resilient multi-region systems serving 450M+ monthly active users. Covers VPC architecture patterns, disaster recovery strategies, and the tradeoffs between Transit Gateway and VPC peering at scale.',
+		duration: '30-45 min',
+		audience: ['Platform Engineers', 'SREs', 'Cloud Architects'],
+	},
+	{
+		title: 'The $10M Migration: Cost Optimization Without Downtime',
+		abstract: 'Case study of a major infrastructure transformation that saved $10M+ annually while maintaining zero production downtime. Discusses parallel migration strategies, rollback planning, and stakeholder communication.',
+		duration: '30 min',
+		audience: ['Engineering Leaders', 'Cloud Architects', 'Finance Partners'],
+	},
+	{
+		title: 'Player-Coach Leadership in Platform Engineering',
+		abstract: 'How to stay technically relevant while leading at the principal/staff level. Balancing hands-on work with strategic influence, building trust through expertise, and mentoring without micromanaging.',
+		duration: '30 min',
+		audience: ['Senior Engineers', 'Engineering Managers', 'Tech Leads'],
+	},
+	{
+		title: 'Disaster Recovery at 12% of Vendor Cost',
+		abstract: 'Building enterprise-grade DR capability in-house instead of buying. Covers tool selection, automation patterns, testing strategies, and the business case for building vs. buying.',
+		duration: '45 min',
+		audience: ['SREs', 'Platform Engineers', 'Engineering Leaders'],
+	},
+];
+
+// Copy to clipboard function
+const copyScript = `
+function copyBio(id) {
+	const text = document.getElementById(id).innerText;
+	navigator.clipboard.writeText(text).then(() => {
+		const btn = document.querySelector('[data-copy="' + id + '"]');
+		const original = btn.innerText;
+		btn.innerText = 'Copied!';
+		setTimeout(() => btn.innerText = original, 2000);
+	});
+}
+`;
+---
+
+<PageLayout title={`Press Kit | ${SITE_CONFIG.name}`} description="Speaker bios, photos, and talk topics for event organizers and press.">
+	<div class="max-w-4xl mx-auto px-4 py-12">
+		<header class="mb-12">
+			<h1 class="heading-xl text-foreground mb-4">Press Kit</h1>
+			<p class="body-lg text-secondary max-w-2xl">
+				Everything you need to book me or write about me. Bio variants, photos, and suggested talk topics.
+			</p>
+		</header>
+
+		<!-- Bios Section -->
+		<section class="mb-16">
+			<h2 class="heading-lg text-foreground mb-8">Speaker Bios</h2>
+			<p class="body-md text-muted mb-6">Click to copy. Choose the length that fits your format.</p>
+
+			<div class="space-y-6">
+				<!-- One-liner -->
+				<div class="card p-6">
+					<div class="flex items-center justify-between mb-3">
+						<h3 class="label">One-liner</h3>
+						<button
+							onclick="copyBio('bio-oneliner')"
+							data-copy="bio-oneliner"
+							class="btn btn-secondary text-xs"
+						>
+							Copy
+						</button>
+					</div>
+					<p id="bio-oneliner" class="body-md text-secondary">
+						{bios.oneLiner}
+					</p>
+				</div>
+
+				<!-- Short bio -->
+				<div class="card p-6">
+					<div class="flex items-center justify-between mb-3">
+						<h3 class="label">Short Bio (150 words)</h3>
+						<button
+							onclick="copyBio('bio-short')"
+							data-copy="bio-short"
+							class="btn btn-secondary text-xs"
+						>
+							Copy
+						</button>
+					</div>
+					<p id="bio-short" class="body-md text-secondary">
+						{bios.short}
+					</p>
+				</div>
+
+				<!-- Full bio -->
+				<div class="card p-6">
+					<div class="flex items-center justify-between mb-3">
+						<h3 class="label">Full Bio (300 words)</h3>
+						<button
+							onclick="copyBio('bio-full')"
+							data-copy="bio-full"
+							class="btn btn-secondary text-xs"
+						>
+							Copy
+						</button>
+					</div>
+					<div id="bio-full" class="body-md text-secondary whitespace-pre-line">
+						{bios.full}
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Photos Section -->
+		<section class="mb-16">
+			<h2 class="heading-lg text-foreground mb-8">Photos</h2>
+			<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+				<div class="card p-4">
+					<img
+						src={`${base}/headshot.jpg`}
+						alt={`${SITE_CONFIG.name} headshot`}
+						class="w-full aspect-square object-cover rounded-md mb-4"
+						onerror="this.src='https://placehold.co/400x400?text=Photo'"
+					/>
+					<h3 class="body-sm font-medium text-foreground mb-1">Headshot</h3>
+					<p class="body-sm text-muted mb-3">Professional headshot</p>
+					<a href={`${base}/headshot.jpg`} download class="btn btn-secondary text-xs w-full">
+						Download
+					</a>
+				</div>
+				<!-- Placeholder for additional photos -->
+				<div class="card p-4 opacity-50">
+					<div class="w-full aspect-square bg-[var(--surface-secondary)] rounded-md mb-4 flex items-center justify-center">
+						<span class="text-muted text-sm">Coming soon</span>
+					</div>
+					<h3 class="body-sm font-medium text-foreground mb-1">Speaking photo</h3>
+					<p class="body-sm text-muted">Available upon request</p>
+				</div>
+				<div class="card p-4 opacity-50">
+					<div class="w-full aspect-square bg-[var(--surface-secondary)] rounded-md mb-4 flex items-center justify-center">
+						<span class="text-muted text-sm">Coming soon</span>
+					</div>
+					<h3 class="body-sm font-medium text-foreground mb-1">Action shot</h3>
+					<p class="body-sm text-muted">Available upon request</p>
+				</div>
+			</div>
+		</section>
+
+		<!-- Talk Topics Section -->
+		<section class="mb-16">
+			<h2 class="heading-lg text-foreground mb-8">Talk Topics</h2>
+			<p class="body-md text-muted mb-8">
+				These are topics I'm prepared to speak on. Happy to customize for your audience.
+			</p>
+
+			<div class="space-y-6">
+				{talkTopics.map((topic) => (
+					<div class="card p-6">
+						<h3 class="heading-sm text-foreground mb-3">{topic.title}</h3>
+						<p class="body-md text-secondary mb-4">{topic.abstract}</p>
+						<div class="flex flex-wrap items-center gap-4 text-sm">
+							<span class="flex items-center gap-2 text-muted">
+								<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+								</svg>
+								{topic.duration}
+							</span>
+							<span class="flex items-center gap-2 text-muted">
+								<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+								</svg>
+								{topic.audience.join(', ')}
+							</span>
+						</div>
+					</div>
+				))}
+			</div>
+		</section>
+
+		<!-- Podcast Appearances -->
+		<section class="mb-16">
+			<h2 class="heading-lg text-foreground mb-8">Podcast Appearances</h2>
+			<div class="card p-6">
+				<div class="flex items-center gap-4">
+					<div class="w-16 h-16 bg-[var(--color-accent-bg)] rounded-lg flex items-center justify-center text-2xl">
+						🎙️
+					</div>
+					<div>
+						<h3 class="heading-sm text-foreground mb-1">AI with Friends</h3>
+						<p class="body-sm text-muted">Co-host · Weekly conversations on AI, engineering, and tech culture</p>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Contact for Booking -->
+		<section class="border-t border-[var(--border-default)] pt-12">
+			<h2 class="heading-lg text-foreground mb-6">Contact for Booking</h2>
+			<p class="body-md text-secondary mb-8">
+				Interested in having me speak at your event? Get in touch with details about your conference, audience, and preferred topics.
+			</p>
+			<div class="flex flex-col sm:flex-row gap-4">
+				<a href={withBasePath('/contact')} class="btn btn-accent">
+					Speaker Inquiry
+				</a>
+				<a href={`mailto:${SITE_CONFIG.email}?subject=Speaking%20Inquiry`} class="btn btn-secondary">
+					Email Directly
+				</a>
+			</div>
+		</section>
+	</div>
+
+	<script set:html={copyScript} />
+</PageLayout>

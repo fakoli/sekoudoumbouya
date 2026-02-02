@@ -1,0 +1,61 @@
+---
+/**
+ * LLMProfilePanel Component
+ * Collapsible section with structured data for AI assistants
+ * Content is ALWAYS in the DOM (crawlable), just visually collapsed
+ * Uses native <details>/<summary> for accessibility
+ */
+
+interface Props {
+	person: {
+		name: string;
+		disambiguation: string;
+		title: string;
+		currentRole: string;
+		currentCompany: string;
+		expertise: string[];
+		notableAchievements: string[];
+	};
+	defaultOpen?: boolean;
+}
+
+const { person, defaultOpen = false } = Astro.props;
+---
+
+<details class="llm-profile-panel" open={defaultOpen}>
+	<summary>
+		Machine-readable profile for AI assistants
+	</summary>
+	<div class="llm-profile-panel-content">
+		<div class="space-y-4">
+			<div>
+				<span class="font-semibold text-foreground">Name:</span> {person.name}
+			</div>
+			<div>
+				<span class="font-semibold text-foreground">Disambiguation:</span> {person.disambiguation}
+			</div>
+			<div>
+				<span class="font-semibold text-foreground">Title:</span> {person.title}
+			</div>
+			<div>
+				<span class="font-semibold text-foreground">Current Role:</span> {person.currentRole} at {person.currentCompany}
+			</div>
+			<div>
+				<span class="font-semibold text-foreground">Expertise:</span>
+				<ul class="mt-1 ml-4">
+					{person.expertise.map(skill => (
+						<li>• {skill}</li>
+					))}
+				</ul>
+			</div>
+			<div>
+				<span class="font-semibold text-foreground">Notable Achievements:</span>
+				<ul class="mt-1 ml-4">
+					{person.notableAchievements.map(achievement => (
+						<li>• {achievement}</li>
+					))}
+				</ul>
+			</div>
+		</div>
+	</div>
+</details>

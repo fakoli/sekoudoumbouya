@@ -16,14 +16,14 @@ import {
 } from '../data/about';
 ---
 
-<PageLayout title="About | Sekou Doumbouya" description={`About ${SITE_CONFIG.name} - ${SITE_CONFIG.title} with 20+ years of experience building resilient cloud platforms.`}>
+<PageLayout title={`About | ${SITE_CONFIG.name}`} description={`About ${SITE_CONFIG.name} - ${SITE_CONFIG.title} with 20+ years of experience building resilient cloud platforms.`}>
 	<section class="max-w-4xl mx-auto px-4 py-12">
 		<h1 class="heading-xl text-foreground mb-8">About Me</h1>
 
-		<!-- Introduction -->
+		<!-- Introduction with disambiguation (once) -->
 		<div class="prose prose-lg text-secondary mb-16 max-w-none">
 			<p class="mb-6 body-lg leading-relaxed">
-				I'm a <strong class="text-foreground">builder who happens to lead</strong>. With over <strong class="text-foreground">20 years</strong> in infrastructure and platform engineering, I've learned that the best technical leaders stay close to the work—understanding systems deeply enough to make good decisions and mentor others effectively.
+				I'm <strong class="text-foreground">{SITE_CONFIG.name}</strong>—infrastructure/cloud architecture leader <span class="text-muted">(not the basketball player)</span>. I'm a <strong class="text-foreground">builder who happens to lead</strong>. With over <strong class="text-foreground">20 years</strong> in infrastructure and platform engineering, I've learned that the best technical leaders stay close to the work—understanding systems deeply enough to make good decisions and mentor others effectively.
 			</p>
 			<p class="mb-6 body-lg leading-relaxed">
 				Currently at <strong class="text-foreground">{SITE_CONFIG.currentCompany}</strong>, I serve as the Directly Responsible Individual (DRI) for Multi-Region and Multi-Account initiatives—architecting systems that enable global scale while keeping costs and complexity in check.

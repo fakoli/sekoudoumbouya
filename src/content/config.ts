@@ -51,6 +51,24 @@ const projects = defineCollection({
         // Auto-generation metadata
         generated: z.boolean().default(false),
         generatedAt: z.coerce.date().optional(),
+
+        // Decision Card - Structured summary of project thinking (NEW)
+        decisionCard: z.object({
+            problem: z.string().describe("2-3 sentences describing the challenge"),
+            constraints: z.array(z.string()).describe("Bullet list of limiting factors"),
+            tradeoffs: z.array(z.object({
+                option: z.string(),
+                pros: z.array(z.string()),
+                cons: z.array(z.string()),
+                chosen: z.boolean(),
+            })).optional().describe("Options considered with pros/cons"),
+            artifact: z.object({
+                type: z.enum(['doc', 'code', 'diagram', 'dashboard']),
+                title: z.string(),
+                url: z.string().optional(),
+                preview: z.string().optional().describe("Image path for thumbnail"),
+            }).optional().describe("Link to real artifact proving the work"),
+        }).optional(),
     }),
 });
 
@@ -104,4 +122,44 @@ const narratives = defineCollection({
     }),
 });
 
-export const collections = { blog, projects, experience, narratives };
+// 5. ARTIFACTS COLLECTION (NEW)
+// Curated evidence gallery proving specific claims - links to case studies
+const artifacts = defineCollection({
+    loader: glob({ pattern: '**/*.json', base: "./src/content/artifacts" }),
+    schema: z.object({
+        type: z.enum(['design', 'decision', 'ops', 'code', 'proof', 'diagram']).describe("Receipt taxonomy for categorization"),
+        title: z.string(),
+        thumbnail: z.string().describe("Path to thumbnail image"),
+        projectSlug: z.string().describe("REQUIRED: links to case study slug - no orphan artifacts"),
+        claim: z.string().describe("What this receipt proves (2-3 sentences)"),
+        fullImage: z.string().optional().describe("Higher-res image for detail view"),
+    }),
+});
+
+// 6. PRESS COLLECTION (NEW)
+// Press kit content - bios, photos, talk topics
+const press = defineCollection({
+    loader: glob({ pattern: '**/*.json', base: "./src/content/press" }),
+    schema: z.object({
+        bios: z.array(z.object({
+            label: z.string(),
+            content: z.string(),
+            wordCount: z.number(),
+        })).optional(),
+        photos: z.array(z.object({
+            label: z.string(),
+            thumbnail: z.string(),
+            fullRes: z.string(),
+            dimensions: z.string(),
+        })).optional(),
+        topics: z.array(z.object({
+            title: z.string(),
+            abstract: z.string(),
+            duration: z.string(),
+            audience: z.array(z.string()),
+            previouslyGiven: z.array(z.string()).optional(),
+        })).optional(),
+    }),
+});
+
+export const collections = { blog, projects, experience, narratives, artifacts, press };

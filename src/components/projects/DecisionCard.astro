@@ -1,0 +1,175 @@
+---
+/**
+ * DecisionCard Component
+ * Structured summary of project thinking process
+ * Shows: Problem → Constraints → Tradeoffs → Outcome → Artifact
+ */
+
+interface Tradeoff {
+	option: string;
+	pros: string[];
+	cons: string[];
+	chosen: boolean;
+}
+
+interface Artifact {
+	type: 'doc' | 'code' | 'diagram' | 'dashboard';
+	title: string;
+	url?: string;
+	preview?: string;
+}
+
+interface Props {
+	problem: string;
+	constraints: string[];
+	tradeoffs?: Tradeoff[];
+	outcome?: {
+		summary: string;
+		metrics?: Array<{ value: string; label: string }>;
+	};
+	artifact?: Artifact;
+}
+
+const { problem, constraints, tradeoffs, outcome, artifact } = Astro.props;
+
+// Artifact type icons
+const artifactIcons: Record<string, string> = {
+	doc: '📄',
+	code: '💻',
+	diagram: '📊',
+	dashboard: '📈',
+};
+---
+
+<div class="decision-card">
+	<!-- Problem Section -->
+	<div class="decision-card-section">
+		<div class="decision-card-label">Problem</div>
+		<div class="decision-card-content">
+			{problem}
+		</div>
+	</div>
+
+	<!-- Constraints Section -->
+	<div class="decision-card-section">
+		<div class="decision-card-label">Constraints</div>
+		<ul class="space-y-2">
+			{constraints.map((constraint) => (
+				<li class="flex items-start gap-2 text-secondary body-sm">
+					<span class="text-muted shrink-0">•</span>
+					{constraint}
+				</li>
+			))}
+		</ul>
+	</div>
+
+	<!-- Tradeoffs Section (if provided) -->
+	{tradeoffs && tradeoffs.length > 0 && (
+		<div class="decision-card-section">
+			<div class="decision-card-label">Tradeoffs Considered</div>
+			<div class="space-y-4 mt-3">
+				{tradeoffs.map((tradeoff) => (
+					<div
+						class:list={[
+							'p-4 rounded-md border',
+							tradeoff.chosen
+								? 'bg-[var(--color-accent-bg)] border-[var(--color-accent)]'
+								: 'bg-[var(--color-bg)] border-[var(--border-subtle)]'
+						]}
+					>
+						<div class="flex items-center justify-between mb-2">
+							<span class="font-medium text-foreground body-sm">
+								{tradeoff.option}
+							</span>
+							{tradeoff.chosen && (
+								<span class="badge badge-accent text-xs">Chosen</span>
+							)}
+						</div>
+						<div class="grid grid-cols-2 gap-4 mt-3">
+							<div>
+								<span class="label text-green-600 dark:text-green-400 block mb-1">Pros</span>
+								<ul class="space-y-1">
+									{tradeoff.pros.map((pro) => (
+										<li class="body-sm text-muted flex items-start gap-1">
+											<span class="text-green-600 dark:text-green-400 shrink-0">+</span>
+											{pro}
+										</li>
+									))}
+								</ul>
+							</div>
+							<div>
+								<span class="label text-red-600 dark:text-red-400 block mb-1">Cons</span>
+								<ul class="space-y-1">
+									{tradeoff.cons.map((con) => (
+										<li class="body-sm text-muted flex items-start gap-1">
+											<span class="text-red-600 dark:text-red-400 shrink-0">−</span>
+											{con}
+										</li>
+									))}
+								</ul>
+							</div>
+						</div>
+					</div>
+				))}
+			</div>
+		</div>
+	)}
+
+	<!-- Outcome Section (if provided) -->
+	{outcome && (
+		<div class="decision-card-section bg-[var(--color-bg)]">
+			<div class="decision-card-label">Outcome</div>
+			<div class="decision-card-content font-medium text-foreground">
+				{outcome.summary}
+			</div>
+			{outcome.metrics && outcome.metrics.length > 0 && (
+				<div class="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-4">
+					{outcome.metrics.map((metric) => (
+						<div class="text-center p-3 bg-[var(--color-surface)] rounded-md border border-[var(--border-subtle)]">
+							<div class="metric text-lg font-semibold text-accent">
+								{metric.value}
+							</div>
+							<div class="label mt-1">{metric.label}</div>
+						</div>
+					))}
+				</div>
+			)}
+		</div>
+	)}
+
+	<!-- Artifact Link (if provided) -->
+	{artifact && (
+		<div class="decision-card-section border-t-2 border-[var(--color-accent)]">
+			<div class="decision-card-label">Supporting Artifact</div>
+			<div class="flex items-center gap-3 mt-2">
+				<span class="text-2xl">{artifactIcons[artifact.type]}</span>
+				<div class="flex-1">
+					<div class="font-medium text-foreground body-sm">
+						{artifact.title}
+					</div>
+					<div class="label capitalize">{artifact.type}</div>
+				</div>
+				{artifact.url && (
+					<a
+						href={artifact.url}
+						target="_blank"
+						rel="noopener noreferrer"
+						class="btn btn-secondary text-xs"
+					>
+						View →
+					</a>
+				)}
+			</div>
+			{artifact.preview && (
+				<div class="mt-3 rounded-md overflow-hidden border border-[var(--border-default)]">
+					<img
+						src={artifact.preview}
+						alt={artifact.title}
+						class="w-full h-auto"
+						loading="lazy"
+					/>
+				</div>
+			)}
+		</div>
+	)}
+</div>

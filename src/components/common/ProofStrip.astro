@@ -1,0 +1,73 @@
+---
+/**
+ * ProofStrip Component
+ * Editorial ruler bar showing key metrics, sticky on scroll
+ * Matte surface, no glassmorphism - crisp and professional
+ */
+
+interface Metric {
+	value: string;
+	label: string;
+	highlight?: boolean;
+}
+
+interface Props {
+	metrics: Metric[];
+	sticky?: boolean;
+}
+
+const { metrics, sticky = true } = Astro.props;
+---
+
+<div
+	class:list={[
+		'proof-strip',
+		{ 'proof-strip-hidden': sticky }
+	]}
+	id="proof-strip"
+	data-sticky={sticky}
+>
+	<div class="proof-strip-inner">
+		{metrics.map((metric) => (
+			<div class="proof-strip-metric">
+				<span class:list={['proof-strip-value', { highlight: metric.highlight }]}>
+					{metric.value}
+				</span>
+				<span class="proof-strip-label">{metric.label}</span>
+			</div>
+		))}
+	</div>
+</div>
+
+{sticky && (
+	<script>
+		// ProofStrip visibility controller
+		// Shows after scrolling past hero section
+		const proofStrip = document.getElementById('proof-strip');
+
+		if (proofStrip && proofStrip.dataset.sticky === 'true') {
+			const observer = new IntersectionObserver(
+				(entries) => {
+					entries.forEach((entry) => {
+						// Show proof strip when hero is NOT intersecting (scrolled past)
+						if (entry.isIntersecting) {
+							proofStrip.classList.add('proof-strip-hidden');
+						} else {
+							proofStrip.classList.remove('proof-strip-hidden');
+						}
+					});
+				},
+				{
+					threshold: 0,
+					rootMargin: '-72px 0px 0px 0px' // Account for header height
+				}
+			);
+
+			// Observe the hero section
+			const hero = document.querySelector('[data-hero]') || document.querySelector('section:first-of-type');
+			if (hero) {
+				observer.observe(hero);
+			}
+		}
+	</script>
+)}

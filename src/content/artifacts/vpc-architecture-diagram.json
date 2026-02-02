@@ -1,0 +1,8 @@
+{
+  "type": "diagram",
+  "title": "VPC Peering Architecture Diagram",
+  "thumbnail": "/artifacts/vpc-architecture-thumbnail.png",
+  "projectSlug": "vpc-migration-pinterest",
+  "claim": "This architecture diagram shows the before/after state of Pinterest's multi-region network. The 'before' shows centralized Transit Gateway routing all traffic; the 'after' shows direct VPC peering mesh eliminating the TGW hop and associated per-GB charges.",
+  "fullImage": "/artifacts/vpc-architecture-full.png"
+}

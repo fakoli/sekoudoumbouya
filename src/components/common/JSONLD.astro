@@ -1,56 +1,90 @@
 ---
 import { SITE_CONFIG, SOCIAL_LINKS } from '../../config';
 
+interface Props {
+	type?: 'website' | 'article';
+	title?: string;
+	description?: string;
+}
+
 const { title, description, type = 'website' } = Astro.props;
 const siteUrl = new URL(import.meta.env.BASE_URL, Astro.site).toString();
 
-// Person Schema
+// Enhanced Person Schema with disambiguation
 const personSchema = {
-  "@context": "https://schema.org",
-  "@type": "Person",
-  "name": SITE_CONFIG.name,
-  "url": siteUrl,
-  "jobTitle": SITE_CONFIG.title,
-  "worksFor": [
-    {
-      "@type": "Organization",
-      "name": SITE_CONFIG.currentCompany
-    }
-  ],
-  "sameAs": [
-    SOCIAL_LINKS.linkedin,
-    SOCIAL_LINKS.github
-  ],
-  "description": SITE_CONFIG.description,
-  "knowsAbout": [
-    "Cloud Architecture",
-    "AWS",
-    "Multi-Region Infrastructure",
-    "Disaster Recovery",
-    "Kubernetes",
-    "Terraform",
-    "Cost Optimization",
-    "Network Architecture"
-  ]
+	"@context": "https://schema.org",
+	"@type": "Person",
+	"name": SITE_CONFIG.name,
+	"alternateName": ["Sekou Doumbouya", "Sekou M Doumbouya"],
+	"url": siteUrl,
+	"jobTitle": SITE_CONFIG.title,
+	"worksFor": {
+		"@type": "Organization",
+		"name": SITE_CONFIG.currentCompany
+	},
+	"sameAs": [
+		SOCIAL_LINKS.linkedin,
+		SOCIAL_LINKS.github
+	],
+	"description": "Principal-level infrastructure leader specializing in multi-region architecture, platform engineering, and cost optimization. Not affiliated with professional basketball.",
+	"knowsAbout": [
+		"Cloud Architecture",
+		"AWS",
+		"Multi-Region Infrastructure",
+		"Disaster Recovery",
+		"Kubernetes",
+		"Terraform",
+		"Cost Optimization",
+		"VPC Architecture",
+		"Platform Engineering",
+		"Site Reliability Engineering"
+	],
+	"hasCredential": [
+		{
+			"@type": "EducationalOccupationalCredential",
+			"credentialCategory": "professional experience",
+			"name": "Principal Infrastructure Engineer at Pinterest"
+		}
+	],
+	"memberOf": [
+		{
+			"@type": "Organization",
+			"name": "/dev/color",
+			"description": "Community supporting Black engineers"
+		}
+	]
 };
 
 // Website Schema
 const websiteSchema = {
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  "name": `${SITE_CONFIG.name} Portfolio`,
-  "url": siteUrl,
-  "author": {
-    "@type": "Person",
-    "name": SITE_CONFIG.name
-  }
+	"@context": "https://schema.org",
+	"@type": "WebSite",
+	"name": `${SITE_CONFIG.name} Portfolio`,
+	"url": siteUrl,
+	"author": {
+		"@type": "Person",
+		"name": SITE_CONFIG.name
+	},
+	"description": SITE_CONFIG.description
 };
 
+// Article Schema (for blog posts)
+const articleSchema = type === 'article' && title ? {
+	"@context": "https://schema.org",
+	"@type": "TechArticle",
+	"headline": title,
+	"author": {
+		"@type": "Person",
+		"name": SITE_CONFIG.name
+	},
+	"description": description || SITE_CONFIG.description,
+	"proficiencyLevel": "Expert"
+} : null;
+
 let schema = [personSchema, websiteSchema];
-
-// If it's a project or blog post, we could add more specific schema here
-// For now, we'll stick to the core identity schema to establish authority.
-
+if (articleSchema) {
+	schema.push(articleSchema);
+}
 ---
 
 <script type="application/ld+json" set:html={JSON.stringify(schema)} />

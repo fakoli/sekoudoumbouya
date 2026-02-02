@@ -1,0 +1,115 @@
+---
+/**
+ * ReceiptsWall Component
+ * Horizontal scrolling gallery of curated artifacts proving claims
+ * Each receipt links to a case study (no orphan artifacts)
+ */
+
+import { getCollection } from 'astro:content';
+import { getBasePath } from '../../utils/paths';
+
+interface Props {
+	maxVisible?: number;
+}
+
+const { maxVisible = 5 } = Astro.props;
+const base = getBasePath();
+
+// Fetch artifacts from content collection
+const allArtifacts = await getCollection('artifacts');
+const artifacts = allArtifacts.slice(0, maxVisible);
+
+// Type icons for display
+const typeIcons: Record<string, string> = {
+	design: '📐',
+	decision: '⚖️',
+	ops: '🔧',
+	code: '💻',
+	proof: '📊',
+	diagram: '📈',
+};
+---
+
+{artifacts.length > 0 ? (
+	<section class="mb-24">
+		<div class="max-w-6xl mx-auto px-4">
+			<div class="flex justify-between items-end mb-6">
+				<div>
+					<h2 class="heading-lg text-foreground mb-2">Receipts Wall</h2>
+					<p class="body-sm text-muted">Real artifacts, not abstract claims.</p>
+				</div>
+				<a href={`${base}/projects`} class="hidden md:inline-flex items-center link body-sm">
+					View all case studies &rarr;
+				</a>
+			</div>
+
+			<div class="receipts-wall">
+				{artifacts.map((artifact) => (
+					<a
+						href={`${base}/projects/${artifact.data.projectSlug}`}
+						class="receipt-card group"
+						title={artifact.data.title}
+					>
+						{artifact.data.thumbnail ? (
+							<img
+								src={artifact.data.thumbnail}
+								alt={artifact.data.title}
+								class="receipt-card-image"
+								loading="lazy"
+							/>
+						) : (
+							<div class="receipt-card-image flex items-center justify-center bg-[var(--surface-secondary)] text-4xl">
+								{typeIcons[artifact.data.type] || '📄'}
+							</div>
+						)}
+						<div class="receipt-card-overlay">
+							<span class={`badge badge-${artifact.data.type} text-xs`}>
+								{artifact.data.type}
+							</span>
+							<span class="receipt-card-title">
+								{artifact.data.title}
+							</span>
+						</div>
+					</a>
+				))}
+
+				<!-- Placeholder cards if we have few artifacts -->
+				{artifacts.length < maxVisible && Array.from({ length: maxVisible - artifacts.length }).map((_, i) => (
+					<div class="receipt-card opacity-50 cursor-not-allowed">
+						<div class="receipt-card-image flex items-center justify-center bg-[var(--surface-secondary)]">
+							<span class="text-muted text-sm">Coming soon</span>
+						</div>
+					</div>
+				))}
+			</div>
+
+			<div class="mt-6 md:hidden">
+				<a href={`${base}/projects`} class="link body-sm">
+					View all case studies &rarr;
+				</a>
+			</div>
+		</div>
+	</section>
+) : (
+	<!-- If no artifacts yet, show placeholder section -->
+	<section class="mb-24">
+		<div class="max-w-6xl mx-auto px-4">
+			<div class="flex justify-between items-end mb-6">
+				<div>
+					<h2 class="heading-lg text-foreground mb-2">Receipts Wall</h2>
+					<p class="body-sm text-muted">Real artifacts, not abstract claims.</p>
+				</div>
+			</div>
+
+			<div class="receipts-wall">
+				{Array.from({ length: maxVisible }).map((_, i) => (
+					<div class="receipt-card opacity-50 cursor-not-allowed">
+						<div class="receipt-card-image flex items-center justify-center bg-[var(--surface-secondary)]">
+							<span class="text-muted text-sm text-center px-2">Artifacts coming soon</span>
+						</div>
+					</div>
+				))}
+			</div>
+		</div>
+	</section>
+)}

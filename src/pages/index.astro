@@ -1,5 +1,8 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
+import ProofStrip from '../components/common/ProofStrip.astro';
+import LLMProfilePanel from '../components/common/LLMProfilePanel.astro';
+import ReceiptsWall from '../components/home/ReceiptsWall.astro';
 import { getCollection } from 'astro:content';
 import { SITE_CONFIG } from '../config';
 import { getBasePath, withBasePath } from '../utils/paths';
@@ -21,17 +24,49 @@ const latestPosts = posts
 // Fetch Projects from content collection (same source as Projects page)
 const allProjects = await getCollection('projects');
 const featuredProjects = allProjects
+	.filter(p => p.data.featured || p.data.category === 'strategic')
 	.sort((a, b) => {
 		// Featured first, then by date
 		if (a.data.featured && !b.data.featured) return -1;
 		if (!a.data.featured && b.data.featured) return 1;
 		return b.data.publishDate.valueOf() - a.data.publishDate.valueOf();
 	})
-	.slice(0, 4);
+	.slice(0, 3);
 
 // Get dynamic data
 const focusAreas = getFocusAreasPreviews();
-const quickNavItems = getQuickNavItems();
+
+// Proof strip metrics
+const proofMetrics = [
+	{ value: '20+', label: 'Years', highlight: false },
+	{ value: '$10M+', label: 'Saved', highlight: true },
+	{ value: '20+', label: 'Mentored', highlight: false },
+	{ value: '4+', label: 'Regions', highlight: false },
+];
+
+// LLM Profile data
+const llmProfileData = {
+	name: SITE_CONFIG.name,
+	disambiguation: 'Infrastructure and cloud architecture engineer (not the professional basketball player)',
+	title: SITE_CONFIG.title,
+	currentRole: SITE_CONFIG.currentRole,
+	currentCompany: SITE_CONFIG.currentCompany,
+	expertise: [
+		'Multi-region AWS architecture',
+		'Platform engineering & DevEx',
+		'Cost optimization at scale',
+		'Disaster recovery systems',
+		'Terraform & Infrastructure as Code',
+		'Kubernetes & container orchestration',
+	],
+	notableAchievements: [
+		'$10M+ annual infrastructure savings at Pinterest',
+		'Reduced DR recovery time from 20 days to 8 hours',
+		'Built DR tooling at 12% of vendor cost',
+		'Led multi-region expansion across 4 AWS regions',
+		'Mentored 20+ engineers to senior level',
+	],
+};
 
 // Generate initials for fallback images
 const initials = SITE_CONFIG.name.split(' ').map(n => n[0]).join('');
@@ -39,153 +74,181 @@ const initials = SITE_CONFIG.name.split(' ').map(n => n[0]).join('');
 
 <PageLayout title={`${SITE_CONFIG.name} | ${SITE_CONFIG.title}`} description={SITE_CONFIG.description}>
 
-	<!-- Hero Section -->
-	<section class="py-12 md:py-24 relative overflow-hidden">
-		<div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row items-center gap-8 md:gap-12">
-			<div class="flex-1 z-10">
-				<!-- Mobile-only: Compact intro with headshot + name side-by-side -->
-				<div class="flex md:hidden items-center gap-4 mb-6">
-					<img
-						src={`${base}/headshot.jpg`}
-						alt={SITE_CONFIG.name}
-						class="w-20 h-20 object-cover rounded-lg border border-[var(--border-default)] shrink-0"
-						onerror={`this.src='https://placehold.co/80x80?text=${initials}'`}
-					/>
-					<div>
-						<p class="heading-sm text-foreground">{SITE_CONFIG.name}</p>
-						<p class="body-sm text-muted mb-2">{SITE_CONFIG.title}</p>
-						{SITE_CONFIG.availableForHire && (
-							<span class="status-available">
-								<span class="status-dot"></span>
-								Available for Hire
-							</span>
-						)}
-					</div>
-				</div>
+	<!-- Hero Section - Editorial Magazine Style -->
+	<section class="py-16 md:py-24 relative" data-hero>
+		<div class="max-w-6xl mx-auto px-4">
+			<!-- Editorial layout with optional photo -->
+			<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+				<!-- Main content column -->
+				<div class="lg:col-span-8">
+					<!-- Horizontal rule - editorial style -->
+					<div class="h-1 w-16 bg-[var(--color-accent)] mb-8"></div>
 
-				<!-- Desktop-only: Original name/title row -->
-				<div class="hidden md:flex flex-wrap items-center gap-3 mb-6">
-					<p class="body-lg font-medium text-secondary">
-						{SITE_CONFIG.name} — {SITE_CONFIG.title}
+					<!-- Display headline -->
+					<h1 class="display text-foreground mb-6">
+						Where architecture<br class="hidden md:block" />
+						<span class="text-accent">meets execution.</span>
+					</h1>
+
+					<!-- Dek (subheadline) -->
+					<p class="body-lg text-secondary mb-6 max-w-2xl">
+						Principal engineer building resilient systems at Pinterest scale.
+						<span class="font-semibold text-foreground">$10M+ saved. 8-hour DR recovery.</span>
 					</p>
-					{SITE_CONFIG.availableForHire && (
-						<span class="status-available">
-							<span class="status-dot"></span>
-							Available for Principal Roles
-						</span>
-					)}
-				</div>
 
-				<h1 class="text-4xl md:text-6xl font-bold text-foreground tracking-tight mb-4 leading-tight">
-					Where architecture <br class="hidden md:block" />
-					<span class="text-accent">meets execution.</span>
-				</h1>
+					<!-- Byline with disambiguation (appears once) -->
+					<p class="body-md text-muted mb-10 max-w-2xl">
+						<span class="font-medium text-foreground">{SITE_CONFIG.name}</span> — infrastructure/cloud architecture leader.
+						<span class="italic">Not the basketball player.</span>
+					</p>
 
-				<p class="body-sm text-muted mb-8 uppercase tracking-wider">
-					Currently DRI for Multi-Region at Pinterest · $10M+ infrastructure savings
-				</p>
-
-				<p class="body-lg text-secondary mb-6 max-w-2xl leading-relaxed">
-					Principal-level infrastructure leader with <strong class="text-foreground">20+ years</strong> building resilient, cost-efficient cloud platforms. I operate at the intersection of hands-on engineering and strategic architecture — designing systems that scale and developing the engineers who run them.
-				</p>
-
-				<p class="body-md text-muted mb-10 max-w-2xl border-l-2 border-[var(--color-accent)] pl-4 italic">
-					TL;DR: I'm best leveraged as a player-coach in organizations navigating multi-region architecture, platform engineering, or AI infrastructure at scale.
-				</p>
-
-				<div class="flex flex-col sm:flex-row gap-3 sm:gap-4">
-					<a href={withBasePath('/experience')} class="btn btn-primary w-full sm:w-auto">
-						View Experience
-					</a>
-					<a href={withBasePath('/projects')} class="btn btn-secondary w-full sm:w-auto">
-						See Case Studies
-					</a>
-				</div>
-			</div>
-
-			<!-- Desktop-only: Large decorative headshot -->
-			<div class="hidden md:block w-64 h-64 md:w-80 md:h-80 shrink-0 relative">
-				<div class="absolute inset-0 bg-gradient-to-tr from-[var(--color-accent-bg)] to-[var(--color-bg)] rounded-full blur-2xl opacity-70"></div>
-				<img
-					src={`${base}/headshot.jpg`}
-					alt={SITE_CONFIG.name}
-					class="w-full h-full object-cover rounded-xl border border-[var(--border-default)] relative z-10 transition-transform duration-300 hover:scale-[1.02]"
-					onerror={`this.src='https://placehold.co/400x400?text=${initials}'`}
-				/>
-			</div>
-		</div>
-	</section>
-
-	<!-- Quick Navigation -->
-	<section class="max-w-6xl mx-auto mb-24 px-4">
-		<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-			{quickNavItems.map((item) => (
-				<a href={item.href} class="group card p-5 flex items-start gap-3">
-					<span class="h-10 w-10 rounded-md bg-[var(--color-accent-bg)] text-accent flex items-center justify-center font-bold group-hover:bg-[var(--color-accent)] group-hover:text-white transition-colors">→</span>
-					<div>
-						<h3 class="font-semibold text-foreground mb-1 group-hover:text-accent transition-colors">{item.title}</h3>
-						<p class="body-sm text-muted leading-snug">{item.description}</p>
+					<!-- CTA buttons -->
+					<div class="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-12">
+						<a href={withBasePath('/experience')} class="btn btn-primary">
+							View Experience
+						</a>
+						<a href={withBasePath('/projects')} class="btn btn-secondary">
+							See Case Studies
+						</a>
 					</div>
-				</a>
-			))}
+				</div>
+
+				<!-- Editorial portrait column (desktop only) -->
+				<div class="hidden lg:block lg:col-span-4">
+					<figure class="relative">
+						<img
+							src={`${base}/headshot.jpg`}
+							alt={SITE_CONFIG.name}
+							class="w-full aspect-[3/4] object-cover rounded-lg border border-[var(--border-default)]"
+							onerror={`this.src='https://placehold.co/300x400?text=${initials}'`}
+						/>
+						<figcaption class="mt-3 body-sm text-muted italic">
+							DRI for Multi-Region at Pinterest, 2021–present
+						</figcaption>
+					</figure>
+				</div>
+			</div>
 		</div>
 	</section>
 
-	<!-- Key Stats Grid -->
-	<section class="max-w-6xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-8 mb-24 border-b border-[var(--border-default)] pb-12 px-4">
-		{STATS.map(stat => (
-			<div>
-				<div class="text-4xl md:text-5xl font-bold text-foreground mb-2 tabular-nums">{stat.value}</div>
-				<div class="label">{stat.label}</div>
-			</div>
-		))}
+	<!-- Proof Strip - Editorial Ruler Bar -->
+	<ProofStrip metrics={proofMetrics} sticky={true} />
+
+	<!-- LLM Profile Panel (crawlable when collapsed) -->
+	<section class="max-w-6xl mx-auto px-4 mb-12">
+		<LLMProfilePanel person={llmProfileData} />
 	</section>
 
-	<!-- How I Work With Teams (Condensed Preview) -->
+	<!-- How I Work Section -->
 	<section class="max-w-6xl mx-auto mb-24 px-4">
 		<div class="flex justify-between items-end mb-6">
-			<h2 class="heading-lg text-foreground">How I Work With Teams</h2>
+			<h2 class="heading-lg text-foreground">How I Work</h2>
 			<a href={`${base}/about#how-i-lead`} class="hidden md:inline-flex items-center link body-sm">
-				Learn more about my approach &rarr;
+				Learn more &rarr;
 			</a>
 		</div>
 
-		<div class="card p-6 md:p-8">
-			<p class="body-md text-secondary mb-6 max-w-3xl">
-				I partner with engineering organizations as a senior IC, architect, or advisor to untangle complex infrastructure problems and build durable systems and teams.
-			</p>
-
-			<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-				<div class="flex items-start gap-3">
-					<span class="text-2xl">⚡</span>
-					<div>
-						<h3 class="font-semibold text-foreground mb-1">Player-Coach Leadership</h3>
-						<p class="body-sm text-muted">40% hands-on with code and design reviews</p>
-					</div>
-				</div>
-				<div class="flex items-start gap-3">
-					<span class="text-2xl">🎯</span>
-					<div>
-						<h3 class="font-semibold text-foreground mb-1">Platform as Product</h3>
-						<p class="body-sm text-muted">Golden-path solutions that reduce cognitive load</p>
-					</div>
-				</div>
-				<div class="flex items-start gap-3">
-					<span class="text-2xl">📈</span>
-					<div>
-						<h3 class="font-semibold text-foreground mb-1">Knowledge Multiplication</h3>
-						<p class="body-sm text-muted">Teams more capable after working with me</p>
-					</div>
-				</div>
+		<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+			<div class="card p-6">
+				<div class="text-2xl mb-3">⚡</div>
+				<h3 class="heading-sm text-foreground mb-2">Player-Coach</h3>
+				<p class="body-sm text-muted">
+					40% hands-on with code and design reviews. I lead by solving hard problems alongside the team.
+				</p>
 			</div>
+			<div class="card p-6">
+				<div class="text-2xl mb-3">🎯</div>
+				<h3 class="heading-sm text-foreground mb-2">Platform as Product</h3>
+				<p class="body-sm text-muted">
+					Internal platforms should treat developers as customers. Golden-path solutions that reduce cognitive load.
+				</p>
+			</div>
+			<div class="card p-6">
+				<div class="text-2xl mb-3">📈</div>
+				<h3 class="heading-sm text-foreground mb-2">Knowledge Multiplier</h3>
+				<p class="body-sm text-muted">
+					My success metric: teams more capable after working with me. 20+ engineers mentored to senior+.
+				</p>
+			</div>
+		</div>
 
-			<a href={`${base}/about#how-i-lead`} class="link body-sm md:hidden">
-				Learn more about my approach &rarr;
+		<div class="mt-6 md:hidden">
+			<a href={`${base}/about#how-i-lead`} class="link body-sm">
+				Learn more &rarr;
 			</a>
 		</div>
 	</section>
 
-	<!-- Technical Focus Areas Preview -->
+	<!-- Featured Case Studies -->
+	<section id="case-studies" class="max-w-6xl mx-auto mb-24 px-4">
+		<div class="flex justify-between items-end mb-8">
+			<div>
+				<h2 class="heading-lg text-foreground mb-2">Featured Case Studies</h2>
+				<p class="body-md text-muted">Proof of impact, not just claims.</p>
+			</div>
+			<a href={withBasePath('/projects')} class="hidden md:inline-flex items-center link body-sm">
+				View all projects &rarr;
+			</a>
+		</div>
+
+		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+			{featuredProjects.map((project) => (
+				<article
+					class={`card p-6 flex flex-col h-full ${
+						project.data.featured
+							? 'border-l-4 border-l-[var(--color-accent)]'
+							: ''
+					}`}
+				>
+					<div class="flex items-center gap-2 mb-4">
+						{project.data.featured && (
+							<span class="badge badge-accent text-xs">Featured</span>
+						)}
+						<span class="badge text-xs">{project.data.organization}</span>
+					</div>
+
+					<h3 class="heading-sm text-foreground mb-3">
+						<a href={`${base}/projects/${project.id}`} class="hover:text-accent transition-colors">
+							{project.data.title}
+						</a>
+					</h3>
+
+					<!-- Decision Card Preview (problem → outcome) -->
+					{project.data.decisionCard ? (
+						<div class="mb-4 flex-1">
+							<p class="body-sm text-muted mb-2 line-clamp-2">
+								<span class="font-semibold text-foreground">Problem:</span> {project.data.decisionCard.problem}
+							</p>
+							{project.data.outcomes && project.data.outcomes[0] && (
+								<p class="body-sm text-accent font-medium">
+									→ {project.data.outcomes[0]}
+								</p>
+							)}
+						</div>
+					) : (
+						<p class="body-sm text-muted mb-4 flex-1 line-clamp-3">
+							{project.data.description}
+						</p>
+					)}
+
+					<a href={`${base}/projects/${project.id}`} class="link text-sm font-medium mt-auto pt-4 border-t border-[var(--border-subtle)]">
+						Read Case Study &rarr;
+					</a>
+				</article>
+			))}
+		</div>
+
+		<div class="mt-8 md:hidden">
+			<a href={withBasePath('/projects')} class="link body-sm">
+				View all projects &rarr;
+			</a>
+		</div>
+	</section>
+
+	<!-- Receipts Wall -->
+	<ReceiptsWall maxVisible={5} />
+
+	<!-- Technical Focus Areas -->
 	<section id="focus-areas" class="max-w-6xl mx-auto mb-24 px-4">
 		<div class="flex justify-between items-end mb-8">
 			<div>
@@ -213,7 +276,7 @@ const initials = SITE_CONFIG.name.split(' ').map(n => n[0]).join('');
 		</div>
 	</section>
 
-	<!-- External Engagement (Condensed) -->
+	<!-- External Engagement -->
 	<section id="external-engagement" class="max-w-6xl mx-auto mb-24 px-4">
 		<div class="card p-6 md:p-8">
 			<div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
@@ -237,98 +300,12 @@ const initials = SITE_CONFIG.name.split(' ').map(n => n[0]).join('');
 		</div>
 	</section>
 
-	<!-- Featured Projects -->
-	<section id="my-projects" class="max-w-6xl mx-auto mb-24 px-4">
-		<div class="flex justify-between items-end mb-12">
-			<div>
-				<h2 class="heading-lg text-foreground mb-2">Projects</h2>
-				<p class="body-md text-muted">Open source tools and case studies from my work.</p>
-			</div>
-			<a href={withBasePath('/projects')} class="hidden md:inline-flex items-center link body-sm">
-				View all projects &rarr;
-			</a>
-		</div>
-
-		<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-			{featuredProjects.map((project) => (
-				<article
-					class={`card p-6 flex flex-col h-full transition-all ${
-						project.data.featured
-							? 'border-l-3 border-l-[var(--color-accent)] bg-gradient-to-r from-[var(--color-accent-bg)] to-transparent'
-							: ''
-					}`}
-				>
-					<div class="flex justify-between items-start mb-3">
-						<div class="flex items-center gap-2">
-							{project.data.featured && (
-								<span class="badge badge-accent text-xs">Featured</span>
-							)}
-							<span class="badge text-xs">{project.data.category === 'open-source' ? 'Open Source' : 'Case Study'}</span>
-						</div>
-						{project.data.repository && (
-							<a
-								href={project.data.repository}
-								target="_blank"
-								rel="noopener noreferrer"
-								class="text-muted hover:text-foreground transition-colors"
-								title="View on GitHub"
-							>
-								<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-									<path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-								</svg>
-							</a>
-						)}
-					</div>
-
-					<h3 class="heading-sm text-foreground mb-2">
-						<a href={`${base}/projects/${project.id}`} class="hover:text-accent transition-colors">
-							{project.data.title}
-						</a>
-					</h3>
-
-					<p class="body-md text-secondary mb-4 flex-1">
-						{project.data.description}
-					</p>
-
-					<!-- Tech Stack -->
-					<div class="flex flex-wrap gap-1.5 mb-4">
-						{project.data.primaryTech.slice(0, 4).map(tech => (
-							<span class="text-xs px-2 py-0.5 bg-[var(--color-bg)] text-muted rounded border border-[var(--border-subtle)]">
-								{tech}
-							</span>
-						))}
-						{project.data.primaryTech.length > 4 && (
-							<span class="text-xs px-2 py-0.5 text-muted">
-								+{project.data.primaryTech.length - 4}
-							</span>
-						)}
-					</div>
-
-					<div class="flex items-center justify-between pt-4 border-t border-[var(--border-subtle)]">
-						<a href={`${base}/projects/${project.id}`} class="link text-sm font-medium">
-							Read Case Study &rarr;
-						</a>
-						<span class="body-sm text-faint">{project.data.duration}</span>
-					</div>
-				</article>
-			))}
-		</div>
-
-		<div class="mt-8 md:hidden">
-			<a href={withBasePath('/projects')} class="link body-sm">
-				View all projects &rarr;
-			</a>
-		</div>
-	</section>
-
 	<!-- Latest Writing -->
-	<section id="insights" class="max-w-4xl mx-auto border-t border-[var(--border-default)] pt-20 px-4">
+	<section id="insights" class="max-w-4xl mx-auto border-t border-[var(--border-default)] pt-20 mb-24 px-4">
 		<div class="flex justify-between items-baseline mb-12">
-			<h2 class="heading-lg text-foreground">Technical Insights</h2>
+			<h2 class="heading-lg text-foreground">Latest Writing</h2>
 			<a href={withBasePath('/blog')} class="link body-sm">Read all articles &rarr;</a>
 		</div>
-
-		<p class="body-md text-muted mb-10">Selected essays on systems design, infrastructure leadership, and AI workloads.</p>
 
 		<div class="space-y-10">
 			{latestPosts.map((post) => (
@@ -357,9 +334,9 @@ const initials = SITE_CONFIG.name.split(' ').map(n => n[0]).join('');
 		</div>
 	</section>
 
-	<!-- Work With Me CTA -->
-	<section class="bg-[var(--color-bg)] mt-24">
-		<div class="max-w-3xl mx-auto px-4 py-12 md:py-16 text-center">
+	<!-- CTA Section -->
+	<section class="bg-[var(--surface-secondary)]">
+		<div class="max-w-3xl mx-auto px-4 py-16 text-center">
 			<h2 class="heading-lg text-foreground mb-4">Let's Connect</h2>
 			<p class="body-lg text-secondary mb-8 leading-relaxed">
 				{SITE_CONFIG.availableForHire
