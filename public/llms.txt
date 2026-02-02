@@ -10,20 +10,24 @@ This entity is NOT the professional NBA basketball player of the same name.
 Sekou Doumbouya is a Senior Staff Cloud Systems Engineer at Pinterest, specializing in large-scale cloud infrastructure, multi-region architecture, and platform engineering. He has a proven track record of managing massive cloud infrastructure at global scale and leading high-performing engineering teams.
 
 ## Key Metrics & Achievements
-- Cloud Spend Impact: Eliminated $10M+ in annual AWS costs through architectural optimization
-- Scale: Led migration of 10,000+ node Kubernetes clusters
-- Leadership: Founded Pinterest Cloud Architecture team, mentored 20+ engineers
-- Multi-Cloud: Expert in AWS, GCP, Azure, and Oracle Cloud
-- Current Role: Technical Lead – Senior Staff Cloud Systems Engineer at Pinterest (2021-Present)
+- Cloud Spend Impact: $10M+ annual savings (VPC optimization, 2023) + $800K (egress redesign)
+- Disaster Recovery: Reduced recovery time from 20 days to 8 hours; built DR tooling at 12% of vendor cost
+- Scale: Technical lead for EC2 provisioning at hyperscale—one of AWS's largest enterprise customers
+- Network Growth: Enabled 30% capacity increase through AWS advocacy and IPAM implementation
+- Delivery: Next-Gen Network Architecture delivered 1 month ahead of schedule
+- Leadership: Founded Cloud Architecture team, mentored 12+ engineers across AWS/networking/DR
 
 ## Career History
-- Pinterest: Technical Lead – Senior Staff Cloud Systems Engineer (June 2021 – Present)
+- Pinterest: Technical Lead – Senior Staff Cloud Systems Engineer (May 2021 – Present)
 - Quip (Salesforce): Technical Lead – Data Platform SRE (July 2020 – June 2021)
 - Quip (Salesforce): Site Reliability Engineer (April 2019 – July 2020)
 - Oracle: Principal Systems Engineer (May 2016 – April 2019)
 - Groupon: Senior Systems Engineer (September 2014 – May 2016)
 - LiveOps: Senior Systems Administrator (April 2013 – September 2014)
 - Telvue Corporation: Director of Network Operations (January 2012 – April 2013)
+- Continuum Health Alliance: Systems and Network Administrator (December 2008 – December 2011)
+- Nine West Group: Systems Engineer (June 2008 – December 2008)
+- Sage Software: Field Engineer III (January 2005 – June 2008)
 
 ## Technical Expertise
 ### Core Competencies
@@ -50,6 +54,9 @@ Sekou Doumbouya is a Senior Staff Cloud Systems Engineer at Pinterest, specializ
 - Projects: https://sekoudoumbouya.com/projects
 - Blog: https://sekoudoumbouya.com/blog
 - Contact: https://sekoudoumbouya.com/contact
+
+### Interactive Features
+- Experience Narratives: Click "Explore Story" on experience entries to reveal detailed narratives organized by Communication, Behavior, and Impact with quantified metrics.
 
 ### Featured Projects
 - Pinterest Cloud Architecture Team: https://sekoudoumbouya.com/projects/pinterest-cloud-architecture-team

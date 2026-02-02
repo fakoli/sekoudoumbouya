@@ -74,4 +74,34 @@ const experience = defineCollection({
     }),
 });
 
-export const collections = { blog, projects, experience };
+// 4. NARRATIVES COLLECTION
+// Rich narrative content linked to experience entries via experienceSlug
+const narratives = defineCollection({
+    loader: glob({ pattern: ['**/*.{md,mdx}'], base: "./src/content/narratives" }),
+    schema: z.object({
+        experienceSlug: z.string().describe("Links to experience JSON filename (without extension)"),
+        title: z.string().optional(),
+        lastUpdated: z.coerce.date().optional(),
+
+        communication: z.object({
+            summary: z.string(),
+            highlights: z.array(z.string()).default([]),
+        }).optional(),
+
+        behavior: z.object({
+            summary: z.string(),
+            highlights: z.array(z.string()).default([]),
+        }).optional(),
+
+        impact: z.object({
+            summary: z.string(),
+            metrics: z.array(z.object({
+                value: z.string(),
+                label: z.string(),
+                context: z.string().optional(),
+            })).default([]),
+        }).optional(),
+    }),
+});
+
+export const collections = { blog, projects, experience, narratives };
