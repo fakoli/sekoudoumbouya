@@ -18,6 +18,15 @@ const { title, description = "Senior Cloud & Infrastructure Leader Portfolio", i
 <!doctype html>
 <html lang="en">
         <head>
+                <!-- Theme initialization - must run before body to prevent flash -->
+                <script is:inline>
+                        (function() {
+                                const stored = localStorage.getItem('theme');
+                                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                                const theme = stored || (prefersDark ? 'dark' : 'light');
+                                document.documentElement.setAttribute('data-theme', theme);
+                        })();
+                </script>
                 <SEOHead title={title} description={description} image={image} type={type} publishDate={publishDate} />
                 <JSONLD type={type} title={title} description={description} />
                 <link rel="preconnect" href="https://api.fontshare.com" crossorigin />

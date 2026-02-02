@@ -9,13 +9,22 @@ export async function getStaticPaths() {
 	const projects = await getCollection('projects');
 	return projects.map((project) => ({
 		params: { slug: project.id },
-		props: { project },
+		props: { project, allProjects: projects },
 	}));
 }
 
-const { project } = Astro.props;
+const { project, allProjects } = Astro.props;
 const { Content } = await render(project);
 const base = getBasePath();
+
+// Get related projects (same category or shared tags, excluding current)
+const relatedProjects = allProjects
+	.filter(p => p.id !== project.id)
+	.filter(p => {
+		const sharedTags = p.data.tags.filter(t => project.data.tags.includes(t));
+		return p.data.category === project.data.category || sharedTags.length > 0;
+	})
+	.slice(0, 3);
 ---
 
 <PageLayout title={`${project.data.title} | Projects`} description={project.data.description}>
@@ -120,11 +129,53 @@ const base = getBasePath();
 
 			<!-- MDX Content -->
 			<div class="lg:col-span-9 order-1 lg:order-2">
-				<div class="prose prose-lg prose-slate max-w-none prose-headings:font-semibold prose-headings:tracking-tight prose-headings:text-foreground prose-p:text-secondary prose-li:text-secondary prose-strong:text-foreground prose-a:text-[var(--color-accent)] prose-a:no-underline hover:prose-a:underline">
+				<div class="prose prose-lg max-w-none prose-headings:font-semibold prose-headings:tracking-tight prose-a:no-underline hover:prose-a:underline">
 					<Content />
 				</div>
+
+				<!-- Key Takeaways Box -->
+				{project.data.outcomes && project.data.outcomes.length > 0 && (
+					<div class="mt-12 card p-6 md:p-8 bg-[var(--color-accent-bg)] border-[var(--color-accent)]">
+						<h3 class="heading-sm text-foreground mb-4 flex items-center gap-2">
+							<svg class="w-5 h-5 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+								<path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+							</svg>
+							Key Takeaways
+						</h3>
+						<ul class="space-y-2">
+							{project.data.outcomes.map(outcome => (
+								<li class="flex items-start gap-3">
+									<span class="text-accent mt-1.5 shrink-0">●</span>
+									<span class="body-md text-secondary">{outcome}</span>
+								</li>
+							))}
+						</ul>
+					</div>
+				)}
 			</div>
 		</div>
+
+		<!-- Related Projects -->
+		{relatedProjects.length > 0 && (
+			<section class="mt-16 pt-12 border-t border-[var(--border-default)]">
+				<h2 class="heading-md text-foreground mb-8">Related Projects</h2>
+				<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+					{relatedProjects.map(related => (
+						<a href={`${base}/projects/${related.id}`} class="card p-5 group hover:border-[var(--color-accent)] transition-colors">
+							<div class="flex items-center gap-2 mb-2">
+								<span class="badge text-xs">{related.data.category === 'open-source' ? 'Open Source' : 'Case Study'}</span>
+							</div>
+							<h3 class="heading-sm text-foreground group-hover:text-accent transition-colors mb-2">
+								{related.data.title}
+							</h3>
+							<p class="body-sm text-muted line-clamp-2">
+								{related.data.description}
+							</p>
+						</a>
+					))}
+				</div>
+			</section>
+		)}
 
 	</article>
 </PageLayout>

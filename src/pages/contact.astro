@@ -1,46 +1,138 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
 import { SITE_CONFIG, SOCIAL_LINKS } from '../config';
+import { ENGAGEMENT_TYPES, HIRING_ENGAGEMENT, CONTACT_FAQ, CONTACT_INFO } from '../data/contact';
+import LinkedInIcon from '../components/icons/LinkedInIcon.astro';
+import GitHubIcon from '../components/icons/GitHubIcon.astro';
 
-const offerings = [
-	...(SITE_CONFIG.availableForHire ? ["Principal / Staff+ infrastructure and platform roles"] : []),
-	"Architecture and strategy advisory for multi-region, networking, and AI workloads",
-	"Speaking, workshops, and internal education for engineering teams",
-];
+// Build engagement list - add hiring if available
+const engagements = SITE_CONFIG.availableForHire
+	? [HIRING_ENGAGEMENT, ...ENGAGEMENT_TYPES]
+	: ENGAGEMENT_TYPES;
 ---
 
-<PageLayout title="Contact | Sekou Doumbouya" description="Work with Sekou Doumbouya on infrastructure leadership, architecture advisory, and speaking engagements.">
-	<section class="max-w-3xl mx-auto px-4 py-12">
-		<h1 class="heading-xl text-foreground mb-8">Work With Me</h1>
+<PageLayout title="Contact | Sekou Doumbouya" description="Connect with Sekou Doumbouya for speaking engagements, advisory work, or networking on infrastructure and platform engineering.">
+	<section class="max-w-4xl mx-auto px-4 py-12">
+		<!-- Hero -->
+		<div class="mb-12">
+			<h1 class="heading-xl text-foreground mb-4">Let's Build Something Together</h1>
+			<p class="body-lg text-secondary max-w-2xl">
+				Whether you need a speaker for your next event, strategic guidance on infrastructure challenges, or just want to connect—I'd love to hear from you.
+			</p>
+		</div>
 
-		<p class="body-lg text-secondary mb-8 leading-relaxed">
-			{SITE_CONFIG.availableForHire
-				? "I'm open to principal-level infrastructure roles, advisory engagements, and select speaking or teaching opportunities focused on cloud architecture, multi-region design, networking, and AI infrastructure."
-				: "I'm open to advisory engagements and select speaking or teaching opportunities focused on cloud architecture, multi-region design, networking, and AI infrastructure."
-			}
-		</p>
+		<!-- Engagement Types -->
+		<div class="mb-16">
+			<h2 class="heading-md text-foreground mb-6">How We Can Work Together</h2>
+			<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+				{engagements.map((engagement) => (
+					<div class="card p-6 h-full flex flex-col">
+						<div class="flex items-center gap-3 mb-4">
+							<span class="text-2xl">{engagement.icon}</span>
+							<h3 class="heading-sm text-foreground">{engagement.title}</h3>
+						</div>
+						<p class="body-sm text-secondary mb-4 flex-1">{engagement.description}</p>
+						<ul class="space-y-1">
+							{engagement.examples.slice(0, 3).map((example) => (
+								<li class="body-sm text-muted flex items-start">
+									<span class="text-accent mr-2 mt-1 text-xs">●</span>
+									{example}
+								</li>
+							))}
+						</ul>
+					</div>
+				))}
+			</div>
+		</div>
 
-		<ul class="space-y-3 text-secondary mb-10">
-			{offerings.map(item => (
-				<li class="flex items-start">
-					<span class="mr-3 text-accent mt-1">●</span>
-					<span class="body-md">{item}</span>
-				</li>
-			))}
-		</ul>
+		<!-- Get in Touch -->
+		<div class="mb-16">
+			<div class="card p-6 md:p-8">
+				<h2 class="heading-md text-foreground mb-6">Get in Touch</h2>
 
-		<div class="card p-6 space-y-4">
-			<h2 class="heading-sm text-foreground">Get in Touch</h2>
-			<p class="body-md text-secondary">The best way to reach me is by email or through LinkedIn.</p>
-			<div class="space-y-2">
-				<p class="body-md">
-					<span class="text-muted">Email:</span>{' '}
-					<a href={SOCIAL_LINKS.email} class="link">{SITE_CONFIG.email}</a>
-				</p>
-				<p class="body-md">
-					<span class="text-muted">LinkedIn:</span>{' '}
-					<a href={SOCIAL_LINKS.linkedin} target="_blank" rel="noopener noreferrer" class="link">Connect on LinkedIn</a>
-				</p>
+				<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+					<!-- Contact Methods -->
+					<div class="space-y-4">
+						<a
+							href={SOCIAL_LINKS.email}
+							class="flex items-center gap-4 p-4 rounded-lg border border-[var(--border-subtle)] hover:border-[var(--border-strong)] hover:bg-[var(--color-bg)] transition-colors group"
+						>
+							<div class="w-10 h-10 rounded-full bg-[var(--color-accent-bg)] flex items-center justify-center text-accent">
+								<svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+									<path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+								</svg>
+							</div>
+							<div>
+								<p class="font-medium text-foreground group-hover:text-accent transition-colors">Email</p>
+								<p class="body-sm text-muted">{SITE_CONFIG.email}</p>
+							</div>
+						</a>
+
+						<a
+							href={SOCIAL_LINKS.linkedin}
+							target="_blank"
+							rel="noopener noreferrer"
+							class="flex items-center gap-4 p-4 rounded-lg border border-[var(--border-subtle)] hover:border-[var(--border-strong)] hover:bg-[var(--color-bg)] transition-colors group"
+						>
+							<div class="w-10 h-10 rounded-full bg-[var(--color-accent-bg)] flex items-center justify-center text-accent">
+								<LinkedInIcon />
+							</div>
+							<div>
+								<p class="font-medium text-foreground group-hover:text-accent transition-colors">LinkedIn</p>
+								<p class="body-sm text-muted">Connect professionally</p>
+							</div>
+						</a>
+
+						<a
+							href={SOCIAL_LINKS.github}
+							target="_blank"
+							rel="noopener noreferrer"
+							class="flex items-center gap-4 p-4 rounded-lg border border-[var(--border-subtle)] hover:border-[var(--border-strong)] hover:bg-[var(--color-bg)] transition-colors group"
+						>
+							<div class="w-10 h-10 rounded-full bg-[var(--color-accent-bg)] flex items-center justify-center text-accent">
+								<GitHubIcon />
+							</div>
+							<div>
+								<p class="font-medium text-foreground group-hover:text-accent transition-colors">GitHub</p>
+								<p class="body-sm text-muted">Open source collaboration</p>
+							</div>
+						</a>
+					</div>
+
+					<!-- Response Info -->
+					<div class="space-y-6">
+						<div>
+							<h3 class="font-semibold text-foreground mb-2">Response Time</h3>
+							<p class="body-md text-secondary">{CONTACT_INFO.responseTime}</p>
+						</div>
+						<div>
+							<h3 class="font-semibold text-foreground mb-2">Timezone</h3>
+							<p class="body-md text-secondary">{CONTACT_INFO.timezone}</p>
+						</div>
+						<div>
+							<h3 class="font-semibold text-foreground mb-2">Best For</h3>
+							<p class="body-md text-secondary">{CONTACT_INFO.preferredContact}</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- FAQ -->
+		<div>
+			<h2 class="heading-md text-foreground mb-6">Frequently Asked</h2>
+			<div class="space-y-4">
+				{CONTACT_FAQ.map((faq) => (
+					<details class="card p-5 group">
+						<summary class="flex items-center justify-between cursor-pointer list-none">
+							<span class="font-medium text-foreground pr-4">{faq.question}</span>
+							<span class="text-muted shrink-0 transition-transform group-open:rotate-45">+</span>
+						</summary>
+						<p class="body-md text-secondary mt-4 pt-4 border-t border-[var(--border-subtle)]">
+							{faq.answer}
+						</p>
+					</details>
+				))}
 			</div>
 		</div>
 	</section>
