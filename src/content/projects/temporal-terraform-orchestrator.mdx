@@ -14,6 +14,40 @@ tags: ["Infrastructure as Code", "Workflow Orchestration", "DevOps", "AI Integra
 duration: "2025–Present"
 featured: true
 repository: "https://github.com/fakoli/ai-driven-temporal-to-IAC"
+
+decisionCard:
+  problem: "Managing Terraform deployments across multiple workspaces with interdependencies required manual coordination, brittle scripting, and lacked durability guarantees. Failed deployments required manual intervention and re-execution."
+  constraints:
+    - "Must handle workspace dependencies automatically (DAG resolution)"
+    - "Output values from one workspace must propagate to dependent workspaces"
+    - "Deployments must survive process restarts (durability requirement)"
+    - "Should support AI-assisted operations for conversational infrastructure management"
+  tradeoffs:
+    - option: "Temporal Workflows"
+      pros:
+        - "Built-in durability and automatic retries"
+        - "Native support for long-running operations"
+        - "Event sourcing for full auditability"
+      cons:
+        - "Additional infrastructure dependency"
+        - "Learning curve for Temporal patterns"
+      chosen: true
+    - option: "Custom State Machine"
+      pros:
+        - "Full control over implementation"
+        - "No external dependencies"
+      cons:
+        - "Must build durability from scratch"
+        - "Complex failure handling"
+      chosen: false
+    - option: "CI/CD Pipeline (GitHub Actions)"
+      pros:
+        - "Familiar tooling"
+        - "Built-in UI"
+      cons:
+        - "Poor support for dynamic dependencies"
+        - "Limited durability guarantees"
+      chosen: false
 ---
 
 ## Problem

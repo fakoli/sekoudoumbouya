@@ -1,0 +1,406 @@
+---
+/**
+ * SystemMap Component
+ * Static SVG "career circuit diagram" showing progression through domains
+ * Pure SVG with hand-crafted positions - no physics/d3 required
+ * Keyboard-focusable nodes, CSS-based domain filtering
+ * Updated with accurate career data from resume
+ */
+
+interface Node {
+	id: string;
+	label: string;
+	domain: string;
+	year: string;
+	size: 'sm' | 'md' | 'lg';
+}
+
+interface Edge {
+	from: string;
+	to: string;
+}
+
+interface Props {
+	nodes?: Node[];
+	edges?: Edge[];
+	activeDomain?: string;
+}
+
+const { nodes, edges, activeDomain } = Astro.props;
+
+// Domain colors
+const domainColors: Record<string, { fill: string; stroke: string; text: string }> = {
+	'Network': { fill: '#dbeafe', stroke: '#3b82f6', text: '#1d4ed8' },
+	'Platform': { fill: '#fef3c7', stroke: '#f59e0b', text: '#b45309' },
+	'Cloud': { fill: '#d1fae5', stroke: '#10b981', text: '#047857' },
+};
+
+// Career progression based on verified resume data:
+// Sage Software (2005-2008) → Jones New York (2008) → Continuum Health Alliance (2008-2011)
+// → Telvue Corporation (2012-2013) → LiveOps (2013-2014) → Groupon (2014-2016)
+// → Oracle (2016-2019) → Quip/Salesforce (2019-2021) → Pinterest (2021-present)
+
+const careerNodes = [
+	{ id: 'sage', label: 'Sage', year: '2005', domain: 'Network', x: 60, y: 180, r: 20 },
+	{ id: 'jones', label: 'Jones NY', year: '2008', domain: 'Network', x: 130, y: 150, r: 18 },
+	{ id: 'continuum', label: 'Continuum', year: '2008', domain: 'Network', x: 200, y: 170, r: 22 },
+	{ id: 'telvue', label: 'Telvue', year: '2012', domain: 'Network', x: 280, y: 140, r: 22 },
+	{ id: 'liveops', label: 'LiveOps', year: '2013', domain: 'Platform', x: 360, y: 120, r: 24 },
+	{ id: 'groupon', label: 'Groupon', year: '2014', domain: 'Platform', x: 450, y: 140, r: 26 },
+	{ id: 'oracle', label: 'Oracle', year: '2016', domain: 'Cloud', x: 540, y: 110, r: 28 },
+	{ id: 'quip', label: 'Quip', year: '2019', domain: 'Cloud', x: 630, y: 130, r: 26 },
+	{ id: 'pinterest', label: 'Pinterest', year: '2021', domain: 'Cloud', x: 730, y: 100, r: 35 },
+];
+
+const careerEdges = [
+	{ from: 'sage', to: 'jones' },
+	{ from: 'jones', to: 'continuum' },
+	{ from: 'continuum', to: 'telvue' },
+	{ from: 'telvue', to: 'liveops' },
+	{ from: 'liveops', to: 'groupon' },
+	{ from: 'groupon', to: 'oracle' },
+	{ from: 'oracle', to: 'quip' },
+	{ from: 'quip', to: 'pinterest' },
+];
+
+const roleDescriptions: Record<string, string> = {
+	sage: 'Technical Analyst III (2005-2008)',
+	jones: 'Systems Engineer (2008)',
+	continuum: 'UNIX System & Network Admin (2008-2011)',
+	telvue: 'Director of Network Operations (2012-2013)',
+	liveops: 'Senior Systems Administrator (2013-2014)',
+	groupon: 'Senior Systems Engineer (2014-2016)',
+	oracle: 'Principal Systems Engineer (2016-2019)',
+	quip: 'SRE → Tech Lead (2019-2021)',
+	pinterest: 'Sr. Staff Cloud Systems Engineer (2021-Present)',
+};
+---
+
+<div class="system-map-container mb-12">
+	<!-- Domain Filter Buttons -->
+	<div class="flex flex-wrap gap-2 mb-6" role="tablist" aria-label="Filter by domain">
+		<button
+			class="domain-filter-btn active"
+			data-domain="all"
+			role="tab"
+			aria-selected="true"
+		>
+			All
+		</button>
+		{Object.entries(domainColors).map(([domain, colors]) => (
+			<button
+				class="domain-filter-btn"
+				data-domain={domain.toLowerCase()}
+				role="tab"
+				aria-selected="false"
+				style={`--btn-color: ${colors.stroke}`}
+			>
+				{domain}
+			</button>
+		))}
+	</div>
+
+	<!-- SVG Career Map -->
+	<div class="overflow-x-auto pb-4">
+		<svg
+			viewBox="0 0 820 260"
+			class="w-full min-w-[700px] h-auto"
+			role="img"
+			aria-label="Career progression diagram showing roles from Sage Software (2005) through Pinterest (2021-present)"
+		>
+			<!-- Background with subtle grid -->
+			<defs>
+				<pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+					<path d="M 20 0 L 0 0 0 20" fill="none" stroke="var(--schematic-grid)" stroke-width="0.5"/>
+				</pattern>
+			</defs>
+			<rect width="820" height="260" fill="var(--surface-primary)" rx="8" />
+			<rect width="820" height="260" fill="url(#grid)" rx="8" opacity="0.5" />
+
+			<!-- Timeline axis with dashed line -->
+			<line x1="40" y1="230" x2="780" y2="230" stroke="var(--schematic-line)" stroke-width="1" stroke-dasharray="4 2" />
+
+			<!-- Year markers -->
+			<text x="60" y="248" class="system-map-year" text-anchor="middle">2005</text>
+			<text x="200" y="248" class="system-map-year" text-anchor="middle">2008</text>
+			<text x="360" y="248" class="system-map-year" text-anchor="middle">2013</text>
+			<text x="540" y="248" class="system-map-year" text-anchor="middle">2016</text>
+			<text x="730" y="248" class="system-map-year" text-anchor="middle">2021</text>
+
+			<!-- Domain swim lanes (subtle) -->
+			<text x="15" y="185" class="system-map-domain-label" transform="rotate(-90, 15, 185)">Network</text>
+			<text x="15" y="130" class="system-map-domain-label" transform="rotate(-90, 15, 130)">Platform</text>
+			<text x="15" y="85" class="system-map-domain-label" transform="rotate(-90, 15, 85)">Cloud</text>
+
+			<!-- Edges (connection lines) - dashed schematic style -->
+			<g class="system-map-edges">
+				{careerEdges.map(edge => {
+					const from = careerNodes.find(n => n.id === edge.from)!;
+					const to = careerNodes.find(n => n.id === edge.to)!;
+					return (
+						<line
+							x1={from.x}
+							y1={from.y}
+							x2={to.x}
+							y2={to.y}
+							class="system-map-edge"
+							stroke-dasharray="4 2"
+						/>
+					);
+				})}
+			</g>
+
+			<!-- Nodes -->
+			<g class="system-map-nodes">
+				{careerNodes.map(node => {
+					const colors = domainColors[node.domain];
+					const isCurrent = node.id === 'pinterest';
+					return (
+						<g
+							class:list={['system-map-node', { current: isCurrent }]}
+							data-domain={node.domain.toLowerCase()}
+							tabindex="0"
+							role="button"
+							aria-label={`${node.label}: ${roleDescriptions[node.id]}`}
+						>
+							<circle
+								cx={node.x}
+								cy={node.y}
+								r={node.r}
+								fill={colors.fill}
+								stroke={colors.stroke}
+								stroke-width={isCurrent ? 3 : 2}
+							/>
+							<text
+								x={node.x}
+								y={node.y + 4}
+								text-anchor="middle"
+								class:list={['system-map-node-label', { current: isCurrent }]}
+							>
+								{node.label}
+							</text>
+							{isCurrent && (
+								<circle
+									cx={node.x}
+									cy={node.y}
+									r={node.r + 8}
+									fill="none"
+									stroke={colors.stroke}
+									stroke-width="1"
+									stroke-dasharray="4"
+									opacity="0.5"
+								/>
+							)}
+						</g>
+					);
+				})}
+			</g>
+
+			<!-- Legend with schematic styling -->
+			<g transform="translate(40, 18)">
+				<text x="0" y="0" class="system-map-legend-title">Career Domains:</text>
+				<g transform="translate(100, -8)">
+					<circle cx="10" cy="0" r="6" fill={domainColors.Network.fill} stroke={domainColors.Network.stroke} stroke-width="1" />
+					<text x="22" y="4" class="system-map-legend-text">Network</text>
+				</g>
+				<g transform="translate(185, -8)">
+					<circle cx="10" cy="0" r="6" fill={domainColors.Platform.fill} stroke={domainColors.Platform.stroke} stroke-width="1" />
+					<text x="22" y="4" class="system-map-legend-text">Platform</text>
+				</g>
+				<g transform="translate(270, -8)">
+					<circle cx="10" cy="0" r="6" fill={domainColors.Cloud.fill} stroke={domainColors.Cloud.stroke} stroke-width="1" />
+					<text x="22" y="4" class="system-map-legend-text">Cloud</text>
+				</g>
+			</g>
+
+			<!-- Reference annotation -->
+			<g transform="translate(600, 18)">
+				<text class="system-map-legend-text" fill="var(--color-muted)">
+					<tspan>Click nodes for details</tspan>
+				</text>
+			</g>
+		</svg>
+	</div>
+</div>
+
+<style>
+	.system-map-container {
+		background: var(--color-surface);
+		border: 1px solid var(--border-default);
+		border-radius: var(--radius-lg);
+		padding: var(--space-6);
+	}
+
+	.domain-filter-btn {
+		padding: var(--space-2) var(--space-3);
+		font-family: var(--font-mono);
+		font-size: 11px;
+		font-weight: 500;
+		letter-spacing: 0.02em;
+		border-radius: var(--radius-sm);
+		border: 1px solid var(--border-default);
+		background: var(--color-bg);
+		color: var(--color-muted);
+		cursor: pointer;
+		transition: all var(--transition-fast);
+	}
+
+	.domain-filter-btn:hover {
+		border-color: var(--btn-color, var(--border-strong));
+		color: var(--color-foreground);
+	}
+
+	.domain-filter-btn.active {
+		background: var(--btn-color, var(--color-accent));
+		border-color: var(--btn-color, var(--color-accent));
+		color: white;
+	}
+
+	.system-map-edge {
+		stroke: var(--schematic-line);
+		stroke-width: 1.5;
+		transition: opacity var(--transition-fast);
+	}
+
+	.system-map-node {
+		cursor: pointer;
+		transition: transform var(--transition-fast), opacity var(--transition-fast);
+	}
+
+	.system-map-node:hover,
+	.system-map-node:focus {
+		transform: scale(1.08);
+	}
+
+	.system-map-node:focus {
+		outline: none;
+	}
+
+	.system-map-node:focus circle {
+		stroke-width: 4;
+	}
+
+	.system-map-node-label {
+		font-family: var(--font-mono);
+		font-size: 9px;
+		font-weight: 500;
+		fill: var(--color-secondary);
+	}
+
+	.system-map-node-label.current {
+		font-size: 10px;
+		font-weight: 600;
+		fill: var(--color-foreground);
+	}
+
+	.system-map-year {
+		font-family: var(--font-mono);
+		font-size: 10px;
+		fill: var(--color-muted);
+	}
+
+	.system-map-domain-label {
+		font-family: var(--font-mono);
+		font-size: 8px;
+		fill: var(--color-faint);
+		text-transform: uppercase;
+		letter-spacing: 0.1em;
+	}
+
+	.system-map-legend-title {
+		font-family: var(--font-mono);
+		font-size: 10px;
+		font-weight: 500;
+		fill: var(--color-muted);
+	}
+
+	.system-map-legend-text {
+		font-family: var(--font-mono);
+		font-size: 10px;
+		fill: var(--color-secondary);
+	}
+
+	/* Domain filtering states */
+	.system-map-container[data-filter]:not([data-filter="all"]) .system-map-node:not([data-domain]) {
+		opacity: 0.2;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.system-map-node,
+		.domain-filter-btn {
+			transition: none;
+		}
+	}
+</style>
+
+<script>
+	// Domain filtering functionality
+	const container = document.querySelector('.system-map-container');
+	const buttons = document.querySelectorAll('.domain-filter-btn');
+	const nodes = document.querySelectorAll('.system-map-node');
+	const edges = document.querySelectorAll('.system-map-edge');
+
+	buttons.forEach(button => {
+		button.addEventListener('click', () => {
+			const domain = button.getAttribute('data-domain');
+
+			// Update button states
+			buttons.forEach(b => {
+				b.classList.remove('active');
+				b.setAttribute('aria-selected', 'false');
+			});
+			button.classList.add('active');
+			button.setAttribute('aria-selected', 'true');
+
+			// Update node visibility
+			nodes.forEach(node => {
+				const nodeDomain = node.getAttribute('data-domain');
+				if (domain === 'all' || nodeDomain === domain) {
+					(node as HTMLElement).style.opacity = '1';
+				} else {
+					(node as HTMLElement).style.opacity = '0.15';
+				}
+			});
+
+			// Update edge visibility
+			edges.forEach(edge => {
+				(edge as HTMLElement).style.opacity = domain === 'all' ? '1' : '0.2';
+			});
+		});
+	});
+
+	// Node click for details (scroll to experience section)
+	// Map node labels to experience entry IDs (based on actual JSON file names)
+	const labelToExpMap: Record<string, string> = {
+		'sage': 'exp-sage-software',
+		'jones ny': 'exp-nine-west-group',
+		'continuum': 'exp-continuum-health-alliance',
+		'telvue': 'exp-telvue',
+		'liveops': 'exp-liveops',
+		'groupon': 'exp-groupon',
+		'oracle': 'exp-oracle',
+		'quip': 'exp-quip',
+		'pinterest': 'exp-pinterest',
+	};
+
+	nodes.forEach(node => {
+		node.addEventListener('click', () => {
+			const nodeGroup = node as SVGGElement;
+			const labelElement = nodeGroup.querySelector('text');
+			if (!labelElement) return;
+
+			const labelText = labelElement.textContent?.toLowerCase().trim() || '';
+			const expId = labelToExpMap[labelText];
+
+			if (expId) {
+				const expElement = document.getElementById(expId);
+				if (expElement) {
+					expElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+					// Add a brief highlight effect
+					expElement.classList.add('highlight-entry');
+					setTimeout(() => expElement.classList.remove('highlight-entry'), 2000);
+				}
+			}
+		});
+	});
+</script>

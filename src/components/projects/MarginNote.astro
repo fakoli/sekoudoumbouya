@@ -1,0 +1,37 @@
+---
+/**
+ * MarginNote Component
+ * Schematic annotations in right margin (desktop) or inline footnote (mobile)
+ * Provides "why this decision" context without breaking reading flow
+ */
+
+interface Props {
+	id?: string;
+	label?: string; // Optional label like "Why this?" or "Alternative"
+}
+
+const { id, label } = Astro.props;
+---
+
+<aside class="margin-note" id={id}>
+	{label && (
+		<span class="block font-semibold text-foreground mb-1 text-xs uppercase tracking-wider">
+			{label}
+		</span>
+	)}
+	<slot />
+</aside>
+
+<style>
+	/* Additional mobile styling for inline footnote appearance */
+	@media (max-width: 1280px) {
+		.margin-note {
+			font-size: 13px;
+		}
+
+		.margin-note::before {
+			content: '💡';
+			margin-right: 8px;
+		}
+	}
+</style>

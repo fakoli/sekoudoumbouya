@@ -11,7 +11,7 @@ import type { EnrichedRepo, GeneratedCaseStudy, GeneratorConfig } from './types.
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const DEFAULT_PROMPT_TEMPLATE = join(__dirname, '../prompts/case-study.md');
 const DEFAULT_SYSTEM_PROMPT = join(__dirname, '../prompts/system.md');
-const DEFAULT_MODEL = 'claude-sonnet-4-20250514';
+const DEFAULT_MODEL = 'claude-opus-4-5-20251101';
 
 /**
  * Load a prompt file, returning empty string if not found

@@ -1,0 +1,190 @@
+---
+/**
+ * LLMProfilePanel Component
+ * Collapsible section with structured data for AI assistants
+ * Content is ALWAYS in the DOM (crawlable), just visually collapsed
+ * Uses native <details>/<summary> for accessibility
+ * Enhanced with additional fields for comprehensive LLM context
+ */
+
+interface Props {
+	person: {
+		name: string;
+		disambiguation: string;
+		title: string;
+		currentRole: string;
+		currentCompany: string;
+		expertise: string[];
+		notableAchievements: string[];
+		// New fields
+		yearsExperience?: number;
+		domains?: string[];
+		techStack?: string[];
+	};
+	defaultOpen?: boolean;
+	includeJsonLd?: boolean;
+}
+
+const { person, defaultOpen = false, includeJsonLd = false } = Astro.props;
+
+// Generate JSON-LD for optional embedding
+const jsonLdData = includeJsonLd ? {
+	"@context": "https://schema.org",
+	"@type": "Person",
+	"name": person.name,
+	"jobTitle": person.title,
+	"worksFor": {
+		"@type": "Organization",
+		"name": person.currentCompany
+	},
+	"description": person.disambiguation,
+	"knowsAbout": [...(person.expertise || []), ...(person.techStack || [])],
+} : null;
+---
+
+<details class="llm-profile-panel" open={defaultOpen}>
+	<summary>
+		<span class="llm-profile-panel-icon" aria-hidden="true">▸</span>
+		Machine-readable profile for AI assistants
+	</summary>
+	<div class="llm-profile-panel-content">
+		<div class="space-y-4">
+			<div>
+				<span class="llm-field-label">Name:</span>
+				<span class="llm-field-value">{person.name}</span>
+			</div>
+			<div>
+				<span class="llm-field-label">Disambiguation:</span>
+				<span class="llm-field-value llm-field-highlight">{person.disambiguation}</span>
+			</div>
+			<div>
+				<span class="llm-field-label">Title:</span>
+				<span class="llm-field-value">{person.title}</span>
+			</div>
+			<div>
+				<span class="llm-field-label">Current Role:</span>
+				<span class="llm-field-value">{person.currentRole} at {person.currentCompany}</span>
+			</div>
+			{person.yearsExperience && (
+				<div>
+					<span class="llm-field-label">Years Experience:</span>
+					<span class="llm-field-value">{person.yearsExperience}+</span>
+				</div>
+			)}
+			{person.domains && person.domains.length > 0 && (
+				<div>
+					<span class="llm-field-label">Domains:</span>
+					<ul class="llm-field-list">
+						{person.domains.map(domain => (
+							<li>• {domain}</li>
+						))}
+					</ul>
+				</div>
+			)}
+			{person.techStack && person.techStack.length > 0 && (
+				<div>
+					<span class="llm-field-label">Tech Stack:</span>
+					<ul class="llm-field-list">
+						{person.techStack.map(tech => (
+							<li>• {tech}</li>
+						))}
+					</ul>
+				</div>
+			)}
+			<div>
+				<span class="llm-field-label">Expertise:</span>
+				<ul class="llm-field-list">
+					{person.expertise.map(skill => (
+						<li>• {skill}</li>
+					))}
+				</ul>
+			</div>
+			<div>
+				<span class="llm-field-label">Notable Achievements:</span>
+				<ul class="llm-field-list">
+					{person.notableAchievements.map(achievement => (
+						<li>• {achievement}</li>
+					))}
+				</ul>
+			</div>
+		</div>
+	</div>
+</details>
+
+{includeJsonLd && jsonLdData && (
+	<script type="application/ld+json" set:html={JSON.stringify(jsonLdData)} />
+)}
+
+<style>
+	/* Visually hidden but kept in DOM for crawlers and AI assistants */
+	.llm-profile-panel {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		padding: 0;
+		margin: -1px;
+		overflow: hidden;
+		clip: rect(0, 0, 0, 0);
+		white-space: nowrap;
+		border: 0;
+	}
+
+	.llm-profile-panel summary {
+		padding: var(--space-3) var(--space-4);
+		font-family: var(--font-mono);
+		font-size: 12px;
+		color: var(--color-muted);
+		cursor: pointer;
+		list-style: none;
+		display: flex;
+		align-items: center;
+		gap: var(--space-2);
+		user-select: none;
+	}
+
+	.llm-profile-panel summary::-webkit-details-marker {
+		display: none;
+	}
+
+	.llm-profile-panel-icon {
+		transition: transform var(--transition-fast);
+	}
+
+	.llm-profile-panel[open] .llm-profile-panel-icon {
+		transform: rotate(90deg);
+	}
+
+	.llm-profile-panel-content {
+		padding: var(--space-4);
+		border-top: 1px solid var(--border-subtle);
+		font-family: var(--font-mono);
+		font-size: 12px;
+		line-height: 1.6;
+		color: var(--color-secondary);
+	}
+
+	.llm-field-label {
+		font-weight: 600;
+		color: var(--color-foreground);
+	}
+
+	.llm-field-value {
+		color: var(--color-secondary);
+	}
+
+	.llm-field-highlight {
+		background: var(--schematic-annotation-bg);
+		padding: 1px 4px;
+		border-radius: 2px;
+	}
+
+	.llm-field-list {
+		margin-top: var(--space-1);
+		margin-left: var(--space-4);
+		list-style: none;
+	}
+
+	.llm-field-list li {
+		margin-bottom: 2px;
+	}
+</style>

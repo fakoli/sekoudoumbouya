@@ -1,5 +1,8 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
+import ProofStrip from '../components/common/ProofStrip.astro';
+import LLMProfilePanel from '../components/common/LLMProfilePanel.astro';
+import ReceiptsWall from '../components/home/ReceiptsWall.astro';
 import { getCollection } from 'astro:content';
 import { SITE_CONFIG } from '../config';
 import { getBasePath, withBasePath } from '../utils/paths';
@@ -7,6 +10,7 @@ import { formatDate } from '../utils/dates';
 
 // Data imports
 import { STATS, EXTERNAL_ENGAGEMENT, getFocusAreasPreviews, getQuickNavItems } from '../data/homepage';
+import { PODCAST_LINKS } from '../data/podcast';
 
 const base = getBasePath();
 
@@ -21,17 +25,62 @@ const latestPosts = posts
 // Fetch Projects from content collection (same source as Projects page)
 const allProjects = await getCollection('projects');
 const featuredProjects = allProjects
+	.filter(p => p.data.featured || p.data.category === 'strategic')
 	.sort((a, b) => {
 		// Featured first, then by date
 		if (a.data.featured && !b.data.featured) return -1;
 		if (!a.data.featured && b.data.featured) return 1;
 		return b.data.publishDate.valueOf() - a.data.publishDate.valueOf();
 	})
-	.slice(0, 4);
+	.slice(0, 3);
 
 // Get dynamic data
 const focusAreas = getFocusAreasPreviews();
-const quickNavItems = getQuickNavItems();
+
+// Proof strip metrics
+const proofMetrics = [
+	{ value: '20+', label: 'Years', highlight: false },
+	{ value: '$10M+', label: 'Saved', highlight: true },
+	{ value: '20+', label: 'Mentored', highlight: false },
+	{ value: '4+', label: 'Regions', highlight: false },
+];
+
+// LLM Profile data - Enhanced with additional fields
+const llmProfileData = {
+	name: SITE_CONFIG.name,
+	disambiguation: 'Infrastructure and cloud architecture engineer (not the professional basketball player)',
+	title: SITE_CONFIG.title,
+	currentRole: SITE_CONFIG.currentRole,
+	currentCompany: SITE_CONFIG.currentCompany,
+	yearsExperience: 20,
+	domains: [
+		'Cloud Architecture',
+		'Platform Engineering',
+		'Site Reliability Engineering',
+		'Network Engineering',
+	],
+	techStack: [
+		'AWS (EC2, EKS, ECS, Kinesis)',
+		'Terraform',
+		'Kubernetes',
+		'Python, Go, Bash',
+	],
+	expertise: [
+		'Multi-region AWS architecture',
+		'Platform engineering & DevEx',
+		'Cost optimization at scale',
+		'Disaster recovery systems',
+		'Terraform & Infrastructure as Code',
+		'Kubernetes & container orchestration',
+	],
+	notableAchievements: [
+		'$10M+ annual infrastructure savings at Pinterest',
+		'Reduced DR recovery time from 20 days to 8 hours',
+		'Built DR tooling at 12% of vendor cost',
+		'Led multi-region expansion across 4 AWS regions',
+		'Mentored 12-14 engineers directly',
+	],
+};
 
 // Generate initials for fallback images
 const initials = SITE_CONFIG.name.split(' ').map(n => n[0]).join('');
@@ -39,156 +88,203 @@ const initials = SITE_CONFIG.name.split(' ').map(n => n[0]).join('');
 
 <PageLayout title={`${SITE_CONFIG.name} | ${SITE_CONFIG.title}`} description={SITE_CONFIG.description}>
 
-	<!-- Hero Section -->
-	<section class="py-12 md:py-24 relative overflow-hidden">
-		<div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row items-center gap-8 md:gap-12">
-			<div class="flex-1 z-10">
-				<!-- Mobile-only: Compact intro with headshot + name side-by-side -->
-				<div class="flex md:hidden items-center gap-4 mb-6">
-					<img
-						src={`${base}/headshot.jpg`}
-						alt={SITE_CONFIG.name}
-						class="w-20 h-20 object-cover rounded-lg border border-[var(--border-default)] shrink-0"
-						onerror={`this.src='https://placehold.co/80x80?text=${initials}'`}
-					/>
-					<div>
-						<p class="heading-sm text-foreground">{SITE_CONFIG.name}</p>
-						<p class="body-sm text-muted mb-2">{SITE_CONFIG.title}</p>
-						{SITE_CONFIG.availableForHire && (
-							<span class="status-available">
-								<span class="status-dot"></span>
-								Available for Hire
-							</span>
-						)}
-					</div>
-				</div>
+	<!-- Hero Section - Editorial Magazine Style -->
+	<section class="py-16 md:py-24 relative" data-hero>
+		<div class="max-w-6xl mx-auto px-4">
+			<!-- Editorial layout with optional photo -->
+			<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+				<!-- Main content column -->
+				<div class="lg:col-span-8">
+					<!-- Horizontal rule - editorial style -->
+					<div class="h-1 w-16 bg-[var(--color-accent)] mb-8"></div>
 
-				<!-- Desktop-only: Original name/title row -->
-				<div class="hidden md:flex flex-wrap items-center gap-3 mb-6">
-					<p class="body-lg font-medium text-secondary">
-						{SITE_CONFIG.name} — {SITE_CONFIG.title}
+					<!-- Display headline -->
+					<h1 class="display text-foreground mb-6">
+						Where architecture<br class="hidden md:block" />
+						<span class="text-accent">meets execution.</span>
+					</h1>
+
+					<!-- Dek (subheadline) - Value proposition -->
+					<p class="body-lg text-secondary mb-4 max-w-2xl">
+						I build the foundations other teams build on—designed to scale,
+						priced to survive scrutiny. Twenty years turning business goals
+						into technical strategy, then turning strategy into running systems.
 					</p>
-					{SITE_CONFIG.availableForHire && (
-						<span class="status-available">
-							<span class="status-dot"></span>
-							Available for Principal Roles
-						</span>
-					)}
-				</div>
 
-				<h1 class="text-4xl md:text-6xl font-bold text-foreground tracking-tight mb-4 leading-tight">
-					Where architecture <br class="hidden md:block" />
-					<span class="text-accent">meets execution.</span>
-				</h1>
-
-				<p class="body-sm text-muted mb-8 uppercase tracking-wider">
-					Currently DRI for Multi-Region at Pinterest · $10M+ infrastructure savings
-				</p>
-
-				<p class="body-lg text-secondary mb-6 max-w-2xl leading-relaxed">
-					Principal-level infrastructure leader with <strong class="text-foreground">20+ years</strong> building resilient, cost-efficient cloud platforms. I operate at the intersection of hands-on engineering and strategic architecture — designing systems that scale and developing the engineers who run them.
-				</p>
-
-				<p class="body-md text-muted mb-10 max-w-2xl border-l-2 border-[var(--color-accent)] pl-4 italic">
-					TL;DR: I'm best leveraged as a player-coach in organizations navigating multi-region architecture, platform engineering, or AI infrastructure at scale.
-				</p>
-
-				<div class="flex flex-col sm:flex-row gap-3 sm:gap-4">
-					<a href={withBasePath('/experience')} class="btn btn-primary w-full sm:w-auto">
-						View Experience
-					</a>
-					<a href={withBasePath('/projects')} class="btn btn-secondary w-full sm:w-auto">
-						See Case Studies
-					</a>
-				</div>
-			</div>
-
-			<!-- Desktop-only: Large decorative headshot -->
-			<div class="hidden md:block w-64 h-64 md:w-80 md:h-80 shrink-0 relative">
-				<div class="absolute inset-0 bg-gradient-to-tr from-[var(--color-accent-bg)] to-[var(--color-bg)] rounded-full blur-2xl opacity-70"></div>
-				<img
-					src={`${base}/headshot.jpg`}
-					alt={SITE_CONFIG.name}
-					class="w-full h-full object-cover rounded-xl border border-[var(--border-default)] relative z-10 transition-transform duration-300 hover:scale-[1.02]"
-					onerror={`this.src='https://placehold.co/400x400?text=${initials}'`}
-				/>
-			</div>
-		</div>
-	</section>
-
-	<!-- Quick Navigation -->
-	<section class="max-w-6xl mx-auto mb-24 px-4">
-		<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-			{quickNavItems.map((item) => (
-				<a href={item.href} class="group card p-5 flex items-start gap-3">
-					<span class="h-10 w-10 rounded-md bg-[var(--color-accent-bg)] text-accent flex items-center justify-center font-bold group-hover:bg-[var(--color-accent)] group-hover:text-white transition-colors">→</span>
-					<div>
-						<h3 class="font-semibold text-foreground mb-1 group-hover:text-accent transition-colors">{item.title}</h3>
-						<p class="body-sm text-muted leading-snug">{item.description}</p>
+					<!-- Scale descriptors -->
+					<div class="flex flex-wrap gap-x-6 gap-y-2 mb-6 body-sm text-muted font-mono">
+						<span class="text-accent font-semibold">Hyperscale platforms</span>
+						<span class="text-accent font-semibold">Global infrastructure</span>
+						<span class="text-accent font-semibold">Consumer-scale systems</span>
 					</div>
-				</a>
-			))}
+
+					<!-- Differentiator -->
+					<p class="body-md text-foreground mb-6 max-w-xl pl-4 border-l-2 border-[var(--color-accent)]">
+						Not just strategy. I write the designs, build the first versions,
+						and drive adoption until the org changes its default behavior.
+					</p>
+
+					<!-- Byline with disambiguation (visually hidden, kept for crawlers) -->
+					<p class="sr-only">
+						{SITE_CONFIG.name} — infrastructure/cloud architecture leader.
+						Not the basketball player.
+					</p>
+
+					<!-- CTA buttons -->
+					<div class="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-12">
+						<a href={withBasePath('/experience')} class="btn btn-primary">
+							View Experience
+						</a>
+						<a href={withBasePath('/projects')} class="btn btn-secondary">
+							See Case Studies
+						</a>
+					</div>
+				</div>
+
+				<!-- Editorial portrait column (desktop only) -->
+				<div class="hidden lg:block lg:col-span-4">
+					<figure class="relative">
+						<img
+							src={`${base}/headshot.jpg`}
+							alt={SITE_CONFIG.name}
+							class="w-full aspect-[3/4] object-cover rounded-lg border border-[var(--border-default)]"
+							onerror={`this.src='https://placehold.co/300x400?text=${initials}'`}
+						/>
+						<figcaption class="mt-3 body-sm text-muted italic">
+							Lead Cloud Architect at Pinterest, 2021–present
+						</figcaption>
+					</figure>
+				</div>
+			</div>
 		</div>
 	</section>
 
-	<!-- Key Stats Grid -->
-	<section class="max-w-6xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-8 mb-24 border-b border-[var(--border-default)] pb-12 px-4">
-		{STATS.map(stat => (
-			<div>
-				<div class="text-4xl md:text-5xl font-bold text-foreground mb-2 tabular-nums">{stat.value}</div>
-				<div class="label">{stat.label}</div>
-			</div>
-		))}
+	<!-- Proof Strip - Editorial Ruler Bar -->
+	<ProofStrip metrics={proofMetrics} sticky={true} />
+
+	<!-- LLM Profile Panel (crawlable when collapsed) -->
+	<section class="max-w-6xl mx-auto px-4 mb-12">
+		<LLMProfilePanel person={llmProfileData} />
 	</section>
 
-	<!-- How I Work With Teams (Condensed Preview) -->
+	<!-- How I Work Section -->
 	<section class="max-w-6xl mx-auto mb-24 px-4">
 		<div class="flex justify-between items-end mb-6">
-			<h2 class="heading-lg text-foreground">How I Work With Teams</h2>
+			<div>
+				<p class="kicker">Leadership Philosophy</p>
+				<h2 class="heading-lg text-foreground">How I Work</h2>
+			</div>
 			<a href={`${base}/about#how-i-lead`} class="hidden md:inline-flex items-center link body-sm">
-				Learn more about my approach &rarr;
+				Learn more &rarr;
 			</a>
 		</div>
 
-		<div class="card p-6 md:p-8">
-			<p class="body-md text-secondary mb-6 max-w-3xl">
-				I partner with engineering organizations as a senior IC, architect, or advisor to untangle complex infrastructure problems and build durable systems and teams.
-			</p>
-
-			<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-				<div class="flex items-start gap-3">
-					<span class="text-2xl">⚡</span>
-					<div>
-						<h3 class="font-semibold text-foreground mb-1">Player-Coach Leadership</h3>
-						<p class="body-sm text-muted">40% hands-on with code and design reviews</p>
-					</div>
-				</div>
-				<div class="flex items-start gap-3">
-					<span class="text-2xl">🎯</span>
-					<div>
-						<h3 class="font-semibold text-foreground mb-1">Platform as Product</h3>
-						<p class="body-sm text-muted">Golden-path solutions that reduce cognitive load</p>
-					</div>
-				</div>
-				<div class="flex items-start gap-3">
-					<span class="text-2xl">📈</span>
-					<div>
-						<h3 class="font-semibold text-foreground mb-1">Knowledge Multiplication</h3>
-						<p class="body-sm text-muted">Teams more capable after working with me</p>
-					</div>
-				</div>
+		<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+			<div class="card p-6">
+				<div class="text-2xl mb-3">⚡</div>
+				<h3 class="heading-sm text-foreground mb-2">Player-Coach</h3>
+				<p class="body-sm text-muted">
+					40% hands-on with code and design reviews. I lead by solving hard problems alongside the team.
+				</p>
 			</div>
+			<div class="card p-6">
+				<div class="text-2xl mb-3">🎯</div>
+				<h3 class="heading-sm text-foreground mb-2">Platform as Product</h3>
+				<p class="body-sm text-muted">
+					Internal platforms should treat developers as customers. Golden-path solutions that reduce cognitive load.
+				</p>
+			</div>
+			<div class="card p-6">
+				<div class="text-2xl mb-3">📈</div>
+				<h3 class="heading-sm text-foreground mb-2">Knowledge Multiplier</h3>
+				<p class="body-sm text-muted">
+					My success metric: teams more capable after working with me. 20+ engineers mentored to senior+.
+				</p>
+			</div>
+		</div>
 
-			<a href={`${base}/about#how-i-lead`} class="link body-sm md:hidden">
-				Learn more about my approach &rarr;
+		<div class="mt-6 md:hidden">
+			<a href={`${base}/about#how-i-lead`} class="link body-sm">
+				Learn more &rarr;
 			</a>
 		</div>
 	</section>
 
-	<!-- Technical Focus Areas Preview -->
+	<!-- Featured Case Studies -->
+	<section id="case-studies" class="max-w-6xl mx-auto mb-24 px-4">
+		<div class="flex justify-between items-end mb-8">
+			<div>
+				<p class="kicker">Proof of Impact</p>
+				<h2 class="heading-lg text-foreground mb-2">Featured Case Studies</h2>
+				<p class="body-md text-muted">Decision cards showing how problems were solved.</p>
+			</div>
+			<a href={withBasePath('/projects')} class="hidden md:inline-flex items-center link body-sm">
+				View all projects &rarr;
+			</a>
+		</div>
+
+		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+			{featuredProjects.map((project) => (
+				<article
+					class={`card p-6 flex flex-col h-full ${
+						project.data.featured
+							? 'border-l-4 border-l-[var(--color-accent)]'
+							: ''
+					}`}
+				>
+					<div class="flex items-center gap-2 mb-4">
+						{project.data.featured && (
+							<span class="badge badge-accent text-xs">Featured</span>
+						)}
+						<span class="badge text-xs">{project.data.organization}</span>
+					</div>
+
+					<h3 class="heading-sm text-foreground mb-3">
+						<a href={`${base}/projects/${project.id}`} class="hover:text-accent transition-colors">
+							{project.data.title}
+						</a>
+					</h3>
+
+					<!-- Decision Card Preview (problem → outcome) -->
+					{project.data.decisionCard ? (
+						<div class="mb-4 flex-1">
+							<p class="body-sm text-muted mb-2 line-clamp-2">
+								<span class="font-semibold text-foreground">Problem:</span> {project.data.decisionCard.problem}
+							</p>
+							{project.data.outcomes && project.data.outcomes[0] && (
+								<p class="body-sm text-accent font-medium">
+									→ {project.data.outcomes[0]}
+								</p>
+							)}
+						</div>
+					) : (
+						<p class="body-sm text-muted mb-4 flex-1 line-clamp-3">
+							{project.data.description}
+						</p>
+					)}
+
+					<a href={`${base}/projects/${project.id}`} class="link text-sm font-medium mt-auto pt-4 border-t border-[var(--border-subtle)]">
+						Read Case Study &rarr;
+					</a>
+				</article>
+			))}
+		</div>
+
+		<div class="mt-8 md:hidden">
+			<a href={withBasePath('/projects')} class="link body-sm">
+				View all projects &rarr;
+			</a>
+		</div>
+	</section>
+
+	<!-- Receipts Wall -->
+	<ReceiptsWall maxVisible={5} />
+
+	<!-- Technical Focus Areas -->
 	<section id="focus-areas" class="max-w-6xl mx-auto mb-24 px-4">
 		<div class="flex justify-between items-end mb-8">
 			<div>
+				<p class="kicker">Domains</p>
 				<h2 class="heading-lg text-foreground mb-2">Technical Focus Areas</h2>
 				<p class="body-md text-muted">Where I invest my engineering energy.</p>
 			</div>
@@ -213,20 +309,23 @@ const initials = SITE_CONFIG.name.split(' ').map(n => n[0]).join('');
 		</div>
 	</section>
 
-	<!-- External Engagement (Condensed) -->
+	<!-- External Engagement -->
 	<section id="external-engagement" class="max-w-6xl mx-auto mb-24 px-4">
 		<div class="card p-6 md:p-8">
 			<div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
 				<div>
+					<p class="kicker">Community</p>
 					<h2 class="heading-md text-foreground mb-1">Beyond the Day Job</h2>
 					<p class="body-sm text-muted">Thought leadership, community, and open source.</p>
 				</div>
-				<a href={`${base}/about#external-engagement`} class="link body-sm whitespace-nowrap">
-					See full involvement &rarr;
-				</a>
+				<div class="flex items-center gap-4">
+					<a href={`${base}/press`} class="link body-sm whitespace-nowrap">
+						View Press Kit &rarr;
+					</a>
+				</div>
 			</div>
 
-			<div class="flex flex-wrap gap-3">
+			<div class="flex flex-wrap gap-3 mb-6">
 				{EXTERNAL_ENGAGEMENT.map(item => (
 					<div class="flex items-center gap-2 bg-[var(--color-bg)] px-4 py-2 rounded-md border border-[var(--border-subtle)]">
 						<span class="badge badge-accent text-xs">{item.role}</span>
@@ -234,101 +333,73 @@ const initials = SITE_CONFIG.name.split(' ').map(n => n[0]).join('');
 					</div>
 				))}
 			</div>
-		</div>
-	</section>
 
-	<!-- Featured Projects -->
-	<section id="my-projects" class="max-w-6xl mx-auto mb-24 px-4">
-		<div class="flex justify-between items-end mb-12">
-			<div>
-				<h2 class="heading-lg text-foreground mb-2">Projects</h2>
-				<p class="body-md text-muted">Open source tools and case studies from my work.</p>
+			<!-- Podcast Platform Links -->
+			<div class="pt-4 border-t border-[var(--border-subtle)]">
+				<p class="label mb-3">Listen to AI with Friends</p>
+				<div class="flex flex-wrap gap-2">
+					<a
+						href={PODCAST_LINKS.apple}
+						target="_blank"
+						rel="noopener noreferrer"
+						class="inline-flex items-center gap-2 px-3 py-1.5 bg-[var(--color-bg)] border border-[var(--border-subtle)] rounded-md hover:border-[var(--border-strong)] transition-colors body-sm text-muted hover:text-foreground"
+						title="Apple Podcasts"
+					>
+						<svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+							<path d="M12.5 3a9 9 0 0 0-9 9c0 3.12 1.61 5.89 4.03 7.5l.33-1.97A7.03 7.03 0 0 1 5.5 12a7 7 0 1 1 14 0c0 2.39-1.2 4.5-3.03 5.78l.33 1.97A9.01 9.01 0 0 0 21.5 12a9 9 0 0 0-9-9zm0 4a5 5 0 0 0-5 5c0 1.3.5 2.5 1.32 3.4l.33-1.97a3.02 3.02 0 0 1-.65-1.43 3 3 0 1 1 6 0c0 .53-.15 1.02-.4 1.45l.33 1.95A4.99 4.99 0 0 0 17.5 12a5 5 0 0 0-5-5zm-.5 5a1 1 0 1 0 1 1.72V21h-1v-7.28a1 1 0 0 0-.5-.72z"/>
+						</svg>
+						Apple
+					</a>
+					<a
+						href={PODCAST_LINKS.spotify}
+						target="_blank"
+						rel="noopener noreferrer"
+						class="inline-flex items-center gap-2 px-3 py-1.5 bg-[var(--color-bg)] border border-[var(--border-subtle)] rounded-md hover:border-[var(--border-strong)] transition-colors body-sm text-muted hover:text-foreground"
+						title="Spotify"
+					>
+						<svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+							<path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/>
+						</svg>
+						Spotify
+					</a>
+					<a
+						href={PODCAST_LINKS.youtube}
+						target="_blank"
+						rel="noopener noreferrer"
+						class="inline-flex items-center gap-2 px-3 py-1.5 bg-[var(--color-bg)] border border-[var(--border-subtle)] rounded-md hover:border-[var(--border-strong)] transition-colors body-sm text-muted hover:text-foreground"
+						title="YouTube"
+					>
+						<svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+							<path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+						</svg>
+						YouTube
+					</a>
+					<a
+						href={PODCAST_LINKS.linkedin}
+						target="_blank"
+						rel="noopener noreferrer"
+						class="inline-flex items-center gap-2 px-3 py-1.5 bg-[var(--color-bg)] border border-[var(--border-subtle)] rounded-md hover:border-[var(--border-strong)] transition-colors body-sm text-muted hover:text-foreground"
+						title="LinkedIn Live"
+					>
+						<svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+							<path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+						</svg>
+						LinkedIn
+					</a>
+				</div>
 			</div>
-			<a href={withBasePath('/projects')} class="hidden md:inline-flex items-center link body-sm">
-				View all projects &rarr;
-			</a>
-		</div>
-
-		<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-			{featuredProjects.map((project) => (
-				<article
-					class={`card p-6 flex flex-col h-full transition-all ${
-						project.data.featured
-							? 'border-l-3 border-l-[var(--color-accent)] bg-gradient-to-r from-[var(--color-accent-bg)] to-transparent'
-							: ''
-					}`}
-				>
-					<div class="flex justify-between items-start mb-3">
-						<div class="flex items-center gap-2">
-							{project.data.featured && (
-								<span class="badge badge-accent text-xs">Featured</span>
-							)}
-							<span class="badge text-xs">{project.data.category === 'open-source' ? 'Open Source' : 'Case Study'}</span>
-						</div>
-						{project.data.repository && (
-							<a
-								href={project.data.repository}
-								target="_blank"
-								rel="noopener noreferrer"
-								class="text-muted hover:text-foreground transition-colors"
-								title="View on GitHub"
-							>
-								<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-									<path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-								</svg>
-							</a>
-						)}
-					</div>
-
-					<h3 class="heading-sm text-foreground mb-2">
-						<a href={`${base}/projects/${project.id}`} class="hover:text-accent transition-colors">
-							{project.data.title}
-						</a>
-					</h3>
-
-					<p class="body-md text-secondary mb-4 flex-1">
-						{project.data.description}
-					</p>
-
-					<!-- Tech Stack -->
-					<div class="flex flex-wrap gap-1.5 mb-4">
-						{project.data.primaryTech.slice(0, 4).map(tech => (
-							<span class="text-xs px-2 py-0.5 bg-[var(--color-bg)] text-muted rounded border border-[var(--border-subtle)]">
-								{tech}
-							</span>
-						))}
-						{project.data.primaryTech.length > 4 && (
-							<span class="text-xs px-2 py-0.5 text-muted">
-								+{project.data.primaryTech.length - 4}
-							</span>
-						)}
-					</div>
-
-					<div class="flex items-center justify-between pt-4 border-t border-[var(--border-subtle)]">
-						<a href={`${base}/projects/${project.id}`} class="link text-sm font-medium">
-							Read Case Study &rarr;
-						</a>
-						<span class="body-sm text-faint">{project.data.duration}</span>
-					</div>
-				</article>
-			))}
-		</div>
-
-		<div class="mt-8 md:hidden">
-			<a href={withBasePath('/projects')} class="link body-sm">
-				View all projects &rarr;
-			</a>
 		</div>
 	</section>
 
 	<!-- Latest Writing -->
-	<section id="insights" class="max-w-4xl mx-auto border-t border-[var(--border-default)] pt-20 px-4">
+	<section id="insights" class="max-w-4xl mx-auto border-t border-[var(--border-default)] pt-20 mb-24 px-4">
 		<div class="flex justify-between items-baseline mb-12">
-			<h2 class="heading-lg text-foreground">Technical Insights</h2>
+			<div>
+				<p class="kicker">Insights</p>
+				<h2 class="heading-lg text-foreground">Latest Writing</h2>
+			</div>
 			<a href={withBasePath('/blog')} class="link body-sm">Read all articles &rarr;</a>
 		</div>
-
-		<p class="body-md text-muted mb-10">Selected essays on systems design, infrastructure leadership, and AI workloads.</p>
 
 		<div class="space-y-10">
 			{latestPosts.map((post) => (
@@ -357,9 +428,9 @@ const initials = SITE_CONFIG.name.split(' ').map(n => n[0]).join('');
 		</div>
 	</section>
 
-	<!-- Work With Me CTA -->
-	<section class="bg-[var(--color-bg)] mt-24">
-		<div class="max-w-3xl mx-auto px-4 py-12 md:py-16 text-center">
+	<!-- CTA Section -->
+	<section class="bg-[var(--surface-secondary)]">
+		<div class="max-w-3xl mx-auto px-4 py-16 text-center">
 			<h2 class="heading-lg text-foreground mb-4">Let's Connect</h2>
 			<p class="body-lg text-secondary mb-8 leading-relaxed">
 				{SITE_CONFIG.availableForHire

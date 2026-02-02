@@ -1,0 +1,121 @@
+---
+/**
+ * ProofStrip Component
+ * Editorial ruler bar showing key metrics, sticky on scroll
+ * Enhanced with schematic measurement brackets
+ * Uses semantic <dl>/<dt>/<dd> for accessibility
+ */
+
+interface Metric {
+	value: string;
+	label: string;
+	highlight?: boolean;
+	tooltip?: string;
+}
+
+interface Props {
+	metrics: Metric[];
+	sticky?: boolean;
+}
+
+const { metrics, sticky = true } = Astro.props;
+---
+
+<div
+	class:list={[
+		'proof-strip',
+		{ 'proof-strip-hidden': sticky }
+	]}
+	id="proof-strip"
+	data-sticky={sticky}
+	role="region"
+	aria-label="Key achievements summary"
+>
+	<dl class="proof-strip-inner">
+		{metrics.map((metric) => (
+			<div
+				class="proof-strip-metric"
+				title={metric.tooltip}
+			>
+				<dd class:list={['proof-strip-value', { highlight: metric.highlight }]}>
+					<span class="proof-strip-bracket-left" aria-hidden="true"></span>
+					{metric.value}
+					<span class="proof-strip-bracket-right" aria-hidden="true"></span>
+				</dd>
+				<dt class="proof-strip-label">{metric.label}</dt>
+			</div>
+		))}
+	</dl>
+</div>
+
+{sticky && (
+	<script>
+		// ProofStrip visibility controller
+		// Shows after scrolling past hero section
+		const proofStrip = document.getElementById('proof-strip');
+
+		if (proofStrip && proofStrip.dataset.sticky === 'true') {
+			const observer = new IntersectionObserver(
+				(entries) => {
+					entries.forEach((entry) => {
+						// Show proof strip when hero is NOT intersecting (scrolled past)
+						if (entry.isIntersecting) {
+							proofStrip.classList.add('proof-strip-hidden');
+						} else {
+							proofStrip.classList.remove('proof-strip-hidden');
+						}
+					});
+				},
+				{
+					threshold: 0,
+					rootMargin: '-72px 0px 0px 0px' // Account for header height
+				}
+			);
+
+			// Observe the hero section
+			const hero = document.querySelector('[data-hero]') || document.querySelector('section:first-of-type');
+			if (hero) {
+				observer.observe(hero);
+			}
+		}
+	</script>
+)}
+
+<style>
+	/* Enhanced proof strip value with measurement brackets */
+	.proof-strip-value {
+		position: relative;
+		display: inline-flex;
+		align-items: center;
+		gap: 4px;
+	}
+
+	.proof-strip-bracket-left,
+	.proof-strip-bracket-right {
+		display: inline-block;
+		width: 4px;
+		height: 14px;
+		border: 1px solid var(--schematic-line);
+		opacity: 0.6;
+		transition: opacity var(--transition-fast);
+	}
+
+	.proof-strip-bracket-left {
+		border-right: none;
+	}
+
+	.proof-strip-bracket-right {
+		border-left: none;
+	}
+
+	.proof-strip-metric:hover .proof-strip-bracket-left,
+	.proof-strip-metric:hover .proof-strip-bracket-right {
+		opacity: 1;
+		border-color: var(--color-accent);
+	}
+
+	/* Tooltip support */
+	.proof-strip-metric[title] {
+		cursor: help;
+	}
+</style>

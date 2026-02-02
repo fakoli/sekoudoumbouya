@@ -3,9 +3,11 @@ import PageLayout from '../layouts/PageLayout.astro';
 import { getCollection } from 'astro:content';
 import { getBasePath, withBasePath } from '../utils/paths';
 import { formatDate, formatDateRange } from '../utils/dates';
-import { RESUME_PATH } from '../config';
+import { SITE_CONFIG, RESUME_PATH } from '../config';
 import NarrativeAccordion from '../components/experience/NarrativeAccordion.astro';
+import SystemMap from '../components/experience/SystemMap.astro';
 
+const base = getBasePath();
 const experience = await getCollection('experience');
 const narratives = await getCollection('narratives');
 const sortedExperience = experience.sort((a, b) => b.data.startDate.valueOf() - a.data.startDate.valueOf());
@@ -13,44 +15,72 @@ const resumeHref = withBasePath(RESUME_PATH);
 
 // Create a map of narratives by experienceSlug for efficient lookup
 const narrativeMap = new Map(narratives.map(n => [n.data.experienceSlug, n]));
+
+// Get unique domain tags for filtering
+const allDomains = new Set<string>();
+sortedExperience.forEach(entry => {
+	entry.data.domainTags?.forEach(tag => allDomains.add(tag));
+});
+const domains = Array.from(allDomains);
 ---
 
-<PageLayout title="Experience | Sekou Doumbouya" description="Professional experience and career timeline.">
+<PageLayout title={`Experience | ${SITE_CONFIG.name}`} description="20+ years building cloud infrastructure at scale. Career timeline from McKesson through Pinterest.">
 	<section class="max-w-4xl mx-auto px-4 py-12">
-		<header class="mb-16">
-			<h1 class="heading-xl text-foreground mb-6">Experience</h1>
-			<p class="body-lg text-secondary mb-4">
-				Career focus: turning brittle, expensive infrastructure into resilient multi-region platforms across consumer and enterprise SaaS.
+		<header class="mb-12">
+			<h1 class="heading-xl text-foreground mb-4">20+ Years Building at Scale</h1>
+			<p class="body-lg text-secondary max-w-2xl mb-8">
+				Principal engineer who ships architecture, not just advises. I partner with technical leadership to turn business goals into resilient platforms—then build and drive adoption until it becomes the organizational default. Architecture that ships. Cost as an engineering constraint.
 			</p>
-			<p class="body-lg text-secondary max-w-2xl leading-relaxed">
-				A timeline of my career building cloud infrastructure, leading engineering teams, and solving scale at world-class organizations.
-			</p>
-			<div class="mt-8">
-				<a
-					href={resumeHref}
-					target="_blank"
-					rel="noopener noreferrer"
-					class="btn btn-accent"
-				>
-					Download Resume
-				</a>
-			</div>
+			<a
+				href={resumeHref}
+				target="_blank"
+				rel="noopener noreferrer"
+				class="btn btn-accent"
+			>
+				Download Resume
+			</a>
 		</header>
 
+		<!-- System Map - Career Circuit Diagram -->
+		<SystemMap
+			nodes={[]}
+			edges={[]}
+		/>
+
+		<!-- Domain Filter (optional) -->
+		{domains.length > 0 && (
+			<div class="mb-8 flex flex-wrap gap-2">
+				<span class="label mr-2 self-center">Filter:</span>
+				<button class="tag cursor-pointer hover:bg-[var(--color-accent-bg)] domain-filter active" data-domain="all">
+					All
+				</button>
+				{domains.map(domain => (
+					<button class="tag cursor-pointer hover:bg-[var(--color-accent-bg)] domain-filter" data-domain={domain.toLowerCase()}>
+						{domain}
+					</button>
+				))}
+			</div>
+		)}
+
+		<!-- Timeline -->
 		<div class="relative border-l-2 border-[var(--border-default)] ml-3 md:ml-6 space-y-16">
 			{sortedExperience.map((entry) => {
 				// Get the slug from the entry id (filename without extension)
 				const slug = entry.id.replace(/\.(json|yaml)$/, '');
 				const narrative = narrativeMap.get(slug);
+				const entryDomains = entry.data.domainTags?.map(d => d.toLowerCase()).join(' ') || '';
 
 				return (
-					<div class="relative pl-8 md:pl-12">
+					<div id={`exp-${slug}`} class="relative pl-8 md:pl-12 experience-entry scroll-mt-24" data-domains={entryDomains}>
 						<div class="absolute -left-[7px] top-2 timeline-dot"></div>
 
 						<div class="flex flex-col md:flex-row md:items-baseline md:justify-between mb-4">
 							<div>
 								<h2 class="heading-md text-foreground">{entry.data.role}</h2>
 								<div class="text-lg font-medium text-accent">{entry.data.company}</div>
+								{entry.data.level && (
+									<div class="body-sm text-muted mt-1">{entry.data.level}</div>
+								)}
 							</div>
 							<div class="badge mt-2 md:mt-0">
 								{formatDateRange(entry.data.startDate, entry.data.endDate)}
@@ -74,11 +104,19 @@ const narrativeMap = new Map(narratives.map(n => [n.data.experienceSlug, n]));
 							)}
 						</div>
 
-						<div class="flex flex-wrap gap-2">
+						<div class="flex flex-wrap gap-2 mb-4">
 							{entry.data.skills.map(skill => (
 								<span class="tag">{skill}</span>
 							))}
 						</div>
+
+						{entry.data.domainTags && entry.data.domainTags.length > 0 && (
+							<div class="flex flex-wrap gap-2 mb-4">
+								{entry.data.domainTags.map(tag => (
+									<span class="badge badge-accent text-xs">{tag}</span>
+								))}
+							</div>
+						)}
 
 						{narrative && (
 							<NarrativeAccordion
@@ -94,3 +132,52 @@ const narrativeMap = new Map(narratives.map(n => [n.data.experienceSlug, n]));
 		</div>
 	</section>
 </PageLayout>
+
+<script>
+	// Domain filtering for timeline entries
+	const filterButtons = document.querySelectorAll('.domain-filter');
+	const entries = document.querySelectorAll('.experience-entry');
+
+	filterButtons.forEach(button => {
+		button.addEventListener('click', () => {
+			const domain = button.getAttribute('data-domain');
+
+			// Update button states
+			filterButtons.forEach(b => b.classList.remove('active', 'bg-[var(--color-accent-bg)]'));
+			button.classList.add('active', 'bg-[var(--color-accent-bg)]');
+
+			// Filter entries
+			entries.forEach(entry => {
+				const entryDomains = entry.getAttribute('data-domains') || '';
+				if (domain === 'all' || entryDomains.includes(domain)) {
+					entry.style.display = '';
+					entry.style.opacity = '1';
+				} else {
+					entry.style.opacity = '0.3';
+				}
+			});
+		});
+	});
+</script>
+
+<style>
+	.domain-filter.active {
+		background: var(--color-accent-bg);
+		color: var(--color-accent);
+	}
+
+	/* Highlight effect for scrolled-to experience entry */
+	.experience-entry.highlight-entry {
+		animation: highlight-pulse 2s ease-out;
+	}
+
+	@keyframes highlight-pulse {
+		0% {
+			background-color: var(--color-accent-bg);
+			border-radius: var(--radius-md);
+		}
+		100% {
+			background-color: transparent;
+		}
+	}
+</style>

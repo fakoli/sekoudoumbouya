@@ -2,8 +2,14 @@
 import PageLayout from '../../layouts/PageLayout.astro';
 import { getCollection } from 'astro:content';
 import { getBasePath } from '../../utils/paths';
+import { SITE_CONFIG } from '../../config';
 
-const projects = await getCollection('projects');
+const allProjects = await getCollection('projects');
+
+// Filter out confidential projects unless availableForHire is true
+const projects = allProjects.filter(p =>
+	SITE_CONFIG.availableForHire || !p.data.confidential
+);
 
 // Sort: featured first, then by date
 const sortedProjects = projects.sort((a, b) => {
