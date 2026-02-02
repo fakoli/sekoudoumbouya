@@ -50,6 +50,11 @@
 		--border-subtle: rgba(15, 15, 15, 0.05);
 		--border-strong: rgba(15, 15, 15, 0.12);
 
+		/* Schematic Motif Colors - Engineering notebook aesthetic */
+		--schematic-line: rgba(15, 15, 15, 0.15);
+		--schematic-grid: rgba(15, 15, 15, 0.04);
+		--schematic-annotation-bg: rgba(26, 90, 74, 0.06);
+
 		/* Shadows - Subtle, single-layer only */
 		--shadow-sm: 0 1px 2px rgba(15, 15, 15, 0.04);
 		--shadow-md: 0 2px 4px rgba(15, 15, 15, 0.06);
@@ -119,6 +124,11 @@
 		--border-default: rgba(245, 245, 245, 0.1);
 		--border-subtle: rgba(245, 245, 245, 0.06);
 		--border-strong: rgba(245, 245, 245, 0.16);
+
+		/* Schematic Motif Colors - Dark mode */
+		--schematic-line: rgba(245, 245, 245, 0.12);
+		--schematic-grid: rgba(245, 245, 245, 0.03);
+		--schematic-annotation-bg: rgba(45, 212, 191, 0.08);
 
 		/* Shadows - Darker */
 		--shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
@@ -673,6 +683,233 @@
 		font-size: 12px;
 		font-weight: 500;
 		color: white;
+		margin-top: var(--space-1);
+	}
+
+	/* ==========================================
+	 * Schematic Motif Components
+	 * Engineering notebook aesthetic elements
+	 * ========================================== */
+
+	/* Kicker - Section overline text */
+	.kicker {
+		font-family: var(--font-mono);
+		font-size: 12px;
+		font-weight: 500;
+		text-transform: uppercase;
+		letter-spacing: 0.12em;
+		color: var(--color-accent);
+		margin-bottom: var(--space-2);
+	}
+
+	/* Reference Marker - Numbered notation */
+	.ref-marker {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 18px;
+		height: 18px;
+		font-family: var(--font-mono);
+		font-size: 10px;
+		font-weight: 600;
+		color: var(--color-accent);
+		background: var(--schematic-annotation-bg);
+		border: 1px solid var(--color-accent);
+		border-radius: 50%;
+		vertical-align: super;
+		margin-left: 2px;
+	}
+
+	/* Schematic Callout - NOTE/SPEC/WHY labels */
+	.schematic-callout {
+		position: relative;
+		padding: var(--space-4);
+		background: var(--schematic-annotation-bg);
+		border: 1px dashed var(--schematic-line);
+		border-radius: var(--radius-md);
+	}
+
+	.schematic-callout::before {
+		content: attr(data-label);
+		position: absolute;
+		top: calc(-1 * var(--space-2));
+		left: var(--space-3);
+		padding: 0 var(--space-2);
+		font-family: var(--font-mono);
+		font-size: 10px;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.1em;
+		color: var(--color-accent);
+		background: var(--color-surface);
+	}
+
+	/* Dimension Bracket - Measurement-style callout */
+	.dimension-bracket {
+		position: relative;
+		display: inline-flex;
+		align-items: center;
+		padding: 0 var(--space-4);
+	}
+
+	.dimension-bracket::before,
+	.dimension-bracket::after {
+		content: '';
+		position: absolute;
+		top: 50%;
+		width: 8px;
+		height: 100%;
+		border: 1px solid var(--schematic-line);
+		transform: translateY(-50%);
+	}
+
+	.dimension-bracket::before {
+		left: 0;
+		border-right: none;
+	}
+
+	.dimension-bracket::after {
+		right: 0;
+		border-left: none;
+	}
+
+	/* Connector Line - Dashed line between elements */
+	.connector-line {
+		position: relative;
+	}
+
+	.connector-line::after {
+		content: '';
+		position: absolute;
+		top: 50%;
+		left: 100%;
+		width: var(--space-8);
+		height: 0;
+		border-top: 1px dashed var(--schematic-line);
+	}
+
+	/* Schematic Grid Background - Graph paper texture */
+	.schematic-grid-bg {
+		background-image:
+			linear-gradient(var(--schematic-grid) 1px, transparent 1px),
+			linear-gradient(90deg, var(--schematic-grid) 1px, transparent 1px);
+		background-size: 20px 20px;
+	}
+
+	/* Schematic Section Divider */
+	.schematic-divider {
+		display: flex;
+		align-items: center;
+		gap: var(--space-4);
+		margin: var(--space-6) 0;
+	}
+
+	.schematic-divider::before,
+	.schematic-divider::after {
+		content: '';
+		flex: 1;
+		height: 0;
+		border-top: 1px dashed var(--schematic-line);
+	}
+
+	.schematic-divider-text {
+		font-family: var(--font-mono);
+		font-size: 11px;
+		font-weight: 500;
+		text-transform: uppercase;
+		letter-spacing: 0.08em;
+		color: var(--color-muted);
+	}
+
+	/* Pull Quote - Editorial highlight */
+	.pull-quote {
+		position: relative;
+		padding: var(--space-6) var(--space-8);
+		font-family: var(--font-headline);
+		font-size: 24px;
+		font-weight: 500;
+		font-style: italic;
+		line-height: 1.4;
+		color: var(--color-foreground);
+		border-left: 3px solid var(--color-accent);
+		background: var(--schematic-annotation-bg);
+	}
+
+	.pull-quote::before {
+		content: '"';
+		position: absolute;
+		top: var(--space-2);
+		left: var(--space-3);
+		font-family: var(--font-headline);
+		font-size: 48px;
+		font-weight: 700;
+		color: var(--color-accent);
+		opacity: 0.3;
+		line-height: 1;
+	}
+
+	@media (min-width: 768px) {
+		.pull-quote {
+			font-size: 28px;
+		}
+	}
+
+	/* Annotation - Inline note styling */
+	.annotation {
+		font-family: var(--font-mono);
+		font-size: 12px;
+		color: var(--color-muted);
+		background: var(--schematic-annotation-bg);
+		padding: var(--space-1) var(--space-2);
+		border-radius: var(--radius-sm);
+	}
+
+	/* Metric Block with dimension brackets */
+	.metric-block {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		padding: var(--space-4) var(--space-6);
+		background: var(--color-surface);
+		border: 1px solid var(--border-default);
+		border-radius: var(--radius-md);
+		position: relative;
+	}
+
+	.metric-block::before,
+	.metric-block::after {
+		content: '';
+		position: absolute;
+		top: var(--space-3);
+		bottom: var(--space-3);
+		width: 6px;
+		border: 1px solid var(--schematic-line);
+	}
+
+	.metric-block::before {
+		left: var(--space-2);
+		border-right: none;
+	}
+
+	.metric-block::after {
+		right: var(--space-2);
+		border-left: none;
+	}
+
+	.metric-block-value {
+		font-family: var(--font-mono);
+		font-size: 28px;
+		font-weight: 700;
+		color: var(--color-accent);
+		letter-spacing: -0.02em;
+	}
+
+	.metric-block-label {
+		font-size: 12px;
+		font-weight: 500;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+		color: var(--color-muted);
 		margin-top: var(--space-1);
 	}
 }

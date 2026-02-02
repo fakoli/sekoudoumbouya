@@ -1,0 +1,18 @@
+---
+/**
+ * SchematicNote Component
+ * A styled callout box with label (NOTE, SPEC, WHY, etc.)
+ * Uses schematic styling from the design system
+ */
+
+interface Props {
+	label?: 'NOTE' | 'SPEC' | 'WHY' | 'REF' | 'TIP';
+	class?: string;
+}
+
+const { label = 'NOTE', class: className = '' } = Astro.props;
+---
+
+<aside class:list={['schematic-callout', className]} data-label={label}>
+	<slot />
+</aside>

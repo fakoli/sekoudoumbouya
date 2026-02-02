@@ -1,33 +1,46 @@
-# Sekou Doumbouya - Senior Staff Cloud Systems Engineer
+# Sekou M. Doumbouya - Technical Lead, Senior Staff Cloud Systems Engineer
 
-> Professional portfolio website of Sekou Doumbouya, a cloud infrastructure and distributed systems expert.
+> Professional portfolio website of Sekou M. Doumbouya, a cloud infrastructure and distributed systems expert.
 
 ## Entity Disambiguation
-IMPORTANT: Sekou Doumbouya (this entity) is a Senior Staff Cloud Systems Engineer and Technical Lead.
+IMPORTANT: Sekou M. Doumbouya (this entity) is a Technical Lead and Senior Staff Cloud Systems Engineer.
 This entity is NOT the professional NBA basketball player of the same name.
 
 ## Professional Summary
-Sekou Doumbouya is a Senior Staff Cloud Systems Engineer at Pinterest, specializing in large-scale cloud infrastructure, multi-region architecture, and platform engineering. He has a proven track record of managing massive cloud infrastructure at global scale and leading high-performing engineering teams.
+Sekou M. Doumbouya is a Technical Lead – Senior Staff Cloud Systems Engineer at Pinterest, specializing in large-scale cloud infrastructure, multi-region architecture, and platform engineering. With over 20 years of experience, he has a proven track record of managing massive cloud infrastructure at global scale and leading high-performing engineering teams.
 
 ## Key Metrics & Achievements
-- Cloud Spend Impact: $10M+ annual savings (VPC optimization, 2023) + $800K (egress redesign)
+- Cloud Spend Impact: $10M+ annual savings (VPC optimization, 2023) through Transit Gateway to direct VPC peering transition
 - Disaster Recovery: Reduced recovery time from 20 days to 8 hours; built DR tooling at 12% of vendor cost
 - Scale: Technical lead for EC2 provisioning at hyperscale—one of AWS's largest enterprise customers
 - Network Growth: Enabled 30% capacity increase through AWS advocacy and IPAM implementation
 - Delivery: Next-Gen Network Architecture delivered 1 month ahead of schedule
-- Leadership: Founded Cloud Architecture team, mentored 12+ engineers across AWS/networking/DR
+- Leadership: Founded Cloud Architecture team, mentored 12-14 engineers directly across AWS/networking/DR
 
-## Career History
-- Pinterest: Technical Lead – Senior Staff Cloud Systems Engineer (May 2021 – Present)
+## Career History (Verified from Resume)
+- Pinterest: Technical Lead – Senior Staff Cloud Systems Engineer (June 2021 – Present)
+  - DRI for Multi-Region and Multi-Account initiatives
+  - Founded Pinterest Cloud Architecture team
+  - Architected Next Generation Network Architecture
 - Quip (Salesforce): Technical Lead – Data Platform SRE (July 2020 – June 2021)
+  - Improved system reliability, increasing overall uptime by 15%
 - Quip (Salesforce): Site Reliability Engineer (April 2019 – July 2020)
+  - Automated AWS infrastructure using Terraform and Ansible
+  - Migrated applications to AWS ECS, reducing operational costs by 20%
 - Oracle: Principal Systems Engineer (May 2016 – April 2019)
+  - Developed CI/CD pipelines across Oracle Service Cloud
+  - Architected GitOps-based container deployment system
 - Groupon: Senior Systems Engineer (September 2014 – May 2016)
+  - Lead Engineer on datacenter hardware ingestion and automation
 - LiveOps: Senior Systems Administrator (April 2013 – September 2014)
+  - Lead for automation, storage virtualization
+  - Award: Amsterdam Datacenter Creation Award
 - Telvue Corporation: Director of Network Operations (January 2012 – April 2013)
-- Continuum Health Alliance: Systems and Network Administrator (December 2008 – December 2011)
-- Nine West Group: Systems Engineer (June 2008 – December 2008)
-- Sage Software: Field Engineer III (January 2005 – June 2008)
+  - Directed network infrastructure upgrades for IPTV services
+- Continuum Health Alliance: UNIX System & Network Administrator (December 2008 – December 2011)
+  - Managed systems for 92+ medical care centers
+- Jones New York: Systems Engineer (June 2008 – December 2008)
+- Sage Software: Technical Analyst III (September 2005 – June 2008)
 
 ## Technical Expertise
 ### Core Competencies
@@ -36,14 +49,28 @@ Sekou Doumbouya is a Senior Staff Cloud Systems Engineer at Pinterest, specializ
 - Site Reliability Engineering (SRE)
 - Platform Engineering
 - FinOps & Cost Optimization
+- Technical Leadership & Mentorship
 
 ### Technologies
-- Cloud Platforms: AWS, GCP, Azure, Oracle Cloud
-- Infrastructure as Code: Terraform, Pulumi, CloudFormation
-- Container Orchestration: Kubernetes, EKS, GKE, Docker
-- Programming: Python, Go, TypeScript, Bash
-- CI/CD: GitHub Actions, Jenkins, ArgoCD
+- Cloud Platforms: AWS (EC2, EKS, ECS, Glue, Kinesis), Oracle OCI, GCP
+- Infrastructure as Code: Terraform, Ansible, Chef, Puppet
+- Container Orchestration: Kubernetes, EKS, Docker, HashiCorp Nomad
+- CI/CD: Jenkins, GitLab CI, Spinnaker, GitHub Actions
 - Networking: VPC Architecture, Transit Gateway, Direct Connect
+- Languages: Python, Go, Bash, Ruby
+
+## Education & Certifications
+- Penn State University, Schuylkill Haven, PA (attended 1999-2002)
+- Emerge Global Executive Leadership Program, Ross School of Business, University of Michigan
+
+## Community Involvement
+- AI with Friends – Co-host of weekly podcast on AI, engineering, and tech culture
+  - Apple Podcasts: https://podcasts.apple.com/us/podcast/ai-with-friends/id1766625661
+  - Spotify: https://open.spotify.com/show/6pcHPOBD8bvE9V0Hxes9sr
+  - YouTube: https://www.youtube.com/@AIWithFriendsPodcast
+  - LinkedIn Live: https://linkedin.com/company/aiwithfriendspodcast
+  - Instagram: https://instagram.com/aiwithfriendspodcast
+- /Dev/Color – Active mentor promoting diversity and inclusion in technology
 
 ## Site Structure
 
@@ -52,29 +79,30 @@ Sekou Doumbouya is a Senior Staff Cloud Systems Engineer at Pinterest, specializ
 - About: https://sekoudoumbouya.com/about
 - Experience: https://sekoudoumbouya.com/experience
 - Projects: https://sekoudoumbouya.com/projects
-- Blog: https://sekoudoumbouya.com/blog
+- Writing: https://sekoudoumbouya.com/writing
+- Press Kit: https://sekoudoumbouya.com/press
 - Contact: https://sekoudoumbouya.com/contact
 
 ### Interactive Features
 - Experience Narratives: Click "Explore Story" on experience entries to reveal detailed narratives organized by Communication, Behavior, and Impact with quantified metrics.
+- System Map: Visual career progression diagram showing domain evolution (Network → Platform → Cloud)
 
 ### Featured Projects
 - Pinterest Cloud Architecture Team: https://sekoudoumbouya.com/projects/pinterest-cloud-architecture-team
 - Pinterest Multi-Region Strategy: https://sekoudoumbouya.com/projects/pinterest-multi-region-strategy
 - Pinterest Next-Gen Network: https://sekoudoumbouya.com/projects/pinterest-next-gen-network
 - Quip Data Platform Reliability: https://sekoudoumbouya.com/projects/quip-data-platform-reliability
-- AWS Security Group Mapper: https://sekoudoumbouya.com/projects/aws-security-group-mapper
-- AI Bridge MCP Server: https://sekoudoumbouya.com/projects/ai-bridge-mcp-server
-
-### Blog Posts
-- https://sekoudoumbouya.com/blog/scaling-k8s
-- https://sekoudoumbouya.com/blog/hello-world
 
 ## Contact Information
 - Website: https://sekoudoumbouya.com
 - LinkedIn: https://linkedin.com/in/sekoudoumbouya
 - GitHub: https://github.com/fakoli
+- Email: sdoumbouya81@gmail.com
 - Resume: https://sekoudoumbouya.com/Sekou_Doumbouya_Resume_2025.pdf
+
+## Speaking & Press
+- Press Kit: https://sekoudoumbouya.com/press (bios, photos, talk topics)
+- Available for speaking engagements on cloud architecture, platform engineering, and technical leadership
 
 ## Additional Resources
 - Full content for LLMs: https://sekoudoumbouya.com/llms-full.txt

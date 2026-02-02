@@ -3,6 +3,8 @@
  * DecisionCard Component
  * Structured summary of project thinking process
  * Shows: Problem → Constraints → Tradeoffs → Outcome → Artifact
+ * Enhanced with schematic styling: reference numbers, dashed dividers
+ * Supports 'full' (default) and 'compact' variants
  */
 
 interface Tradeoff {
@@ -28,52 +30,74 @@ interface Props {
 		metrics?: Array<{ value: string; label: string }>;
 	};
 	artifact?: Artifact;
+	variant?: 'full' | 'compact';
 }
 
-const { problem, constraints, tradeoffs, outcome, artifact } = Astro.props;
+const { problem, constraints, tradeoffs, outcome, artifact, variant = 'full' } = Astro.props;
 
-// Artifact type icons
+const isCompact = variant === 'compact';
+
+// Artifact type icons (text-based for reliability)
 const artifactIcons: Record<string, string> = {
 	doc: '📄',
 	code: '💻',
 	diagram: '📊',
 	dashboard: '📈',
 };
+
+// Section reference numbers
+let refNumber = 0;
+const getRef = () => ++refNumber;
 ---
 
-<div class="decision-card">
+<div class:list={['decision-card', { 'decision-card-compact': isCompact }]}>
 	<!-- Problem Section -->
 	<div class="decision-card-section">
-		<div class="decision-card-label">Problem</div>
+		<div class="decision-card-label">
+			<span class="ref-marker" aria-hidden="true">{getRef()}</span>
+			Problem
+		</div>
 		<div class="decision-card-content">
-			{problem}
+			{isCompact ? (
+				<p class="line-clamp-2">{problem}</p>
+			) : (
+				problem
+			)}
 		</div>
 	</div>
 
 	<!-- Constraints Section -->
-	<div class="decision-card-section">
-		<div class="decision-card-label">Constraints</div>
-		<ul class="space-y-2">
-			{constraints.map((constraint) => (
-				<li class="flex items-start gap-2 text-secondary body-sm">
-					<span class="text-muted shrink-0">•</span>
-					{constraint}
-				</li>
-			))}
-		</ul>
-	</div>
+	{!isCompact && (
+		<div class="decision-card-section decision-card-section-dashed">
+			<div class="decision-card-label">
+				<span class="ref-marker" aria-hidden="true">{getRef()}</span>
+				Constraints
+			</div>
+			<ul class="space-y-2">
+				{constraints.map((constraint) => (
+					<li class="flex items-start gap-2 text-secondary body-sm">
+						<span class="text-muted shrink-0">•</span>
+						{constraint}
+					</li>
+				))}
+			</ul>
+		</div>
+	)}
 
-	<!-- Tradeoffs Section (if provided) -->
-	{tradeoffs && tradeoffs.length > 0 && (
-		<div class="decision-card-section">
-			<div class="decision-card-label">Tradeoffs Considered</div>
+	<!-- Tradeoffs Section (if provided, full variant only) -->
+	{!isCompact && tradeoffs && tradeoffs.length > 0 && (
+		<div class="decision-card-section decision-card-section-dashed">
+			<div class="decision-card-label">
+				<span class="ref-marker" aria-hidden="true">{getRef()}</span>
+				Tradeoffs Considered
+			</div>
 			<div class="space-y-4 mt-3">
 				{tradeoffs.map((tradeoff) => (
 					<div
 						class:list={[
 							'p-4 rounded-md border',
 							tradeoff.chosen
-								? 'bg-[var(--color-accent-bg)] border-[var(--color-accent)]'
+								? 'bg-[var(--schematic-annotation-bg)] border-[var(--color-accent)]'
 								: 'bg-[var(--color-bg)] border-[var(--border-subtle)]'
 						]}
 					>
@@ -117,19 +141,28 @@ const artifactIcons: Record<string, string> = {
 
 	<!-- Outcome Section (if provided) -->
 	{outcome && (
-		<div class="decision-card-section bg-[var(--color-bg)]">
-			<div class="decision-card-label">Outcome</div>
-			<div class="decision-card-content font-medium text-foreground">
-				{outcome.summary}
+		<div class:list={[
+			'decision-card-section',
+			{ 'decision-card-section-dashed': !isCompact },
+			'bg-[var(--schematic-annotation-bg)]'
+		]}>
+			<div class="decision-card-label">
+				{!isCompact && <span class="ref-marker" aria-hidden="true">{getRef()}</span>}
+				Outcome
 			</div>
-			{outcome.metrics && outcome.metrics.length > 0 && (
+			<div class="decision-card-content font-medium text-foreground">
+				{isCompact ? (
+					<p class="line-clamp-1">{outcome.summary}</p>
+				) : (
+					outcome.summary
+				)}
+			</div>
+			{!isCompact && outcome.metrics && outcome.metrics.length > 0 && (
 				<div class="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-4">
 					{outcome.metrics.map((metric) => (
-						<div class="text-center p-3 bg-[var(--color-surface)] rounded-md border border-[var(--border-subtle)]">
-							<div class="metric text-lg font-semibold text-accent">
-								{metric.value}
-							</div>
-							<div class="label mt-1">{metric.label}</div>
+						<div class="metric-block">
+							<span class="metric-block-value">{metric.value}</span>
+							<span class="metric-block-label">{metric.label}</span>
 						</div>
 					))}
 				</div>
@@ -137,10 +170,13 @@ const artifactIcons: Record<string, string> = {
 		</div>
 	)}
 
-	<!-- Artifact Link (if provided) -->
-	{artifact && (
-		<div class="decision-card-section border-t-2 border-[var(--color-accent)]">
-			<div class="decision-card-label">Supporting Artifact</div>
+	<!-- Artifact Link (if provided, full variant only) -->
+	{!isCompact && artifact && (
+		<div class="decision-card-section decision-card-section-accent">
+			<div class="decision-card-label">
+				<span class="ref-marker" aria-hidden="true">{getRef()}</span>
+				Supporting Artifact
+			</div>
 			<div class="flex items-center gap-3 mt-2">
 				<span class="text-2xl">{artifactIcons[artifact.type]}</span>
 				<div class="flex-1">
@@ -173,3 +209,75 @@ const artifactIcons: Record<string, string> = {
 		</div>
 	)}
 </div>
+
+<style>
+	/* Enhanced Decision Card with schematic styling */
+	.decision-card {
+		background: var(--color-surface);
+		border: 1px solid var(--border-default);
+		border-radius: var(--radius-lg);
+		overflow: hidden;
+	}
+
+	.decision-card-section {
+		padding: var(--space-4) var(--space-6);
+		border-bottom: 1px solid var(--border-subtle);
+	}
+
+	.decision-card-section:last-child {
+		border-bottom: none;
+	}
+
+	/* Dashed section divider - schematic style */
+	.decision-card-section-dashed {
+		border-bottom-style: dashed;
+		border-bottom-color: var(--schematic-line);
+	}
+
+	/* Accent top border for artifact section */
+	.decision-card-section-accent {
+		border-top: 2px solid var(--color-accent);
+	}
+
+	.decision-card-label {
+		display: flex;
+		align-items: center;
+		gap: var(--space-2);
+		font-family: var(--font-mono);
+		font-size: 11px;
+		font-weight: 500;
+		text-transform: uppercase;
+		letter-spacing: 0.1em;
+		color: var(--color-muted);
+		margin-bottom: var(--space-2);
+	}
+
+	.decision-card-content {
+		font-size: 15px;
+		line-height: 1.6;
+		color: var(--color-secondary);
+	}
+
+	/* Compact variant */
+	.decision-card-compact {
+		border-radius: var(--radius-md);
+	}
+
+	.decision-card-compact .decision-card-section {
+		padding: var(--space-3) var(--space-4);
+	}
+
+	.decision-card-compact .decision-card-label {
+		font-size: 10px;
+		margin-bottom: var(--space-1);
+	}
+
+	.decision-card-compact .decision-card-label .ref-marker {
+		display: none;
+	}
+
+	.decision-card-compact .decision-card-content {
+		font-size: 14px;
+		line-height: 1.5;
+	}
+</style>

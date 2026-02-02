@@ -1,19 +1,55 @@
 ---
+/**
+ * JSONLD Component
+ * Enhanced structured data for SEO and AI crawlers
+ * Includes Person, Website, BreadcrumbList, BlogPosting, SoftwareSourceCode schemas
+ */
+
 import { SITE_CONFIG, SOCIAL_LINKS } from '../../config';
 
-interface Props {
-	type?: 'website' | 'article';
-	title?: string;
-	description?: string;
+interface BreadcrumbItem {
+	name: string;
+	url: string;
 }
 
-const { title, description, type = 'website' } = Astro.props;
+interface Props {
+	type?: 'website' | 'article' | 'project';
+	title?: string;
+	description?: string;
+	publishDate?: Date;
+	modifiedDate?: Date;
+	tags?: string[];
+	breadcrumbs?: BreadcrumbItem[];
+	// For open-source projects
+	projectData?: {
+		name: string;
+		description: string;
+		url: string;
+		repositoryUrl?: string;
+		programmingLanguages?: string[];
+		license?: string;
+	};
+}
+
+const {
+	type = 'website',
+	title,
+	description,
+	publishDate,
+	modifiedDate,
+	tags = [],
+	breadcrumbs = [],
+	projectData
+} = Astro.props;
+
 const siteUrl = new URL(import.meta.env.BASE_URL, Astro.site).toString();
+const currentUrl = new URL(Astro.url.pathname, Astro.site).toString();
 
 // Enhanced Person Schema with disambiguation
 const personSchema = {
 	"@context": "https://schema.org",
 	"@type": "Person",
+	"@id": `${siteUrl}#person`,
 	"name": SITE_CONFIG.name,
 	"alternateName": ["Sekou Doumbouya", "Sekou M Doumbouya"],
 	"url": siteUrl,
@@ -43,7 +79,12 @@ const personSchema = {
 		{
 			"@type": "EducationalOccupationalCredential",
 			"credentialCategory": "professional experience",
-			"name": "Principal Infrastructure Engineer at Pinterest"
+			"name": "Technical Lead – Senior Staff Cloud Systems Engineer at Pinterest"
+		},
+		{
+			"@type": "EducationalOccupationalCredential",
+			"credentialCategory": "professional development",
+			"name": "Emerge Global Executive Leadership Program, Ross School of Business, University of Michigan"
 		}
 	],
 	"memberOf": [
@@ -52,7 +93,8 @@ const personSchema = {
 			"name": "/dev/color",
 			"description": "Community supporting Black engineers"
 		}
-	]
+	],
+	"award": ["LiveOps Amsterdam Datacenter Creation Award"]
 };
 
 // Website Schema
@@ -62,29 +104,66 @@ const websiteSchema = {
 	"name": `${SITE_CONFIG.name} Portfolio`,
 	"url": siteUrl,
 	"author": {
-		"@type": "Person",
-		"name": SITE_CONFIG.name
+		"@id": `${siteUrl}#person`
 	},
 	"description": SITE_CONFIG.description
 };
 
-// Article Schema (for blog posts)
-const articleSchema = type === 'article' && title ? {
+// BreadcrumbList Schema (if breadcrumbs provided)
+const breadcrumbSchema = breadcrumbs.length > 0 ? {
 	"@context": "https://schema.org",
-	"@type": "TechArticle",
-	"headline": title,
-	"author": {
-		"@type": "Person",
-		"name": SITE_CONFIG.name
-	},
-	"description": description || SITE_CONFIG.description,
-	"proficiencyLevel": "Expert"
+	"@type": "BreadcrumbList",
+	"itemListElement": breadcrumbs.map((item, index) => ({
+		"@type": "ListItem",
+		"position": index + 1,
+		"name": item.name,
+		"item": item.url
+	}))
 } : null;
 
-let schema = [personSchema, websiteSchema];
-if (articleSchema) {
-	schema.push(articleSchema);
-}
+// BlogPosting Schema (for blog posts)
+const blogPostingSchema = type === 'article' && title ? {
+	"@context": "https://schema.org",
+	"@type": "BlogPosting",
+	"headline": title,
+	"author": {
+		"@id": `${siteUrl}#person`
+	},
+	"publisher": {
+		"@type": "Person",
+		"@id": `${siteUrl}#person`
+	},
+	"url": currentUrl,
+	"description": description || SITE_CONFIG.description,
+	...(publishDate && { "datePublished": publishDate.toISOString() }),
+	...(modifiedDate && { "dateModified": modifiedDate.toISOString() }),
+	...(tags.length > 0 && { "keywords": tags.join(", ") }),
+	"mainEntityOfPage": {
+		"@type": "WebPage",
+		"@id": currentUrl
+	}
+} : null;
+
+// SoftwareSourceCode Schema (for open-source projects)
+const softwareSchema = type === 'project' && projectData ? {
+	"@context": "https://schema.org",
+	"@type": "SoftwareSourceCode",
+	"name": projectData.name,
+	"description": projectData.description,
+	"url": projectData.url,
+	"author": {
+		"@id": `${siteUrl}#person`
+	},
+	...(projectData.repositoryUrl && { "codeRepository": projectData.repositoryUrl }),
+	...(projectData.programmingLanguages && { "programmingLanguage": projectData.programmingLanguages }),
+	...(projectData.license && { "license": projectData.license })
+} : null;
+
+// Build schema array
+let schemas = [personSchema, websiteSchema];
+if (breadcrumbSchema) schemas.push(breadcrumbSchema);
+if (blogPostingSchema) schemas.push(blogPostingSchema);
+if (softwareSchema) schemas.push(softwareSchema);
 ---
 
-<script type="application/ld+json" set:html={JSON.stringify(schema)} />
+<script type="application/ld+json" set:html={JSON.stringify(schemas)} />

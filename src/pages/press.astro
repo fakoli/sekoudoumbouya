@@ -2,18 +2,21 @@
 import PageLayout from '../layouts/PageLayout.astro';
 import { SITE_CONFIG, SOCIAL_LINKS } from '../config';
 import { getBasePath, withBasePath } from '../utils/paths';
+import { PODCAST_INFO, PODCAST_LINKS, PODCAST_HOSTS, RECENT_EPISODES, TOTAL_EPISODES } from '../data/podcast';
 
 const base = getBasePath();
 
-// Bio variants
+// Bio variants - Updated with accurate career history from resume
 const bios = {
-	oneLiner: `Principal Infrastructure Engineer at Pinterest, building resilient multi-region systems that save millions.`,
-	short: `${SITE_CONFIG.name} is a Principal Infrastructure Engineer at Pinterest with over 20 years of experience in cloud architecture and platform engineering. He currently serves as DRI for Multi-Region initiatives, leading efforts that have saved $10M+ annually in infrastructure costs while achieving 8-hour disaster recovery times. Previously, he held leadership roles at Sage Software, Zynga, and McKesson.`,
-	full: `${SITE_CONFIG.name} is a Principal Infrastructure Engineer at Pinterest, where he serves as the Directly Responsible Individual (DRI) for Multi-Region and Multi-Account Architecture. With over 20 years of experience building cloud platforms at scale, Sekou specializes in the intersection of hands-on engineering and strategic architecture.
+	oneLiner: `Technical Lead and Senior Staff Cloud Systems Engineer at Pinterest, building resilient multi-region systems that save millions.`,
+	short: `${SITE_CONFIG.name} is a Technical Lead – Senior Staff Cloud Systems Engineer at Pinterest with over 20 years of experience in cloud architecture and platform engineering. He currently serves as DRI for Multi-Region initiatives, leading efforts that have saved $10M+ annually in infrastructure costs while achieving 8-hour disaster recovery times. Previously, he held senior engineering roles at Quip (Salesforce), Oracle, Groupon, and LiveOps.`,
+	full: `${SITE_CONFIG.name} is a Technical Lead – Senior Staff Cloud Systems Engineer at Pinterest, where he serves as the Directly Responsible Individual (DRI) for Multi-Region and Multi-Account Architecture. With over 20 years of experience building cloud platforms at scale, Sekou specializes in the intersection of hands-on engineering and strategic architecture.
 
-At Pinterest, he led the $10M VPC Architecture Transformation, redesigning multi-region network architecture to eliminate Transit Gateway bottlenecks while maintaining zero production downtime. He also built the company's disaster recovery capability, reducing recovery time from 20 days to 8 hours at 12% of vendor cost.
+At Pinterest, he led the $10M VPC Architecture Transformation, redesigning multi-region network architecture to eliminate Transit Gateway bottlenecks while maintaining zero production downtime. He also founded the Pinterest Cloud Architecture team and built the company's disaster recovery capability, reducing recovery time from 20 days to 8 hours at 12% of vendor cost.
 
-Before Pinterest, Sekou held senior engineering leadership roles at Sage Software (Cloud Infrastructure Lead), Zynga (Lead Platform Engineer), and McKesson (Senior Network Engineer). He is an active mentor in the /dev/color community and co-hosts the "AI with Friends" podcast.
+Before Pinterest, Sekou served as Technical Lead – Data Platform SRE at Quip (Salesforce), where he improved system reliability by 15%. At Oracle, he was Principal Systems Engineer developing CI/CD pipelines and GitOps-based container deployments. Earlier roles include Senior Systems Engineer at Groupon, Senior Systems Administrator at LiveOps (where he received the Amsterdam Datacenter Creation Award), and Director of Network Operations at Telvue Corporation.
+
+Sekou is an active mentor in the /dev/color community and co-hosts the "AI with Friends" podcast.
 
 ${SITE_CONFIG.name} is not affiliated with Sekou Doumbouya, the professional basketball player.`
 };
@@ -63,7 +66,8 @@ function copyBio(id) {
 <PageLayout title={`Press Kit | ${SITE_CONFIG.name}`} description="Speaker bios, photos, and talk topics for event organizers and press.">
 	<div class="max-w-4xl mx-auto px-4 py-12">
 		<header class="mb-12">
-			<h1 class="heading-xl text-foreground mb-4">Press Kit</h1>
+			<p class="kicker">Press Kit</p>
+			<h1 class="heading-xl text-foreground mb-4">For Event Organizers</h1>
 			<p class="body-lg text-secondary max-w-2xl">
 				Everything you need to book me or write about me. Bio variants, photos, and suggested talk topics.
 			</p>
@@ -71,14 +75,19 @@ function copyBio(id) {
 
 		<!-- Bios Section -->
 		<section class="mb-16">
-			<h2 class="heading-lg text-foreground mb-8">Speaker Bios</h2>
+			<div class="schematic-divider mb-6">
+				<span class="schematic-divider-text">Speaker Bios</span>
+			</div>
 			<p class="body-md text-muted mb-6">Click to copy. Choose the length that fits your format.</p>
 
 			<div class="space-y-6">
 				<!-- One-liner -->
 				<div class="card p-6">
 					<div class="flex items-center justify-between mb-3">
-						<h3 class="label">One-liner</h3>
+						<h3 class="label flex items-center gap-2">
+							<span class="ref-marker">1</span>
+							One-liner
+						</h3>
 						<button
 							onclick="copyBio('bio-oneliner')"
 							data-copy="bio-oneliner"
@@ -95,7 +104,10 @@ function copyBio(id) {
 				<!-- Short bio -->
 				<div class="card p-6">
 					<div class="flex items-center justify-between mb-3">
-						<h3 class="label">Short Bio (150 words)</h3>
+						<h3 class="label flex items-center gap-2">
+							<span class="ref-marker">2</span>
+							Short Bio (~100 words)
+						</h3>
 						<button
 							onclick="copyBio('bio-short')"
 							data-copy="bio-short"
@@ -112,7 +124,10 @@ function copyBio(id) {
 				<!-- Full bio -->
 				<div class="card p-6">
 					<div class="flex items-center justify-between mb-3">
-						<h3 class="label">Full Bio (300 words)</h3>
+						<h3 class="label flex items-center gap-2">
+							<span class="ref-marker">3</span>
+							Full Bio (~250 words)
+						</h3>
 						<button
 							onclick="copyBio('bio-full')"
 							data-copy="bio-full"
@@ -130,7 +145,9 @@ function copyBio(id) {
 
 		<!-- Photos Section -->
 		<section class="mb-16">
-			<h2 class="heading-lg text-foreground mb-8">Photos</h2>
+			<div class="schematic-divider mb-6">
+				<span class="schematic-divider-text">Photos</span>
+			</div>
 			<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 				<div class="card p-4">
 					<img
@@ -165,17 +182,22 @@ function copyBio(id) {
 
 		<!-- Talk Topics Section -->
 		<section class="mb-16">
-			<h2 class="heading-lg text-foreground mb-8">Talk Topics</h2>
+			<div class="schematic-divider mb-6">
+				<span class="schematic-divider-text">Talk Topics</span>
+			</div>
 			<p class="body-md text-muted mb-8">
 				These are topics I'm prepared to speak on. Happy to customize for your audience.
 			</p>
 
 			<div class="space-y-6">
-				{talkTopics.map((topic) => (
+				{talkTopics.map((topic, index) => (
 					<div class="card p-6">
-						<h3 class="heading-sm text-foreground mb-3">{topic.title}</h3>
-						<p class="body-md text-secondary mb-4">{topic.abstract}</p>
-						<div class="flex flex-wrap items-center gap-4 text-sm">
+						<div class="flex items-start gap-3 mb-3">
+							<span class="ref-marker mt-1">{index + 1}</span>
+							<h3 class="heading-sm text-foreground">{topic.title}</h3>
+						</div>
+						<p class="body-md text-secondary mb-4 ml-7">{topic.abstract}</p>
+						<div class="flex flex-wrap items-center gap-4 text-sm ml-7">
 							<span class="flex items-center gap-2 text-muted">
 								<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -194,35 +216,157 @@ function copyBio(id) {
 			</div>
 		</section>
 
-		<!-- Podcast Appearances -->
+		<!-- Podcast Section -->
 		<section class="mb-16">
-			<h2 class="heading-lg text-foreground mb-8">Podcast Appearances</h2>
-			<div class="card p-6">
-				<div class="flex items-center gap-4">
-					<div class="w-16 h-16 bg-[var(--color-accent-bg)] rounded-lg flex items-center justify-center text-2xl">
+			<div class="schematic-divider mb-6">
+				<span class="schematic-divider-text">Podcast</span>
+			</div>
+
+			<!-- Podcast Header -->
+			<div class="card p-6 mb-6">
+				<div class="flex flex-col md:flex-row md:items-center gap-6">
+					<div class="w-20 h-20 bg-[var(--schematic-annotation-bg)] rounded-lg flex items-center justify-center text-3xl shrink-0">
 						🎙️
 					</div>
-					<div>
-						<h3 class="heading-sm text-foreground mb-1">AI with Friends</h3>
-						<p class="body-sm text-muted">Co-host · Weekly conversations on AI, engineering, and tech culture</p>
+					<div class="flex-1">
+						<h3 class="heading-md text-foreground mb-2">{PODCAST_INFO.name}</h3>
+						<p class="body-md text-secondary mb-2">{PODCAST_INFO.tagline}</p>
+						<p class="body-sm text-muted mb-4">{PODCAST_INFO.description}</p>
+						<div class="flex items-center gap-2 text-sm">
+							<span class="badge badge-accent">{PODCAST_INFO.role}</span>
+							<span class="text-muted">·</span>
+							<span class="text-muted">{PODCAST_INFO.schedule}</span>
+							<span class="text-muted">·</span>
+							<span class="text-muted">{TOTAL_EPISODES} episodes</span>
+						</div>
 					</div>
+				</div>
+			</div>
+
+			<!-- Listen On Platforms -->
+			<div class="mb-8">
+				<h4 class="label mb-4">Listen On</h4>
+				<div class="flex flex-wrap gap-3">
+					<a
+						href={PODCAST_LINKS.apple}
+						target="_blank"
+						rel="noopener noreferrer"
+						class="inline-flex items-center gap-2 px-4 py-2 bg-[var(--color-surface)] border border-[var(--border-default)] rounded-md hover:border-[var(--border-strong)] transition-colors"
+					>
+						<svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+							<path d="M12.5 3a9 9 0 0 0-9 9c0 3.12 1.61 5.89 4.03 7.5l.33-1.97A7.03 7.03 0 0 1 5.5 12a7 7 0 1 1 14 0c0 2.39-1.2 4.5-3.03 5.78l.33 1.97A9.01 9.01 0 0 0 21.5 12a9 9 0 0 0-9-9zm0 4a5 5 0 0 0-5 5c0 1.3.5 2.5 1.32 3.4l.33-1.97a3.02 3.02 0 0 1-.65-1.43 3 3 0 1 1 6 0c0 .53-.15 1.02-.4 1.45l.33 1.95A4.99 4.99 0 0 0 17.5 12a5 5 0 0 0-5-5zm-.5 5a1 1 0 1 0 1 1.72V21h-1v-7.28a1 1 0 0 0-.5-.72z"/>
+						</svg>
+						<span class="body-sm font-medium">Apple Podcasts</span>
+					</a>
+					<a
+						href={PODCAST_LINKS.spotify}
+						target="_blank"
+						rel="noopener noreferrer"
+						class="inline-flex items-center gap-2 px-4 py-2 bg-[var(--color-surface)] border border-[var(--border-default)] rounded-md hover:border-[var(--border-strong)] transition-colors"
+					>
+						<svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+							<path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/>
+						</svg>
+						<span class="body-sm font-medium">Spotify</span>
+					</a>
+					<a
+						href={PODCAST_LINKS.youtube}
+						target="_blank"
+						rel="noopener noreferrer"
+						class="inline-flex items-center gap-2 px-4 py-2 bg-[var(--color-surface)] border border-[var(--border-default)] rounded-md hover:border-[var(--border-strong)] transition-colors"
+					>
+						<svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+							<path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+						</svg>
+						<span class="body-sm font-medium">YouTube</span>
+					</a>
+					<a
+						href={PODCAST_LINKS.linkedin}
+						target="_blank"
+						rel="noopener noreferrer"
+						class="inline-flex items-center gap-2 px-4 py-2 bg-[var(--color-surface)] border border-[var(--border-default)] rounded-md hover:border-[var(--border-strong)] transition-colors"
+					>
+						<svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+							<path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+						</svg>
+						<span class="body-sm font-medium">LinkedIn Live</span>
+					</a>
+					<a
+						href={PODCAST_LINKS.instagram}
+						target="_blank"
+						rel="noopener noreferrer"
+						class="inline-flex items-center gap-2 px-4 py-2 bg-[var(--color-surface)] border border-[var(--border-default)] rounded-md hover:border-[var(--border-strong)] transition-colors"
+					>
+						<svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+							<path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/>
+						</svg>
+						<span class="body-sm font-medium">Instagram</span>
+					</a>
+				</div>
+			</div>
+
+			<!-- Co-hosts -->
+			<div class="mb-8">
+				<h4 class="label mb-4">Co-hosts</h4>
+				<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+					{PODCAST_HOSTS.map((host) => (
+						<div class="p-4 bg-[var(--color-bg)] border border-[var(--border-subtle)] rounded-md">
+							<h5 class="body-sm font-medium text-foreground">{host.name}</h5>
+							<p class="body-sm text-accent">{host.title}</p>
+						</div>
+					))}
+				</div>
+			</div>
+
+			<!-- Recent Episodes -->
+			<div>
+				<h4 class="label mb-4">Recent Episodes</h4>
+				<div class="space-y-3">
+					{RECENT_EPISODES.slice(0, 5).map((ep, index) => (
+						<div class="card p-4">
+							<div class="flex items-start gap-3">
+								<span class="ref-marker mt-1">{index + 1}</span>
+								<div class="flex-1 min-w-0">
+									<h5 class="body-sm font-medium text-foreground mb-1 line-clamp-1">{ep.title}</h5>
+									<p class="body-sm text-muted line-clamp-2 mb-2">{ep.description}</p>
+									<div class="flex items-center gap-3 text-xs text-faint">
+										<span>{new Date(ep.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+										<span>·</span>
+										<span>{ep.duration}</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					))}
+				</div>
+				<div class="mt-4 text-center">
+					<a
+						href={PODCAST_LINKS.apple}
+						target="_blank"
+						rel="noopener noreferrer"
+						class="link body-sm"
+					>
+						View all {TOTAL_EPISODES} episodes →
+					</a>
 				</div>
 			</div>
 		</section>
 
 		<!-- Contact for Booking -->
 		<section class="border-t border-[var(--border-default)] pt-12">
-			<h2 class="heading-lg text-foreground mb-6">Contact for Booking</h2>
-			<p class="body-md text-secondary mb-8">
-				Interested in having me speak at your event? Get in touch with details about your conference, audience, and preferred topics.
-			</p>
-			<div class="flex flex-col sm:flex-row gap-4">
-				<a href={withBasePath('/contact')} class="btn btn-accent">
-					Speaker Inquiry
-				</a>
-				<a href={`mailto:${SITE_CONFIG.email}?subject=Speaking%20Inquiry`} class="btn btn-secondary">
-					Email Directly
-				</a>
+			<div class="schematic-callout" data-label="BOOKING">
+				<h2 class="heading-md text-foreground mb-4">Interested in Having Me Speak?</h2>
+				<p class="body-md text-secondary mb-8">
+					Get in touch with details about your conference, audience, and preferred topics.
+				</p>
+				<div class="flex flex-col sm:flex-row gap-4">
+					<a href={withBasePath('/contact')} class="btn btn-accent">
+						Speaker Inquiry
+					</a>
+					<a href={`mailto:${SITE_CONFIG.email}?subject=Speaking%20Inquiry`} class="btn btn-secondary">
+						Email Directly
+					</a>
+				</div>
 			</div>
 		</section>
 	</div>

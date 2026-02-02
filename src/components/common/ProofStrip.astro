@@ -2,13 +2,15 @@
 /**
  * ProofStrip Component
  * Editorial ruler bar showing key metrics, sticky on scroll
- * Matte surface, no glassmorphism - crisp and professional
+ * Enhanced with schematic measurement brackets
+ * Uses semantic <dl>/<dt>/<dd> for accessibility
  */
 
 interface Metric {
 	value: string;
 	label: string;
 	highlight?: boolean;
+	tooltip?: string;
 }
 
 interface Props {
@@ -26,17 +28,24 @@ const { metrics, sticky = true } = Astro.props;
 	]}
 	id="proof-strip"
 	data-sticky={sticky}
+	role="region"
+	aria-label="Key achievements summary"
 >
-	<div class="proof-strip-inner">
+	<dl class="proof-strip-inner">
 		{metrics.map((metric) => (
-			<div class="proof-strip-metric">
-				<span class:list={['proof-strip-value', { highlight: metric.highlight }]}>
+			<div
+				class="proof-strip-metric"
+				title={metric.tooltip}
+			>
+				<dd class:list={['proof-strip-value', { highlight: metric.highlight }]}>
+					<span class="proof-strip-bracket-left" aria-hidden="true"></span>
 					{metric.value}
-				</span>
-				<span class="proof-strip-label">{metric.label}</span>
+					<span class="proof-strip-bracket-right" aria-hidden="true"></span>
+				</dd>
+				<dt class="proof-strip-label">{metric.label}</dt>
 			</div>
 		))}
-	</div>
+	</dl>
 </div>
 
 {sticky && (
@@ -71,3 +80,42 @@ const { metrics, sticky = true } = Astro.props;
 		}
 	</script>
 )}
+
+<style>
+	/* Enhanced proof strip value with measurement brackets */
+	.proof-strip-value {
+		position: relative;
+		display: inline-flex;
+		align-items: center;
+		gap: 4px;
+	}
+
+	.proof-strip-bracket-left,
+	.proof-strip-bracket-right {
+		display: inline-block;
+		width: 4px;
+		height: 14px;
+		border: 1px solid var(--schematic-line);
+		opacity: 0.6;
+		transition: opacity var(--transition-fast);
+	}
+
+	.proof-strip-bracket-left {
+		border-right: none;
+	}
+
+	.proof-strip-bracket-right {
+		border-left: none;
+	}
+
+	.proof-strip-metric:hover .proof-strip-bracket-left,
+	.proof-strip-metric:hover .proof-strip-bracket-right {
+		opacity: 1;
+		border-color: var(--color-accent);
+	}
+
+	/* Tooltip support */
+	.proof-strip-metric[title] {
+		cursor: help;
+	}
+</style>
