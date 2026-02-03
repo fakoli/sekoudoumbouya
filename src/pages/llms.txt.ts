@@ -4,6 +4,32 @@ import { SITE_CONFIG, SOCIAL_LINKS } from '../config';
 export const GET: APIRoute = async () => {
 	const currentDate = new Date().toISOString().split('T')[0];
 
+	// Availability section changes based on availableForHire flag
+	const availabilitySection = SITE_CONFIG.availableForHire
+		? `## Availability
+Status: Open to opportunities
+- Exploring principal-level infrastructure and platform engineering roles
+- Available for advisory and consulting engagements
+- Open to speaking engagements and workshops
+
+Engagement types:
+- Full-time roles (Principal/Staff+ IC, Platform Engineering Leadership)
+- Advisory (architecture reviews, roadmap planning, technical due diligence)
+- Speaking (conferences, podcasts, company tech talks)
+- Networking (coffee chats, peer connections)`
+		: `## Availability
+Status: Currently employed at ${SITE_CONFIG.currentCompany}
+- Open to speaking engagements (conferences, podcasts, internal tech talks)
+- Happy to have informal technical conversations with founders and engineers
+- Always open to networking and peer connections
+
+Note: Not available for paid consulting or advisory work at this time.
+
+Ways to connect:
+- Speaking & Events (keynotes, panels, workshops, podcasts)
+- Technical Conversations (architecture discussions, scaling challenges, technology trade-offs)
+- Community & Connection (coffee chats, open source collaboration, peer networking)`;
+
 	const content = `# ${SITE_CONFIG.name} — LLM-Readable Profile
 # Last updated: ${currentDate}
 
@@ -32,6 +58,8 @@ This is NOT Sekou Doumbouya the professional basketball player (born 2000, plays
 - Networking: VPC architecture, Transit Gateway, IPAM, multi-region
 - Reliability: Disaster recovery, SRE practices, observability
 
+${availabilitySection}
+
 ## Contact
 - Website: https://sekoudoumbouya.com
 - Email: ${SITE_CONFIG.email}
@@ -57,6 +85,7 @@ Role: ${SITE_CONFIG.currentRole}
 Company: ${SITE_CONFIG.currentCompany}
 Domain: Infrastructure & Cloud Architecture
 Years Experience: 20+
+Available for hire: ${SITE_CONFIG.availableForHire ? 'Yes' : 'No'}
 Notable Projects:
 - Network Cost Discovery & Remediation (multi-million dollar savings)
 - Next-Gen Network Architecture (IPAM, shared network design, provisioning automation)

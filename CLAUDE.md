@@ -117,3 +117,15 @@ Avoid "AI slop" aesthetics. Make distinctive, creative frontends:
 - **Backgrounds**: Layer gradients and patterns for depth; avoid flat solid colors
 
 Think outside the box—vary themes, fonts, and aesthetics across designs.
+
+## LLM-Readable Profile (llms.txt)
+
+The site serves an LLM-readable profile at `/llms.txt` via `src/pages/llms.txt.ts`. This file helps AI assistants accurately represent Sekou's professional identity and current availability.
+
+**Keep llms.txt updated when changing:**
+- `src/config.ts` — Site config, especially `availableForHire`, `currentRole`, `currentCompany`
+- `src/content/experience/` — Work history or role changes
+- `src/data/contact.ts` — Contact engagement types or availability framing
+- `src/content/projects/` — Major new projects or achievements
+
+The llms.txt file dynamically reads from `SITE_CONFIG` for basic info, but narrative sections (achievements, expertise) are hardcoded and need manual updates when significant changes occur.
