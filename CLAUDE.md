@@ -21,6 +21,14 @@ npm run generate:clean         # Remove auto-generated case studies
 
 Uses Anthropic API via `scripts/generate-case-studies.ts`. Requires `ANTHROPIC_API_KEY` in environment.
 
+### Resume PDF Generation
+
+```bash
+npm run generate:resume  # Generate PDF resume from scripts/generate-resume-pdf.js
+```
+
+Outputs to `public/Sekou_Doumbouya_Resume_2025.pdf`. Uses PDFKit for optimized, clean PDF output.
+
 ## Architecture Overview
 
 This is an Astro 5.0 static portfolio site with Tailwind CSS 4, MDX content, and GitHub Pages deployment.
