@@ -3,7 +3,7 @@ title: "Scaling Kubernetes for AI Workloads"
 publishDate: 2023-11-22
 description: "Lessons learned from managing 10k+ node clusters for large language model training."
 tags: ["kubernetes", "ai", "infrastructure"]
-draft: false
+draft: true
 readingTime: 8
 ---
 
