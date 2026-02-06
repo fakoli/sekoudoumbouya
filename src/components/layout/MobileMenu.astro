@@ -115,6 +115,10 @@ const resumeHref = withBasePath(RESUME_PATH);
 		menuButton.querySelector('[data-icon-open]')?.classList.remove('hidden');
 		menuButton.querySelector('[data-icon-close]')?.classList.add('hidden');
 		mobileMenu.classList.add('hidden');
+
+		// Clean up focus trap listeners
+		document.removeEventListener('keydown', handleEscapeKey);
+		mobileMenu.removeEventListener('keydown', handleFocusTrap);
 	};
 
 	const openMenu = () => {
@@ -123,6 +127,41 @@ const resumeHref = withBasePath(RESUME_PATH);
 		menuButton.querySelector('[data-icon-open]')?.classList.add('hidden');
 		menuButton.querySelector('[data-icon-close]')?.classList.remove('hidden');
 		mobileMenu.classList.remove('hidden');
+
+		// Focus trap: move focus to first link in menu
+		const firstLink = mobileMenu.querySelector<HTMLElement>('[data-mobile-link]');
+		firstLink?.focus();
+
+		// Listen for Escape key to close
+		document.addEventListener('keydown', handleEscapeKey);
+
+		// Trap focus within the mobile menu
+		mobileMenu.addEventListener('keydown', handleFocusTrap);
+	};
+
+	const handleEscapeKey = (e: KeyboardEvent) => {
+		if (e.key === 'Escape') {
+			closeMenu();
+			menuButton?.focus();
+		}
+	};
+
+	const handleFocusTrap = (e: KeyboardEvent) => {
+		if (e.key !== 'Tab' || !mobileMenu) return;
+
+		const focusableElements = mobileMenu.querySelectorAll<HTMLElement>(
+			'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+		);
+		const firstEl = focusableElements[0];
+		const lastEl = focusableElements[focusableElements.length - 1];
+
+		if (e.shiftKey && document.activeElement === firstEl) {
+			e.preventDefault();
+			lastEl?.focus();
+		} else if (!e.shiftKey && document.activeElement === lastEl) {
+			e.preventDefault();
+			firstEl?.focus();
+		}
 	};
 
 	menuButton?.addEventListener('click', () => {

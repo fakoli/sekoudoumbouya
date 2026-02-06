@@ -40,7 +40,7 @@ Sekou M. Doumbouya is a Technical Lead – Senior Staff Cloud Systems Engineer a
 - Continuum Health Alliance: UNIX System & Network Administrator (December 2008 – December 2011)
   - Managed systems for 92+ medical care centers
 - Jones New York: Systems Engineer (June 2008 – December 2008)
-- Sage Software: Technical Analyst III (September 2005 – June 2008)
+- Sage Software: Field Engineer III (September 2005 – June 2008)
 
 ## Technical Expertise
 ### Core Competencies

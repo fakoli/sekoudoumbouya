@@ -434,7 +434,7 @@ function createResume() {
   const earlierRoles = [
     { company: 'Continuum Health Alliance', role: 'UNIX System & Network Administrator', dates: '2008 – 2011' },
     { company: 'Jones New York', role: 'Systems Engineer', dates: '2008' },
-    { company: 'Sage Software', role: 'Technical Analyst III', dates: '2005 – 2008' }
+    { company: 'Sage Software', role: 'Field Engineer III', dates: '2005 – 2008' }
   ];
 
   earlierRoles.forEach(role => {
