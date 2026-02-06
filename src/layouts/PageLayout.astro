@@ -9,17 +9,25 @@ import Footer from '../components/layout/Footer.astro';
 import { SITE_CONFIG } from '../config';
 import { getBasePath, normalizePath } from '../utils/paths';
 
+interface BreadcrumbItem {
+	name: string;
+	url: string;
+}
+
 interface Props {
 	title: string;
 	description?: string;
+	type?: 'website' | 'article' | 'project';
+	publishDate?: Date;
+	breadcrumbs?: BreadcrumbItem[];
 }
 
-const { title, description } = Astro.props;
+const { title, description, type, publishDate, breadcrumbs } = Astro.props;
 const base = getBasePath();
 const currentPath = normalizePath(Astro.url.pathname);
 ---
 
-<BaseLayout title={title} description={description}>
+<BaseLayout title={title} description={description} type={type} publishDate={publishDate} breadcrumbs={breadcrumbs}>
 	<header class="border-b border-[var(--border-default)] sticky top-0 z-50 bg-[var(--color-surface)]/95 backdrop-blur supports-[backdrop-filter]:bg-[var(--color-surface)]/80 relative">
 		<nav class="container mx-auto px-4 py-4 flex items-center justify-between">
 			<a href={`${base}/`} class="text-lg font-semibold text-foreground tracking-tight hover:text-accent transition-colors">

@@ -4,6 +4,7 @@ import { getCollection } from 'astro:content';
 import { SITE_CONFIG } from '../../config';
 import { getBasePath } from '../../utils/paths';
 import { formatDate } from '../../utils/dates';
+import { PODCAST_LINKS } from '../../data/podcast';
 
 const base = getBasePath();
 
@@ -17,13 +18,13 @@ const sortedPosts = posts.sort((a, b) => b.data.publishDate.valueOf() - a.data.p
 const featuredPost = sortedPosts[0];
 const remainingPosts = sortedPosts.slice(1);
 
-// External talks/appearances (could be moved to content collection later)
+// External talks/appearances
 const talks = [
 	{
 		title: 'AI with Friends Podcast',
 		type: 'podcast',
 		description: 'Weekly conversations on AI, engineering, and tech culture',
-		url: '#', // Add real URL when available
+		url: PODCAST_LINKS.youtube,
 		date: 'Ongoing',
 	},
 ];

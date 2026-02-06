@@ -37,12 +37,12 @@ const { metrics, sticky = true } = Astro.props;
 				class="proof-strip-metric"
 				title={metric.tooltip}
 			>
+				<dt class="proof-strip-label">{metric.label}</dt>
 				<dd class:list={['proof-strip-value', { highlight: metric.highlight }]}>
 					<span class="proof-strip-bracket-left" aria-hidden="true"></span>
 					{metric.value}
 					<span class="proof-strip-bracket-right" aria-hidden="true"></span>
 				</dd>
-				<dt class="proof-strip-label">{metric.label}</dt>
 			</div>
 		))}
 	</dl>
