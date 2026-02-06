@@ -4,15 +4,21 @@ import '../styles/global.css';
 import SEOHead from '../components/common/SEOHead.astro';
 import JSONLD from '../components/common/JSONLD.astro';
 
+interface BreadcrumbItem {
+	name: string;
+	url: string;
+}
+
 interface Props {
 	title: string;
 	description?: string;
 	image?: string;
-	type?: 'website' | 'article';
+	type?: 'website' | 'article' | 'project';
 	publishDate?: Date;
+	breadcrumbs?: BreadcrumbItem[];
 }
 
-const { title, description = "Principal Infrastructure Engineer | Multi-Region Architecture & Platform Engineering", image, type, publishDate } = Astro.props;
+const { title, description = "Principal Infrastructure Engineer | Multi-Region Architecture & Platform Engineering", image, type, publishDate, breadcrumbs = [] } = Astro.props;
 ---
 
 <!doctype html>
@@ -28,12 +34,16 @@ const { title, description = "Principal Infrastructure Engineer | Multi-Region A
 			})();
 		</script>
 		<SEOHead title={title} description={description} image={image} type={type} publishDate={publishDate} />
-		<JSONLD type={type} title={title} description={description} />
+		<JSONLD type={type} title={title} description={description} publishDate={publishDate} breadcrumbs={breadcrumbs} />
 
 		<!-- Fonts: Newsreader (display), Public Sans (body), JetBrains Mono (code) -->
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-		<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400&family=Public+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+		<!-- Critical fonts: body + display (render-blocking is acceptable) -->
+		<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400&family=Public+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+		<!-- Deferred font: monospace (only used for metrics/code, not initial paint) -->
+		<link rel="preload" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+		<noscript><link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" /></noscript>
 	</head>
 	<body class="antialiased">
 		<slot />

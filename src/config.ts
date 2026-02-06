@@ -38,5 +38,5 @@ export const NAV_LINKS = [
 	{ href: '/contact', label: 'Contact' },
 ] as const;
 
-// Resume path
-export const RESUME_PATH = '/Sekou_Doumbouya_Resume_2025.pdf';
+// Resume path - points to the latest resume PDF in public/
+export const RESUME_PATH = '/Sekou_Doumbouya_Resume.pdf';

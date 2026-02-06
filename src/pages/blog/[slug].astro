@@ -17,9 +17,17 @@ export async function getStaticPaths() {
 const { post } = Astro.props;
 const { Content } = await render(post);
 const base = getBasePath();
+
+// Breadcrumbs for structured data
+const siteUrl = Astro.site ? new URL(base, Astro.site).toString() : '';
+const breadcrumbs = siteUrl ? [
+	{ name: 'Home', url: siteUrl },
+	{ name: 'Writing', url: `${siteUrl}/writing` },
+	{ name: post.data.title, url: `${siteUrl}/blog/${post.id}` },
+] : [];
 ---
 
-<PageLayout title={`${post.data.title} | Blog`} description={post.data.description}>
+<PageLayout title={`${post.data.title} | Blog`} description={post.data.description} type="article" publishDate={post.data.publishDate} breadcrumbs={breadcrumbs}>
 	<article class="max-w-3xl mx-auto">
 		<header class="mb-12 text-center">
 			<div class="mb-6">

@@ -9,7 +9,18 @@ import type {
 	FocusAreaPreview,
 	EngagementItem,
 	QuickNavItem,
+	ProofMetric,
 } from './types';
+
+/**
+ * Proof strip metrics for the sticky bar on the homepage
+ */
+export const PROOF_METRICS: ProofMetric[] = [
+	{ value: '20+', label: 'Years', highlight: false },
+	{ value: '$10M+', label: 'Saved', highlight: true },
+	{ value: '20+', label: 'Mentored', highlight: false },
+	{ value: '4+', label: 'Regions', highlight: false },
+];
 
 /**
  * Impact-focused statistics for homepage hero

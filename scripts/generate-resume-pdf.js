@@ -35,7 +35,7 @@ function createResume() {
     }
   });
 
-  const outputPath = path.join(__dirname, '../public/Sekou_Doumbouya_Resume_2025.pdf');
+  const outputPath = path.join(__dirname, '../public/Sekou_Doumbouya_Resume.pdf');
   const stream = fs.createWriteStream(outputPath);
   doc.pipe(stream);
 

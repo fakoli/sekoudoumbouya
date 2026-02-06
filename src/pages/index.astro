@@ -9,7 +9,7 @@ import { getBasePath, withBasePath } from '../utils/paths';
 import { formatDate } from '../utils/dates';
 
 // Data imports
-import { STATS, EXTERNAL_ENGAGEMENT, getFocusAreasPreviews, getQuickNavItems } from '../data/homepage';
+import { STATS, PROOF_METRICS, EXTERNAL_ENGAGEMENT, getFocusAreasPreviews, getQuickNavItems } from '../data/homepage';
 import { PODCAST_LINKS } from '../data/podcast';
 
 const base = getBasePath();
@@ -36,14 +36,6 @@ const featuredProjects = allProjects
 
 // Get dynamic data
 const focusAreas = getFocusAreasPreviews();
-
-// Proof strip metrics
-const proofMetrics = [
-	{ value: '20+', label: 'Years', highlight: false },
-	{ value: '$10M+', label: 'Saved', highlight: true },
-	{ value: '20+', label: 'Mentored', highlight: false },
-	{ value: '4+', label: 'Regions', highlight: false },
-];
 
 // LLM Profile data - Enhanced with additional fields
 const llmProfileData = {
@@ -147,11 +139,19 @@ const initials = SITE_CONFIG.name.split(' ').map(n => n[0]).join('');
 						<img
 							src={`${base}/headshot.jpg`}
 							alt={SITE_CONFIG.name}
+							width="300"
+							height="400"
 							class="w-24 h-24 lg:w-full lg:h-auto lg:aspect-[3/4] object-cover rounded-full lg:rounded-lg border border-[var(--border-default)] mx-auto lg:mx-0"
-							onerror={`this.src='https://placehold.co/300x400?text=${initials}'`}
+							onerror={`this.style.display='none';this.nextElementSibling.style.display='flex'`}
 						/>
+						<div
+							style="display:none"
+							class="w-24 h-24 lg:w-full lg:aspect-[3/4] items-center justify-center rounded-full lg:rounded-lg border border-[var(--border-default)] mx-auto lg:mx-0 bg-[var(--color-accent-bg)] text-[var(--color-accent)]"
+						>
+							<span class="text-2xl lg:text-5xl font-semibold" style={`font-family:var(--font-headline)`}>{initials}</span>
+						</div>
 						<figcaption class="hidden lg:block mt-3 body-sm text-muted italic">
-							Lead Cloud Architect at Pinterest, 2021–present
+							{SITE_CONFIG.currentRole} at {SITE_CONFIG.currentCompany}
 						</figcaption>
 					</figure>
 				</div>
@@ -160,7 +160,7 @@ const initials = SITE_CONFIG.name.split(' ').map(n => n[0]).join('');
 	</section>
 
 	<!-- Proof Strip - Editorial Ruler Bar -->
-	<ProofStrip metrics={proofMetrics} sticky={true} />
+	<ProofStrip metrics={PROOF_METRICS} sticky={true} />
 
 	<!-- LLM Profile Panel (crawlable when collapsed) -->
 	<section class="max-w-6xl mx-auto px-4 mb-12">
@@ -391,42 +391,44 @@ const initials = SITE_CONFIG.name.split(' ').map(n => n[0]).join('');
 		</div>
 	</section>
 
-	<!-- Latest Writing -->
-	<section id="insights" class="max-w-4xl mx-auto border-t border-[var(--border-default)] pt-20 mb-24 px-4">
-		<div class="flex justify-between items-baseline mb-12">
-			<div>
-				<p class="kicker">Insights</p>
-				<h2 class="heading-lg text-foreground">Latest Writing</h2>
+	<!-- Latest Writing (only shown when published posts exist) -->
+	{latestPosts.length > 0 && (
+		<section id="insights" class="max-w-4xl mx-auto border-t border-[var(--border-default)] pt-20 mb-24 px-4">
+			<div class="flex justify-between items-baseline mb-12">
+				<div>
+					<p class="kicker">Insights</p>
+					<h2 class="heading-lg text-foreground">Latest Writing</h2>
+				</div>
+				<a href={withBasePath('/writing')} class="link body-sm">Read all articles &rarr;</a>
 			</div>
-			<a href={withBasePath('/blog')} class="link body-sm">Read all articles &rarr;</a>
-		</div>
 
-		<div class="space-y-10">
-			{latestPosts.map((post) => (
-				<article class="group relative">
-					<div class="flex flex-col md:flex-row md:items-baseline md:justify-between mb-2">
-						<h3 class="heading-sm text-foreground group-hover:text-accent transition-colors">
-							<a href={`${base}/blog/${post.id}`}>
-								<span class="absolute inset-0"></span>
-								{post.data.title}
-							</a>
-						</h3>
-						<time datetime={post.data.publishDate.toISOString()} class="body-sm text-muted shrink-0 md:ml-4 tabular-nums">
-							{formatDate(post.data.publishDate)}
-						</time>
-					</div>
-					<p class="body-md text-secondary mb-3 max-w-2xl">
-						{post.data.description}
-					</p>
-					<div class="flex gap-2 relative z-10">
-						{post.data.tags.map(tag => (
-							<span class="body-sm text-faint">#{tag}</span>
-						))}
-					</div>
-				</article>
-			))}
-		</div>
-	</section>
+			<div class="space-y-10">
+				{latestPosts.map((post) => (
+					<article class="group relative">
+						<div class="flex flex-col md:flex-row md:items-baseline md:justify-between mb-2">
+							<h3 class="heading-sm text-foreground group-hover:text-accent transition-colors">
+								<a href={`${base}/blog/${post.id}`}>
+									<span class="absolute inset-0"></span>
+									{post.data.title}
+								</a>
+							</h3>
+							<time datetime={post.data.publishDate.toISOString()} class="body-sm text-muted shrink-0 md:ml-4 tabular-nums">
+								{formatDate(post.data.publishDate)}
+							</time>
+						</div>
+						<p class="body-md text-secondary mb-3 max-w-2xl">
+							{post.data.description}
+						</p>
+						<div class="flex gap-2 relative z-10">
+							{post.data.tags.map(tag => (
+								<span class="body-sm text-faint">#{tag}</span>
+							))}
+						</div>
+					</article>
+				))}
+			</div>
+		</section>
+	)}
 
 	<!-- CTA Section -->
 	<section class="bg-[var(--surface-secondary)]">

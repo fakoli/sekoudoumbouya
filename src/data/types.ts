@@ -95,3 +95,13 @@ export interface QuickNavItem {
 	title: string;
 	description: string;
 }
+
+/**
+ * Proof strip metric for homepage sticky bar
+ */
+export interface ProofMetric {
+	value: string;
+	label: string;
+	highlight?: boolean;
+	tooltip?: string;
+}

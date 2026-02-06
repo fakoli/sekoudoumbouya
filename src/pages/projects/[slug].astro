@@ -23,6 +23,14 @@ const { project, allProjects } = Astro.props;
 const { Content } = await render(project);
 const base = getBasePath();
 
+// Breadcrumbs for structured data
+const siteUrl = Astro.site ? new URL(base, Astro.site).toString() : '';
+const breadcrumbs = siteUrl ? [
+	{ name: 'Home', url: siteUrl },
+	{ name: 'Projects', url: `${siteUrl}/projects` },
+	{ name: project.data.title, url: `${siteUrl}/projects/${project.id}` },
+] : [];
+
 // Get related projects (same category or shared tags, excluding current)
 const relatedProjects = allProjects
 	.filter(p => p.id !== project.id)
@@ -36,7 +44,7 @@ const relatedProjects = allProjects
 const hasDecisionCard = project.data.decisionCard;
 ---
 
-<PageLayout title={`${project.data.title} | Projects`} description={project.data.description}>
+<PageLayout title={`${project.data.title} | Projects`} description={project.data.description} type="project" breadcrumbs={breadcrumbs}>
 	<article class="max-w-4xl mx-auto px-4 py-12">
 
 		<!-- Navigation -->
