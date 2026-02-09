@@ -34,7 +34,7 @@ import type { RepoSource, GeneratorConfig } from './lib/types.js';
 // Configuration
 const GITHUB_USERNAME = 'fakoli';
 const PROJECTS_DIR = 'src/content/projects';
-const REPO_LIMIT = 10;
+const REPO_LIMIT = 20;
 const EXCLUDE_REPOS = ['sekoudoumbouya', 'fakoli']; // Exclude portfolio repo
 
 /**

@@ -160,9 +160,18 @@ export async function fetchTopRepos(
 
     const repos = await response.json();
 
+    // Filter out forks — only generate case studies for owned repos
+    const ownedRepos = repos.filter((repo: Record<string, unknown>) => {
+      if (repo.fork) {
+        console.log(`   🍴 Skipping fork: ${repo.name}`);
+        return false;
+      }
+      return true;
+    });
+
     // Enrich each repo with README and languages in parallel
     const enrichedRepos = await Promise.all(
-      repos.map(async (repo: Record<string, unknown>): Promise<EnrichedRepo> => {
+      ownedRepos.map(async (repo: Record<string, unknown>): Promise<EnrichedRepo> => {
         const [readme, languages] = await Promise.all([
           fetchReadme(username, repo.name as string, token),
           fetchLanguages(username, repo.name as string, token),
@@ -175,6 +184,7 @@ export async function fetchTopRepos(
           html_url: repo.html_url as string,
           language: repo.language as string | null,
           stargazers_count: repo.stargazers_count as number,
+          fork: false,
           topics: (repo.topics as string[]) || [],
           readme,
           languages,
@@ -215,6 +225,13 @@ async function enrichRepos(
       }
 
       const repo = await response.json();
+
+      // Skip forks — only generate case studies for owned repos
+      if (repo.fork) {
+        console.log(`   🍴 Skipping fork: ${name}`);
+        continue;
+      }
+
       const [readme, languages] = await Promise.all([
         fetchReadme(username, name, token),
         fetchLanguages(username, name, token),
@@ -227,6 +244,7 @@ async function enrichRepos(
         html_url: repo.html_url,
         language: repo.language,
         stargazers_count: repo.stargazers_count,
+        fork: false,
         topics: repo.topics || [],
         readme,
         languages,

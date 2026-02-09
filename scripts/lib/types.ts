@@ -12,6 +12,7 @@ export interface EnrichedRepo {
   html_url: string;
   language: string | null;
   stargazers_count: number;
+  fork: boolean;
   topics: string[];
   readme: string | null;
   languages: Record<string, number>;

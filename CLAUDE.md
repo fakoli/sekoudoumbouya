@@ -21,6 +21,8 @@ npm run generate:clean         # Remove auto-generated case studies
 
 Uses Anthropic API via `scripts/generate-case-studies.ts`. Requires `ANTHROPIC_API_KEY` in environment.
 
+**Important:** Case studies must only be generated for **non-fork, public repositories**. Forked repos are automatically filtered out by the generation script (`scripts/lib/github-fetcher.ts`). Never manually create case studies for forked repositories — they represent other people's work.
+
 ### Resume PDF Generation
 
 ```bash

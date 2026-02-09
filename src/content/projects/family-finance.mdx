@@ -1,0 +1,89 @@
+---
+title: 'FamilyFinance: Self-Hosted Finance Tracker with AI Categorization'
+slug: family-finance
+publishDate: '2025-01-09'
+description: >-
+  A privacy-first personal finance application featuring AI-powered transaction
+  categorization and a full-stack architecture with Python, React, and Celery.
+category: open-source
+role: Creator & Maintainer
+organization: Open Source
+impactSummary: >-
+  Built a comprehensive self-hosted finance tracking solution that gives
+  privacy-conscious users full control of their financial data while leveraging
+  AI for intelligent transaction categorization.
+scale:
+  - Multi-service Docker deployment
+  - Background task processing
+  - Plugin-based architecture
+primaryTech:
+  - Python
+  - FastAPI
+  - React
+  - TypeScript
+  - Celery
+  - PostgreSQL
+contributions:
+  - >-
+    Designed extensible plugin system for parsers, AI providers, and data
+    sources
+  - 'Implemented multi-format import pipeline with CSV, OFX, and QFX support'
+  - Built AI categorization service with OpenAI and Anthropic integration
+  - Created asynchronous task pipeline with Celery for background processing
+  - Developed interactive React dashboard with real-time progress tracking
+  - Architected clean service-layer separation with SQLAlchemy 2.0
+outcomes:
+  - Delivered production-ready 6-service Docker Compose deployment
+  - Enabled automatic file-watch imports with configurable scan intervals
+  - Created comprehensive CLI tooling for user and system administration
+tags:
+  - fintech
+  - full-stack
+  - ai-integration
+  - self-hosted
+  - privacy
+duration: 2026-Present
+featured: false
+repository: 'https://github.com/fakoli/family-finance'
+generated: true
+generatedAt: '2026-02-09T08:45:46.695Z'
+---
+## Problem
+
+Managing personal and family finances typically means choosing between convenience and privacy. Commercial finance apps like Mint or YNAB require handing over banking credentials and financial data to third parties, which creates security concerns and locks users into proprietary ecosystems. Meanwhile, self-hosted alternatives often lack the intelligent features that make commercial options appealing—particularly automatic transaction categorization.
+
+I wanted a solution that combined the convenience of AI-powered categorization with complete data ownership. The tool needed to support multiple import formats since different banks export statements in different ways, and it needed to be extensible enough to adapt to varying workflows without requiring code changes for every new use case.
+
+Beyond privacy concerns, I saw this as an opportunity to build a modern full-stack application that demonstrated clean architecture patterns—separating concerns between API routes, business logic, and data access while maintaining a responsive user experience during long-running operations like bulk imports.
+
+## Approach
+
+I architected FamilyFinance as a 6-service Docker Compose deployment, separating concerns between the FastAPI backend, React frontend, Celery workers, Celery Beat scheduler, PostgreSQL database, and Redis for task queuing. This separation allows each component to scale independently and makes the system easier to reason about.
+
+The backend follows a strict layered architecture where route handlers remain thin—validating input via Pydantic schemas, delegating to services, and returning responses. All business logic lives in the service layer, which interacts with SQLAlchemy 2.0 models using async database sessions. This pattern makes the codebase testable and maintainable as features grow.
+
+For the import pipeline, I implemented a three-stage Celery task chain: scanning the watch directory for new files, parsing and creating transactions, then categorizing uncategorized items in batches. The pipeline tracks status through discrete states (PENDING → PROCESSING → CATEGORIZING → COMPLETED) with real-time progress available via API endpoints, which the frontend polls to update the UI.
+
+### Key Design Elements
+
+- **Plugin architecture**: Four extensible plugin types (FileParser, DataSource, AIProvider, Notification) discovered at startup via registry pattern, allowing new integrations without core code changes
+- **Multi-format parsing**: Automatic parser detection for CSV, OFX, and QFX files with saveable custom column mappings for different bank export formats
+- **AI provider abstraction**: Swappable AI backends supporting both OpenAI and Anthropic, with batch processing to manage API costs
+- **File watch automation**: Celery Beat scheduled task scans a configurable directory at regular intervals, enabling drop-in imports without manual upload
+- **Admin tooling**: Both web-based admin panel and CLI tools for user management, role assignment, and system monitoring
+
+## Outcomes
+
+- **Privacy-first architecture**: Users maintain complete control of financial data on their own infrastructure with no third-party data sharing
+- **Streamlined import workflow**: Automatic file detection and AI categorization reduces manual transaction management overhead
+- **Extensible foundation**: Plugin system enables community contributions for new bank formats, AI providers, and notification integrations
+- **Production-ready deployment**: Single `docker compose up` command brings up the entire stack with sensible defaults
+
+## Key Contributions
+
+- **Designed the plugin registry system** that discovers and loads parser, AI, data source, and notification plugins at application startup
+- **Implemented the async import pipeline** using chained Celery tasks with progress tracking and failure recovery
+- **Built the React dashboard** with Recharts visualizations, TanStack Query for server state, and Zustand for client state management
+- **Created the AI categorization service** that batches transactions and supports multiple LLM providers through a common interface
+- **Developed comprehensive CLI tooling** for user creation, role management, and password resets without requiring database access
+- **Architected the custom parser schema system** allowing users to save and reuse column mappings for their specific bank export formats
