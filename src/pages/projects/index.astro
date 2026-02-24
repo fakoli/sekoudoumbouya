@@ -13,33 +13,99 @@ const projects = allProjects.filter(p =>
 
 // Sort: featured first, then by date
 const sortedProjects = projects.sort((a, b) => {
-	// Featured projects first
 	if (a.data.featured && !b.data.featured) return -1;
 	if (!a.data.featured && b.data.featured) return 1;
-	// Then by date
 	return b.data.publishDate.valueOf() - a.data.publishDate.valueOf();
 });
+
+const allTags = [...new Set(sortedProjects.flatMap(project => project.data.tags || []))].sort();
+
+function getImpactSnippet(project: (typeof sortedProjects)[number]) {
+	if (project.data.outcomes && project.data.outcomes.length > 0) return project.data.outcomes[0];
+	return project.data.impactSummary;
+}
 
 const base = getBasePath();
 ---
 
 <PageLayout title="Projects | Sekou Doumbouya" description="Case studies and technical projects in infrastructure, AI, and developer tools.">
 	<section>
-		<div class="mb-12">
+		<div class="mb-8">
 			<h1 class="heading-xl text-foreground mb-4">Projects</h1>
 			<p class="body-lg text-secondary max-w-2xl">
 				Open source tools and case studies from my work in infrastructure, platform engineering, and AI.
 			</p>
 		</div>
 
-		<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+		<!-- Discovery Controls -->
+		<div class="card p-4 md:p-5 mb-8" id="projects-discovery-controls">
+			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-3">
+				<div class="lg:col-span-2">
+					<label for="project-search" class="block body-sm text-muted mb-1">Search</label>
+					<input
+						id="project-search"
+						type="search"
+						placeholder="Search title, tech, tags, or organization"
+						class="w-full rounded-md border border-[var(--border-default)] bg-[var(--color-surface)] px-3 py-2 body-sm text-foreground"
+					/>
+				</div>
+
+				<div>
+					<label for="project-category" class="block body-sm text-muted mb-1">Type</label>
+					<select id="project-category" class="w-full rounded-md border border-[var(--border-default)] bg-[var(--color-surface)] px-3 py-2 body-sm text-foreground">
+						<option value="all">All</option>
+						<option value="open-source">Open Source</option>
+						<option value="strategic">Case Study</option>
+					</select>
+				</div>
+
+				<div>
+					<label for="project-tag" class="block body-sm text-muted mb-1">Tag</label>
+					<select id="project-tag" class="w-full rounded-md border border-[var(--border-default)] bg-[var(--color-surface)] px-3 py-2 body-sm text-foreground">
+						<option value="all">All tags</option>
+						{allTags.map(tag => (
+							<option value={tag}>{tag}</option>
+						))}
+					</select>
+				</div>
+
+				<div>
+					<label for="project-sort" class="block body-sm text-muted mb-1">Sort</label>
+					<select id="project-sort" class="w-full rounded-md border border-[var(--border-default)] bg-[var(--color-surface)] px-3 py-2 body-sm text-foreground">
+						<option value="featured-date">Featured + Newest</option>
+						<option value="date-desc">Newest</option>
+						<option value="title-asc">Title (A-Z)</option>
+					</select>
+				</div>
+			</div>
+
+			<div class="mt-3 flex items-center justify-between gap-4">
+				<label class="inline-flex items-center gap-2 body-sm text-secondary cursor-pointer">
+					<input id="project-featured" type="checkbox" class="accent-[var(--color-accent)]" />
+					Featured only
+				</label>
+				<p id="projects-count" class="body-sm text-muted">
+					Showing {sortedProjects.length} of {sortedProjects.length}
+				</p>
+			</div>
+		</div>
+
+		<div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
 			{sortedProjects.map((project) => (
 				<article
-					class={`card p-6 flex flex-col h-full transition-all ${
+					class={`card p-6 flex flex-col h-full transition-all project-card ${
 						project.data.featured
 							? 'border-l-3 border-l-[var(--color-accent)] bg-gradient-to-r from-[var(--color-accent-bg)] to-transparent'
 							: ''
 					}`}
+					data-title={project.data.title.toLowerCase()}
+					data-description={project.data.description.toLowerCase()}
+					data-organization={project.data.organization.toLowerCase()}
+					data-tech={project.data.primaryTech.join(' ').toLowerCase()}
+					data-tags={project.data.tags.join(',').toLowerCase()}
+					data-category={project.data.category}
+					data-featured={project.data.featured ? 'true' : 'false'}
+					data-date={project.data.publishDate.toISOString()}
 				>
 					<div class="flex justify-between items-start mb-3">
 						<div class="flex items-center gap-2">
@@ -69,11 +135,14 @@ const base = getBasePath();
 						</a>
 					</h2>
 
-					<p class="body-md text-secondary mb-4 flex-1">
+					<p class="body-md text-secondary mb-3 flex-1">
 						{project.data.description}
 					</p>
 
-					<!-- Tech Stack -->
+					<p class="body-sm text-accent font-medium mb-4 line-clamp-2">
+						Impact: {getImpactSnippet(project)}
+					</p>
+
 					<div class="flex flex-wrap gap-1.5 mb-4">
 						{project.data.primaryTech.slice(0, 4).map(tech => (
 							<span class="text-xs px-2 py-0.5 bg-[var(--color-bg)] text-muted rounded border border-[var(--border-subtle)]">
@@ -96,6 +165,10 @@ const base = getBasePath();
 				</article>
 			))}
 		</div>
+
+		<p id="projects-empty" class="hidden mt-6 body-md text-muted">
+			No projects match your filters yet. Try clearing one or two filters.
+		</p>
 	</section>
 </PageLayout>
 
@@ -104,3 +177,90 @@ const base = getBasePath();
 		border-left-width: 3px;
 	}
 </style>
+
+<script>
+	function initProjectDiscovery() {
+		const grid = document.getElementById('projects-grid');
+		if (!grid) return;
+		if (grid.dataset.initialized === 'true') return;
+		grid.dataset.initialized = 'true';
+
+		const cards = Array.from(grid.querySelectorAll<HTMLElement>('.project-card'));
+		const searchInput = document.getElementById('project-search') as HTMLInputElement | null;
+		const categorySelect = document.getElementById('project-category') as HTMLSelectElement | null;
+		const tagSelect = document.getElementById('project-tag') as HTMLSelectElement | null;
+		const sortSelect = document.getElementById('project-sort') as HTMLSelectElement | null;
+		const featuredCheckbox = document.getElementById('project-featured') as HTMLInputElement | null;
+		const countEl = document.getElementById('projects-count');
+		const emptyEl = document.getElementById('projects-empty');
+
+		const applyFilters = () => {
+			const query = (searchInput?.value || '').trim().toLowerCase();
+			const category = categorySelect?.value || 'all';
+			const tag = tagSelect?.value || 'all';
+			const sort = sortSelect?.value || 'featured-date';
+			const featuredOnly = !!featuredCheckbox?.checked;
+
+			const visible = [];
+
+			cards.forEach((card) => {
+				const textBlob = [
+					card.getAttribute('data-title') || '',
+					card.getAttribute('data-description') || '',
+					card.getAttribute('data-organization') || '',
+					card.getAttribute('data-tech') || '',
+					card.getAttribute('data-tags') || ''
+				].join(' ');
+
+				const tags = (card.getAttribute('data-tags') || '').split(',').filter(Boolean);
+				const matchesQuery = !query || textBlob.includes(query);
+				const matchesCategory = category === 'all' || card.getAttribute('data-category') === category;
+				const matchesTag = tag === 'all' || tags.includes(tag.toLowerCase());
+				const matchesFeatured = !featuredOnly || card.getAttribute('data-featured') === 'true';
+
+				const show = matchesQuery && matchesCategory && matchesTag && matchesFeatured;
+				card.classList.toggle('hidden', !show);
+				if (show) visible.push(card);
+			});
+
+			const sorted = [...visible].sort((a, b) => {
+				if (sort === 'title-asc') {
+					return (a.getAttribute('data-title') || '').localeCompare(b.getAttribute('data-title') || '');
+				}
+
+				if (sort === 'date-desc') {
+					return new Date(b.getAttribute('data-date') || '').valueOf() - new Date(a.getAttribute('data-date') || '').valueOf();
+				}
+
+				const aFeatured = a.getAttribute('data-featured') === 'true' ? 1 : 0;
+				const bFeatured = b.getAttribute('data-featured') === 'true' ? 1 : 0;
+				if (aFeatured !== bFeatured) return bFeatured - aFeatured;
+				return new Date(b.getAttribute('data-date') || '').valueOf() - new Date(a.getAttribute('data-date') || '').valueOf();
+			});
+
+			sorted.forEach((card) => grid.appendChild(card));
+
+			if (countEl) {
+				countEl.textContent = `Showing ${visible.length} of ${cards.length}`;
+			}
+			if (emptyEl) {
+				emptyEl.classList.toggle('hidden', visible.length !== 0);
+			}
+		};
+
+		[searchInput, categorySelect, tagSelect, sortSelect, featuredCheckbox].forEach((el) => {
+			el?.addEventListener('input', applyFilters);
+			el?.addEventListener('change', applyFilters);
+		});
+
+		applyFilters();
+	}
+
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', initProjectDiscovery);
+	} else {
+		initProjectDiscovery();
+	}
+
+	document.addEventListener('astro:page-load', initProjectDiscovery);
+</script>
