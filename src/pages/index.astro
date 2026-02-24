@@ -144,6 +144,9 @@ const initials = SITE_CONFIG.name.split(' ').map(n => n[0]).join('');
 							alt={SITE_CONFIG.name}
 							width="300"
 							height="400"
+							loading="eager"
+							fetchpriority="high"
+							decoding="async"
 							class="w-24 h-24 lg:w-full lg:h-auto lg:aspect-[3/4] object-cover rounded-full lg:rounded-lg border border-[var(--border-default)] mx-auto lg:mx-0"
 							onerror={`this.style.display='none';this.nextElementSibling.style.display='flex'`}
 						/>

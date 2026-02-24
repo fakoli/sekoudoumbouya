@@ -39,11 +39,13 @@ const { title, description = "Principal Infrastructure Engineer | Multi-Region A
 		<!-- Fonts: Newsreader (display), Public Sans (body), JetBrains Mono (code) -->
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-		<!-- Critical fonts: body + display (render-blocking is acceptable) -->
-		<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400&family=Public+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
-		<!-- Deferred font: monospace (only used for metrics/code, not initial paint) -->
+		<!-- Load font stylesheets non-blocking to reduce render-path delay -->
+		<link rel="preload" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400&family=Public+Sans:wght@400;500;600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'" />
 		<link rel="preload" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'" />
-		<noscript><link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" /></noscript>
+		<noscript>
+			<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400&family=Public+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+			<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+		</noscript>
 	</head>
 	<body class="antialiased">
 		<slot />
