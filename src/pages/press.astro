@@ -52,11 +52,21 @@ const talkTopics = [
 // Copy to clipboard function
 const copyScript = `
 function copyBio(id) {
-	const text = document.getElementById(id).innerText;
+	const textEl = document.getElementById(id);
+	if (!textEl) return;
+
+	const text = textEl.innerText;
 	navigator.clipboard.writeText(text).then(() => {
 		const btn = document.querySelector('[data-copy="' + id + '"]');
+		if (!btn) return;
 		const original = btn.innerText;
 		btn.innerText = 'Copied!';
+		setTimeout(() => btn.innerText = original, 2000);
+	}).catch(() => {
+		const btn = document.querySelector('[data-copy="' + id + '"]');
+		if (!btn) return;
+		const original = btn.innerText;
+		btn.innerText = 'Copy failed';
 		setTimeout(() => btn.innerText = original, 2000);
 	});
 }
