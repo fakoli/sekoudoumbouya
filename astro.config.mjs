@@ -35,8 +35,8 @@ export default defineConfig({
           item.priority = 0.9;
           item.changefreq = 'monthly';
         }
-        // Project and blog index pages
-        else if (path.endsWith('/projects') || path.endsWith('/blog')) {
+        // Project and writing index pages
+        else if (path.endsWith('/projects') || path.endsWith('/writing')) {
           item.priority = 0.8;
           item.changefreq = 'weekly';
         }
