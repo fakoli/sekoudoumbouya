@@ -29,7 +29,7 @@ const resumeHref = withBasePath(RESUME_PATH);
 	<span class="hidden" data-icon-close><CloseIcon /></span>
 </button>
 
-<div id="mobile-menu" class="hidden md:hidden border-t border-[var(--border-default)] bg-[var(--color-surface)] absolute left-0 right-0 top-full" aria-label="Mobile navigation">
+<nav id="mobile-menu" class="hidden md:hidden border-t border-[var(--border-default)] bg-[var(--color-surface)] absolute left-0 right-0 top-full" aria-label="Mobile navigation" aria-hidden="true">
 	<div class="container mx-auto px-4 py-4 space-y-1">
 		{NAV_LINKS.map((link) => (
 			<a
@@ -103,100 +103,125 @@ const resumeHref = withBasePath(RESUME_PATH);
 			</button>
 		</div>
 	</div>
-</div>
+</nav>
 
 <script>
-	const menuButton = document.querySelector('[data-mobile-toggle]');
-	const mobileMenu = document.getElementById('mobile-menu');
-
-	const closeMenu = () => {
+	function initMobileMenu() {
+		const menuButton = document.querySelector<HTMLButtonElement>('[data-mobile-toggle]');
+		const mobileMenu = document.getElementById('mobile-menu');
 		if (!menuButton || !mobileMenu) return;
-		menuButton.setAttribute('aria-expanded', 'false');
-		menuButton.querySelector('[data-icon-open]')?.classList.remove('hidden');
-		menuButton.querySelector('[data-icon-close]')?.classList.add('hidden');
-		mobileMenu.classList.add('hidden');
+		if (menuButton.dataset.initialized === 'true') return;
+		menuButton.dataset.initialized = 'true';
 
-		// Clean up focus trap listeners
-		document.removeEventListener('keydown', handleEscapeKey);
-		mobileMenu.removeEventListener('keydown', handleFocusTrap);
-	};
+		const lockScroll = () => {
+			document.body.style.overflow = 'hidden';
+		};
 
-	const openMenu = () => {
-		if (!menuButton || !mobileMenu) return;
-		menuButton.setAttribute('aria-expanded', 'true');
-		menuButton.querySelector('[data-icon-open]')?.classList.add('hidden');
-		menuButton.querySelector('[data-icon-close]')?.classList.remove('hidden');
-		mobileMenu.classList.remove('hidden');
+		const unlockScroll = () => {
+			document.body.style.overflow = '';
+		};
 
-		// Focus trap: move focus to first link in menu
-		const firstLink = mobileMenu.querySelector<HTMLElement>('[data-mobile-link]');
-		firstLink?.focus();
+		const closeMenu = () => {
+			menuButton.setAttribute('aria-expanded', 'false');
+			menuButton.querySelector('[data-icon-open]')?.classList.remove('hidden');
+			menuButton.querySelector('[data-icon-close]')?.classList.add('hidden');
+			mobileMenu.classList.add('hidden');
+			mobileMenu.setAttribute('aria-hidden', 'true');
+			unlockScroll();
 
-		// Listen for Escape key to close
-		document.addEventListener('keydown', handleEscapeKey);
+			document.removeEventListener('keydown', handleEscapeKey);
+			document.removeEventListener('click', handleClickOutside, true);
+			mobileMenu.removeEventListener('keydown', handleFocusTrap);
+		};
 
-		// Trap focus within the mobile menu
-		mobileMenu.addEventListener('keydown', handleFocusTrap);
-	};
+		const openMenu = () => {
+			menuButton.setAttribute('aria-expanded', 'true');
+			menuButton.querySelector('[data-icon-open]')?.classList.add('hidden');
+			menuButton.querySelector('[data-icon-close]')?.classList.remove('hidden');
+			mobileMenu.classList.remove('hidden');
+			mobileMenu.setAttribute('aria-hidden', 'false');
+			lockScroll();
 
-	const handleEscapeKey = (e: KeyboardEvent) => {
-		if (e.key === 'Escape') {
+			const firstLink = mobileMenu.querySelector<HTMLElement>('[data-mobile-link]');
+			firstLink?.focus();
+
+			document.addEventListener('keydown', handleEscapeKey);
+			document.addEventListener('click', handleClickOutside, true);
+			mobileMenu.addEventListener('keydown', handleFocusTrap);
+		};
+
+		const handleEscapeKey = (e: KeyboardEvent) => {
+			if (e.key === 'Escape') {
+				closeMenu();
+				menuButton.focus();
+			}
+		};
+
+		const handleClickOutside = (e: MouseEvent) => {
+			const target = e.target as Node;
+			if (mobileMenu.classList.contains('hidden')) return;
+			if (mobileMenu.contains(target) || menuButton.contains(target)) return;
 			closeMenu();
-			menuButton?.focus();
-		}
-	};
+		};
 
-	const handleFocusTrap = (e: KeyboardEvent) => {
-		if (e.key !== 'Tab' || !mobileMenu) return;
+		const handleFocusTrap = (e: KeyboardEvent) => {
+			if (e.key !== 'Tab') return;
 
-		const focusableElements = mobileMenu.querySelectorAll<HTMLElement>(
-			'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
-		);
-		const firstEl = focusableElements[0];
-		const lastEl = focusableElements[focusableElements.length - 1];
+			const focusableElements = mobileMenu.querySelectorAll<HTMLElement>(
+				'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+			);
+			if (focusableElements.length === 0) return;
 
-		if (e.shiftKey && document.activeElement === firstEl) {
-			e.preventDefault();
-			lastEl?.focus();
-		} else if (!e.shiftKey && document.activeElement === lastEl) {
-			e.preventDefault();
-			firstEl?.focus();
-		}
-	};
+			const firstEl = focusableElements[0];
+			const lastEl = focusableElements[focusableElements.length - 1];
 
-	menuButton?.addEventListener('click', () => {
-		const isOpen = menuButton.getAttribute('aria-expanded') === 'true';
-		if (isOpen) {
-			closeMenu();
-		} else {
-			openMenu();
-		}
-	});
+			if (e.shiftKey && document.activeElement === firstEl) {
+				e.preventDefault();
+				lastEl.focus();
+			} else if (!e.shiftKey && document.activeElement === lastEl) {
+				e.preventDefault();
+				firstEl.focus();
+			}
+		};
 
-	mobileMenu?.querySelectorAll('[data-mobile-link]').forEach((link) => {
-		link.addEventListener('click', closeMenu);
-	});
+		menuButton.addEventListener('click', () => {
+			const isOpen = menuButton.getAttribute('aria-expanded') === 'true';
+			if (isOpen) {
+				closeMenu();
+			} else {
+				openMenu();
+			}
+		});
 
-	// Mobile theme toggle - uses shared function from ThemeToggle.astro
-	document.querySelector('[data-mobile-theme-toggle]')?.addEventListener('click', () => {
-		if (typeof window.toggleTheme === 'function') {
-			window.toggleTheme();
-		}
-	});
+		mobileMenu.querySelectorAll('[data-mobile-link]').forEach((link) => {
+			link.addEventListener('click', closeMenu);
+		});
 
-	// Initialize mobile icons - wait for ThemeToggle to be ready
-	function initMobileIcons() {
-		if (typeof window.updateAllToggleIcons === 'function') {
-			window.updateAllToggleIcons();
-		} else {
-			// ThemeToggle hasn't loaded yet, retry after a short delay
-			setTimeout(initMobileIcons, 50);
-		}
+		document.querySelector('[data-mobile-theme-toggle]')?.addEventListener('click', () => {
+			const win = window as typeof window & { toggleTheme?: () => void; updateAllToggleIcons?: () => void };
+			if (typeof win.toggleTheme === 'function') {
+				win.toggleTheme();
+			}
+		});
+
+		const initMobileIcons = () => {
+			const win = window as typeof window & { toggleTheme?: () => void; updateAllToggleIcons?: () => void };
+			if (typeof win.updateAllToggleIcons === 'function') {
+				win.updateAllToggleIcons();
+			} else {
+				setTimeout(initMobileIcons, 50);
+			}
+		};
+
+		initMobileIcons();
+		document.addEventListener('astro:before-swap', closeMenu);
 	}
 
 	if (document.readyState === 'loading') {
-		document.addEventListener('DOMContentLoaded', initMobileIcons);
+		document.addEventListener('DOMContentLoaded', initMobileMenu);
 	} else {
-		initMobileIcons();
+		initMobileMenu();
 	}
+
+	document.addEventListener('astro:page-load', initMobileMenu);
 </script>
