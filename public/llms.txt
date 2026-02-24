@@ -88,10 +88,10 @@ Sekou M. Doumbouya is a Technical Lead – Senior Staff Cloud Systems Engineer a
 - System Map: Visual career progression diagram showing domain evolution (Network → Platform → Cloud)
 
 ### Featured Projects
-- Pinterest Cloud Architecture Team: https://sekoudoumbouya.com/projects/pinterest-cloud-architecture-team
-- Pinterest Multi-Region Strategy: https://sekoudoumbouya.com/projects/pinterest-multi-region-strategy
-- Pinterest Next-Gen Network: https://sekoudoumbouya.com/projects/pinterest-next-gen-network
-- Quip Data Platform Reliability: https://sekoudoumbouya.com/projects/quip-data-platform-reliability
+- Pinterest Multi-Region CloudWAN: https://sekoudoumbouya.com/projects/multi-region-cloudwan-pinterest
+- Pinterest Next-Gen Network: https://sekoudoumbouya.com/projects/next-gen-network-pinterest
+- Pinterest Network Cost Discovery: https://sekoudoumbouya.com/projects/network-cost-discovery-pinterest
+- MCP AI Bridge: https://sekoudoumbouya.com/projects/mcp-ai-bridge
 
 ## Contact Information
 - Website: https://sekoudoumbouya.com

@@ -301,7 +301,7 @@ Institution: Ross School of Business, University of Michigan
 - About: https://sekoudoumbouya.com/about
 - Experience: https://sekoudoumbouya.com/experience
 - Projects: https://sekoudoumbouya.com/projects
-- Blog: https://sekoudoumbouya.com/blog
+- Writing: https://sekoudoumbouya.com/writing
 - Contact: https://sekoudoumbouya.com/contact
 
 ### Technical Details
