@@ -49,5 +49,41 @@ const { title, description = "Principal Infrastructure Engineer | Multi-Region A
 	</head>
 	<body class="antialiased">
 		<slot />
+		<script>
+			let revealObserver: IntersectionObserver | null = null;
+
+			function initReveal() {
+				// Signal to CSS that JS is available
+				document.documentElement.classList.add('js-reveal');
+
+				// Disconnect previous observer to prevent accumulation
+				if (revealObserver) {
+					revealObserver.disconnect();
+					revealObserver = null;
+				}
+
+				const revealSections = document.querySelectorAll('[data-reveal]');
+				if (!revealSections.length) return;
+
+				revealObserver = new IntersectionObserver((entries) => {
+					entries.forEach((entry) => {
+						if (entry.isIntersecting) {
+							entry.target.classList.add('fade-up');
+							const children = entry.target.querySelectorAll('[data-reveal-item]');
+							children.forEach((child, i) => {
+								child.classList.add('fade-up', `stagger-${Math.min(i + 1, 5)}`);
+							});
+							revealObserver?.unobserve(entry.target);
+						}
+					});
+				}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+				revealSections.forEach(section => revealObserver!.observe(section));
+			}
+
+			// Run on initial load and Astro page transitions
+			initReveal();
+			document.addEventListener('astro:page-load', initReveal);
+		</script>
 	</body>
 </html>

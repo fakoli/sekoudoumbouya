@@ -20,6 +20,9 @@ export const SITE_CONFIG = {
 
 	// Feature Flags
 	availableForHire: false,
+
+	// Google Search Console verification (leave empty to omit the meta tag)
+	googleSiteVerification: '',
 } as const;
 
 // Derived social links
@@ -39,4 +42,4 @@ export const NAV_LINKS = [
 ] as const;
 
 // Resume path - points to the latest resume PDF in public/
-export const RESUME_PATH = '/Sekou_Doumbouya_Resume.pdf';
+export const RESUME_PATH = '/Sekou_Doumbouya_Resume_2025.pdf';
