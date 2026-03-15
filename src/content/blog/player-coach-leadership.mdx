@@ -5,60 +5,69 @@ description: "Why staying hands-on at the principal engineer level creates bette
 tags: ["leadership", "engineering-management", "mentorship"]
 draft: false
 readingTime: 5
+heroImage: "/blog/player-coach-hero.png"
 ---
 
 *The views expressed here are my own and do not represent those of any current or former employer.*
 
-There is a common trajectory for senior engineers: as you move up, you move away from the code. You spend more time in meetings, more time on strategy documents, more time aligning stakeholders. And at some point, you realize you have not opened your editor in weeks.
+There's this moment that happens to every senior engineer eventually. You look at your calendar for the week and realize: it's all meetings. Strategy reviews, stakeholder alignments, planning sessions, one-on-ones. Somewhere between the promotion and the present, you stopped writing code. And the worst part? You didn't notice it happening.
 
-I have made a deliberate choice to resist that trajectory. About 40% of my time stays hands-on -- code reviews, design reviews, writing Terraform modules, debugging production issues. The other 60% is strategy, mentorship, and cross-functional work. This is not an accident or a failure to delegate. It is a leadership model that I believe produces better outcomes.
+I noticed. And I decided to fight it.
 
-## Why Hands-On Matters at the Senior Level
+About 40% of my time stays hands-on. Code reviews, design reviews, writing Terraform modules, debugging production issues. The other 60% is strategy, mentorship, and cross-functional work. Some people hear this and think it's a failure to delegate. It's not. It's the most deliberate choice I've made in my career.
 
-The most obvious reason is credibility. When you are asking a team to adopt a new architecture pattern or change how they deploy infrastructure, your recommendation carries more weight if you are in the codebase with them. You understand the friction they face because you face it too. You are not designing systems from a whiteboard -- you are designing them from lived experience with the actual tools and constraints.
+## The Credibility Tax
 
-But credibility is just the surface. The deeper reason is that staying hands-on keeps your technical judgment calibrated. Architecture decisions made without recent operational experience tend to underestimate complexity and overestimate how cleanly theory maps to practice. When you are reviewing code, pair-programming on a tricky Terraform module, or debugging a networking issue at 2am, you develop an intuition for what is actually hard versus what just looks hard on a diagram.
+Let me be blunt about something. When a senior engineer who hasn't touched the codebase in six months tells the team to adopt a new architecture pattern, everyone nods politely and then goes back to doing what they were doing.
 
-In my experience leading multi-region and cloud architecture initiatives, this hands-on involvement means I can make better tradeoff decisions. I know which parts of the CI/CD pipelines are fragile because I have seen them break. I know which abstractions are working because I have used them. That kind of ground-level knowledge is impossible to get from status reports.
+When someone who reviewed your PR last week, who was in the Slack channel at 2am during the last incident, who has actually wrestled with the same janky Terraform module you're stuck on... when *that* person suggests a new approach, it lands differently. Not because they have more authority. Because they have more context.
 
-## The Team Building Connection
+That's the credibility tax. You either pay it by staying in the work, or you spend your influence capital on every recommendation and wonder why adoption is slow.
 
-When the team lead is actively contributing, it sets a tone: we are all here to build, and no one is above the work.
+But credibility is just the surface-level argument. The deeper reason is that staying hands-on keeps your technical judgment calibrated. I've seen architecture decisions made by people who haven't touched production in two years. They tend to underestimate complexity and overestimate how cleanly their diagrams will map to reality. They design for the whiteboard, not for the 3am page.
 
-This matters especially for mentorship. Over the course of my career, I have mentored over 20 engineers across infrastructure, security, and SRE. Mentorship is more effective when it is grounded in shared context. Reviewing someone's pull request and offering specific, technical feedback on their Terraform module is a different kind of mentorship than giving abstract career advice in a monthly one-on-one.
+When you're reviewing code, pairing on a tricky module, or debugging a networking issue while everyone else is asleep, you build an intuition for what's *actually* hard versus what just *looks* hard on a slide deck. That intuition is irreplaceable, and it atrophies fast if you don't use it.
 
-That is not to say career conversations do not matter -- they absolutely do. But the daily, technical mentorship that happens through code reviews, design sessions, and joint debugging is where most of the growth happens. It is where engineers learn to think about operational safety, to anticipate failure modes, to make pragmatic tradeoff decisions. And it only works if the mentor is actually in the code.
+## Mentorship That Actually Works
 
-The pattern holds: the most impactful mentorship relationships are the ones where we are solving real problems together, not the ones where I am dispensing advice from a distance.
+Over 20 years, I've mentored more than 20 engineers across infrastructure, security, and SRE. And the pattern is consistent: the most impactful mentorship happens when you're solving real problems together, not when you're dispensing wisdom from a conference room.
 
-## Leaving Teams More Capable
+Reviewing someone's pull request and pointing out a subtle race condition in their Terraform state management? That's mentorship. Walking through a design doc and asking "what happens when this service is down in Region B?" That's mentorship. Sitting next to someone (or on a Zoom) while they debug their first VPC peering issue and *not* taking the keyboard? That's the hardest and best kind of mentorship.
 
-My leadership approach centers on a simple idea: leaving teams more infrastructure-literate than I found them. This means pairing architectural work with clear documentation, internal workshops, and hands-on mentorship so engineers can operate complex systems with confidence.
+Career conversations matter too. Of course they do. But the daily, technical mentorship that happens through code reviews, design sessions, and joint debugging is where most of the growth actually happens. It's where engineers learn to think about operational safety, to anticipate failure modes, to make pragmatic tradeoffs. And it only works if the mentor is actually in the code.
 
-In practice, this has taken the form of cross-team educational workshops on cloud networking and Infrastructure as Code. These sessions are not lectures -- they are working sessions where engineers bring real problems and we solve them together. The goal is raising the floor of infrastructure literacy across the organization, not just within the immediate team.
+## Knowledge Multiplication
 
-This connects to what I call the "knowledge multiplication" philosophy. My success metric is not how much I personally ship. It is whether teams are more capable after working with me. Can the SRE team debug a VPC peering issue without escalating? Can the data engineering team provision their own clusters safely? Can a new engineer get to their first production deployment without a two-week onboarding gauntlet?
+Here's the metric I care about: are teams more capable after working with me?
 
-Those outcomes require the person driving them to have current, hands-on knowledge of the systems in question. You cannot teach what you do not practice.
+Not: how many lines of code did I write? Not: how many design docs did I author? But: can the SRE team debug a peering issue without escalating to me? Can the data team provision their own clusters safely? Can a new hire get to their first production deployment without a two-week gauntlet of "please ask Sekou"?
 
-## The 40/60 Balance
+I call this knowledge multiplication, and it's the real reason the player-coach model matters at the principal level.
 
-Forty percent is not a precise number -- some weeks it is 30%, some weeks it is 50%. The point is the commitment to staying in the work. Here is roughly how it breaks down:
+In practice, it looks like cross-team workshops on cloud networking and Infrastructure as Code. Not lectures. Working sessions where engineers bring real problems and we solve them together. The goal is raising the floor of infrastructure literacy across the whole organization, not just building a dependency on one person.
 
-The hands-on 40% includes code and design reviews, writing and maintaining Terraform modules and CI/CD configurations, debugging production issues and incident response, and building proof-of-concept implementations for new architecture patterns.
+You can't teach what you don't practice. The moment I stop touching the systems I'm teaching people to operate, my workshops become theoretical. And theoretical workshops are the ones people attend once and forget.
 
-The strategic 60% includes defining team charter, pillars, and roadmaps, cross-functional alignment with product, security, and data teams, mentorship and career development conversations, and translating infrastructure strategy into language that non-infrastructure teams can act on.
+## What 40/60 Actually Looks Like
 
-The balance matters because both halves reinforce each other. The strategic work informs what I should be building hands-on. The hands-on work keeps my strategic recommendations grounded in reality.
+Forty percent isn't a precise number. Some weeks it's 30%. Some weeks (usually during an incident or a big migration) it's 60%. The point is the commitment to staying in the work.
 
-## Creating Psychological Safety
+The hands-on 40%: code and design reviews. Writing and maintaining Terraform modules and CI/CD configurations. Debugging production issues. Building proof-of-concept implementations for new architecture patterns.
 
-One dimension of the player-coach model that gets less attention is its impact on team culture. When the most senior person on the team is visibly doing the work -- including making mistakes, asking questions, and admitting when they do not know something -- it creates psychological safety for everyone else to do the same.
+The strategic 60%: defining team charter and roadmaps. Cross-functional alignment with product, security, and data teams. Mentorship and career development conversations. Translating infrastructure strategy into language that non-infrastructure teams can act on.
 
-I care deeply about building teams where engineers from underrepresented backgrounds can do their best work. As an active mentor at /dev/color, I have seen how important it is for engineers to work in environments where they feel safe to take risks, ask questions, and grow. The player-coach model contributes to that environment because it flattens the hierarchy in practice, even if the org chart says otherwise.
+Both halves feed each other. The strategic work tells me what to build. The hands-on work keeps my strategies honest.
 
-## The Takeaway
+## The Part Nobody Talks About
 
-The player-coach model is not for everyone, and it is not the only way to lead effectively at the senior IC level. But for me, the 40% commitment to staying hands-on is what makes everything else work. It keeps my technical judgment sharp, makes my mentorship concrete, gives my strategic recommendations credibility, and creates a team culture where building things together is the default.
+When the most senior person on the team is visibly doing the work, making mistakes, asking questions, admitting when they're wrong, it does something powerful for team culture. It creates permission for everyone else to do the same.
 
-The best infrastructure leaders I know are the ones who can draw the architecture diagram and write the Terraform module. The gap between those two activities is where bad decisions hide.
+I think about this a lot, especially in the context of engineers from underrepresented backgrounds. As a mentor at /dev/color, I've seen firsthand how important it is to work in environments where you feel safe to take risks, ask "dumb" questions, and grow publicly. The player-coach model contributes to that environment because it flattens the hierarchy *in practice*, even when the org chart still has levels.
+
+When your tech lead ships buggy code, admits it, fixes it, and talks about what they learned? That's more powerful than any psychological safety training deck.
+
+## The Gap Where Bad Decisions Hide
+
+The player-coach model isn't for everyone. I know senior ICs who lead brilliantly at full strategy, full time. But for me, the 40% commitment to staying hands-on is what makes everything else work.
+
+The best infrastructure leaders I know can draw the architecture diagram *and* write the Terraform module. The gap between those two activities is where bad decisions hide. I stay in both because that gap is where my job actually lives.

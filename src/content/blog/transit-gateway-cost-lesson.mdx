@@ -5,74 +5,81 @@ description: "Why periodically questioning inherited infrastructure decisions ma
 tags: ["aws", "networking", "cost-optimization", "architecture"]
 draft: false
 readingTime: 8
+heroImage: "/blog/transit-gateway-hero.png"
 ---
 
 *The views expressed here are my own and do not represent those of any current or former employer. Technical details have been generalized to share patterns without disclosing proprietary information.*
 
-One of the most expensive assumptions in cloud infrastructure is that the architecture you inherited is the architecture you need. In my experience leading infrastructure at a large-scale consumer platform, I discovered that a core piece of the AWS networking setup -- Transit Gateway -- was generating significant costs in transit gateway and cross-VPC data transfer fees. By transitioning to direct VPC peering, the organization was able to eliminate that cost category entirely.
+I want to tell you about the most expensive "best practice" I've ever seen.
 
-This is not a story about any specific company. It is a pattern I have seen repeated across organizations operating at scale, and the broader lesson applies regardless of where you work.
+Early in a role leading cloud infrastructure at a large-scale consumer platform, I pulled up the networking cost breakdown for the first time. I'd expected some big numbers. What I didn't expect was to find that a single architectural decision, one that nobody had questioned in years, was quietly burning through millions in AWS data transfer fees every single month.
 
-## The Starting Point
+The culprit? AWS Transit Gateway. A service that every architecture blog recommends. A service that AWS themselves promote as the standard. A service that was absolutely the wrong choice for our traffic patterns.
 
-Transit Gateway is a common and well-understood pattern: it acts as a centralized hub connecting multiple VPCs, simplifying routing and providing a single point of control. AWS recommends it. Architecture diagrams feature it prominently. For many organizations, it is the right choice.
+## How We Got Here
 
-But defaults have costs, and at hyperscale traffic volumes, those costs can become significant.
+Here's the thing about Transit Gateway. It's genuinely good. It acts as a centralized hub connecting multiple VPCs, simplifies routing, gives you a single point of control. For most organizations, it's the right call.
 
-## Understanding the Cost Model
+But "most organizations" is doing a lot of heavy lifting in that sentence.
 
-For engineers who have not looked at this closely, here is the basic cost model. Transit Gateway charges you for two things: an hourly attachment fee for each VPC or VPN connection, and a per-GB data processing charge for every gigabyte that flows through the gateway.
+Transit Gateway was adopted years before I arrived. The team that set it up made a reasonable decision with the information they had. Traffic was lower. The VPC count was smaller. The centralized model was clean and manageable.
 
-That per-GB charge is the critical factor at scale. If you have hundreds of services communicating across VPCs, and all of that traffic routes through a Transit Gateway, you are paying a data processing fee on every byte. At high traffic volumes, those fees compound quickly.
+Then traffic grew. And grew. And kept growing. Nobody revisited the decision because it was working. The routing was fine. The connections were stable. Nothing was "broken." The architecture just happened to be hemorrhaging money in a way that didn't show up in any operational dashboard.
 
-Direct VPC peering, by contrast, does not have a data processing charge. You still pay for cross-AZ data transfer when applicable, but the Transit Gateway processing fee disappears entirely. The tradeoff is management complexity -- VPC peering connections are point-to-point, so you need more of them, and routing becomes more distributed.
+## The Math That Changed Everything
 
-## The Analysis Approach
+Let me break down why Transit Gateway gets expensive, because this catches a lot of engineers off guard.
 
-The first step was not to propose a solution -- it was to understand the problem. That meant conducting a comprehensive analysis on AZ balances and data transfer patterns. Understanding where traffic actually flowed -- not where we assumed it flowed -- was essential.
+Transit Gateway charges you for two things: an hourly attachment fee for each VPC connection, and a per-GB data processing charge for every gigabyte that flows through the gateway.
 
-The natural question was: what are we getting for the centralized model? The answer, when we broke it down, was centralized routing and simplified management. Those are real benefits. But they need to be weighed against the actual cost, and at hyperscale volumes, the math can shift dramatically.
+That per-GB charge? That's the killer. When you have hundreds of services talking across VPCs, and all of that traffic routes through a central gateway, you're paying a processing fee on every single byte. At low traffic volumes, it's negligible. At hyperscale volumes, it compounds into something genuinely alarming.
 
-## The Decision Process
+Direct VPC peering, on the other hand, has no data processing charge. You still pay for cross-AZ transfers, but the gateway toll disappears completely. The tradeoff is management complexity. Peering is point-to-point, so you need more connections and routing gets more distributed.
 
-Transitioning from a centralized to a distributed networking model has real implications:
+That tradeoff sounds scary until you actually do the math.
 
-**Routing complexity.** Transit Gateway gives you centralized route tables. With VPC peering, routing is managed per-connection. At scale, this means more configuration to manage. This can be mitigated through Infrastructure as Code -- mature Terraform CI/CD pipelines give you the ability to manage peering connections declaratively and consistently.
+## "What Are We Getting for This?"
 
-**Security boundaries.** Centralized connectivity can simplify security policies. Moving to a peering model means being more intentional about which VPCs can communicate with which. This often turns out to be a feature, not a bug -- it forces you to be more explicit about network boundaries.
+The first step wasn't proposing a fix. It was understanding the problem deeply enough to have an honest conversation about it.
 
-**Operational risk.** Any networking change at scale carries risk. A phased migration -- validating each peering connection before decommissioning the corresponding Transit Gateway route -- is essential. This is not a "rip and replace."
+We ran a comprehensive analysis on AZ balances and data transfer patterns. Where was traffic actually flowing? Not where we assumed it flowed. Not where the architecture diagram said it flowed. Where the packets were actually going.
 
-**Team capability.** Can your engineering teams operate in a more distributed networking model? This is where prior investment in IaC standards and Terraform pipelines pays off. Good tooling abstracts enough complexity that teams do not need to become networking experts.
+Then we asked the uncomfortable question: what exactly are we getting in return for the centralized model? The answer was centralized routing and simplified management. Real benefits. Genuinely useful capabilities.
 
-## The Broader Architecture Shift
+But when you put a price tag next to those benefits, the conversation changes. Centralized routing is worth a lot. It's not worth what we were paying.
 
-The transition was part of a broader effort to build a networking foundation that combines centralized patterns where they make sense with distributed control mechanisms where they do not.
+## Making the Switch Without Breaking Everything
 
-The key insight was that not every connection needs to go through a central gateway. Services that communicate frequently can be peered directly. Shared services that need broad reachability can retain centralized patterns where appropriate. Standardized centralized egress with distributed control patterns gives you the security benefits of controlled egress without the cost of routing all internal traffic through a central hub.
+This is the part where I have to be honest: I was nervous. Rearchitecting the networking layer of a system serving hundreds of millions of users is not something you do casually over a weekend.
 
-## Lessons for Other Teams
+We broke it into careful phases:
 
-The specific numbers will vary by organization -- they are proportional to traffic volume. But the underlying lessons apply regardless of scale.
+**Routing complexity.** Transit Gateway gives you centralized route tables. Peering means managing routes per connection. We leaned hard on Terraform CI/CD pipelines to manage peering connections declaratively. If your IaC game isn't strong, this migration gets much harder.
 
-### Question your defaults regularly
+**Security boundaries.** Centralized connectivity simplifies security policies. Moving to peering forced us to be more intentional about which VPCs could talk to each other. Honestly? This turned out to be a good thing. Explicit boundaries are better than implicit ones, even if they take more work to set up.
 
-Architectural decisions that were correct two years ago may not be correct today. Traffic patterns change. AWS pricing changes. Your team's capabilities change. Conduct periodic reviews of your core infrastructure assumptions, especially the ones that feel settled.
+**Operational risk.** We validated each new peering connection before decommissioning the corresponding Transit Gateway route. No big bang cutover. No "flip the switch and pray." Just patient, methodical migration, one connection at a time.
 
-### Follow the money
+**Team readiness.** Could our teams actually operate in a more distributed model? This is where years of investing in IaC standards paid off. The tooling abstracted enough complexity that teams didn't need to become networking experts overnight.
 
-Cost analysis is not just a FinOps exercise. When you see a large, growing cost line, it is telling you something about your architecture. The money points you to the problem.
+## The Bigger Lesson
 
-### Investment in IaC pays compounding returns
+The specific savings will vary by organization. They're proportional to traffic volume, and the numbers I saw reflected hyperscale traffic patterns. Your situation will be different.
 
-You cannot make networking transitions safely without mature Terraform pipelines and IaC standards. The ability to declare, review, and test networking changes in code -- rather than clicking through the AWS console -- is what makes migrations of this scale feasible.
+But the lesson is universal:
 
-### Centralization is a spectrum, not a binary
+**Question your defaults regularly.** The architecture decisions that were correct two years ago might not be correct today. Traffic patterns change. Pricing models change. Your team's capabilities change. Schedule periodic reviews of your core infrastructure assumptions, especially the ones that feel settled. *Especially* those.
 
-The answer is rarely "centralized is bad, distributed is good." It is "centralize what benefits from centralization, distribute what benefits from distribution." Egress controls? Often centralized. Inter-service communication? Often better distributed via peering. The right answer depends on the specific use case.
+**Follow the money.** A growing cost line is your architecture trying to tell you something. Listen to it. When the bill keeps climbing and nobody can explain why, there's usually an architectural assumption underneath that's expired.
 
-## The Takeaway
+**IaC is your safety net.** We could not have made this transition safely without mature Terraform pipelines. The ability to declare, review, and test networking changes in code is what made a migration of this scale possible without keeping anyone up at night. Well, not *too* many nights.
 
-The most expensive line item in your cloud bill might be an architectural decision that nobody has questioned in years. Questioning defaults -- especially the ones that feel settled -- is one of the highest-leverage activities an infrastructure engineer can do.
+**Centralization is a spectrum.** The answer wasn't "centralized bad, distributed good." It was "centralize what benefits from centralization, distribute what benefits from distribution." Egress controls? Centralize those. Inter-service chatter? Peer directly. The right answer depends on what you're actually doing with the traffic.
 
-Every architecture decision has a shelf life. The question is whether you notice when it expires.
+## What I Keep Coming Back To
+
+Every architecture decision has a shelf life. The question is whether you notice when it expires, or whether you keep paying for expired assumptions until someone finally pulls up the cost dashboard and says, "Wait, *how* much?"
+
+That moment of questioning the default was the highest-leverage thing I did that year. Not the migration itself. Not the cost savings. The act of looking at something everyone accepted as "just how it works" and asking, "But does it have to be?"
+
+That's the habit worth building.
