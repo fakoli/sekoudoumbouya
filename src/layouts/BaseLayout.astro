@@ -50,11 +50,22 @@ const { title, description = "Principal Infrastructure Engineer | Multi-Region A
 	<body class="antialiased">
 		<slot />
 		<script>
+			let revealObserver: IntersectionObserver | null = null;
+
 			function initReveal() {
+				// Signal to CSS that JS is available
+				document.documentElement.classList.add('js-reveal');
+
+				// Disconnect previous observer to prevent accumulation
+				if (revealObserver) {
+					revealObserver.disconnect();
+					revealObserver = null;
+				}
+
 				const revealSections = document.querySelectorAll('[data-reveal]');
 				if (!revealSections.length) return;
 
-				const observer = new IntersectionObserver((entries) => {
+				revealObserver = new IntersectionObserver((entries) => {
 					entries.forEach((entry) => {
 						if (entry.isIntersecting) {
 							entry.target.classList.add('fade-up');
@@ -62,12 +73,12 @@ const { title, description = "Principal Infrastructure Engineer | Multi-Region A
 							children.forEach((child, i) => {
 								child.classList.add('fade-up', `stagger-${Math.min(i + 1, 5)}`);
 							});
-							observer.unobserve(entry.target);
+							revealObserver?.unobserve(entry.target);
 						}
 					});
 				}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
 
-				revealSections.forEach(section => observer.observe(section));
+				revealSections.forEach(section => revealObserver!.observe(section));
 			}
 
 			// Run on initial load and Astro page transitions

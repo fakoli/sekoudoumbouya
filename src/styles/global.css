@@ -1130,6 +1130,13 @@
 		}
 	}
 
+	/* Reveal content if JS is unavailable */
+	html:not(.js-reveal) [data-reveal],
+	html:not(.js-reveal) [data-reveal-item] {
+		opacity: 1;
+		transform: none;
+	}
+
 	/* Mobile touch target improvements */
 	@media (max-width: 767px) {
 		.btn-primary,

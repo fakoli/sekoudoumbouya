@@ -40,8 +40,9 @@ const socialImageURL = new URL(`${base}/${image.replace(/^\//, '')}`, Astro.site
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
 <meta name="generator" content={Astro.generator} />
 
-<!-- Google Search Console verification - replace content value with actual code -->
-<!-- <meta name="google-site-verification" content="YOUR_VERIFICATION_CODE" /> -->
+{SITE_CONFIG.googleSiteVerification && (
+	<meta name="google-site-verification" content={SITE_CONFIG.googleSiteVerification} />
+)}
 
 <!-- Canonical URL -->
 <link rel="canonical" href={canonicalURL} />

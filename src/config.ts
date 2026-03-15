@@ -20,6 +20,9 @@ export const SITE_CONFIG = {
 
 	// Feature Flags
 	availableForHire: false,
+
+	// Google Search Console verification (leave empty to omit the meta tag)
+	googleSiteVerification: '',
 } as const;
 
 // Derived social links
