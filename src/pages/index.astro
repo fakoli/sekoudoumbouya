@@ -423,6 +423,16 @@ const initials = SITE_CONFIG.name.split(' ').map(n => n[0]).join('');
 			<div class="space-y-10">
 				{latestPosts.map((post) => (
 					<article class="group relative">
+						{post.data.heroImage && (
+							<a href={`${base}/blog/${post.id}`} class="block mb-4 relative z-10">
+								<img
+									src={post.data.heroImage}
+									alt={post.data.title}
+									class="w-full aspect-[16/9] object-cover rounded-lg border border-[var(--border-default)]"
+									loading="lazy"
+								/>
+							</a>
+						)}
 						<div class="flex flex-col md:flex-row md:items-baseline md:justify-between mb-2">
 							<h3 class="heading-sm text-foreground group-hover:text-accent transition-colors">
 								<a href={`${base}/blog/${post.id}`}>

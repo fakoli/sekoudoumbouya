@@ -65,34 +65,46 @@ const externalWriting = [
 		{featuredPost && (
 			<section class="mb-16">
 				<div class="label mb-4">Featured</div>
-				<article class="card p-8 border-l-4 border-l-[var(--color-accent)]">
-					<div class="flex items-center gap-2 mb-4">
-						<time datetime={featuredPost.data.publishDate.toISOString()} class="body-sm text-muted tabular-nums">
-							{formatDate(featuredPost.data.publishDate)}
-						</time>
-						{featuredPost.data.readingTime && (
-							<>
-								<span class="text-muted">·</span>
-								<span class="body-sm text-muted">{featuredPost.data.readingTime} min read</span>
-							</>
-						)}
-					</div>
-					<h2 class="heading-md text-foreground mb-3 hover:text-accent transition-colors">
-						<a href={`${base}/blog/${featuredPost.id}`}>
-							{featuredPost.data.title}
+				<article class="card overflow-hidden border-l-4 border-l-[var(--color-accent)]">
+					{featuredPost.data.heroImage && (
+						<a href={`${base}/blog/${featuredPost.id}`} class="block">
+							<img
+								src={featuredPost.data.heroImage}
+								alt={featuredPost.data.title}
+								class="w-full aspect-[16/9] object-cover"
+								loading="eager"
+							/>
 						</a>
-					</h2>
-					<p class="body-md text-secondary mb-4">
-						{featuredPost.data.description}
-					</p>
-					<div class="flex flex-wrap gap-2 mb-4">
-						{featuredPost.data.tags.map(tag => (
-							<span class="body-sm text-muted">#{tag}</span>
-						))}
+					)}
+					<div class="p-8">
+						<div class="flex items-center gap-2 mb-4">
+							<time datetime={featuredPost.data.publishDate.toISOString()} class="body-sm text-muted tabular-nums">
+								{formatDate(featuredPost.data.publishDate)}
+							</time>
+							{featuredPost.data.readingTime && (
+								<>
+									<span class="text-muted">·</span>
+									<span class="body-sm text-muted">{featuredPost.data.readingTime} min read</span>
+								</>
+							)}
+						</div>
+						<h2 class="heading-md text-foreground mb-3 hover:text-accent transition-colors">
+							<a href={`${base}/blog/${featuredPost.id}`}>
+								{featuredPost.data.title}
+							</a>
+						</h2>
+						<p class="body-md text-secondary mb-4">
+							{featuredPost.data.description}
+						</p>
+						<div class="flex flex-wrap gap-2 mb-4">
+							{featuredPost.data.tags.map(tag => (
+								<span class="body-sm text-muted">#{tag}</span>
+							))}
+						</div>
+						<a href={`${base}/blog/${featuredPost.id}`} class="link text-sm font-medium">
+							Read article &rarr;
+						</a>
 					</div>
-					<a href={`${base}/blog/${featuredPost.id}`} class="link text-sm font-medium">
-						Read article &rarr;
-					</a>
 				</article>
 			</section>
 		)}
@@ -102,24 +114,36 @@ const externalWriting = [
 			<h2 class="heading-lg text-foreground mb-8">All Posts</h2>
 			<div class="space-y-8">
 				{remainingPosts.map((post) => (
-					<article class="group">
-						<div class="flex flex-col md:flex-row md:items-baseline md:justify-between mb-2">
-							<h3 class="heading-sm text-foreground group-hover:text-accent transition-colors">
-								<a href={`${base}/blog/${post.id}`}>
-									{post.data.title}
-								</a>
-							</h3>
-							<time datetime={post.data.publishDate.toISOString()} class="body-sm text-muted shrink-0 md:ml-4 tabular-nums">
-								{formatDate(post.data.publishDate)}
-							</time>
-						</div>
-						<p class="body-md text-secondary mb-2">
-							{post.data.description}
-						</p>
-						<div class="flex gap-2">
-							{post.data.tags.map(tag => (
-								<span class="body-sm text-faint">#{tag}</span>
-							))}
+					<article class="group flex gap-6">
+						{post.data.heroImage && (
+							<a href={`${base}/blog/${post.id}`} class="shrink-0 hidden sm:block">
+								<img
+									src={post.data.heroImage}
+									alt={post.data.title}
+									class="w-48 aspect-[16/9] object-cover rounded-md border border-[var(--border-default)]"
+									loading="lazy"
+								/>
+							</a>
+						)}
+						<div class="flex-1 min-w-0">
+							<div class="flex flex-col md:flex-row md:items-baseline md:justify-between mb-2">
+								<h3 class="heading-sm text-foreground group-hover:text-accent transition-colors">
+									<a href={`${base}/blog/${post.id}`}>
+										{post.data.title}
+									</a>
+								</h3>
+								<time datetime={post.data.publishDate.toISOString()} class="body-sm text-muted shrink-0 md:ml-4 tabular-nums">
+									{formatDate(post.data.publishDate)}
+								</time>
+							</div>
+							<p class="body-md text-secondary mb-2">
+								{post.data.description}
+							</p>
+							<div class="flex gap-2">
+								{post.data.tags.map(tag => (
+									<span class="body-sm text-faint">#{tag}</span>
+								))}
+							</div>
 						</div>
 					</article>
 				))}
