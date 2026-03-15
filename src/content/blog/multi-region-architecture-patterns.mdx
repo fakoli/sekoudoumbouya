@@ -7,37 +7,39 @@ draft: false
 readingTime: 7
 ---
 
+*The views expressed here are my own and do not represent those of any current or former employer. These patterns reflect general industry practices I have developed over my career, not proprietary details of any specific organization.*
+
 Multi-region infrastructure is one of those topics where the gap between theory and practice is enormous. In theory, you replicate your stack across regions, set up some DNS failover, and you are resilient. In practice, multi-region introduces complexity at every layer: networking, data replication, deployment pipelines, cost management, and operational runbooks all need to account for the fact that your infrastructure now spans geographies.
 
-As the DRI for Pinterest's Multi-Region and Multi-Account initiatives, I have spent significant time working through these problems. What follows is not a step-by-step implementation guide -- every organization's constraints are different. Instead, these are the patterns and principles I have found most useful for designing multi-region infrastructure that scales predictably.
+Having led multi-region initiatives at various points in my career, I have spent significant time working through these problems. What follows is not a step-by-step implementation guide -- every organization's constraints are different. Instead, these are the patterns and principles I have found most useful for designing multi-region infrastructure that scales predictably.
 
 ## Not All Regions Are Created Equal
 
 One of the first decisions that simplifies multi-region design is accepting that not every region needs to be a full copy of your primary region. Trying to maintain identical infrastructure across all regions is expensive, operationally complex, and often unnecessary.
 
-At Pinterest, we defined a region types taxonomy with three categories:
+I have found it useful to define a region types taxonomy with three categories:
 
 **Full regions** are complete deployments with all services, full read-write capability, and the ability to operate independently if other regions are unavailable. These are your primary and major failover regions.
 
 **Lightweight regions** are slimmer deployments that handle specific workloads or serve as regional points of presence. They might run a subset of services, handle read traffic, or serve as caching layers. They do not need the full infrastructure footprint of a primary region.
 
-**Read-Only regions** serve read traffic and provide low-latency access to data that is replicated from a primary region. They are simpler to operate because they do not handle writes, which means you avoid many of the hardest distributed systems problems around consistency and conflict resolution.
+**Read-Only regions** serve read traffic and provide low-latency access to data replicated from a primary region. They are simpler to operate because they do not handle writes, which means you avoid many of the hardest distributed systems problems around consistency and conflict resolution.
 
 This taxonomy matters because it drives every downstream decision. A Full region needs a complete networking stack, all infrastructure services, and full operational coverage. A Read-Only region might need a fraction of that. When you design your provisioning and deployment systems, encoding this distinction explicitly prevents the default behavior of over-provisioning every region.
 
 ## Spec-Driven Region Provisioning
 
-The second pattern that has been valuable is what we call the Region Artifact -- a declarative specification that defines what a region needs before any infrastructure is provisioned.
+The second pattern that has been valuable is what I call a Region Artifact -- a declarative specification that defines what a region needs before any infrastructure is provisioned.
 
-The idea is straightforward. Before you stand up a new region, you create a specification that declares the region type (Full, Lightweight, or Read-Only), the services that need to be deployed, the networking connectivity requirements, the compute and storage capacity, and the compliance or data residency constraints.
+The idea is straightforward. Before you stand up a new region, you create a specification that declares the region type (Full, Lightweight, or Read-Only), the services that need to be deployed, the networking connectivity requirements, the compute and storage capacity, and any compliance or data residency constraints.
 
 This specification becomes the source of truth for everything that follows. Terraform modules read from it. CI/CD pipelines reference it. Monitoring and alerting configurations derive from it. Instead of each team independently deciding what to deploy in a new region, the Region Artifact provides a single, reviewable document that captures the full picture.
 
-The benefit is predictability. When someone asks "what does it take to expand into a new region?" the answer is not a six-week discovery process. It is: "here is the spec, here is the cost estimate, here is the timeline." That predictability is what enabled Pinterest's regional expansion roadmap.
+The benefit is predictability. When someone asks "what does it take to expand into a new region?" the answer is not a six-week discovery process. It is: "here is the spec, here is the cost estimate, here is the timeline."
 
 ## Four-Phase Orchestration
 
-Standing up a new region is not a single operation -- it is a sequence of dependent phases, each of which needs to complete successfully before the next can begin. We use a four-phase orchestration model:
+Standing up a new region is not a single operation -- it is a sequence of dependent phases, each of which needs to complete successfully before the next can begin.
 
 ### Phase 1: Landing Zone
 
@@ -75,7 +77,7 @@ Beyond the specific patterns, a few principles have consistently guided good mul
 
 **Cost model every region type.** The region types taxonomy only works if you understand the cost profile of each type. A Full region costs dramatically more than a Read-Only region, and that difference should be visible and planned for. FinOps integration at the region level prevents surprises.
 
-**Invest in observability across regions.** You need to see the state of all regions from a single pane of glass. Per-region dashboards are useful for debugging, but cross-region visibility is essential for understanding the health of the overall system. This includes not just infrastructure metrics but also data replication lag, deployment status, and traffic distribution.
+**Invest in observability across regions.** You need to see the state of all regions from a single pane of glass. Per-region dashboards are useful for debugging, but cross-region visibility is essential for understanding the health of the overall system.
 
 ## The Takeaway
 
