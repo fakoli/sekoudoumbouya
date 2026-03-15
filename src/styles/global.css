@@ -34,7 +34,7 @@
 		--color-foreground: var(--ink-primary);
 		--color-secondary: var(--ink-secondary);
 		--color-muted: var(--ink-muted);
-		--color-faint: #a3a3a3;
+		--color-faint: #8a8a8a;
 		--color-accent: var(--accent);
 		--color-accent-hover: var(--accent-hover);
 		--color-accent-muted: #99f6e4;
@@ -46,7 +46,7 @@
 		--color-amber-text: #b45309;
 
 		/* Borders - Primary depth mechanism */
-		--border-default: rgba(15, 15, 15, 0.08);
+		--border-default: rgba(15, 15, 15, 0.12);
 		--border-subtle: rgba(15, 15, 15, 0.05);
 		--border-strong: rgba(15, 15, 15, 0.12);
 
@@ -109,7 +109,7 @@
 		--color-foreground: var(--ink-primary);
 		--color-secondary: var(--ink-secondary);
 		--color-muted: var(--ink-muted);
-		--color-faint: #525252;
+		--color-faint: #6b6b6b;
 		--color-accent: var(--accent);
 		--color-accent-hover: var(--accent-hover);
 		--color-accent-muted: #115e59;
@@ -173,7 +173,7 @@
 
 	/* Selection */
 	::selection {
-		background-color: var(--color-accent-muted);
+		background-color: var(--color-accent-bg);
 		color: var(--color-foreground);
 	}
 
@@ -197,7 +197,7 @@
 	}
 
 	.card:hover {
-		transform: translateY(-2px) scale(1.01);
+		transform: translateY(-2px);
 		border-color: var(--border-strong);
 		box-shadow: var(--shadow-lg);
 	}
@@ -336,6 +336,15 @@
 	.btn-primary:hover {
 		background: var(--color-secondary);
 		transform: translateY(-1px);
+	}
+
+	[data-theme="dark"] .btn-primary {
+		background: var(--color-accent);
+		color: #0a0a0a;
+	}
+
+	[data-theme="dark"] .btn-primary:hover {
+		background: var(--color-accent-hover);
 	}
 
 	.btn-secondary {
@@ -1097,6 +1106,25 @@
 	@media (prefers-reduced-motion: reduce) {
 		.fade-up {
 			animation: none;
+			opacity: 1;
+			transform: none;
+		}
+	}
+
+	/* Scroll-reveal initial state */
+	[data-reveal] {
+		opacity: 0;
+		transform: translateY(8px);
+	}
+
+	[data-reveal-item] {
+		opacity: 0;
+		transform: translateY(8px);
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		[data-reveal],
+		[data-reveal-item] {
 			opacity: 1;
 			transform: none;
 		}

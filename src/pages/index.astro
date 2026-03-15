@@ -7,6 +7,9 @@ import { getCollection } from 'astro:content';
 import { SITE_CONFIG } from '../config';
 import { getBasePath, withBasePath } from '../utils/paths';
 import { formatDate } from '../utils/dates';
+import BoltIcon from '../components/icons/BoltIcon.astro';
+import TargetIcon from '../components/icons/TargetIcon.astro';
+import TrendUpIcon from '../components/icons/TrendUpIcon.astro';
 
 // Data imports
 import { STATS, PROOF_METRICS, EXTERNAL_ENGAGEMENT, getFocusAreasPreviews, getQuickNavItems } from '../data/homepage';
@@ -21,6 +24,9 @@ const posts = await getCollection('blog', ({ data }) => {
 const latestPosts = posts
 	.sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf())
 	.slice(0, 3);
+
+// Fetch Artifacts for conditional ReceiptsWall rendering
+const artifacts = await getCollection('artifacts');
 
 // Fetch Projects from content collection (same source as Projects page)
 const allProjects = await getCollection('projects');
@@ -147,12 +153,12 @@ const initials = SITE_CONFIG.name.split(' ').map(n => n[0]).join('');
 							loading="eager"
 							fetchpriority="high"
 							decoding="async"
-							class="w-24 h-24 lg:w-full lg:h-auto lg:aspect-[3/4] object-cover rounded-full lg:rounded-lg border border-[var(--border-default)] mx-auto lg:mx-0"
+							class="w-32 h-40 sm:w-36 sm:h-44 lg:w-full lg:h-auto lg:aspect-[3/4] object-cover rounded-lg border border-[var(--border-default)] mx-auto lg:mx-0"
 							onerror={`this.style.display='none';this.nextElementSibling.style.display='flex'`}
 						/>
 						<div
 							style="display:none"
-							class="w-24 h-24 lg:w-full lg:aspect-[3/4] items-center justify-center rounded-full lg:rounded-lg border border-[var(--border-default)] mx-auto lg:mx-0 bg-[var(--color-accent-bg)] text-[var(--color-accent)]"
+							class="w-32 h-40 sm:w-36 sm:h-44 lg:w-full lg:aspect-[3/4] items-center justify-center rounded-lg border border-[var(--border-default)] mx-auto lg:mx-0 bg-[var(--color-accent-bg)] text-[var(--color-accent)]"
 						>
 							<span class="text-2xl lg:text-5xl font-semibold" style={`font-family:var(--font-headline)`}>{initials}</span>
 						</div>
@@ -174,7 +180,7 @@ const initials = SITE_CONFIG.name.split(' ').map(n => n[0]).join('');
 	</section>
 
 	<!-- How I Work Section -->
-	<section class="max-w-6xl mx-auto mb-24 px-4">
+	<section class="max-w-6xl mx-auto mb-24 px-4" data-reveal>
 		<div class="flex justify-between items-end mb-6">
 			<div>
 				<p class="kicker">Leadership Philosophy</p>
@@ -186,22 +192,28 @@ const initials = SITE_CONFIG.name.split(' ').map(n => n[0]).join('');
 		</div>
 
 		<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-			<div class="card p-6">
-				<div class="text-2xl mb-3">⚡</div>
+			<div class="card p-6" data-reveal-item>
+				<div class="w-8 h-8 rounded-md bg-[var(--color-accent-bg)] text-[var(--color-accent)] flex items-center justify-center mb-3">
+					<BoltIcon class="w-5 h-5" />
+				</div>
 				<h3 class="heading-sm text-foreground mb-2">Player-Coach</h3>
 				<p class="body-sm text-muted">
 					40% hands-on with code and design reviews. I lead by solving hard problems alongside the team.
 				</p>
 			</div>
-			<div class="card p-6">
-				<div class="text-2xl mb-3">🎯</div>
+			<div class="card p-6" data-reveal-item>
+				<div class="w-8 h-8 rounded-md bg-[var(--color-accent-bg)] text-[var(--color-accent)] flex items-center justify-center mb-3">
+					<TargetIcon class="w-5 h-5" />
+				</div>
 				<h3 class="heading-sm text-foreground mb-2">Platform as Product</h3>
 				<p class="body-sm text-muted">
 					Internal platforms should treat developers as customers. Golden-path solutions that reduce cognitive load.
 				</p>
 			</div>
-			<div class="card p-6">
-				<div class="text-2xl mb-3">📈</div>
+			<div class="card p-6" data-reveal-item>
+				<div class="w-8 h-8 rounded-md bg-[var(--color-accent-bg)] text-[var(--color-accent)] flex items-center justify-center mb-3">
+					<TrendUpIcon class="w-5 h-5" />
+				</div>
 				<h3 class="heading-sm text-foreground mb-2">Knowledge Multiplier</h3>
 				<p class="body-sm text-muted">
 					My success metric: teams more capable after working with me. 20+ engineers mentored to senior+.
@@ -217,7 +229,7 @@ const initials = SITE_CONFIG.name.split(' ').map(n => n[0]).join('');
 	</section>
 
 	<!-- Featured Case Studies -->
-	<section id="case-studies" class="max-w-6xl mx-auto mb-24 px-4">
+	<section id="case-studies" class="max-w-6xl mx-auto mb-24 px-4" data-reveal>
 		<div class="flex justify-between items-end mb-8">
 			<div>
 				<p class="kicker">Proof of Impact</p>
@@ -284,10 +296,10 @@ const initials = SITE_CONFIG.name.split(' ').map(n => n[0]).join('');
 	</section>
 
 	<!-- Receipts Wall -->
-	<ReceiptsWall maxVisible={5} />
+	{artifacts.length > 0 && <ReceiptsWall maxVisible={5} />}
 
 	<!-- Technical Focus Areas -->
-	<section id="focus-areas" class="max-w-6xl mx-auto mb-24 px-4">
+	<section id="focus-areas" class="max-w-6xl mx-auto mb-24 px-4" data-reveal>
 		<div class="flex justify-between items-end mb-8">
 			<div>
 				<p class="kicker">Domains</p>
@@ -316,7 +328,7 @@ const initials = SITE_CONFIG.name.split(' ').map(n => n[0]).join('');
 	</section>
 
 	<!-- External Engagement -->
-	<section id="external-engagement" class="max-w-6xl mx-auto mb-24 px-4">
+	<section id="external-engagement" class="max-w-6xl mx-auto mb-24 px-4" data-reveal>
 		<div class="card p-6 md:p-8">
 			<div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
 				<div>

@@ -39,4 +39,4 @@ export const NAV_LINKS = [
 ] as const;
 
 // Resume path - points to the latest resume PDF in public/
-export const RESUME_PATH = '/Sekou_Doumbouya_Resume.pdf';
+export const RESUME_PATH = '/Sekou_Doumbouya_Resume_2025.pdf';

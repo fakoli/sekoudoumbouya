@@ -1,0 +1,88 @@
+---
+title: "How We Cut $10M in AWS Networking Costs by Questioning Defaults"
+publishDate: 2025-09-20
+description: "The decision to move from AWS Transit Gateway to direct VPC peering at Pinterest, and why questioning architectural defaults matters."
+tags: ["aws", "networking", "cost-optimization", "pinterest"]
+draft: false
+readingTime: 8
+---
+
+One of the most expensive assumptions in cloud infrastructure is that the architecture you inherited is the architecture you need. At Pinterest, we discovered that a core piece of our AWS networking setup -- Transit Gateway -- was costing us roughly $10 million per year in transit gateway and cross-VPC data transfer fees. By transitioning to direct VPC peering, we eliminated that cost entirely.
+
+This is the story of how we got there, and the broader lesson about why you should periodically question every architectural default in your stack.
+
+## The Starting Point
+
+When I joined Pinterest in 2021 as a Senior Staff Cloud Systems Engineer, the networking layer was built around AWS Transit Gateway. This is a common and well-understood pattern: Transit Gateway acts as a centralized hub that connects multiple VPCs, simplifying routing and providing a single point of control.
+
+For many organizations, Transit Gateway is the right choice. It simplifies network management, provides centralized routing policies, and scales well up to a point. AWS recommends it. Architecture diagrams feature it prominently. It has become, for many teams, a default.
+
+But defaults have costs, and at Pinterest's scale, those costs were significant.
+
+## The Analysis
+
+As the Directly Responsible Individual for Pinterest's Multi-Region and Multi-Account initiatives, I had visibility into the full picture of our networking architecture. The first step was not to propose a solution -- it was to understand the problem.
+
+We conducted a comprehensive analysis on AZ balances and data transfer costs. The numbers were stark. The combination of Transit Gateway data processing charges and cross-VPC data transfer fees was adding up to approximately $10 million annually.
+
+The natural question was: what are we getting for that $10 million? The answer, when we broke it down, was centralized routing and simplified management. Those are real benefits. But they are not $10 million worth of benefits when you have the engineering capability to manage a more distributed model.
+
+## Why Transit Gateway Gets Expensive
+
+For engineers who have not looked at this closely, here is the basic cost model. Transit Gateway charges you for two things: an hourly attachment fee for each VPC or VPN connection, and a per-GB data processing charge for every gigabyte that flows through the gateway.
+
+That per-GB charge is the killer at scale. If you have hundreds of services communicating across VPCs, and all of that traffic is routed through a Transit Gateway, you are paying a data processing fee on every byte. At Pinterest's traffic volumes, those fees compound quickly.
+
+Direct VPC peering, by contrast, does not have a data processing charge. You still pay for cross-AZ data transfer when applicable, but the Transit Gateway processing fee disappears entirely. The tradeoff is management complexity -- VPC peering connections are point-to-point, so you need more of them, and routing becomes more distributed.
+
+## The Decision Process
+
+This was not a simple "replace A with B" decision. Transitioning from a centralized to a distributed networking model has real implications for operational complexity, security posture, and team workflows.
+
+We had to weigh several factors:
+
+**Routing complexity.** Transit Gateway gives you centralized route tables. With VPC peering, routing is managed per-connection. At scale, this means more configuration to manage. We mitigated this through Infrastructure as Code -- our Terraform CI/CD pipelines gave us the ability to manage peering connections declaratively and consistently.
+
+**Security boundaries.** Centralized connectivity can simplify security policies. Moving to a peering model meant we needed to be more intentional about which VPCs could communicate with which. This turned out to be a feature, not a bug -- it forced us to be more explicit about our network boundaries.
+
+**Operational risk.** Any networking change at scale carries risk. We planned the transition carefully, validating each peering connection before decommissioning the corresponding Transit Gateway route. This was not a "rip and replace" -- it was a phased migration.
+
+**Team capability.** Could our engineering teams operate in a more distributed networking model? This is where the investment in IaC standards and Terraform pipelines paid off. The tooling abstracted enough of the complexity that teams did not need to become networking experts to operate in the new model.
+
+## Redesigning the Network Architecture
+
+The transition was part of a broader effort to architect Pinterest's Next Generation Network Architecture. The goal was not just cost savings -- it was building a networking foundation that combined centralized connectivity patterns where they made sense with distributed control mechanisms where they did not.
+
+We shifted from a model where Transit Gateway was the central hub for all inter-VPC communication to a peering-centric model. Not every connection needed to go through a central gateway. Services that communicated frequently were peered directly. Shared services that needed broad reachability retained centralized patterns where appropriate.
+
+The deep AZ-balancing analysis was critical here. Understanding where traffic actually flowed -- not where we assumed it flowed -- let us design peering connections that matched real communication patterns rather than theoretical ones. We also standardized centralized egress with distributed control patterns, giving us the security benefits of controlled egress without the cost of routing all internal traffic through a central hub.
+
+## The Results
+
+The annual networking cost went from approximately $10 million to effectively zero for the transit gateway and cross-VPC data transfer component. The infrastructure was more resilient because it did not depend on a single centralized gateway. And the networking architecture was better aligned with how our services actually communicated.
+
+## Lessons for Other Teams
+
+Not every organization will see $10 million in savings from this change. The numbers are proportional to traffic volume, and Pinterest operates at significant scale. But the underlying lesson applies regardless of scale.
+
+### Question your defaults regularly
+
+Architectural decisions that were correct two years ago may not be correct today. Traffic patterns change. AWS pricing changes. Your team's capabilities change. Conduct periodic reviews of your core infrastructure assumptions, especially the ones that feel settled.
+
+### Follow the money
+
+Cost analysis is not just a FinOps exercise. When you see a large, growing cost line, it is telling you something about your architecture. In our case, the cost was a signal that our traffic patterns had outgrown the centralized model. The money pointed us to the problem.
+
+### Investment in IaC pays compounding returns
+
+We could not have made this transition safely without mature Terraform pipelines and IaC standards. The ability to declare, review, and test networking changes in code -- rather than clicking through the AWS console -- is what made a migration of this scale feasible. Every hour invested in building those pipelines paid dividends during the transition.
+
+### Centralization is a spectrum, not a binary
+
+The answer was not "centralized is bad, distributed is good." It was "centralize what benefits from centralization, distribute what benefits from distribution." Egress controls? Centralized. Inter-service communication? Distributed via peering. The right answer depends on the specific use case.
+
+## The Takeaway
+
+The most expensive line item in your cloud bill might be an architectural decision that nobody has questioned in years. At Pinterest, questioning the Transit Gateway default led to eliminating $10 million in annual costs. But the real value was not just the savings -- it was the discipline of regularly examining whether your infrastructure still matches your needs.
+
+Every architecture decision has a shelf life. The question is whether you notice when it expires.

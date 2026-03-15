@@ -1,0 +1,84 @@
+---
+title: "Designing Multi-Region Infrastructure: Patterns That Scale"
+publishDate: 2025-05-01
+description: "A taxonomy of region types, spec-driven provisioning, and phased orchestration for predictable multi-region expansion."
+tags: ["multi-region", "aws", "architecture", "disaster-recovery"]
+draft: false
+readingTime: 7
+---
+
+Multi-region infrastructure is one of those topics where the gap between theory and practice is enormous. In theory, you replicate your stack across regions, set up some DNS failover, and you are resilient. In practice, multi-region introduces complexity at every layer: networking, data replication, deployment pipelines, cost management, and operational runbooks all need to account for the fact that your infrastructure now spans geographies.
+
+As the DRI for Pinterest's Multi-Region and Multi-Account initiatives, I have spent significant time working through these problems. What follows is not a step-by-step implementation guide -- every organization's constraints are different. Instead, these are the patterns and principles I have found most useful for designing multi-region infrastructure that scales predictably.
+
+## Not All Regions Are Created Equal
+
+One of the first decisions that simplifies multi-region design is accepting that not every region needs to be a full copy of your primary region. Trying to maintain identical infrastructure across all regions is expensive, operationally complex, and often unnecessary.
+
+At Pinterest, we defined a region types taxonomy with three categories:
+
+**Full regions** are complete deployments with all services, full read-write capability, and the ability to operate independently if other regions are unavailable. These are your primary and major failover regions.
+
+**Lightweight regions** are slimmer deployments that handle specific workloads or serve as regional points of presence. They might run a subset of services, handle read traffic, or serve as caching layers. They do not need the full infrastructure footprint of a primary region.
+
+**Read-Only regions** serve read traffic and provide low-latency access to data that is replicated from a primary region. They are simpler to operate because they do not handle writes, which means you avoid many of the hardest distributed systems problems around consistency and conflict resolution.
+
+This taxonomy matters because it drives every downstream decision. A Full region needs a complete networking stack, all infrastructure services, and full operational coverage. A Read-Only region might need a fraction of that. When you design your provisioning and deployment systems, encoding this distinction explicitly prevents the default behavior of over-provisioning every region.
+
+## Spec-Driven Region Provisioning
+
+The second pattern that has been valuable is what we call the Region Artifact -- a declarative specification that defines what a region needs before any infrastructure is provisioned.
+
+The idea is straightforward. Before you stand up a new region, you create a specification that declares the region type (Full, Lightweight, or Read-Only), the services that need to be deployed, the networking connectivity requirements, the compute and storage capacity, and the compliance or data residency constraints.
+
+This specification becomes the source of truth for everything that follows. Terraform modules read from it. CI/CD pipelines reference it. Monitoring and alerting configurations derive from it. Instead of each team independently deciding what to deploy in a new region, the Region Artifact provides a single, reviewable document that captures the full picture.
+
+The benefit is predictability. When someone asks "what does it take to expand into a new region?" the answer is not a six-week discovery process. It is: "here is the spec, here is the cost estimate, here is the timeline." That predictability is what enabled Pinterest's regional expansion roadmap.
+
+## Four-Phase Orchestration
+
+Standing up a new region is not a single operation -- it is a sequence of dependent phases, each of which needs to complete successfully before the next can begin. We use a four-phase orchestration model:
+
+### Phase 1: Landing Zone
+
+This is the foundational layer. Account setup, IAM policies, security baselines, and audit logging. Nothing else can proceed until the landing zone is established, because every subsequent phase depends on having a properly configured account with the right permissions and compliance controls.
+
+Think of the landing zone as the "you must be this tall to ride" check. If the account does not meet security and governance baselines, you do not proceed.
+
+### Phase 2: Network
+
+With the landing zone in place, you build the networking layer. VPC creation, subnet design, peering or connectivity back to existing regions, DNS configuration, and security groups. The networking phase is where the region type matters most -- a Full region needs comprehensive connectivity, while a Read-Only region might need a simpler topology.
+
+This phase also includes establishing the control plane connectivity that allows you to manage the new region from your existing operational tools.
+
+### Phase 3: Infrastructure Services Substrate
+
+This is the layer of shared services that workloads depend on: container orchestration (EKS clusters), monitoring and observability infrastructure, secrets management, service discovery, and logging pipelines. These need to be operational before application workloads can be deployed.
+
+The substrate phase is where golden-path solutions pay off. If you have standardized Terraform modules for provisioning EKS clusters, monitoring stacks, and CI/CD pipelines, standing up the substrate in a new region becomes a matter of applying those modules with region-specific parameters. If you do not have that standardization, this phase becomes a manual, error-prone exercise.
+
+### Phase 4: Workloads and Routing
+
+Finally, you deploy application workloads and configure traffic routing. This includes deploying services according to the region type spec, configuring load balancing and DNS routing, running validation tests to ensure the region is healthy, and gradually shifting traffic.
+
+The gradual traffic shift is important. You do not flip a switch and send 50% of production traffic to a new region. You start with synthetic traffic, move to a small percentage of real traffic, validate, and ramp up. This pattern gives you the ability to detect problems before they affect a significant number of users.
+
+## Principles That Underpin the Patterns
+
+Beyond the specific patterns, a few principles have consistently guided good multi-region decisions:
+
+**Make region expansion boring.** The goal is not cleverness. It is repeatability. The best multi-region architecture is one where adding a new region is a well-understood, largely automated process. If standing up a new region requires heroics, your architecture is not ready for multi-region.
+
+**Treat data as the hardest problem.** Networking, compute, and deployment are solvable with good automation. Data replication, consistency, and conflict resolution are where multi-region gets genuinely difficult. Spend disproportionate time on your data strategy.
+
+**Design for partial failure.** In a multi-region setup, something is always partially broken. A region might be degraded, a replication pipeline might be lagging, a deployment might be rolling out unevenly. Your architecture needs to handle these partial failure states gracefully, not just the binary "region is up or down" scenario.
+
+**Cost model every region type.** The region types taxonomy only works if you understand the cost profile of each type. A Full region costs dramatically more than a Read-Only region, and that difference should be visible and planned for. FinOps integration at the region level prevents surprises.
+
+**Invest in observability across regions.** You need to see the state of all regions from a single pane of glass. Per-region dashboards are useful for debugging, but cross-region visibility is essential for understanding the health of the overall system. This includes not just infrastructure metrics but also data replication lag, deployment status, and traffic distribution.
+
+## The Takeaway
+
+Multi-region infrastructure is not a project with a finish line. It is an operating model that evolves as your organization grows. The patterns I have outlined -- region type taxonomy, spec-driven provisioning, and phased orchestration -- are frameworks for making that evolution predictable rather than chaotic.
+
+The organizations that succeed with multi-region are the ones that invest in the boring parts: standardized modules, clear specifications, phased rollouts, and thorough automation. The architecture decisions matter, but the operational discipline to execute them consistently across regions is what separates multi-region as a strategy from multi-region as a liability.

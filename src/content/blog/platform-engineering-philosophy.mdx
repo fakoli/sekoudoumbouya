@@ -1,0 +1,64 @@
+---
+title: "Platform Engineering Is Product Management for Infrastructure"
+publishDate: 2025-11-15
+description: "Why treating your internal platform like a product changes how infrastructure teams operate, and how golden-path solutions reduce cognitive load."
+tags: ["platform-engineering", "developer-experience", "infrastructure"]
+draft: false
+readingTime: 6
+---
+
+There is a pattern I have seen play out at every company I have worked at: an infrastructure team builds something powerful, ships it, and then wonders why nobody uses it. The tooling is technically sound. The architecture is clean. But the developers it was built for find workarounds, roll their own solutions, or just keep doing things the old way.
+
+The problem is rarely technical. The problem is that infrastructure teams often think like infrastructure teams instead of thinking like product teams.
+
+## The Platform-as-Product Mindset
+
+When I think about platform engineering, I start from a simple premise: your developers are your customers. That is not a metaphor. It is an operating model.
+
+A product team would never ship a feature without understanding what their users need. They would not build something without measuring whether it gets adopted. They would not ignore feedback loops. But infrastructure teams do this constantly. We build what we think is correct, push it out, and then blame adoption failures on engineering culture or lack of documentation.
+
+At Pinterest, this shift in thinking has been central to how I approach the Cloud Architecture team's work. Every platform capability we build has a clear value proposition. We ask ourselves: what problem does this solve for the developer? What is the cost of not using it? And critically, how do we measure whether it is working?
+
+This means tracking metrics like lead time, onboarding friction, and infrastructure costs -- not just uptime and latency. Those operational metrics matter, but they do not tell you whether your platform is actually making developers more productive.
+
+## Golden Paths, Not Golden Cages
+
+One concept that has shaped my approach is the idea of golden-path solutions. The term comes from the broader platform engineering community, and the idea is straightforward: provide a well-lit, well-paved path that handles the common cases, while still allowing teams to step off that path when they have genuinely unique requirements.
+
+The key is "abstracting infrastructure complexity" without removing the ability to go deeper when needed. A golden path for deploying a new service might include a pre-configured CI/CD pipeline, a Terraform module that provisions the right infrastructure, monitoring dashboards that come wired up out of the box, and cost visibility from day one. A developer who just wants to ship a service should not need to understand VPC peering or transit gateway routing. But the senior engineer who needs to customize their networking setup should still be able to.
+
+This is harder than it sounds. The temptation is to either give everyone maximum flexibility (which means nobody gets a fast path) or to lock everything down (which means the platform becomes a bottleneck). The art is in finding the right layer of abstraction.
+
+## Self-Service as a Design Principle
+
+The goal of self-service infrastructure is not to eliminate the platform team. It is to redirect the platform team's energy toward higher-leverage work. When an engineer can provision a new environment, set up monitoring, and deploy to production without filing a ticket, the platform team is free to work on the next generation of capabilities instead of handling requests.
+
+At Pinterest, this has meant investing heavily in self-service CI/CD, monitoring, and provisioning capabilities. We have built Terraform CI/CD pipelines that give teams the guardrails they need -- operational safety, consistency, reduced deployment failures -- without requiring them to become Terraform experts. The pipeline enforces standards. The developer just pushes code.
+
+This connects directly to FinOps. When cost visibility is baked into the platform, teams make better decisions without needing a separate cost review process. They can see the impact of their infrastructure choices in near-real-time. That feedback loop is far more effective than quarterly cost reports.
+
+## Why This Matters at the Senior IC Level
+
+I have found that the platform-as-product mindset becomes especially important as you move into senior individual contributor roles. At the principal or staff level, your impact is measured by organizational outcomes, not personal output. You cannot scale yourself by writing more code. You scale by building systems and platforms that make hundreds of other engineers more effective.
+
+This is where the "player-coach" approach intersects with platform thinking. I spend about 40% of my time hands-on -- doing code reviews, writing Terraform modules, debugging production issues. The other 60% is spent on the product management side of platform work: understanding what teams need, defining roadmaps, setting standards, and building alignment across engineering, product, and data teams.
+
+The cross-functional piece is essential. Infrastructure decisions do not happen in a vacuum. A networking architecture change affects product timelines. A cost optimization initiative affects data engineering budgets. A reliability improvement affects how the SRE team allocates their on-call resources. Translating infrastructure strategy into language that product, security, and data teams can act on is a core part of the job.
+
+## Measuring What Matters
+
+The metrics I care about for a platform team are different from what most infrastructure teams track:
+
+**Lead time**: How long does it take a developer to go from "I need a new service" to "it is running in production"? If the answer involves multiple tickets, manual approvals, and a two-week wait, your platform is not working.
+
+**Onboarding friction**: How quickly can a new engineer on the team start shipping? If they spend their first two weeks just getting their development environment set up, that is a platform problem, not an onboarding problem.
+
+**Infrastructure costs**: Not just the total bill, but cost per unit of value delivered. Are teams making cost-aware decisions? Can they see the impact of their choices?
+
+**Adoption rate**: Are teams actually using the golden-path solutions? If not, why not? This is the most important signal, because low adoption means you have either a usability problem or a trust problem. Both are fixable, but you have to know which one you are dealing with.
+
+## The Takeaway
+
+Platform engineering is not a new name for DevOps, and it is not just about building internal tools. It is a fundamental shift in how infrastructure teams think about their work. When you treat your platform like a product, you start asking different questions, measuring different things, and building solutions that developers actually want to use.
+
+The teams I have seen succeed with this approach share a few traits: they listen to their users, they ship incrementally, they measure adoption relentlessly, and they are willing to kill features that are not working. That sounds a lot like product management. And I think that is exactly the point.
