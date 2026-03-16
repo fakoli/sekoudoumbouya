@@ -1,0 +1,163 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import { SITE_CONFIG } from '../config';
+import PhilosophyCard from '../components/PhilosophyCard.astro';
+import FocusAreaCard from '../components/FocusAreaCard.astro';
+
+// Data imports
+import {
+	LEADERSHIP_PRINCIPLES,
+	STRATEGIC_APPROACH,
+	FOCUS_AREAS,
+	EXTERNAL_ENGAGEMENT,
+	COMPETENCY_GROUPS,
+	EDUCATION,
+	COMMUNITY,
+} from '../data/about';
+---
+
+<PageLayout title={`About | ${SITE_CONFIG.name}`} description={`About ${SITE_CONFIG.name} - ${SITE_CONFIG.title} with 20+ years of experience building resilient cloud platforms.`}>
+	<section class="max-w-4xl mx-auto px-4 py-12">
+		<h1 class="heading-xl text-foreground mb-8">About Me</h1>
+
+		<!-- Introduction with disambiguation (once) -->
+		<div class="prose prose-lg text-secondary mb-16 max-w-none">
+			<p class="mb-6 body-lg leading-relaxed">
+				I'm <strong class="text-foreground">{SITE_CONFIG.name}</strong>—infrastructure/cloud architecture leader <span class="text-muted">(not the basketball player)</span>. I'm a <strong class="text-foreground">builder who happens to lead</strong>. With over <strong class="text-foreground">20 years</strong> in infrastructure and platform engineering, I've learned that the best technical leaders stay close to the work—understanding systems deeply enough to make good decisions and mentor others effectively.
+			</p>
+			<p class="mb-6 body-lg leading-relaxed">
+				Currently at <strong class="text-foreground">{SITE_CONFIG.currentCompany}</strong>, I serve as Technical Lead on the multi-region initiative and lead Cloud Architecture—architecting systems that enable global scale while keeping costs and complexity in check.
+			</p>
+			<p class="body-lg leading-relaxed">
+				My approach: design systems that multiply team impact. The platforms I build should make engineers more productive, not just keep infrastructure running. I'm happiest when I'm solving hard problems alongside a team, then watching them take those solutions further than I imagined.
+			</p>
+		</div>
+
+		<!-- How I Lead (Expanded) -->
+		<div id="how-i-lead" class="mb-16 scroll-mt-8">
+			<h2 class="heading-lg text-foreground mb-6">How I Lead</h2>
+			<p class="body-md text-secondary mb-8 max-w-3xl">
+				Leadership at the principal level means setting direction while staying hands-on. I believe in leaving teams more capable than I found them.
+			</p>
+			<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+				{LEADERSHIP_PRINCIPLES.map(principle => (
+					<PhilosophyCard title={principle.title} description={principle.description} icon={principle.icon} />
+				))}
+			</div>
+		</div>
+
+		<!-- Strategic Approach -->
+		<div id="strategic-approach" class="mb-16 scroll-mt-8">
+			<h2 class="heading-lg text-foreground mb-6">Strategic Approach</h2>
+			<p class="body-md text-secondary mb-8 max-w-3xl">
+				Principal engineers influence through expertise and trust, not organizational authority. These principles guide how I drive technical direction.
+			</p>
+			<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+				{STRATEGIC_APPROACH.map(item => (
+					<PhilosophyCard title={item.title} description={item.description} icon={item.icon} />
+				))}
+			</div>
+		</div>
+
+		<!-- Technical Focus Areas -->
+		<div id="technical-focus-areas" class="mb-16 scroll-mt-8">
+			<h2 class="heading-lg text-foreground mb-6">Technical Focus Areas</h2>
+			<p class="body-md text-secondary mb-8 max-w-3xl">
+				Where I invest my engineering energy. These four domains represent the intersection of my expertise and current interests.
+			</p>
+			<div class="grid grid-cols-1 gap-6">
+				{FOCUS_AREAS.map(area => (
+					<div id={area.id} class="scroll-mt-8">
+						<FocusAreaCard
+							title={area.title}
+							summary={area.summary}
+							details={area.details}
+							metrics={area.metrics}
+						/>
+					</div>
+				))}
+			</div>
+		</div>
+
+		<!-- External Engagement -->
+		<div id="external-engagement" class="mb-16 scroll-mt-8">
+			<h2 class="heading-lg text-foreground mb-6">External Engagement</h2>
+			<p class="body-md text-secondary mb-8 max-w-3xl">
+				Building community beyond the day job. I believe senior engineers have a responsibility to share knowledge and lift others.
+			</p>
+			<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+				{Object.values(EXTERNAL_ENGAGEMENT).map(section => (
+					<div class="card p-6">
+						<h3 class="heading-sm text-foreground mb-4">{section.title}</h3>
+						<ul class="space-y-3">
+							{section.items.map(item => (
+								<li class="flex items-start text-secondary">
+									<span class="mr-2 text-accent mt-1 text-xs">●</span>
+									<span class="body-sm">{item}</span>
+								</li>
+							))}
+						</ul>
+					</div>
+				))}
+			</div>
+		</div>
+
+		<!-- Core Competencies -->
+		<div id="core-competencies" class="mb-16 scroll-mt-8">
+			<h2 class="heading-lg text-foreground mb-6">Core Competencies</h2>
+			<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+				{COMPETENCY_GROUPS.map(group => (
+					<div class="card p-6">
+						<h3 class="heading-sm text-foreground mb-4">{group.title}</h3>
+						<ul class="space-y-2">
+							{group.skills.map(skill => (
+								<li class="flex items-center space-x-3 text-secondary">
+									<span class="w-2 h-2 bg-[var(--color-accent)] rounded-full shrink-0"></span>
+									<span class="body-md">{skill}</span>
+								</li>
+							))}
+						</ul>
+					</div>
+				))}
+			</div>
+		</div>
+
+		<!-- Education & Development -->
+		<div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16">
+			<div>
+				<h2 class="heading-lg text-foreground mb-6">Education & Development</h2>
+				<div class="space-y-6">
+					{EDUCATION.map(edu => (
+						<div>
+							<h3 class="font-semibold text-foreground">{edu.school}</h3>
+							<p class="body-sm text-muted">{edu.location} · {edu.years}</p>
+						</div>
+					))}
+					<div>
+						<h3 class="font-semibold text-foreground">Emerge Global Executive Leadership Program</h3>
+						<p class="body-sm text-muted">Ross School of Business, University of Michigan</p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Community & Awards -->
+		<div class="border-t border-[var(--border-default)] pt-12">
+			<h2 class="heading-lg text-foreground mb-8">Community & Awards</h2>
+			<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+				{COMMUNITY.map(item => (
+					<div class="card p-6">
+						<h3 class="font-semibold text-foreground mb-1">{item.org}</h3>
+						<div class="badge badge-accent text-xs mb-3">{item.role}</div>
+						<p class="body-sm text-secondary">{item.desc}</p>
+					</div>
+				))}
+				<div class="card-award p-6">
+					<h3 class="font-semibold text-foreground mb-1">LiveOps Amsterdam Datacenter Creation Award</h3>
+					<div class="badge badge-award text-xs mb-3">Honors & Awards</div>
+					<p class="body-sm text-secondary">Recognition for excellence in datacenter infrastructure design and implementation.</p>
+				</div>
+			</div>
+		</div>
+	</section>
+</PageLayout>

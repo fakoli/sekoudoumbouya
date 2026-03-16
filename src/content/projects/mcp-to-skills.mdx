@@ -1,0 +1,85 @@
+---
+title: MCP to Claude Skills Converter
+slug: mcp-to-skills
+publishDate: '2026-01-27'
+description: >-
+  An AI-powered CLI tool that automatically converts Model Context Protocol
+  servers into Claude Code and Cursor skills with intelligent source analysis.
+category: open-source
+role: Creator & Maintainer
+organization: Open Source
+impactSummary: >-
+  Built an intelligent CLI tool that bridges the gap between MCP servers and AI
+  code assistants by automatically generating skill files with AI-powered
+  analysis. The tool streamlines the process of converting server configurations
+  into usable skills for Claude Code and Cursor.
+scale:
+  - Cross-platform
+  - Multi-language support
+  - AI-powered analysis
+  - Production-ready
+primaryTech:
+  - Python
+  - Claude API
+  - CLI Development
+  - Package Registry APIs
+  - PEP 723
+  - JSON Schema
+contributions:
+  - Designed automated source code fetching from npm and PyPI registries
+  - Implemented AI-powered tool definition extraction using Claude
+  - Built intelligent skill file generation with wrapper scripts
+  - Created flexible configuration detection across multiple platforms
+  - Developed PEP 723 compliant wrapper scripts for seamless execution
+outcomes:
+  - Automated MCP server to skill conversion process
+  - Generated production-ready wrapper scripts with CLI interfaces
+  - Enabled seamless integration with Claude Code and Cursor
+  - Reduced manual skill creation time significantly
+tags:
+  - CLI Tools
+  - AI Integration
+  - Developer Productivity
+  - Python
+  - MCP
+duration: 2026-Present
+featured: false
+repository: 'https://github.com/fakoli/mcp-to-skills'
+generated: true
+generatedAt: '2026-01-27T10:15:53.328Z'
+---
+## Problem
+
+The Model Context Protocol (MCP) ecosystem has grown rapidly, with numerous servers providing powerful functionality for AI assistants. However, there was a significant gap between having MCP servers configured and being able to use them effectively in AI code editors like Claude Code and Cursor. Manual conversion of MCP server configurations into usable skills required deep understanding of each server's tools, extensive documentation reading, and time-consuming wrapper script creation.
+
+Developers were spending too much time on the mechanical process of analyzing MCP server source code, understanding tool definitions, and creating the boilerplate needed to make these tools accessible in their AI coding workflows. This friction was preventing wider adoption of the rich MCP ecosystem and limiting productivity gains from these powerful integrations.
+
+## Approach
+
+I designed mcp-to-skills as an intelligent automation tool that eliminates the manual conversion process entirely. The architecture centers around three core components: intelligent source fetching, AI-powered analysis, and automated skill generation.
+
+The tool automatically detects MCP server configurations from standard locations across macOS and Linux systems, supporting both Claude Desktop's nested format and flat configuration schemas. For source analysis, I integrated with package registries (npm and PyPI) to fetch server source code dynamically, then leverage Claude's API to intelligently extract tool definitions, parameters, and documentation.
+
+### Key Design Elements
+
+- **Multi-registry package fetching** with npm and PyPI support for comprehensive MCP server coverage
+- **AI-powered source analysis** using Claude to understand complex codebases and extract tool definitions
+- **PEP 723 compliant wrapper generation** creating self-contained Python scripts that work seamlessly with `uv run`
+- **Cross-platform configuration detection** supporting Claude Desktop and custom config file formats
+- **Flexible output targeting** with support for Claude Code, Cursor, and custom directory structures
+- **Environment variable inheritance** preserving MCP server environment requirements in generated skills
+
+## Outcomes
+
+The tool successfully automates the entire MCP server to skill conversion pipeline, generating production-ready skill files with comprehensive documentation and executable wrapper scripts. Each generated skill includes a detailed SKILL.md manifest with tool documentation, parameter specifications, and usage examples, alongside Python wrapper scripts with full CLI interfaces and JSON output options.
+
+Users can now convert any MCP server to a usable skill with a single command, dramatically reducing the barrier to entry for leveraging the MCP ecosystem in AI coding workflows. The generated skills maintain full compatibility with the original MCP servers while providing the convenience of direct script execution through modern Python tooling.
+
+## Key Contributions
+
+- **Implemented intelligent package registry integration** to automatically fetch source code from npm and PyPI based on MCP server commands
+- **Designed AI-powered source analysis system** using Claude API to extract tool definitions, parameters, and documentation from complex codebases
+- **Built comprehensive skill generation engine** that creates SKILL.md manifests and PEP 723 compliant Python wrapper scripts
+- **Developed flexible configuration detection** supporting multiple config formats and auto-discovery across different platforms
+- **Created robust CLI interface** with dry-run capabilities, flexible output targeting, and comprehensive error handling
+- **Engineered environment variable inheritance system** ensuring generated skills preserve all necessary MCP server requirements

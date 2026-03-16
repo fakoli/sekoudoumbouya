@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <style>
+    .sd { fill: #0d9488; }
+    @media (prefers-color-scheme: dark) {
+      .sd { fill: #14b8a6; }
+    }
+  </style>
+  <!-- Bold SD monogram -->
+  <g class="sd">
+    <!-- S: top bar -->
+    <rect x="2" y="2" width="11" height="4"/>
+    <!-- S: left vertical top -->
+    <rect x="2" y="2" width="4" height="8"/>
+    <!-- S: middle bar -->
+    <rect x="2" y="14" width="11" height="4"/>
+    <!-- S: right vertical bottom -->
+    <rect x="9" y="18" width="4" height="8"/>
+    <!-- S: bottom bar -->
+    <rect x="2" y="26" width="11" height="4"/>
+
+    <!-- D: left vertical -->
+    <rect x="17" y="2" width="4" height="28"/>
+    <!-- D: top bar -->
+    <rect x="17" y="2" width="11" height="4"/>
+    <!-- D: right vertical -->
+    <rect x="26" y="6" width="4" height="20"/>
+    <!-- D: bottom bar -->
+    <rect x="17" y="26" width="11" height="4"/>
+  </g>
+</svg>

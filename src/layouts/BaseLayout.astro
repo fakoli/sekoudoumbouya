@@ -1,0 +1,89 @@
+---
+import '../styles/global.css';
+
+import SEOHead from '../components/common/SEOHead.astro';
+import JSONLD from '../components/common/JSONLD.astro';
+
+interface BreadcrumbItem {
+	name: string;
+	url: string;
+}
+
+interface Props {
+	title: string;
+	description?: string;
+	image?: string;
+	type?: 'website' | 'article' | 'project';
+	publishDate?: Date;
+	breadcrumbs?: BreadcrumbItem[];
+}
+
+const { title, description = "Senior Staff Cloud Systems Engineer | Multi-Region Architecture & Platform Engineering", image, type, publishDate, breadcrumbs = [] } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<!-- Theme initialization - must run before body to prevent flash -->
+		<script is:inline>
+			(function() {
+				const stored = localStorage.getItem('theme');
+				const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+				const theme = stored || (prefersDark ? 'dark' : 'light');
+				document.documentElement.setAttribute('data-theme', theme);
+			})();
+		</script>
+		<SEOHead title={title} description={description} image={image} type={type} publishDate={publishDate} />
+		<JSONLD type={type} title={title} description={description} publishDate={publishDate} breadcrumbs={breadcrumbs} />
+
+		<!-- Fonts: Newsreader (display), Public Sans (body), JetBrains Mono (code) -->
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<!-- Load font stylesheets non-blocking to reduce render-path delay -->
+		<link rel="preload" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400&family=Public+Sans:wght@400;500;600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+		<link rel="preload" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+		<noscript>
+			<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400&family=Public+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+			<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+		</noscript>
+	</head>
+	<body class="antialiased">
+		<slot />
+		<script>
+			let revealObserver: IntersectionObserver | null = null;
+
+			function initReveal() {
+				// Signal to CSS that JS is available
+				document.documentElement.classList.add('js-reveal');
+
+				// Disconnect previous observer to prevent accumulation
+				if (revealObserver) {
+					revealObserver.disconnect();
+					revealObserver = null;
+				}
+
+				const revealSections = document.querySelectorAll('[data-reveal]');
+				if (!revealSections.length) return;
+
+				revealObserver = new IntersectionObserver((entries) => {
+					entries.forEach((entry) => {
+						if (entry.isIntersecting) {
+							entry.target.classList.add('fade-up');
+							const children = entry.target.querySelectorAll('[data-reveal-item]');
+							children.forEach((child, i) => {
+								child.classList.add('fade-up', `stagger-${Math.min(i + 1, 5)}`);
+							});
+							revealObserver?.unobserve(entry.target);
+						}
+					});
+				}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+				revealSections.forEach(section => revealObserver!.observe(section));
+			}
+
+			// Run on initial load and Astro page transitions
+			initReveal();
+			document.addEventListener('astro:page-load', initReveal);
+		</script>
+	</body>
+</html>

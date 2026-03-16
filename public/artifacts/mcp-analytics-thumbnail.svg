@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" fill="none">
+  <rect width="400" height="300" fill="#f8fafc"/>
+
+  <!-- Title -->
+  <text x="200" y="25" font-family="system-ui" font-size="13" font-weight="600" fill="#1e293b" text-anchor="middle">MCP Gateway Analytics</text>
+
+  <!-- Request Volume Chart -->
+  <g transform="translate(30, 50)">
+    <text x="0" y="0" font-family="system-ui" font-size="10" fill="#64748b">Requests/min</text>
+    <rect x="0" y="10" width="150" height="80" rx="4" fill="white" stroke="#e2e8f0" stroke-width="1"/>
+
+    <!-- Bar chart -->
+    <rect x="15" y="60" width="15" height="25" fill="#10b981"/>
+    <rect x="35" y="45" width="15" height="40" fill="#10b981"/>
+    <rect x="55" y="30" width="15" height="55" fill="#10b981"/>
+    <rect x="75" y="40" width="15" height="45" fill="#10b981"/>
+    <rect x="95" y="25" width="15" height="60" fill="#10b981"/>
+    <rect x="115" y="35" width="15" height="50" fill="#10b981"/>
+  </g>
+
+  <!-- Namespace Distribution -->
+  <g transform="translate(200, 50)">
+    <text x="0" y="0" font-family="system-ui" font-size="10" fill="#64748b">Namespace Usage</text>
+    <rect x="0" y="10" width="170" height="80" rx="4" fill="white" stroke="#e2e8f0" stroke-width="1"/>
+
+    <!-- Pie chart simplified -->
+    <circle cx="50" cy="50" r="30" fill="none" stroke="#4f46e5" stroke-width="15" stroke-dasharray="47 141"/>
+    <circle cx="50" cy="50" r="30" fill="none" stroke="#10b981" stroke-width="15" stroke-dasharray="37 151" stroke-dashoffset="-47"/>
+    <circle cx="50" cy="50" r="30" fill="none" stroke="#f59e0b" stroke-width="15" stroke-dasharray="30 158" stroke-dashoffset="-84"/>
+    <circle cx="50" cy="50" r="30" fill="none" stroke="#94a3b8" stroke-width="15" stroke-dasharray="74 114" stroke-dashoffset="-114"/>
+
+    <!-- Legend -->
+    <rect x="95" y="25" width="8" height="8" fill="#4f46e5"/>
+    <text x="108" y="32" font-family="system-ui" font-size="8" fill="#64748b">filesystem</text>
+    <rect x="95" y="40" width="8" height="8" fill="#10b981"/>
+    <text x="108" y="47" font-family="system-ui" font-size="8" fill="#64748b">search</text>
+    <rect x="95" y="55" width="8" height="8" fill="#f59e0b"/>
+    <text x="108" y="62" font-family="system-ui" font-size="8" fill="#64748b">database</text>
+    <rect x="95" y="70" width="8" height="8" fill="#94a3b8"/>
+    <text x="108" y="77" font-family="system-ui" font-size="8" fill="#64748b">other</text>
+  </g>
+
+  <!-- Metrics Cards -->
+  <g transform="translate(30, 155)">
+    <rect x="0" y="0" width="100" height="50" rx="4" fill="white" stroke="#e2e8f0" stroke-width="1"/>
+    <text x="50" y="22" font-family="system-ui" font-size="18" font-weight="700" fill="#10b981" text-anchor="middle">1.2K</text>
+    <text x="50" y="38" font-family="system-ui" font-size="9" fill="#64748b" text-anchor="middle">req/min</text>
+  </g>
+
+  <g transform="translate(145, 155)">
+    <rect x="0" y="0" width="100" height="50" rx="4" fill="white" stroke="#e2e8f0" stroke-width="1"/>
+    <text x="50" y="22" font-family="system-ui" font-size="18" font-weight="700" fill="#4f46e5" text-anchor="middle">23ms</text>
+    <text x="50" y="38" font-family="system-ui" font-size="9" fill="#64748b" text-anchor="middle">avg latency</text>
+  </g>
+
+  <g transform="translate(260, 155)">
+    <rect x="0" y="0" width="100" height="50" rx="4" fill="white" stroke="#e2e8f0" stroke-width="1"/>
+    <text x="50" y="22" font-family="system-ui" font-size="18" font-weight="700" fill="#f59e0b" text-anchor="middle">99.9%</text>
+    <text x="50" y="38" font-family="system-ui" font-size="9" fill="#64748b" text-anchor="middle">success rate</text>
+  </g>
+
+  <!-- Tool Usage Table -->
+  <g transform="translate(30, 220)">
+    <text x="0" y="0" font-family="system-ui" font-size="10" fill="#64748b">Top Tools</text>
+    <rect x="0" y="10" width="340" height="60" rx="4" fill="white" stroke="#e2e8f0" stroke-width="1"/>
+
+    <text x="10" y="30" font-family="monospace" font-size="9" fill="#1e293b">read_file</text>
+    <text x="120" y="30" font-family="monospace" font-size="9" fill="#64748b">458 calls</text>
+    <rect x="200" y="22" width="120" height="8" rx="2" fill="#e2e8f0"/>
+    <rect x="200" y="22" width="108" height="8" rx="2" fill="#10b981"/>
+
+    <text x="10" y="48" font-family="monospace" font-size="9" fill="#1e293b">search</text>
+    <text x="120" y="48" font-family="monospace" font-size="9" fill="#64748b">312 calls</text>
+    <rect x="200" y="40" width="120" height="8" rx="2" fill="#e2e8f0"/>
+    <rect x="200" y="40" width="74" height="8" rx="2" fill="#4f46e5"/>
+
+    <text x="10" y="66" font-family="monospace" font-size="9" fill="#1e293b">list_dir</text>
+    <text x="120" y="66" font-family="monospace" font-size="9" fill="#64748b">189 calls</text>
+    <rect x="200" y="58" width="120" height="8" rx="2" fill="#e2e8f0"/>
+    <rect x="200" y="58" width="45" height="8" rx="2" fill="#f59e0b"/>
+  </g>
+</svg>

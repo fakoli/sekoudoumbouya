@@ -1,0 +1,51 @@
+---
+/**
+ * Main page layout with navigation and footer
+ */
+import BaseLayout from './BaseLayout.astro';
+import Navigation from '../components/layout/Navigation.astro';
+import MobileMenu from '../components/layout/MobileMenu.astro';
+import Footer from '../components/layout/Footer.astro';
+import { SITE_CONFIG } from '../config';
+import { getBasePath, normalizePath } from '../utils/paths';
+
+interface BreadcrumbItem {
+	name: string;
+	url: string;
+}
+
+interface Props {
+	title: string;
+	description?: string;
+	type?: 'website' | 'article' | 'project';
+	publishDate?: Date;
+	breadcrumbs?: BreadcrumbItem[];
+}
+
+const { title, description, type, publishDate, breadcrumbs } = Astro.props;
+const base = getBasePath();
+const currentPath = normalizePath(Astro.url.pathname);
+---
+
+<BaseLayout title={title} description={description} type={type} publishDate={publishDate} breadcrumbs={breadcrumbs}>
+	<a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:z-[100] focus:top-4 focus:left-4 focus:px-4 focus:py-2 focus:bg-[var(--color-accent)] focus:text-white focus:rounded-md focus:outline-none focus:ring-2 focus:ring-white">
+		Skip to main content
+	</a>
+	<header class="border-b border-[var(--border-default)] sticky top-0 z-50 bg-[var(--color-surface)]/95 backdrop-blur supports-[backdrop-filter]:bg-[var(--color-surface)]/80 relative">
+		<nav class="container mx-auto px-4 py-4 flex items-center justify-between">
+			<a href={`${base}/`} class="text-lg font-semibold text-foreground tracking-tight hover:text-accent transition-colors">
+				{SITE_CONFIG.name}
+			</a>
+
+			<Navigation currentPath={currentPath}>
+				<MobileMenu currentPath={currentPath} />
+			</Navigation>
+		</nav>
+	</header>
+
+	<main id="main-content" class="container mx-auto px-4 py-8 min-h-[60vh] overflow-x-hidden">
+		<slot />
+	</main>
+
+	<Footer />
+</BaseLayout>

@@ -1,0 +1,218 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import { SITE_CONFIG, SOCIAL_LINKS } from '../config';
+import { ENGAGEMENT_TYPES, CONSULTING_ENGAGEMENTS, CONTACT_FAQ_BASE, CONTACT_FAQ_CONSULTING, CONTACT_INFO } from '../data/contact';
+import LinkedInIcon from '../components/icons/LinkedInIcon.astro';
+import GitHubIcon from '../components/icons/GitHubIcon.astro';
+
+// Build engagement list - add consulting/hiring options only when available
+const engagements = SITE_CONFIG.availableForHire
+	? [...CONSULTING_ENGAGEMENTS, ...ENGAGEMENT_TYPES]
+	: ENGAGEMENT_TYPES;
+
+// Build FAQ list - add consulting questions only when available
+const faqItems = SITE_CONFIG.availableForHire
+	? [...CONTACT_FAQ_BASE, ...CONTACT_FAQ_CONSULTING]
+	: CONTACT_FAQ_BASE;
+
+const formSubmitEndpoint = `https://formsubmit.co/${encodeURIComponent(SITE_CONFIG.email)}`;
+const urgentInquiryLink = `mailto:${SITE_CONFIG.email}?subject=Urgent%20Inquiry%20-%20sekoudoumbouya.com`;
+---
+
+<PageLayout title={`Contact | ${SITE_CONFIG.name}`} description={`Connect with ${SITE_CONFIG.name} for speaking engagements, technical conversations, and networking in infrastructure and platform engineering.`}>
+	<section class="max-w-4xl mx-auto px-4 py-12">
+		<!-- Hero -->
+		<div class="mb-12">
+			<h1 class="heading-xl text-foreground mb-4">Let's Connect</h1>
+			<p class="body-lg text-secondary max-w-2xl">
+				I enjoy meeting people building interesting things. Whether you're organizing an event, navigating a technical challenge, or just want to exchange ideas—reach out.
+			</p>
+		</div>
+
+		<!-- Engagement Types -->
+		<div class="mb-16">
+			<h2 class="heading-md text-foreground mb-6">Ways to Connect</h2>
+			<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+				{engagements.map((engagement) => (
+					<div class="card p-6 h-full flex flex-col">
+						<div class="flex items-center gap-3 mb-4">
+							<span class="text-2xl">{engagement.icon}</span>
+							<h3 class="heading-sm text-foreground">{engagement.title}</h3>
+						</div>
+						<p class="body-sm text-secondary mb-4 flex-1">{engagement.description}</p>
+						<ul class="space-y-1">
+							{engagement.examples.slice(0, 3).map((example) => (
+								<li class="body-sm text-muted flex items-start">
+									<span class="text-accent mr-2 mt-1 text-xs">●</span>
+									{example}
+								</li>
+							))}
+						</ul>
+					</div>
+				))}
+			</div>
+		</div>
+
+		<!-- Get in Touch -->
+		<div class="mb-16">
+			<div class="card p-6 md:p-8">
+				<h2 class="heading-md text-foreground mb-6">Get in Touch</h2>
+
+				<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+					<!-- Inline Contact Form -->
+					<div class="space-y-4">
+						<p class="body-sm text-secondary">
+							Share a few details and I&apos;ll reply by email. Typical response time is
+							within 2-3 business days.
+						</p>
+						<form
+							id="contact-form"
+							action={formSubmitEndpoint}
+							method="POST"
+							class="space-y-3"
+						>
+							<input type="hidden" name="_subject" value="New contact form inquiry from sekoudoumbouya.com" />
+							<input type="hidden" name="_template" value="table" />
+							<input
+								type="text"
+								name="_honey"
+								tabindex="-1"
+								autocomplete="off"
+								class="hidden"
+								aria-hidden="true"
+							/>
+							<div>
+								<label for="name" class="block body-sm text-foreground mb-1">Name</label>
+								<input
+									id="name"
+									name="name"
+									type="text"
+									required
+									class="w-full rounded-md border border-[var(--border-default)] bg-[var(--color-surface)] px-3 py-2 body-sm text-foreground"
+								/>
+							</div>
+							<div>
+								<label for="email" class="block body-sm text-foreground mb-1">Email</label>
+								<input
+									id="email"
+									name="email"
+									type="email"
+									required
+									class="w-full rounded-md border border-[var(--border-default)] bg-[var(--color-surface)] px-3 py-2 body-sm text-foreground"
+								/>
+							</div>
+							<div>
+								<label for="message" class="block body-sm text-foreground mb-1">Message</label>
+								<textarea
+									id="message"
+									name="message"
+									rows="5"
+									required
+									class="w-full rounded-md border border-[var(--border-default)] bg-[var(--color-surface)] px-3 py-2 body-sm text-foreground"
+								></textarea>
+							</div>
+							<p class="body-sm text-muted">
+								For urgent requests, email directly with
+								<a href={urgentInquiryLink} class="link">"Urgent Inquiry"</a>
+								in the subject line.
+							</p>
+							<button type="submit" class="btn btn-primary w-full sm:w-auto">Send Message</button>
+						</form>
+					</div>
+
+					<div class="space-y-8">
+						<!-- Contact Methods -->
+						<div class="space-y-4">
+							<a
+								href={SOCIAL_LINKS.email}
+								class="flex items-center gap-4 p-4 rounded-lg border border-[var(--border-subtle)] hover:border-[var(--border-strong)] hover:bg-[var(--color-bg)] transition-colors group"
+							>
+								<div class="w-10 h-10 rounded-full bg-[var(--color-accent-bg)] flex items-center justify-center text-accent">
+									<svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+										<path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+									</svg>
+								</div>
+								<div>
+									<p class="font-medium text-foreground group-hover:text-accent transition-colors">Email</p>
+									<p class="body-sm text-muted">{SITE_CONFIG.email}</p>
+								</div>
+							</a>
+
+							<a
+								href={SOCIAL_LINKS.linkedin}
+								target="_blank"
+								rel="noopener noreferrer"
+								class="flex items-center gap-4 p-4 rounded-lg border border-[var(--border-subtle)] hover:border-[var(--border-strong)] hover:bg-[var(--color-bg)] transition-colors group"
+							>
+								<div class="w-10 h-10 rounded-full bg-[var(--color-accent-bg)] flex items-center justify-center text-accent">
+									<LinkedInIcon />
+								</div>
+								<div>
+									<p class="font-medium text-foreground group-hover:text-accent transition-colors">LinkedIn</p>
+									<p class="body-sm text-muted">Connect professionally</p>
+								</div>
+							</a>
+
+							<a
+								href={SOCIAL_LINKS.github}
+								target="_blank"
+								rel="noopener noreferrer"
+								class="flex items-center gap-4 p-4 rounded-lg border border-[var(--border-subtle)] hover:border-[var(--border-strong)] hover:bg-[var(--color-bg)] transition-colors group"
+							>
+								<div class="w-10 h-10 rounded-full bg-[var(--color-accent-bg)] flex items-center justify-center text-accent">
+									<GitHubIcon />
+								</div>
+								<div>
+									<p class="font-medium text-foreground group-hover:text-accent transition-colors">GitHub</p>
+									<p class="body-sm text-muted">Open source collaboration</p>
+								</div>
+							</a>
+						</div>
+
+						<!-- Response Info -->
+						<div class="space-y-6">
+							<div>
+								<h3 class="font-semibold text-foreground mb-2">Response Time</h3>
+								<p class="body-md text-secondary">{CONTACT_INFO.responseTime}</p>
+							</div>
+							<div>
+								<h3 class="font-semibold text-foreground mb-2">Urgent Inquiries</h3>
+								<p class="body-md text-secondary">
+									Use
+									<a href={urgentInquiryLink} class="link"> email with &quot;Urgent Inquiry&quot; in the subject</a>
+									for time-sensitive requests.
+								</p>
+							</div>
+							<div>
+								<h3 class="font-semibold text-foreground mb-2">Timezone</h3>
+								<p class="body-md text-secondary">{CONTACT_INFO.timezone}</p>
+							</div>
+							<div>
+								<h3 class="font-semibold text-foreground mb-2">Best For</h3>
+								<p class="body-md text-secondary">{CONTACT_INFO.preferredContact}</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- FAQ -->
+		<div>
+			<h2 class="heading-md text-foreground mb-6">Frequently Asked</h2>
+			<div class="space-y-4">
+				{faqItems.map((faq) => (
+					<details class="card p-5 group">
+						<summary class="flex items-center justify-between cursor-pointer list-none">
+							<span class="font-medium text-foreground pr-4">{faq.question}</span>
+							<span class="text-muted shrink-0 transition-transform group-open:rotate-45">+</span>
+						</summary>
+						<p class="body-md text-secondary mt-4 pt-4 border-t border-[var(--border-subtle)]">
+							{faq.answer}
+						</p>
+					</details>
+				))}
+			</div>
+		</div>
+	</section>
+</PageLayout>

@@ -1,0 +1,88 @@
+---
+title: Claude Code Plugin Marketplace
+slug: fakoli-plugins
+publishDate: '2025-01-10'
+description: >-
+  A curated marketplace of Claude Code plugins with validation tooling and
+  plugin development templates
+category: open-source
+role: Creator & Maintainer
+organization: Open Source
+impactSummary: >-
+  Built a plugin marketplace ecosystem for Claude Code that enables developers
+  to discover, share, and install productivity-enhancing plugins. The project
+  includes validation tooling, starter templates, and documentation to lower the
+  barrier for plugin development.
+scale:
+  - Extensible plugin architecture
+  - Community-driven marketplace
+  - Developer tooling focus
+primaryTech:
+  - Shell
+  - Python
+  - JSON Schema
+  - Git
+contributions:
+  - >-
+    Designed modular plugin architecture with skills, commands, agents, and
+    hooks
+  - Built validation tooling for plugin quality assurance
+  - Created starter templates to accelerate plugin development
+  - Implemented JSON Schema definitions for plugin manifests
+  - >-
+    Authored comprehensive documentation for contributors and marketplace
+    operators
+outcomes:
+  - Established reusable plugin structure adopted across multiple plugins
+  - Enabled fork-and-customize model for private marketplaces
+  - Streamlined plugin submission workflow with automated validation
+tags:
+  - developer-tools
+  - plugins
+  - marketplace
+  - automation
+  - claude-code
+duration: 2026-Present
+featured: false
+repository: 'https://github.com/fakoli/fakoli-plugins'
+generated: true
+generatedAt: '2026-02-02T13:14:00.611Z'
+---
+## Problem
+
+As AI-assisted development tools like Claude Code gain adoption, developers need ways to extend and customize their workflows. The challenge isn't just building plugins—it's creating an ecosystem where plugins can be discovered, validated, installed, and shared reliably.
+
+I saw an opportunity to build infrastructure that would benefit the broader Claude Code community. Individual developers were building one-off integrations, but there was no standardized way to share these tools or ensure they met quality standards. Without a marketplace model, good plugins remained siloed in individual repositories, and developers had to reinvent common patterns repeatedly.
+
+The goal was to create not just a collection of plugins, but a complete marketplace infrastructure that others could fork and customize for their own needs—whether for team-internal tooling or specialized domain plugins.
+
+## Approach
+
+I designed the marketplace around a clear separation of concerns: plugin manifests define metadata and capabilities, while the actual functionality lives in well-defined extension points (skills, commands, agents, and hooks).
+
+### Key Design Elements
+
+- **Manifest-driven architecture**: Each plugin declares its capabilities through a `plugin.json` manifest, enabling automated discovery and installation without executing arbitrary code during the browsing phase
+- **Extension point taxonomy**: Plugins can contribute skills (knowledge/context), commands (user-invokable actions), agents (autonomous workflows), or hooks (event-driven automations)—covering the full spectrum of AI assistant customization
+- **Validation pipeline**: Shell and Python scripts validate plugin structure, manifest schema compliance, and documentation completeness before plugins can be merged
+- **JSON Schema definitions**: Formal schemas enable tooling to validate manifests and provide autocomplete in editors, reducing friction for plugin authors
+- **Template-first development**: Starter templates give authors a working plugin structure out of the box, so they can focus on functionality rather than boilerplate
+
+The validation tooling was particularly important. I built `validate.sh` to catch common issues early—missing required fields, malformed JSON, undocumented commands—before they reach the marketplace. This shifts quality assurance left and reduces maintenance burden on marketplace maintainers.
+
+For the registry infrastructure, I designed auto-generated indices that enable fast plugin search and discovery. The registry rebuilds on each merge, ensuring the index always reflects the current state of available plugins.
+
+## Outcomes
+
+- **Reusable infrastructure**: The marketplace design supports both first-party plugins and external plugin references, allowing curators to aggregate plugins from multiple sources without forking the original repositories
+- **Fork-friendly architecture**: Documentation explicitly supports creating private or domain-specific marketplaces, enabling teams to maintain internal plugin collections with the same tooling
+- **Lowered contribution barrier**: The combination of templates, validation scripts, and comprehensive documentation means new contributors can submit their first plugin without deep knowledge of the marketplace internals
+
+## Key Contributions
+
+- **Designed the plugin manifest schema** defining how plugins declare capabilities, dependencies, and metadata
+- **Implemented the validation pipeline** in Shell and Python to enforce quality standards automatically
+- **Created starter templates** that provide working plugin scaffolding for common use cases
+- **Built the registry generation system** for automated plugin indexing and discovery
+- **Authored documentation** covering contribution workflows, plugin guidelines, and marketplace forking instructions
+- **Established category taxonomy** organizing plugins by function (Productivity, Code Quality, DevOps, Integrations, Utilities) for intuitive browsing

@@ -1,0 +1,88 @@
+---
+title: 'QuotaWatch: Multi-Cloud Quota Monitoring System'
+slug: quotawatch
+publishDate: '2026-01-27'
+description: >-
+  A Python CLI tool for monitoring cloud service quotas across AWS, GCP, and
+  Azure with real-time tracking and intelligent alerting.
+category: open-source
+role: Creator & Maintainer
+organization: Open Source
+impactSummary: >-
+  Built a comprehensive multi-cloud quota monitoring system that prevents
+  deployment failures by proactively tracking service limits across AWS, GCP,
+  and Azure. The tool combines API integration with intelligent documentation
+  parsing to provide complete visibility into critical infrastructure quotas.
+scale:
+  - Multi-cloud
+  - Production-ready
+  - Real-time monitoring
+  - CLI-based
+primaryTech:
+  - Python
+  - SQLite
+  - AWS Service Quotas API
+  - Pydantic
+  - Click CLI
+  - Anthropic Claude
+contributions:
+  - Designed multi-provider quota abstraction layer
+  - Built intelligent documentation parsing with AI
+  - Implemented real-time usage monitoring system
+  - Created configurable watchlist and alerting
+  - Developed SQLite-based quota enrichment engine
+  - Built comprehensive CLI interface with filtering
+outcomes:
+  - Prevents quota-related deployment failures
+  - Provides unified view across cloud providers
+  - Enables proactive capacity planning
+  - Automates quota documentation updates
+tags:
+  - cloud-infrastructure
+  - monitoring
+  - devops
+  - multi-cloud
+  - python-cli
+duration: 2026-Present
+featured: false
+repository: 'https://github.com/fakoli/quotawatch'
+generated: true
+generatedAt: '2026-01-27T10:15:28.472Z'
+---
+## Problem
+
+Managing cloud service quotas across multiple providers has become a critical but often overlooked aspect of infrastructure operations. Teams frequently encounter deployment failures when they hit unexpected limits on VPC subnets, Transit Gateway attachments, or PrivateLink endpoints—quotas that aren't always visible until it's too late.
+
+Existing cloud provider consoles only show quotas for individual accounts and services, making it impossible to get a unified view across AWS, GCP, and Azure environments. Documentation is scattered, often outdated, and doesn't provide context about which quotas are adjustable or likely to impact production workloads. I needed a solution that could proactively monitor these limits and provide early warnings before they blocked critical deployments.
+
+The challenge was particularly acute for networking quotas, where limits like CloudWAN connections or Route 53 Resolver endpoints can silently prevent infrastructure expansion. Without a centralized monitoring system, teams resort to manual spreadsheet tracking or discover quota issues only during failed deployments.
+
+## Approach
+
+I built QuotaWatch as a Python CLI tool that creates a unified quota intelligence system across cloud providers. The architecture centers around a local SQLite database that stores quota definitions, current values, usage metrics, and enriched metadata from both APIs and documentation sources.
+
+The core design separates quota data collection into multiple layers: a provider abstraction for cloud API integration, an intelligent documentation parser using Anthropic Claude for context extraction, and an enrichment engine that combines API data with parsed documentation to create comprehensive quota profiles. This layered approach ensures that quota information remains accurate while providing the contextual intelligence needed for effective monitoring.
+
+### Key Design Elements
+
+- **Multi-provider abstraction layer** with pluggable cloud provider clients for AWS Service Quotas API and future GCP/Azure support
+- **Intelligent documentation parsing** using Claude to extract quota information from provider documentation and maintain up-to-date context
+- **Real-time usage monitoring** that tracks utilization percentages and identifies quotas approaching critical thresholds
+- **Configurable watchlist system** for priority-based monitoring of business-critical quotas
+- **SQLite-based enrichment engine** that cross-references API data with documentation for comprehensive quota intelligence
+- **Comprehensive filtering and querying** with CLI commands for service-based, adjustability, and utilization-based quota discovery
+
+## Outcomes
+
+QuotaWatch enables proactive quota management that prevents deployment failures and supports informed capacity planning decisions. Teams can identify approaching limits before they impact production workloads, while the unified multi-cloud view eliminates the need to check multiple provider consoles.
+
+The intelligent documentation parsing keeps quota context current without manual maintenance, while the enrichment system provides the operational intelligence needed to prioritize quota increases and understand the impact of different limits on infrastructure expansion.
+
+## Key Contributions
+
+- **Designed multi-provider quota abstraction layer** with pluggable architecture supporting AWS Service Quotas API and extensible interfaces for GCP and Azure integration
+- **Built intelligent documentation parsing system** using Anthropic Claude to automatically extract and maintain quota information from cloud provider documentation
+- **Implemented real-time usage monitoring** with configurable thresholds and utilization tracking across multiple AWS accounts and regions
+- **Created comprehensive CLI interface** with filtering capabilities for service, adjustability, and usage-based quota discovery and management
+- **Developed SQLite-based enrichment engine** that combines API data with parsed documentation to create comprehensive quota intelligence profiles
+- **Built configurable watchlist and alerting system** for priority-based monitoring of business-critical quotas with customizable notification thresholds
