@@ -50,7 +50,7 @@ generatedAt: '2026-02-09T08:48:18.976Z'
 ---
 ## Problem
 
-Understanding AWS security group relationships in production environments is notoriously difficult. Security groups reference other security groups, CIDR blocks overlap, and rules span multiple VPCs and regions. When I needed to audit security configurations or explain network topology to colleagues, I found myself manually tracing connections through the AWS console—a tedious and error-prone process.
+Understanding AWS security group relationships in production environments is notoriously difficult. Security groups reference other security groups, CIDR blocks overlap, and rules span multiple VPCs and regions. When I needed to audit security configurations or explain network topology to colleagues, I found myself manually tracing connections through the AWS console, a tedious and error-prone process.
 
 Existing tools either provided static lists that were hard to interpret or required expensive enterprise licenses. I wanted something that could take the complex web of security group rules and transform it into an intuitive, interactive visualization that anyone on the team could explore.
 
@@ -90,6 +90,6 @@ The tool supports analyzing specific security groups by ID or generating complet
 
 - **Built the AWS API caching system** with configurable TTL to balance freshness against API efficiency during iterative analysis sessions.
 
-- **Created cross-VPC detection logic** that identifies and visually distinguishes relationships spanning VPC boundaries—critical for understanding blast radius and network segmentation.
+- **Created cross-VPC detection logic** that identifies and visually distinguishes relationships spanning VPC boundaries, which is critical for understanding blast radius and network segmentation.
 
 - **Developed the configuration system** using YAML for customizable visualization settings, cache behavior, and CIDR block aliases without code changes.

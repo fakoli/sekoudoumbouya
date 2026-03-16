@@ -58,9 +58,9 @@ generatedAt: '2026-02-02T13:13:33.415Z'
 
 As AI assistants become more integrated into development workflows, the ability to leverage multiple LLM providers becomes increasingly valuable. Claude Code's Model Context Protocol (MCP) provides an extensible interface for tool integration, but securely bridging to external AI APIs introduces significant challenges around input validation, prompt injection, and API abuse.
 
-I needed a way to query OpenAI and Google Gemini models directly from my Claude Code environment—for comparison, specialized tasks, or accessing models with different capabilities. However, simply proxying requests to external APIs creates security vulnerabilities: malicious prompts could attempt to manipulate the system, excessive requests could drive up costs, and improper error handling could leak sensitive information like API keys.
+I needed a way to query OpenAI and Google Gemini models directly from my Claude Code environment for comparison, specialized tasks, or accessing models with different capabilities. However, simply proxying requests to external APIs creates security vulnerabilities: malicious prompts could attempt to manipulate the system, excessive requests could drive up costs, and improper error handling could leak sensitive information like API keys.
 
-Existing solutions either lacked security considerations entirely or were too rigid in their protection mechanisms. I wanted configurable security that could adapt to different use cases—strict for production, relaxed for development and testing.
+Existing solutions either lacked security considerations entirely or were too rigid in their protection mechanisms. I wanted configurable security that could adapt to different use cases: strict for production, relaxed for development and testing.
 
 ## Approach
 
@@ -70,7 +70,7 @@ The core architecture separates concerns into distinct modules: API integration 
 
 ### Key Design Elements
 
-- **Multi-layer input validation**: Every request passes through type checking, length validation, and content analysis before reaching the API. The validation pipeline uses early termination—once an issue is found, processing stops immediately.
+- **Multi-layer input validation**: Every request passes through type checking, length validation, and content analysis before reaching the API. The validation pipeline uses early termination: once an issue is found, processing stops immediately.
 
 - **Prompt injection detection**: I implemented pattern matching to identify common injection techniques including instruction override attempts ("ignore previous instructions"), system role injection, and template injection patterns. Compiled regex patterns are cached to minimize performance overhead.
 
@@ -78,7 +78,7 @@ The core architecture separates concerns into distinct modules: API integration 
 
 - **Sliding window rate limiting**: Per-session request tracking prevents API abuse without requiring external infrastructure. The rate limiter provides clear feedback on remaining quota and reset times.
 
-- **Secure error handling**: All error responses are sanitized to prevent information leakage. Stack traces and API keys never appear in error messages—instead, users receive actionable error descriptions.
+- **Secure error handling**: All error responses are sanitized to prevent information leakage. Stack traces and API keys never appear in error messages. Instead, users receive actionable error descriptions.
 
 For logging, I chose Winston to provide structured, level-aware logging that can be adjusted at runtime. This visibility is critical for detecting unusual patterns that might indicate abuse attempts.
 

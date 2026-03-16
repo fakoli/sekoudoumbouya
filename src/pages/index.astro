@@ -52,10 +52,10 @@ const llmProfileData = {
 	currentCompany: SITE_CONFIG.currentCompany,
 	yearsExperience: 20,
 	domains: [
+		'AI/ML Infrastructure',
 		'Cloud Architecture',
 		'Platform Engineering',
-		'Site Reliability Engineering',
-		'Network Engineering',
+		'LLM Serving & GPU Orchestration',
 	],
 	techStack: [
 		'AWS (EC2, EKS, ECS, Kinesis)',
@@ -64,14 +64,15 @@ const llmProfileData = {
 		'Python, Go, Bash',
 	],
 	expertise: [
+		'AI/ML infrastructure and LLM serving',
 		'Multi-region AWS architecture',
-		'Platform engineering & DevEx',
+		'Platform engineering and developer experience',
+		'GPU orchestration and training infrastructure',
 		'Cost optimization at scale',
-		'Disaster recovery systems',
-		'Terraform & Infrastructure as Code',
-		'Kubernetes & container orchestration',
+		'Infrastructure as Code and automation',
 	],
 	notableAchievements: [
+		'Building AI infrastructure platforms for LLM serving and training workloads',
 		'Multi-million dollar annual infrastructure cost savings',
 		'Reduced DR recovery from weeks to hours',
 		'Built enterprise DR at a fraction of vendor cost',
@@ -98,33 +99,34 @@ const initials = SITE_CONFIG.name.split(' ').map(n => n[0]).join('');
 
 					<!-- Display headline -->
 					<h1 class="display text-foreground mb-6">
-						Where architecture<br class="hidden md:block" />
-						<span class="text-accent">meets execution.</span>
+						From cloud foundations<br class="hidden md:block" />
+						<span class="text-accent">to AI infrastructure.</span>
 					</h1>
 
 					<!-- Dek (subheadline) - Value proposition -->
 					<p class="body-lg text-secondary mb-4 max-w-2xl">
-						I build the foundations other teams build on—designed to scale,
-						priced to survive scrutiny. Twenty years turning business goals
-						into technical strategy, then turning strategy into running systems.
+						I build the platforms that power both traditional services and AI workloads.
+						Twenty years of infrastructure experience, now focused on the systems
+						that make LLMs, training pipelines, and model serving production-ready.
 					</p>
 
 					<!-- Scale descriptors -->
 					<div class="flex flex-wrap gap-x-6 gap-y-2 mb-6 body-sm text-muted font-mono">
-						<span class="text-accent font-semibold">Hyperscale platforms</span>
-						<span class="text-accent font-semibold">Global infrastructure</span>
-						<span class="text-accent font-semibold">Consumer-scale systems</span>
+						<span class="text-accent font-semibold">AI/ML Infrastructure</span>
+						<span class="text-accent font-semibold">Multi-region platforms</span>
+						<span class="text-accent font-semibold">LLM serving systems</span>
 					</div>
 
 					<!-- Differentiator -->
 					<p class="body-md text-foreground mb-6 max-w-xl pl-4 border-l-2 border-[var(--color-accent)]">
-						Not just strategy. I write the designs, build the first versions,
-						and drive adoption until the org changes its default behavior.
+						Not just strategy. I design the infrastructure, build the first versions,
+						and drive adoption. The same approach that scaled cloud platforms
+						now applied to AI infrastructure.
 					</p>
 
 					<!-- Byline with disambiguation (visually hidden, kept for crawlers) -->
 					<p class="sr-only">
-						{SITE_CONFIG.name} — infrastructure/cloud architecture leader.
+						{SITE_CONFIG.name}, infrastructure/cloud architecture leader.
 						Not the basketball player.
 					</p>
 
@@ -464,8 +466,8 @@ const initials = SITE_CONFIG.name.split(' ').map(n => n[0]).join('');
 			<h2 class="heading-lg text-foreground mb-4">Let's Connect</h2>
 			<p class="body-lg text-secondary mb-8 leading-relaxed">
 				{SITE_CONFIG.availableForHire
-					? "Looking for speaking engagements, advisory opportunities, or your next infrastructure leader—let's talk."
-					: "Looking for a speaker, advisor, or just want to connect on infrastructure and platform engineering—reach out."}
+					? "Looking for speaking engagements, advisory opportunities, or your next infrastructure leader? Let's talk."
+					: "Interested in AI infrastructure, platform engineering, or just want to connect? I'm always happy to talk shop."}
 			</p>
 			<a href={withBasePath('/contact')} class="btn btn-accent">
 				Get in Touch

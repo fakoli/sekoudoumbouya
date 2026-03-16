@@ -51,7 +51,7 @@ generatedAt: '2026-02-09T08:46:14.180Z'
 ---
 ## Problem
 
-MUGEN is a legendary 2D fighting game engine from 1999 that spawned one of the largest community content libraries in gaming history. Thousands of characters, stages, and modifications exist—but the engine itself is closed-source, Windows-only, and showing its age. Running legacy content on modern systems is increasingly problematic.
+MUGEN is a legendary 2D fighting game engine from 1999 that spawned one of the largest community content libraries in gaming history. Thousands of characters, stages, and modifications exist, but the engine itself is closed-source, Windows-only, and showing its age. Running legacy content on modern systems is increasingly problematic.
 
 I wanted to build a modern, cross-platform engine that could preserve this massive community archive while leveraging contemporary systems programming practices. The challenge was significant: MUGEN's file formats are partially documented at best, the engine's behavior is the de facto specification, and fighting games demand frame-perfect determinism. Any reimplementation needs to match MUGEN's exact 60Hz timing or existing content behaves incorrectly.
 
@@ -59,7 +59,7 @@ Beyond preservation, this project let me dive deep into game engine architecture
 
 ## Approach
 
-I structured Fighters Paradise as a Cargo workspace with 14 specialized crates, each with clear boundaries and responsibilities. This modular approach lets me develop incrementally—completing sprite rendering before tackling physics, then input handling, and eventually combat systems—while maintaining a clean architecture that mirrors how professional game engines separate concerns.
+I structured Fighters Paradise as a Cargo workspace with 14 specialized crates, each with clear boundaries and responsibilities. This modular approach lets me develop incrementally, completing sprite rendering before tackling physics, then input handling, and eventually combat systems, while maintaining a clean architecture that mirrors how professional game engines separate concerns.
 
 ### Key Design Elements
 
@@ -67,17 +67,17 @@ I structured Fighters Paradise as a Cargo workspace with 14 specialized crates, 
 
 - **GPU palette lookup shader**: MUGEN sprites use 256-color indexed palettes, enabling palette swaps without modifying textures. I wrote a WGSL shader that performs palette lookup on the GPU, avoiding expensive texture re-uploads when swapping character colors.
 
-- **Defensive parsing**: Community-created MUGEN content often contains malformed or edge-case data. Rather than crashing on unexpected input, my parsers substitute safe defaults and continue—robustness over strictness.
+- **Defensive parsing**: Community-created MUGEN content often contains malformed or edge-case data. Rather than crashing on unexpected input, my parsers substitute safe defaults and continue, prioritizing robustness over strictness.
 
 - **Binary format reverse engineering**: SFF v2 files use multiple compression schemes (RLE5, RLE8, LZ5). I implemented decompressors from scratch based on format documentation and empirical testing against real content.
 
-The input system uses a 60-frame ring buffer that captures the complete recent history needed for command recognition. Fighting game inputs like "quarter-circle forward + punch" require detecting specific sequences within timing windows—the buffer approach lets me pattern-match against recent input history efficiently.
+The input system uses a 60-frame ring buffer that captures the complete recent history needed for command recognition. Fighting game inputs like "quarter-circle forward + punch" require detecting specific sequences within timing windows. The buffer approach lets me pattern-match against recent input history efficiently.
 
 ## Outcomes
 
 - **Playable prototype**: Characters render, animate, walk, jump, and crouch with keyboard input. The core rendering and input pipeline is complete.
 
-- **Comprehensive format support**: Four MUGEN file formats fully parsed—binary sprite containers (SFF v2), animation definitions (AIR), command sequences (CMD), and configuration files (DEF).
+- **Comprehensive format support**: Four MUGEN file formats fully parsed: binary sprite containers (SFF v2), animation definitions (AIR), command sequences (CMD), and configuration files (DEF).
 
 - **Robust test coverage**: 131 tests across the workspace validate parsing correctness, rendering behavior, and input handling.
 

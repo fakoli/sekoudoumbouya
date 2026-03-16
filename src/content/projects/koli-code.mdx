@@ -53,9 +53,9 @@ generatedAt: '2026-02-09T08:47:54.684Z'
 ---
 ## Problem
 
-The landscape of AI coding assistants has exploded, but developers face a fragmented ecosystem. Each AI provider—OpenAI, Anthropic, Google, xAI—offers unique strengths, pricing models, and capabilities. Yet most tools lock you into a single provider, making it cumbersome to leverage the best model for a given task or to experiment with alternatives.
+The landscape of AI coding assistants has exploded, but developers face a fragmented ecosystem. Each AI provider (OpenAI, Anthropic, Google, xAI) offers unique strengths, pricing models, and capabilities. Yet most tools lock you into a single provider, making it cumbersome to leverage the best model for a given task or to experiment with alternatives.
 
-Beyond provider lock-in, I noticed that existing AI coding tools were often designed for IDE integration or web interfaces, leaving terminal-centric workflows underserved. As someone who spends significant time in the terminal, I wanted an AI assistant that felt native to that environment—concise output, streaming responses, and the ability to connect to external tools and data sources without leaving my shell.
+Beyond provider lock-in, I noticed that existing AI coding tools were often designed for IDE integration or web interfaces, leaving terminal-centric workflows underserved. As someone who spends significant time in the terminal, I wanted an AI assistant that felt native to that environment: concise output, streaming responses, and the ability to connect to external tools and data sources without leaving my shell.
 
 I also saw an opportunity to embrace the emerging Model Context Protocol (MCP) standard, which promises a unified way to extend AI assistants with external capabilities. Building MCP support from the ground up would future-proof the tool as the ecosystem matures.
 
@@ -63,13 +63,13 @@ I also saw an opportunity to embrace the emerging Model Context Protocol (MCP) s
 
 I architected Koli Code around a model abstraction layer that treats all AI providers uniformly. This design allows the CLI to switch between GPT-4, Claude, Gemini, and Grok with a simple configuration change, while maintaining consistent behavior and streaming capabilities across all backends.
 
-The TypeScript codebase is structured for extensibility. The model abstraction handles the nuances of each provider's API—different authentication patterns, streaming formats, and response structures—while exposing a clean, unified interface to the rest of the application.
+The TypeScript codebase is structured for extensibility. The model abstraction handles the nuances of each provider's API (different authentication patterns, streaming formats, and response structures) while exposing a clean, unified interface to the rest of the application.
 
 ### Key Design Elements
 
 - **Provider Agnosticism**: Each AI provider is implemented as a module conforming to a common interface, making it straightforward to add new models as they emerge
 - **Streaming-First Architecture**: All responses stream in real-time, critical for terminal UX where waiting for complete responses feels unresponsive
-- **MCP Integration**: The tool connects to external resources—databases, APIs, file systems—through the Model Context Protocol, enabling rich contextual interactions beyond simple prompt/response
+- **MCP Integration**: The tool connects to external resources (databases, APIs, file systems) through the Model Context Protocol, enabling rich contextual interactions beyond simple prompt/response
 - **Security Guardrails**: Built-in rules help prevent generation of potentially malicious code patterns, addressing a real concern with AI-generated code
 - **Terminal-Optimized Output**: Prompts are engineered for concise, actionable responses rather than verbose explanations
 

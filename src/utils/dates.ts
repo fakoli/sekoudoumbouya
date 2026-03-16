@@ -25,5 +25,5 @@ export function formatDate(date: Date, format: DateFormat = 'full'): string {
 export function formatDateRange(startDate: Date, endDate: Date | null | undefined): string {
 	const start = formatDate(startDate, 'short');
 	const end = endDate ? formatDate(endDate, 'short') : 'Present';
-	return `${start} — ${end}`;
+	return `${start} - ${end}`;
 }

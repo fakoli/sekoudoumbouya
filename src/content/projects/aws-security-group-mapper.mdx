@@ -55,12 +55,12 @@ I built **AWS Security Group Mapper** as a Python CLI that:
      - quick summary reports (e.g., “top 10 most-connected SGs”)  
      - a full graph export for offline review.
 
-The core design principle: **no magic, no opaque scoring system**—just a clear map from AWS configuration to a human-readable graph.
+The core design principle: **no magic, no opaque scoring system**, just a clear map from AWS configuration to a human-readable graph.
 
 ## Outcomes
 
 - Turned “I think this SG is safe” into “Here’s a diagram that shows exactly how traffic can reach this cluster.”  
-- Made it easier to run **blast radius reviews** before big infrastructure changes—especially when pairing with infra-as-code changes.  
+- Made it easier to run **blast radius reviews** before big infrastructure changes, especially when pairing with infra-as-code changes.  
 - Helped highlight:
   - overly-permissive SGs  
   - unexpected transitive trusts (SG referencing SG referencing public CIDR)  
