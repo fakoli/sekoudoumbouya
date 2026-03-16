@@ -95,12 +95,12 @@ const initials = SITE_CONFIG.name.split(' ').map(n => n[0]).join('');
 				<!-- Main content column -->
 				<div class="lg:col-span-8">
 					<!-- Horizontal rule - editorial style -->
-					<div class="h-1 w-16 bg-[var(--color-accent)] mb-8"></div>
+					<div class="h-1 bg-[var(--color-accent)] mb-8 animate-accent-line"></div>
 
 					<!-- Display headline -->
 					<h1 class="display text-foreground mb-6">
 						From cloud foundations<br class="hidden md:block" />
-						<span class="text-accent">to AI infrastructure.</span>
+						<span class="text-gradient">to AI infrastructure.</span>
 					</h1>
 
 					<!-- Dek (subheadline) - Value proposition -->
@@ -110,11 +110,11 @@ const initials = SITE_CONFIG.name.split(' ').map(n => n[0]).join('');
 						that make LLMs, training pipelines, and model serving production-ready.
 					</p>
 
-					<!-- Scale descriptors -->
-					<div class="flex flex-wrap gap-x-6 gap-y-2 mb-6 body-sm text-muted font-mono">
-						<span class="text-accent font-semibold">AI/ML Infrastructure</span>
-						<span class="text-accent font-semibold">Multi-region platforms</span>
-						<span class="text-accent font-semibold">LLM serving systems</span>
+					<!-- Scale descriptors (typing effect) -->
+					<div class="mb-6 body-sm font-mono h-6">
+						<span class="text-muted">Focus: </span>
+						<span id="typing-text" class="text-accent font-semibold"></span>
+						<span class="typing-cursor text-accent">|</span>
 					</div>
 
 					<!-- Differentiator -->
@@ -175,6 +175,15 @@ const initials = SITE_CONFIG.name.split(' ').map(n => n[0]).join('');
 
 	<!-- Proof Strip - Editorial Ruler Bar -->
 	<ProofStrip metrics={PROOF_METRICS} sticky={true} />
+
+	<!-- Tech Stack Marquee -->
+	<div class="overflow-hidden border-y border-[var(--border-subtle)] py-3 mb-8">
+		<div class="tech-marquee flex gap-8 whitespace-nowrap">
+			{['AWS', 'Terraform', 'Kubernetes', 'Python', 'Go', 'Docker', 'CloudWAN', 'IPAM', 'EKS', 'Prometheus', 'Grafana', 'Jenkins', 'GPU Orchestration', 'LLM Serving', 'VPC Architecture', 'Disaster Recovery', 'AWS', 'Terraform', 'Kubernetes', 'Python', 'Go', 'Docker', 'CloudWAN', 'IPAM', 'EKS', 'Prometheus', 'Grafana', 'Jenkins', 'GPU Orchestration', 'LLM Serving', 'VPC Architecture', 'Disaster Recovery'].map(tech => (
+				<span class="text-xs font-mono text-muted uppercase tracking-widest">{tech}</span>
+			))}
+		</div>
+	</div>
 
 	<!-- LLM Profile Panel (crawlable when collapsed) -->
 	<section class="max-w-6xl mx-auto px-4 mb-12">
@@ -315,7 +324,7 @@ const initials = SITE_CONFIG.name.split(' ').map(n => n[0]).join('');
 
 		<div class="grid grid-cols-2 md:grid-cols-5 gap-4">
 			{focusAreas.map(area => (
-				<a href={area.href} class="group card p-5 text-center">
+				<a href={area.href} class="group card focus-card-hover p-5 text-center">
 					<h3 class="heading-sm text-foreground mb-1 group-hover:text-accent transition-colors">{area.title}</h3>
 					<p class="body-sm text-muted">{area.subtitle}</p>
 				</a>
@@ -426,11 +435,11 @@ const initials = SITE_CONFIG.name.split(' ').map(n => n[0]).join('');
 				{latestPosts.map((post) => (
 					<article class="group relative">
 						{post.data.heroImage && (
-							<a href={`${base}/blog/${post.id}`} class="block mb-4 relative z-10">
+							<a href={`${base}/blog/${post.id}`} class="block mb-4 relative z-10 overflow-hidden rounded-lg">
 								<img
 									src={post.data.heroImage}
 									alt={post.data.title}
-									class="w-full aspect-[16/9] object-cover rounded-lg border border-[var(--border-default)]"
+									class="w-full aspect-[16/9] object-cover border border-[var(--border-default)] transition-transform duration-500 group-hover:scale-105"
 									loading="lazy"
 								/>
 							</a>
@@ -464,7 +473,7 @@ const initials = SITE_CONFIG.name.split(' ').map(n => n[0]).join('');
 	)}
 
 	<!-- CTA Section -->
-	<section class="bg-[var(--surface-secondary)]">
+	<section class="cta-gradient relative overflow-hidden">
 		<div class="max-w-3xl mx-auto px-4 py-16 text-center">
 			<h2 class="heading-lg text-foreground mb-4">Let's Connect</h2>
 			<p class="body-lg text-secondary mb-8 leading-relaxed">
@@ -478,5 +487,49 @@ const initials = SITE_CONFIG.name.split(' ').map(n => n[0]).join('');
 			</a>
 		</div>
 	</section>
+
+<script>
+    const phrases = [
+        'AI/ML Infrastructure',
+        'Multi-region platforms',
+        'LLM serving systems',
+        'GPU orchestration',
+        'Platform engineering',
+        'Cost optimization at scale'
+    ];
+    let phraseIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+    const el = document.getElementById('typing-text');
+
+    if (el) {
+        function type() {
+            const current = phrases[phraseIndex];
+            if (isDeleting) {
+                el!.textContent = current.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                el!.textContent = current.substring(0, charIndex + 1);
+                charIndex++;
+            }
+
+            let delay = isDeleting ? 30 : 60;
+
+            if (!isDeleting && charIndex === current.length) {
+                delay = 2000;
+                isDeleting = true;
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                phraseIndex = (phraseIndex + 1) % phrases.length;
+                delay = 400;
+            }
+
+            setTimeout(type, delay);
+        }
+
+        // Start after a brief delay
+        setTimeout(type, 800);
+    }
+</script>
 
 </PageLayout>

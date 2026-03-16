@@ -141,6 +141,8 @@
 		-webkit-font-smoothing: antialiased;
 		-moz-osx-font-smoothing: grayscale;
 		text-rendering: optimizeLegibility;
+		scroll-behavior: smooth;
+		scroll-padding-top: calc(var(--header-height) + 16px);
 	}
 
 	body {
@@ -149,6 +151,20 @@
 		color: var(--color-foreground);
 		line-height: 1.6;
 		transition: background-color var(--transition-base), color var(--transition-base);
+	}
+
+	/* Subtle engineering grid on body */
+	body::before {
+		content: '';
+		position: fixed;
+		inset: 0;
+		z-index: -1;
+		background-image:
+			linear-gradient(var(--schematic-grid) 1px, transparent 1px),
+			linear-gradient(90deg, var(--schematic-grid) 1px, transparent 1px);
+		background-size: 40px 40px;
+		pointer-events: none;
+		opacity: 0.5;
 	}
 
 	/* Typography Scale - Editorial Magazine Style */
@@ -190,10 +206,36 @@
 @layer components {
 	/* Card Component */
 	.card {
+		position: relative;
+		overflow: hidden;
 		background: var(--color-surface);
 		border: 0.5px solid var(--border-default);
 		border-radius: var(--radius-lg);
 		transition: transform 200ms ease, box-shadow 200ms ease, border-color var(--transition-fast);
+	}
+
+	.card::before {
+		content: '';
+		position: absolute;
+		top: var(--mouse-y, 50%);
+		left: var(--mouse-x, 50%);
+		width: 300px;
+		height: 300px;
+		background: radial-gradient(circle, var(--color-accent-bg) 0%, transparent 70%);
+		transform: translate(-50%, -50%);
+		opacity: 0;
+		transition: opacity var(--transition-base);
+		pointer-events: none;
+		z-index: 0;
+	}
+
+	.card:hover::before {
+		opacity: 1;
+	}
+
+	.card > * {
+		position: relative;
+		z-index: 1;
 	}
 
 	.card:hover {
@@ -866,6 +908,41 @@
 		border-radius: var(--radius-sm);
 	}
 
+	/* Focus area card with animated border */
+	.focus-card-hover {
+		position: relative;
+		z-index: 0;
+	}
+
+	.focus-card-hover::before {
+		content: '';
+		position: absolute;
+		inset: -1px;
+		border-radius: calc(var(--radius-lg) + 1px);
+		background: linear-gradient(135deg, var(--color-accent), transparent, var(--color-accent));
+		background-size: 300% 300%;
+		z-index: -1;
+		opacity: 0;
+		transition: opacity var(--transition-base);
+	}
+
+	.focus-card-hover:hover::before {
+		opacity: 1;
+		animation: border-gradient 3s ease infinite;
+	}
+
+	@keyframes border-gradient {
+		0%, 100% { background-position: 0% 50%; }
+		50% { background-position: 100% 50%; }
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.focus-card-hover:hover::before {
+			animation: none;
+			opacity: 0.5;
+		}
+	}
+
 	/* Metric Block with dimension brackets */
 	.metric-block {
 		display: flex;
@@ -913,6 +990,52 @@
 		letter-spacing: 0.05em;
 		color: var(--color-muted);
 		margin-top: var(--space-1);
+	}
+
+	/* Tech marquee animation */
+	.tech-marquee {
+		animation: marquee 30s linear infinite;
+	}
+
+	@keyframes marquee {
+		from { transform: translateX(0); }
+		to { transform: translateX(-50%); }
+	}
+
+	.tech-marquee:hover {
+		animation-play-state: paused;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.tech-marquee {
+			animation: none;
+			flex-wrap: wrap;
+			white-space: normal;
+		}
+	}
+
+	/* CTA gradient animation */
+	.cta-gradient {
+		background: linear-gradient(
+			135deg,
+			var(--surface-secondary) 0%,
+			var(--color-accent-bg) 50%,
+			var(--surface-secondary) 100%
+		);
+		background-size: 200% 200%;
+		animation: cta-shimmer 6s ease-in-out infinite;
+	}
+
+	@keyframes cta-shimmer {
+		0%, 100% { background-position: 0% 50%; }
+		50% { background-position: 100% 50%; }
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.cta-gradient {
+			animation: none;
+			background: var(--surface-secondary);
+		}
 	}
 }
 
@@ -1136,6 +1259,63 @@
 			min-height: 44px;
 			padding: 12px 20px;
 		}
+	}
+
+	/* Animated gradient text */
+	.text-gradient {
+		background: linear-gradient(
+			135deg,
+			var(--color-accent) 0%,
+			#5eead4 25%,
+			var(--color-accent) 50%,
+			#5eead4 75%,
+			var(--color-accent) 100%
+		);
+		background-size: 200% auto;
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		background-clip: text;
+		animation: gradient-shift 4s ease-in-out infinite;
+	}
+
+	@keyframes gradient-shift {
+		0%, 100% { background-position: 0% center; }
+		50% { background-position: 100% center; }
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.text-gradient {
+			animation: none;
+			background-position: 0% center;
+		}
+	}
+
+	/* Accent line animation */
+	.animate-accent-line {
+		width: 0;
+		animation: accent-grow 0.8s cubic-bezier(0.25, 1, 0.5, 1) 0.2s forwards;
+	}
+
+	@keyframes accent-grow {
+		from { width: 0; }
+		to { width: 64px; }
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.animate-accent-line {
+			width: 64px;
+			animation: none;
+		}
+	}
+
+	/* Typing cursor blink */
+	.typing-cursor {
+		animation: cursor-blink 0.8s step-end infinite;
+	}
+
+	@keyframes cursor-blink {
+		0%, 100% { opacity: 1; }
+		50% { opacity: 0; }
 	}
 }
 

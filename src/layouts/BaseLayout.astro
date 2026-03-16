@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 
+import { ViewTransitions } from 'astro:transitions';
 import SEOHead from '../components/common/SEOHead.astro';
 import JSONLD from '../components/common/JSONLD.astro';
 
@@ -35,6 +36,7 @@ const { title, description = "Senior Staff Cloud Systems Engineer | Multi-Region
 		</script>
 		<SEOHead title={title} description={description} image={image} type={type} publishDate={publishDate} />
 		<JSONLD type={type} title={title} description={description} publishDate={publishDate} breadcrumbs={breadcrumbs} />
+		<ViewTransitions />
 
 		<!-- Fonts: Newsreader (display), Public Sans (body), JetBrains Mono (code) -->
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -81,6 +83,17 @@ const { title, description = "Senior Staff Cloud Systems Engineer | Multi-Region
 
 			document.querySelectorAll('[data-reveal]').forEach((el) => {
 				revealObserver.observe(el);
+			});
+
+			// Card glow effect - track mouse position
+			document.querySelectorAll('.card').forEach((card) => {
+				card.addEventListener('mousemove', (e) => {
+					const rect = (card as HTMLElement).getBoundingClientRect();
+					const x = e.clientX - rect.left;
+					const y = e.clientY - rect.top;
+					(card as HTMLElement).style.setProperty('--mouse-x', x + 'px');
+					(card as HTMLElement).style.setProperty('--mouse-y', y + 'px');
+				});
 			});
 		</script>
 	</body>
