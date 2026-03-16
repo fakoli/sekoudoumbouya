@@ -95,6 +95,38 @@ const { title, description = "Senior Staff Cloud Systems Engineer | Multi-Region
 					(card as HTMLElement).style.setProperty('--mouse-y', y + 'px');
 				});
 			});
+
+			// Lazy image fade-in
+			document.querySelectorAll('img[loading="lazy"]').forEach((img) => {
+				if ((img as HTMLImageElement).complete) {
+					img.classList.add('loaded');
+				} else {
+					img.addEventListener('load', () => img.classList.add('loaded'), { once: true });
+				}
+			});
+
+			// Scroll spy for nav links
+			const sections = document.querySelectorAll('section[id]');
+			if (sections.length > 0) {
+				const navLinks = document.querySelectorAll('nav a[href*="#"]');
+				const spyObserver = new IntersectionObserver((entries) => {
+					entries.forEach(entry => {
+						if (entry.isIntersecting) {
+							const id = entry.target.getAttribute('id');
+							navLinks.forEach(link => {
+								const href = link.getAttribute('href') || '';
+								if (href.includes('#' + id)) {
+									link.classList.add('text-foreground');
+								} else {
+									link.classList.remove('text-foreground');
+								}
+							});
+						}
+					});
+				}, { threshold: 0.3, rootMargin: '-20% 0px -60% 0px' });
+
+				sections.forEach(s => spyObserver.observe(s));
+			}
 		</script>
 	</body>
 </html>
