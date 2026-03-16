@@ -19,7 +19,7 @@ export const PROOF_METRICS: ProofMetric[] = [
 	{ value: '20+', label: 'Years', highlight: false },
 	{ value: 'Multi-M', label: 'Saved', highlight: true },
 	{ value: '20+', label: 'Mentored', highlight: false },
-	{ value: 'AI+Cloud', label: 'Stack', highlight: false },
+	{ value: '5+', label: 'Focus Areas', highlight: false },
 ];
 
 /**
@@ -29,7 +29,7 @@ export const STATS: StatItem[] = [
 	{ label: 'Years Building at Scale', value: '20+' },
 	{ label: 'Infrastructure Cost Savings', value: 'Multi-M' },
 	{ label: 'Engineers Mentored to Senior+', value: '20+' },
-	{ label: 'Cloud to AI Infrastructure', value: 'Full Stack' },
+	{ label: 'Technical Focus Areas', value: '5+' },
 ];
 
 /**
