@@ -6,9 +6,9 @@ export const SITE_CONFIG = {
 	// Personal Information - Middle initial for disambiguation from basketball player
 	name: "Sekou M. Doumbouya",
 	shortName: "Sekou Doumbouya", // For backwards compatibility
-	title: "Senior Staff Cloud Systems Engineer",
+	title: "Infrastructure Architect | Cloud, AI/ML, Platform Engineering",
 	email: "sdoumbouya81@gmail.com",
-	description: "Senior Staff infrastructure leader specializing in platform engineering, multi-region architecture, and building high-leverage systems that multiply team impact. Not affiliated with professional basketball.",
+	description: "Infrastructure architect bridging cloud platforms and AI/ML systems. 20+ years building the foundations that engineering teams build on, from multi-region networks to GPU-ready compute and LLM serving infrastructure.",
 
 	// Social Profiles
 	githubUsername: "fakoli",

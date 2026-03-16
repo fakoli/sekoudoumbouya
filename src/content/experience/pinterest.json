@@ -14,7 +14,7 @@
         "Supported major Data Engineering initiatives, including Spark on EKS, facilitating transition to a robust Multi-Account environment.",
         "Founded and built the Pinterest Cloud Architecture team, defining core pillars, team charter, and strategic roadmaps.",
         "Built DR tooling at a fraction of vendor cost; achieved order-of-magnitude improvement in recovery time.",
-        "Led EC2 provisioning at hyperscale—large-scale compute infrastructure and significant storage footprint.",
+        "Led EC2 provisioning at hyperscale, managing large-scale compute infrastructure and significant storage footprint.",
         "Established Infrastructure as Code (IaC) standards and Terraform CI/CD pipelines, enhancing operational safety, consistency, and reducing deployment failures.",
         "Directly mentored 12–14 engineers, significantly contributing to professional growth and retention.",
         "Provided indirect mentorship across Security, Infrastructure Provisioning, and SRE teams.",

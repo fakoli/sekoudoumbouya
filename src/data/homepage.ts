@@ -19,7 +19,7 @@ export const PROOF_METRICS: ProofMetric[] = [
 	{ value: '20+', label: 'Years', highlight: false },
 	{ value: 'Multi-M', label: 'Saved', highlight: true },
 	{ value: '20+', label: 'Mentored', highlight: false },
-	{ value: '4+', label: 'Regions', highlight: false },
+	{ value: '5+', label: 'Focus Areas', highlight: false },
 ];
 
 /**
@@ -29,7 +29,7 @@ export const STATS: StatItem[] = [
 	{ label: 'Years Building at Scale', value: '20+' },
 	{ label: 'Infrastructure Cost Savings', value: 'Multi-M' },
 	{ label: 'Engineers Mentored to Senior+', value: '20+' },
-	{ label: 'AWS Regions Architected', value: '4+' },
+	{ label: 'Technical Focus Areas', value: '5+' },
 ];
 
 /**
@@ -51,7 +51,7 @@ export const PHILOSOPHY_CARDS: PhilosophyCardData[] = [
 	{
 		title: 'Strategic Translation',
 		description:
-			'I bridge engineering and business — ensuring technical decisions align with company goals.',
+			'I bridge engineering and business, ensuring technical decisions align with company goals.',
 		icon: '🔗',
 	},
 	{

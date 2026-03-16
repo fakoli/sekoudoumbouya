@@ -8,9 +8,9 @@ const base = getBasePath();
 
 // Bio variants - Updated with accurate career history from resume
 const bios = {
-	oneLiner: `Technical Lead and Senior Staff Cloud Systems Engineer at Pinterest, building resilient multi-region systems that save millions.`,
-	short: `${SITE_CONFIG.name} is a Technical Lead – Senior Staff Cloud Systems Engineer at a hyperscale consumer platform with over 20 years of experience in cloud architecture and platform engineering. He leads multi-region initiatives delivering multi-million dollar infrastructure cost savings and reducing disaster recovery from weeks to hours. Previously, he held senior engineering roles at Quip (Salesforce), Oracle, Groupon, and LiveOps.`,
-	full: `${SITE_CONFIG.name} is a Technical Lead – Senior Staff Cloud Systems Engineer at a hyperscale consumer platform, where he leads Multi-Region and Multi-Account Architecture. With over 20 years of experience building cloud platforms at scale, Sekou specializes in the intersection of hands-on engineering and strategic architecture.
+	oneLiner: `Infrastructure architect bridging cloud platforms and AI/ML systems. Building the foundations that make both traditional services and AI workloads production-ready.`,
+	short: `${SITE_CONFIG.name} is an Infrastructure Architect bridging cloud platforms and AI/ML systems, with over 20 years of experience at hyperscale consumer platforms. He leads multi-region initiatives delivering multi-million dollar infrastructure cost savings and reducing disaster recovery from weeks to hours. Previously, he held senior engineering roles at Quip (Salesforce), Oracle, Groupon, and LiveOps.`,
+	full: `${SITE_CONFIG.name} is an Infrastructure Architect bridging cloud platforms and AI/ML systems at a hyperscale consumer platform, where he leads Multi-Region and Multi-Account Architecture. With over 20 years of experience building cloud platforms at scale, Sekou specializes in the intersection of hands-on engineering and strategic architecture.
 
 In his current role, he led a major VPC architecture transformation delivering multi-million dollar annual savings, redesigning multi-region network architecture to eliminate Transit Gateway bottlenecks while maintaining zero production downtime. He also founded the Cloud Architecture team and built enterprise-grade disaster recovery capability, reducing recovery from weeks to hours at a fraction of vendor cost.
 
@@ -23,6 +23,12 @@ ${SITE_CONFIG.name} is not affiliated with Sekou Doumbouya, the professional bas
 
 // Talk topics
 const talkTopics = [
+	{
+		title: 'AI Infrastructure for the Rest of Us',
+		abstract: 'How traditional infrastructure engineers can bridge into AI/ML platform roles. Covers GPU orchestration, LLM serving patterns, training pipeline design, and the organizational patterns that make AI infrastructure teams successful.',
+		duration: '30-45 min',
+		audience: ['Infrastructure Engineers', 'Platform Teams', 'Engineering Leaders'],
+	},
 	{
 		title: 'Multi-Region Architecture at Hyperscale',
 		abstract: 'A deep dive into building resilient multi-region systems for hundreds of millions of users. Covers VPC architecture patterns, disaster recovery strategies, and the tradeoffs between Transit Gateway and VPC peering at scale.',

@@ -10,7 +10,7 @@ role: Creator & Maintainer
 organization: Open Source
 impactSummary: >-
   Built a plugin that encodes systems engineering methodology into reusable
-  workflows — surfacing cost traps, scaling cliffs, dependency chains, and
+  workflows, surfacing cost traps, scaling cliffs, dependency chains, and
   operational risks that hide below the waterline of vendor proposals, design
   docs, and architecture decisions.
 scale:
@@ -24,8 +24,8 @@ primaryTech:
   - Claude Code Plugin API
 contributions:
   - >-
-    Designed extraction-synthesis separation architecture — extraction agents
-    gather facts with source anchors, synthesis agents connect findings into
+    Designed extraction-synthesis separation architecture where extraction agents
+    gather facts with source anchors, and synthesis agents connect findings into
     decisions
   - >-
     Built 5 composable workflows: complexity-mapper, context-sharding,
@@ -67,19 +67,19 @@ decisionCard:
   problem: >-
     Infrastructure engineers repeatedly face the same analytical challenge:
     vendor proposals, architecture docs, and design specs present a polished
-    surface while hiding the complexity that matters most — cost mechanics that
+    surface while hiding the complexity that matters most. Cost mechanics
     compound non-linearly, quotas that bite at scale, dependencies between
     services that nobody mapped, and caveats buried deep in documentation.
     Single-pass reading misses what matters, and the insights never travel from
     the engineer who found them to the review board that needs them.
   constraints:
     - >-
-      Must work locally within Claude Code — no external services or databases
+      Must work locally within Claude Code with no external services or databases
     - >-
       Extraction must be separated from synthesis to prevent hallucinated
       certainty
     - >-
-      Agents must have narrow, auditable roles — no omniscient single-agent
+      Agents must have narrow, auditable roles with no omniscient single-agent
       designs
     - >-
       Output must be structured enough for design reviews but readable by
@@ -115,39 +115,39 @@ generated: false
 
 ## The Iceberg Problem
 
-Every technology has a visible tip — the demo, the pricing page, the architecture diagram that fits on one slide. Below the waterline sits everything that actually determines whether you succeed in production: the quotas that bite at scale, the cost mechanics that compound non-linearly, the dependencies between services that nobody mapped, the caveats buried on page 47 of the docs.
+Every technology has a visible tip: the demo, the pricing page, the architecture diagram that fits on one slide. Below the waterline sits everything that actually determines whether you succeed in production. The quotas that bite at scale, the cost mechanics that compound non-linearly, the dependencies between services that nobody mapped, the caveats buried on page 47 of the docs.
 
 A systems engineer's job has always been to look below that waterline. This plugin encodes that discipline into reusable workflows that run inside Claude Code.
 
 ## Architecture
 
-The plugin is built around a core principle: **separate extraction from synthesis**. Extraction agents gather facts — technical claims, limitations, cost mechanics, dependencies — faithfully, with source anchors. Synthesis agents connect those findings into decisions only after extraction is complete. This prevents the failure mode where an AI confidently synthesizes conclusions from material it hasn't fully processed.
+The plugin is built around a core principle: **separate extraction from synthesis**. Extraction agents gather facts (technical claims, limitations, cost mechanics, dependencies) faithfully, with source anchors. Synthesis agents connect those findings into decisions only after extraction is complete. This prevents the failure mode where an AI confidently synthesizes conclusions from material it hasn't fully processed.
 
 ### Agent Tiers
 
 Nine subagents organized into three tiers:
 
-**Orchestration** — `web-researcher` discovers external source material; `extraction-planner` assesses volume and produces Dispatch Plans that prevent context window overload.
+**Orchestration.** `web-researcher` discovers external source material; `extraction-planner` assesses volume and produces Dispatch Plans that prevent context window overload.
 
-**Extraction** — Five specialized agents, each with a narrow role: `doc-indexer` maps document structure, `doc-reader` extracts technical claims, `caveat-extractor` hunts for limitations and buried traps, `cost-capacity-analyst` highlights pricing mechanics and scaling constraints, `architecture-dependency-mapper` maps control-plane and data-plane dependencies.
+**Extraction.** Five specialized agents, each with a narrow role: `doc-indexer` maps document structure, `doc-reader` extracts technical claims, `caveat-extractor` hunts for limitations and buried traps, `cost-capacity-analyst` highlights pricing mechanics and scaling constraints, `architecture-dependency-mapper` maps control-plane and data-plane dependencies.
 
-**Synthesis** — `pattern-remix-planner` adapts proven patterns to new problems; `synthesis-brief-writer` turns extracted evidence into structured Decision Briefs, Complexity Heat Maps, and Hidden Risk Summaries.
+**Synthesis.** `pattern-remix-planner` adapts proven patterns to new problems; `synthesis-brief-writer` turns extracted evidence into structured Decision Briefs, Complexity Heat Maps, and Hidden Risk Summaries.
 
 ### Workflows
 
 Five composable skill workflows, each modeling a different phase of systems analysis:
 
-- **`/complexity-mapper`** — Full below-the-waterline scan. Indexes documents, optionally discovers external sources, dispatches parallel extractors, and synthesizes findings into a Complexity Heat Map and Hidden Risk Summary.
-- **`/context-sharding`** — Breaks large document sets into focused chunks for parallel extraction. Prevents the single-pass reading failure that misses what matters in 200-page vendor packages.
-- **`/pattern-remix`** — Takes a known-good design and adapts it to new constraints, mapping what transfers, what needs to change, and what assumptions no longer hold.
-- **`/decision-brief`** — Packages extracted findings into stakeholder-ready briefs with evidence, options, risks, and next steps.
-- **`/architecture-risk-review`** — Targeted failure mode analysis: single points of failure, blast radius, hidden coupling, operational survivability gaps.
+- **`/complexity-mapper`**: Full below-the-waterline scan. Indexes documents, optionally discovers external sources, dispatches parallel extractors, and synthesizes findings into a Complexity Heat Map and Hidden Risk Summary.
+- **`/context-sharding`**: Breaks large document sets into focused chunks for parallel extraction. Prevents the single-pass reading failure that misses what matters in 200-page vendor packages.
+- **`/pattern-remix`**: Takes a known-good design and adapts it to new constraints, mapping what transfers, what needs to change, and what assumptions no longer hold.
+- **`/decision-brief`**: Packages extracted findings into stakeholder-ready briefs with evidence, options, risks, and next steps.
+- **`/architecture-risk-review`**: Targeted failure mode analysis covering single points of failure, blast radius, hidden coupling, and operational survivability gaps.
 
 ## Design Decisions
 
 ### Why Dispatch Planning Matters
 
-Early versions launched extraction agents directly from document indexing output. This worked for small document sets but failed on larger research sessions — extractors received too much material and missed critical details. The `extraction-planner` agent solves this by assessing total volume and producing a Dispatch Plan that specifies how many agents to spawn, what type each should be, and what scoped instructions each receives.
+Early versions launched extraction agents directly from document indexing output. This worked for small document sets but failed on larger research sessions because extractors received too much material and missed critical details. The `extraction-planner` agent solves this by assessing total volume and producing a Dispatch Plan that specifies how many agents to spawn, what type each should be, and what scoped instructions each receives.
 
 ### Why Source Anchors Are Non-Negotiable
 
@@ -155,10 +155,10 @@ Every finding traces back to a specific file, section, or page. Not "broadly ava
 
 ### Why Structured Output Contracts
 
-All deliverables follow defined contracts — Complexity Heat Maps, Hidden Risk Summaries, Decision Briefs, Pattern Remix Drafts, Context Packets. These aren't just formatting preferences. Structured outputs travel: from the engineer's analysis to the design review to the stakeholder conversation. Unstructured paragraphs don't.
+All deliverables follow defined contracts: Complexity Heat Maps, Hidden Risk Summaries, Decision Briefs, Pattern Remix Drafts, and Context Packets. These aren't just formatting preferences. Structured outputs travel: from the engineer's analysis to the design review to the stakeholder conversation. Unstructured paragraphs don't.
 
 ## What I Learned
 
-Building this plugin reinforced something I've seen across twenty years of infrastructure work: the methodology matters more than the technology. Whether you're evaluating a cloud migration, a vendor proposal, or a new storage architecture, the discipline is the same — understand what a system does well, understand what it doesn't do well, and surface the gaps before you've committed.
+Building this plugin reinforced something I've seen across twenty years of infrastructure work: the methodology matters more than the technology. Whether you're evaluating a cloud migration, a vendor proposal, or a new storage architecture, the discipline is the same: understand what a system does well, understand what it doesn't do well, and surface the gaps before you've committed.
 
 The extraction-synthesis separation turned out to be the most important design decision. It mirrors how experienced engineers actually work: gather evidence first, interpret it second. The temptation to skip straight to conclusions is strong, especially with AI tools that can generate confident-sounding analysis. Forcing the pipeline to extract faithfully before synthesizing ensures the conclusions are grounded in what the sources actually say, not in what a model assumes they say.

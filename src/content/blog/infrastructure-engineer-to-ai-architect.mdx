@@ -1,0 +1,67 @@
+---
+title: "From Cloud Infrastructure to AI Infrastructure: What Transfers and What Doesn't"
+publishDate: 2026-03-10
+description: "After twenty years building cloud platforms, here's what I've learned about bridging into AI infrastructure, and which skills matter more than you'd expect."
+tags: ["ai-infrastructure", "career", "platform-engineering", "llm"]
+draft: false
+readingTime: 7
+heroImage: "/blog/platform-engineering-hero.png"
+---
+
+*The views expressed here are my own and do not represent those of any current or former employer.*
+
+There's a narrative floating around that AI infrastructure is a completely new discipline, that you need a PhD in machine learning or five years of CUDA programming to be relevant. I don't buy it.
+
+I've spent twenty years building cloud infrastructure at scale. Multi-region networks, disaster recovery systems, cost optimization at hyperscale. And the more I look at what teams building LLM serving platforms and training pipelines actually need, the more I see the same problems wearing different clothes.
+
+Let me be specific about what transfers and what doesn't.
+
+## What Transfers Directly
+
+### Capacity Planning Is Capacity Planning
+
+Whether you're sizing EC2 fleets or GPU clusters, the fundamental question is the same: how much compute do we need, when do we need it, and what happens when we're wrong?
+
+I've spent years building IPAM tooling, VPC visibility systems, and network capacity models. The skills behind that work, forecasting demand, building headroom without overspending, creating visibility into utilization before it becomes a crisis, apply directly to GPU capacity planning. The resource is different. The math is the same.
+
+### Platform Engineering Principles Don't Change
+
+The best AI infrastructure teams I've talked to are essentially platform engineering teams with a GPU budget. They're solving the same problems I've been solving for two decades: how do you make a complex capability accessible to teams that shouldn't need to understand the underlying infrastructure?
+
+When I built Terraform modules that let service teams deploy into a Cloud WAN network without understanding segment policies or egress routing, that was platform engineering. When an AI platform team builds abstractions that let ML engineers deploy a model without understanding Kubernetes node affinity for GPU scheduling, that's the same discipline. Golden paths, self-service, guardrails, documentation. The pattern is identical.
+
+### Cost Optimization Is Even More Critical
+
+GPU compute is expensive. Really expensive. And the cost optimization instincts that infrastructure engineers develop over years of managing cloud spend are exactly what AI teams need.
+
+I've driven multi-million dollar savings by questioning inherited architecture decisions and finding the right tradeoff between cost and capability. That same mindset, "are we using the most expensive resource for something a cheaper resource could handle?", is even more valuable when the expensive resource costs ten times what an equivalent CPU instance costs.
+
+### Reliability Engineering Applies Directly
+
+LLM serving has SLOs. Training pipelines fail. Model inference has tail latency problems. The tools are different (you're monitoring token throughput instead of HTTP response times), but the discipline of SRE, defining what "healthy" looks like, building observability before you need it, designing for graceful degradation, transfers completely.
+
+## What Doesn't Transfer (And Requires Humility)
+
+### The Workload Characteristics Are Fundamentally Different
+
+Traditional web services handle many small requests with predictable resource needs. LLM inference handles fewer requests with highly variable resource consumption depending on context length, model size, and generation parameters. Training jobs are long-running, stateful, and failure-sensitive in ways that most web services aren't.
+
+I'm still learning the details of GPU memory management, model parallelism strategies, and inference optimization techniques. Pretending otherwise would be dishonest. But I've noticed that having strong systems fundamentals makes learning these specifics faster, because you already understand the underlying compute, memory, and networking constraints.
+
+### The Data Movement Problem Is Different
+
+In traditional infrastructure, data movement is about network throughput and latency. In AI infrastructure, data movement includes model weights (which can be hundreds of gigabytes), training datasets (which can be petabytes), and the checkpoint/restore patterns that make training resilient. The networking requirements are different in kind, not just in degree.
+
+### The Ecosystem Is Young and Shifting
+
+Cloud infrastructure has mature tooling. Terraform, Kubernetes, and the CNCF ecosystem have been battle-tested for years. AI infrastructure tooling is younger, more fragmented, and changing fast. What's best practice today might be obsolete in six months. That uncertainty requires a different approach to architectural decisions: you need to design for replaceability in a way that's less critical in mature ecosystems.
+
+## The Bridge
+
+Here's what I think infrastructure engineers underestimate about our position: we've already solved the hard organizational problems that AI teams are just now encountering.
+
+How do you get a hundred teams to adopt a new platform pattern? How do you build self-service infrastructure that doesn't become a bottleneck? How do you optimize costs at scale without sacrificing reliability? How do you build standards that people actually follow?
+
+Those are infrastructure problems dressed up as AI problems. And the people who've solved them before are exactly who AI teams need.
+
+The technical specifics of GPU scheduling or model serving, those can be learned. The judgment about how to build platforms that work at organizational scale, that takes years to develop. If you have it, the AI infrastructure world needs you. Don't let the hype cycle convince you otherwise.

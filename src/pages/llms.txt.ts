@@ -30,7 +30,7 @@ Ways to connect:
 - Technical Conversations (architecture discussions, scaling challenges, technology trade-offs)
 - Community & Connection (coffee chats, open source collaboration, peer networking)`;
 
-	const content = `# ${SITE_CONFIG.name} — LLM-Readable Profile
+	const content = `# ${SITE_CONFIG.name}, LLM-Readable Profile
 # Last updated: ${currentDate}
 
 ## Identity Disambiguation
@@ -44,6 +44,7 @@ This is NOT Sekou Doumbouya the professional basketball player (born 2000, plays
 - Location: San Francisco Bay Area (remote)
 
 ## Key Achievements
+- AI/ML infrastructure: building platforms for LLM serving, training pipelines, and GPU orchestration
 - multi-million dollar annual cost savings through network architecture optimization
 - Next-Gen Network Architecture: IPAM, shared network design, hub account, provisioning automation
 - Multi-Region Global Architecture: CloudWAN implementation for worldwide connectivity
@@ -57,6 +58,7 @@ This is NOT Sekou Doumbouya the professional basketball player (born 2000, plays
 - Infrastructure: Terraform, Kubernetes, EKS, multi-account patterns
 - Networking: VPC architecture, Transit Gateway, IPAM, multi-region
 - Reliability: Disaster recovery, SRE practices, observability
+- AI Infrastructure: LLM serving, GPU orchestration, training pipelines, model governance
 
 ${availabilitySection}
 
@@ -90,7 +92,7 @@ Notable Projects:
 - Network Cost Discovery & Remediation (multi-million dollar annual savings)
 - Next-Gen Network Architecture (IPAM, shared network design, provisioning automation)
 - Multi-Region Global Architecture (CloudWAN, global connectivity)
-Expertise: Multi-region architecture, cost optimization, platform engineering
+Expertise: AI/ML infrastructure, multi-region architecture, platform engineering, LLM serving
 `;
 
 	return new Response(content, {

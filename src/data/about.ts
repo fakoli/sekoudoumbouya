@@ -108,17 +108,30 @@ export const FOCUS_AREAS: FocusAreaFull[] = [
 		metrics: 'Availability, latency percentiles, incident recovery time',
 	},
 	{
-		id: 'ai-ml-infrastructure',
-		title: 'Generative AI & ML Infrastructure',
+		id: 'ai-infrastructure',
+		title: 'AI & LLM Infrastructure',
 		summary:
-			'Pragmatic AI integration with robust observability and governance. Utility over hype.',
+			'Building the compute, networking, and platform foundations that make AI workloads production-ready. From GPU orchestration to model serving pipelines.',
+		details: [
+			'LLM serving infrastructure and inference optimization',
+			'GPU cluster orchestration and scheduling',
+			'AI platform standardization and governance',
+			'Training pipeline infrastructure and data movement',
+		],
+		metrics: 'Inference latency, GPU utilization, model deployment velocity',
+	},
+	{
+		id: 'ai-ml-infrastructure',
+		title: 'AI Platform Governance & Observability',
+		summary:
+			'Ensuring AI systems are observable, governable, and cost-effective. Building the guardrails that let teams move fast without creating risk.',
 		details: [
 			'ML observability: drift detection, accuracy monitoring',
 			'Governance frameworks for responsible AI deployment',
-			'Scalable training pipelines and model serving',
-			'Cost-effective inference infrastructure',
+			'Cost management for GPU and inference workloads',
+			'Security and compliance for AI/ML systems',
 		],
-		metrics: 'Model performance, deployment velocity, compliance adherence',
+		metrics: 'Model performance, compliance adherence, cost per inference',
 	},
 	{
 		id: 'cloud-native-evolution',
@@ -184,7 +197,7 @@ export const COMPETENCY_GROUPS: CompetencyGroup[] = [
 	},
 	{
 		title: 'AI & Automation',
-		skills: ['ML Infrastructure', 'CI/CD Pipelines', 'GenAI Integration', 'Cost Optimization'],
+		skills: ['LLM Serving Infrastructure', 'GPU Orchestration', 'AI Platform Engineering', 'ML Pipeline Architecture'],
 	},
 	{
 		title: 'Leadership & Strategy',

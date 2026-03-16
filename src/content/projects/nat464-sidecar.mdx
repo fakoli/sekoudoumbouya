@@ -47,15 +47,15 @@ generatedAt: '2026-02-09T08:47:05.120Z'
 ---
 ## Problem
 
-As organizations migrate to IPv6-only Kubernetes clusters to simplify network architecture and reduce IPv4 address costs, they face a significant challenge: legacy applications that only speak IPv4. These applications—whether third-party binaries, older services, or dependencies that can't be easily modified—become stranded when the underlying infrastructure no longer provides IPv4 connectivity.
+As organizations migrate to IPv6-only Kubernetes clusters to simplify network architecture and reduce IPv4 address costs, they face a significant challenge: legacy applications that only speak IPv4. These applications, whether third-party binaries, older services, or dependencies that can't be easily modified, become stranded when the underlying infrastructure no longer provides IPv4 connectivity.
 
 The traditional solutions are problematic. Running dual-stack clusters adds operational complexity and defeats the purpose of IPv6 migration. Modifying applications to support IPv6 is often impossible when dealing with vendor software or legacy codebases. Cloud provider NAT64 gateways work for outbound traffic but don't solve inbound connectivity to IPv4-only pods.
 
-I needed a solution that would be completely transparent to the application—no code changes, no configuration updates, no awareness of IPv6 at all. The application should believe it's operating in a normal IPv4 environment while the cluster runs pure IPv6.
+I needed a solution that would be completely transparent to the application: no code changes, no configuration updates, no awareness of IPv6 at all. The application should believe it's operating in a normal IPv4 environment while the cluster runs pure IPv6.
 
 ## Approach
 
-I designed nat464-sidecar as a Kubernetes sidecar container that shares the network namespace with the application pod. This positioning is crucial—by operating in the same network namespace, the sidecar can intercept and translate traffic without requiring any kernel modifications or privileged capabilities.
+I designed nat464-sidecar as a Kubernetes sidecar container that shares the network namespace with the application pod. This positioning is crucial. By operating in the same network namespace, the sidecar can intercept and translate traffic without requiring any kernel modifications or privileged capabilities.
 
 The architecture handles bidirectional translation. For inbound traffic, the sidecar listens on an IPv6 address (the pod's actual cluster IP) and forwards connections to the application on localhost over IPv4. From the application's perspective, all requests arrive on `127.0.0.1`. For outbound traffic, the sidecar provides a SOCKS5 proxy on localhost. When the application needs to reach external services, it connects through this proxy, and the sidecar handles DNS resolution and connection establishment over IPv6.
 
@@ -63,7 +63,7 @@ The architecture handles bidirectional translation. For inbound traffic, the sid
 
 - **Happy Eyeballs v3 implementation**: The outbound proxy implements RFC 8305 connection racing, interleaving IPv6 and IPv4 addresses and staggering connection attempts. This ensures optimal latency when destinations support both address families through NAT64.
 - **Address synthesis using Well-Known Prefix**: IPv4-only destinations are synthesized into IPv6 using the `64:ff9b::/96` prefix (RFC 6052), enabling connectivity through standard NAT64 gateways.
-- **Zero-privilege security model**: The sidecar runs as non-root with no special capabilities. This was a deliberate constraint—I wanted something that platform teams could approve without security review escalations.
+- **Zero-privilege security model**: The sidecar runs as non-root with no special capabilities. This was a deliberate constraint. I wanted something that platform teams could approve without security review escalations.
 - **Distroless container image**: Built on a minimal base with read-only root filesystem, reducing attack surface and meeting enterprise container security requirements.
 
 I chose Rust for this project because the sidecar sits in the critical path of all application traffic. Memory safety bugs in a network proxy can have severe security implications, and Rust's ownership model eliminates entire classes of vulnerabilities while maintaining the performance characteristics needed for transparent proxying.
