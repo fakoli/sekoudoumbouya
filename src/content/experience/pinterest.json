@@ -18,7 +18,9 @@
         "Established Infrastructure as Code (IaC) standards and Terraform CI/CD pipelines, enhancing operational safety, consistency, and reducing deployment failures.",
         "Directly mentored 12–14 engineers, significantly contributing to professional growth and retention.",
         "Provided indirect mentorship across Security, Infrastructure Provisioning, and SRE teams.",
-        "Led cross-team educational workshops increasing internal engineering capability in cloud networking and IaC."
+        "Led cross-team educational workshops increasing internal engineering capability in cloud networking and IaC.",
+        "Deployed AWS Cloud WAN into production, delivering cross-region connectivity as the backbone for regional expansion.",
+        "Built comprehensive Terraform module library for Cloud WAN with zero-downtime migration support across egress patterns."
     ],
     "skills": [
         "AWS",
@@ -32,6 +34,8 @@
         "Spark on EKS",
         "VPC Peering",
         "Transit Gateway",
+        "AWS CloudWAN",
+        "Direct Connect",
         "IAM",
         "Strategic Leadership",
         "Team Building",
