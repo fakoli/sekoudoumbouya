@@ -181,7 +181,9 @@ function createResume() {
     {
       title: 'Next Generation Network Architecture',
       items: [
-        'Architected Pinterest\'s Next Generation Network Architecture, enhancing infrastructure stability by combining centralized connectivity with distributed control mechanisms, supporting scalable, secure, multi-platform environments.'
+        'Architected Pinterest\'s Next Generation Network Architecture, enhancing infrastructure stability by combining centralized connectivity with distributed control mechanisms, supporting scalable, secure, multi-platform environments.',
+        'Deployed AWS Cloud WAN into production, delivering cross-region connectivity that unblocked regional expansion for a revenue-critical product team.',
+        'Built comprehensive Terraform module library for Cloud WAN with zero-downtime migration support across egress patterns, standardizing future multi-region deployments.'
       ]
     },
     {
