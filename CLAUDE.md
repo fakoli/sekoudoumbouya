@@ -117,6 +117,27 @@ This is a professional portfolio representing a real person. **Never invent, emb
 
 When in doubt, use placeholders like `[X regions]` or `[specific metric]` and ask the user to fill in accurate numbers.
 
+## CRITICAL: Employer Confidentiality
+
+The site owner works at a publicly traded company. This repo is PUBLIC. All content must be safe for a current employee to publish without employer approval.
+
+### Prohibited content — never include:
+
+- **Exact financial figures** tied to employer operations — no dollar amounts, no ranges that narrow it (e.g., no "8-figure", "6-figure"). Use only: "multi-million dollar", "significant", "substantial"
+- **Specific scale numbers** — no instance counts, storage volumes, user counts, MAU, or growth percentages. Use only: "hyperscale", "large-scale", "hundreds of millions"
+- **Forward-looking business statements** — no growth targets, expansion plans, or strategic pivots. These can constitute material non-public information
+- **Internal names** — no VPC names, service codenames, internal tool names, or infrastructure identifiers. Describe generically
+- **Org structure details** — no specific executive titles (CTO, Chief Architect), internal role designations (DRI), exact team sizes, or descriptions of internal decision-making
+- **Vendor partnership details** — no references to specific meetings or advocacy with cloud provider leadership
+- **DR recovery windows or exact timelines** — use relative terms like "weeks to hours", "order-of-magnitude improvement"
+
+### Required practices:
+
+- Every blog post or narrative discussing current-employer-adjacent topics MUST include a "views are my own" disclaimer
+- Blog posts should generalize employer references (e.g., "a hyperscale consumer platform")
+- Files with `confidential: true` are hidden from the rendered site but still readable in this public repo — do not put anything harmful in them
+- When in doubt, ask the user: "Is this detail publicly known or approved for external sharing?"
+
 ## Frontend Design Principles
 
 Avoid "AI slop" aesthetics. Make distinctive, creative frontends:
