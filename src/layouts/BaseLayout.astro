@@ -19,7 +19,7 @@ interface Props {
 	breadcrumbs?: BreadcrumbItem[];
 }
 
-const { title, description = "Senior Staff Cloud Systems Engineer | Multi-Region Architecture & Platform Engineering", image, type, publishDate, breadcrumbs = [] } = Astro.props;
+const { title, description = "Infrastructure Architect | Cloud, AI/ML, Platform Engineering", image, type, publishDate, breadcrumbs = [] } = Astro.props;
 ---
 
 <!doctype html>
@@ -63,9 +63,10 @@ const { title, description = "Senior Staff Cloud Systems Engineer | Multi-Region
 	<body class="antialiased">
 		<slot />
 		<script>
-			// Mark that JS is available for reveal animations
+			// Mark that JS is available for reveal animations (run once)
 			document.documentElement.classList.add('js-reveal');
 
+			document.addEventListener('astro:page-load', () => {
 			// Scroll reveal observer
 			const revealObserver = new IntersectionObserver(
 				(entries) => {
@@ -138,6 +139,7 @@ const { title, description = "Senior Staff Cloud Systems Engineer | Multi-Region
 
 				sections.forEach(s => spyObserver.observe(s));
 			}
+			});
 		</script>
 	</body>
 </html>

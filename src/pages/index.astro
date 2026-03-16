@@ -489,47 +489,52 @@ const initials = SITE_CONFIG.name.split(' ').map(n => n[0]).join('');
 	</section>
 
 <script>
-    const phrases = [
-        'AI/ML Infrastructure',
-        'Multi-region platforms',
-        'LLM serving systems',
-        'GPU orchestration',
-        'Platform engineering',
-        'Cost optimization at scale'
-    ];
-    let phraseIndex = 0;
-    let charIndex = 0;
-    let isDeleting = false;
-    const el = document.getElementById('typing-text');
+    let typingTimeout: ReturnType<typeof setTimeout>;
+    document.addEventListener('astro:page-load', () => {
+        if (typingTimeout) clearTimeout(typingTimeout);
 
-    if (el) {
-        function type() {
-            const current = phrases[phraseIndex];
-            if (isDeleting) {
-                el!.textContent = current.substring(0, charIndex - 1);
-                charIndex--;
-            } else {
-                el!.textContent = current.substring(0, charIndex + 1);
-                charIndex++;
+        const phrases = [
+            'AI/ML Infrastructure',
+            'Multi-region platforms',
+            'LLM serving systems',
+            'GPU orchestration',
+            'Platform engineering',
+            'Cost optimization at scale'
+        ];
+        let phraseIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        const el = document.getElementById('typing-text');
+
+        if (el) {
+            function type() {
+                const current = phrases[phraseIndex];
+                if (isDeleting) {
+                    el!.textContent = current.substring(0, charIndex - 1);
+                    charIndex--;
+                } else {
+                    el!.textContent = current.substring(0, charIndex + 1);
+                    charIndex++;
+                }
+
+                let delay = isDeleting ? 30 : 60;
+
+                if (!isDeleting && charIndex === current.length) {
+                    delay = 2000;
+                    isDeleting = true;
+                } else if (isDeleting && charIndex === 0) {
+                    isDeleting = false;
+                    phraseIndex = (phraseIndex + 1) % phrases.length;
+                    delay = 400;
+                }
+
+                typingTimeout = setTimeout(type, delay);
             }
 
-            let delay = isDeleting ? 30 : 60;
-
-            if (!isDeleting && charIndex === current.length) {
-                delay = 2000;
-                isDeleting = true;
-            } else if (isDeleting && charIndex === 0) {
-                isDeleting = false;
-                phraseIndex = (phraseIndex + 1) % phrases.length;
-                delay = 400;
-            }
-
-            setTimeout(type, delay);
+            // Start after a brief delay
+            typingTimeout = setTimeout(type, 800);
         }
-
-        // Start after a brief delay
-        setTimeout(type, 800);
-    }
+    });
 </script>
 
 </PageLayout>

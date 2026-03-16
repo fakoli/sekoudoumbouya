@@ -15,22 +15,24 @@
 </button>
 
 <script>
-    const btn = document.getElementById('back-to-top');
-    if (btn) {
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 500) {
-                btn.style.opacity = '1';
-                btn.style.transform = 'translateY(0)';
-                btn.style.pointerEvents = 'auto';
-            } else {
-                btn.style.opacity = '0';
-                btn.style.transform = 'translateY(16px)';
-                btn.style.pointerEvents = 'none';
-            }
-        }, { passive: true });
+    document.addEventListener('astro:page-load', () => {
+        const btn = document.getElementById('back-to-top');
+        if (btn) {
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 500) {
+                    btn.style.opacity = '1';
+                    btn.style.transform = 'translateY(0)';
+                    btn.style.pointerEvents = 'auto';
+                } else {
+                    btn.style.opacity = '0';
+                    btn.style.transform = 'translateY(16px)';
+                    btn.style.pointerEvents = 'none';
+                }
+            }, { passive: true });
 
-        btn.addEventListener('click', () => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
-    }
+            btn.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        }
+    });
 </script>

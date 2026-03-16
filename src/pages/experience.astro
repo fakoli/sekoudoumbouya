@@ -131,27 +131,29 @@ const domains = Array.from(allDomains);
 </PageLayout>
 
 <script>
-	// Domain filtering for timeline entries
-	const filterButtons = document.querySelectorAll('.domain-filter');
-	const entries = document.querySelectorAll('.experience-entry');
+	document.addEventListener('astro:page-load', () => {
+		// Domain filtering for timeline entries
+		const filterButtons = document.querySelectorAll('.domain-filter');
+		const entries = document.querySelectorAll('.experience-entry');
 
-	filterButtons.forEach(button => {
-		button.addEventListener('click', () => {
-			const domain = button.getAttribute('data-domain');
+		filterButtons.forEach(button => {
+			button.addEventListener('click', () => {
+				const domain = button.getAttribute('data-domain');
 
-			// Update button states
-			filterButtons.forEach(b => b.classList.remove('active', 'bg-[var(--color-accent-bg)]'));
-			button.classList.add('active', 'bg-[var(--color-accent-bg)]');
+				// Update button states
+				filterButtons.forEach(b => b.classList.remove('active', 'bg-[var(--color-accent-bg)]'));
+				button.classList.add('active', 'bg-[var(--color-accent-bg)]');
 
-			// Filter entries
-			entries.forEach(entry => {
-				const entryDomains = entry.getAttribute('data-domains') || '';
-				if (domain === 'all' || entryDomains.includes(domain)) {
-					entry.style.display = '';
-					entry.style.opacity = '1';
-				} else {
-					entry.style.opacity = '0.3';
-				}
+				// Filter entries
+				entries.forEach(entry => {
+					const entryDomains = entry.getAttribute('data-domains') || '';
+					if (domain === 'all' || entryDomains.includes(domain)) {
+						entry.style.display = '';
+						entry.style.opacity = '1';
+					} else {
+						entry.style.opacity = '0.3';
+					}
+				});
 			});
 		});
 	});

@@ -17,7 +17,7 @@
 		/* Color Foundation - Light Mode */
 		--ink-primary: #0f0f0f;
 		--ink-secondary: #404040;
-		--ink-muted: #636363;
+		--ink-muted: #595959;
 		--surface-primary: #fafafa;
 		--surface-secondary: #f0f0f0;
 		--surface-tertiary: #e5e5e5;
@@ -158,7 +158,7 @@
 		content: '';
 		position: fixed;
 		inset: 0;
-		z-index: -1;
+		z-index: -2;
 		background-image:
 			linear-gradient(var(--schematic-grid) 1px, transparent 1px),
 			linear-gradient(90deg, var(--schematic-grid) 1px, transparent 1px);
@@ -223,7 +223,6 @@
 	/* Card Component */
 	.card {
 		position: relative;
-		overflow: hidden;
 		background: var(--color-surface);
 		border: 0.5px solid var(--border-default);
 		border-radius: var(--radius-lg);

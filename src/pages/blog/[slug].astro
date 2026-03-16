@@ -57,7 +57,7 @@ const breadcrumbs = siteUrl ? [
 			<figure class="mb-10 -mx-4 sm:-mx-8 md:-mx-16 lg:-mx-24">
 				<img
 					src={post.data.heroImage}
-					alt=""
+					alt={post.data.title}
 					class="w-full aspect-[16/9] object-cover rounded-none sm:rounded-xl"
 					loading="eager"
 					fetchpriority="high"
@@ -127,7 +127,7 @@ const breadcrumbs = siteUrl ? [
 								{related.data.heroImage && (
 									<img
 										src={related.data.heroImage}
-										alt=""
+										alt={related.data.title}
 										class="w-full aspect-[16/9] object-cover rounded-md mb-3"
 										loading="lazy"
 									/>
@@ -154,14 +154,16 @@ const breadcrumbs = siteUrl ? [
 	</article>
 
 <script>
-    const progressBar = document.getElementById('reading-progress');
-    if (progressBar) {
-        window.addEventListener('scroll', () => {
-            const scrollTop = window.scrollY;
-            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-            const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-            progressBar.style.width = progress + '%';
-        }, { passive: true });
-    }
+    document.addEventListener('astro:page-load', () => {
+        const progressBar = document.getElementById('reading-progress');
+        if (progressBar) {
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.scrollY;
+                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+                progressBar.style.width = progress + '%';
+            }, { passive: true });
+        }
+    });
 </script>
 </PageLayout>

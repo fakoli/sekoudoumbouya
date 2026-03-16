@@ -84,49 +84,51 @@ const { metrics } = Astro.props;
 </style>
 
 <script>
-	// Animate numeric values in proof strip
-	const observer = new IntersectionObserver((entries) => {
-		entries.forEach(entry => {
-			if (entry.isIntersecting) {
-				const values = entry.target.querySelectorAll('.proof-strip-value');
-				values.forEach((el) => {
-					const text = el.textContent?.trim() || '';
-					const match = text.match(/^(\d+)\+?$/);
-					if (match) {
-						const target = parseInt(match[1]);
-						let current = 0;
-						const duration = 1200;
-						const step = target / (duration / 16);
-						const animate = () => {
-							current += step;
-							if (current >= target) {
-								el.childNodes.forEach(n => {
-									if (n.nodeType === 3) n.textContent = '';
-								});
-								const textNode = Array.from(el.childNodes).find(n => n.nodeType === 3 && n.textContent?.trim());
-								if (textNode) textNode.textContent = text;
-								else {
-									// Set text between bracket spans
-									const brackets = el.querySelectorAll('span');
-									if (brackets.length >= 2) {
-										brackets[0].after(text);
+	document.addEventListener('astro:page-load', () => {
+		// Animate numeric values in proof strip
+		const observer = new IntersectionObserver((entries) => {
+			entries.forEach(entry => {
+				if (entry.isIntersecting) {
+					const values = entry.target.querySelectorAll('.proof-strip-value');
+					values.forEach((el) => {
+						const text = el.textContent?.trim() || '';
+						const match = text.match(/^(\d+)\+?$/);
+						if (match) {
+							const target = parseInt(match[1]);
+							let current = 0;
+							const duration = 1200;
+							const step = target / (duration / 16);
+							const animate = () => {
+								current += step;
+								if (current >= target) {
+									el.childNodes.forEach(n => {
+										if (n.nodeType === 3) n.textContent = '';
+									});
+									const textNode = Array.from(el.childNodes).find(n => n.nodeType === 3 && n.textContent?.trim());
+									if (textNode) textNode.textContent = text;
+									else {
+										// Set text between bracket spans
+										const brackets = el.querySelectorAll('span');
+										if (brackets.length >= 2) {
+											brackets[0].after(text);
+										}
 									}
+								} else {
+									const display = Math.floor(current) + (text.includes('+') ? '+' : '');
+									const textNode = Array.from(el.childNodes).find(n => n.nodeType === 3);
+									if (textNode) textNode.textContent = display;
+									requestAnimationFrame(animate);
 								}
-							} else {
-								const display = Math.floor(current) + (text.includes('+') ? '+' : '');
-								const textNode = Array.from(el.childNodes).find(n => n.nodeType === 3);
-								if (textNode) textNode.textContent = display;
-								requestAnimationFrame(animate);
-							}
-						};
-						requestAnimationFrame(animate);
-					}
-				});
-				observer.unobserve(entry.target);
-			}
-		});
-	}, { threshold: 0.5 });
+							};
+							requestAnimationFrame(animate);
+						}
+					});
+					observer.unobserve(entry.target);
+				}
+			});
+		}, { threshold: 0.5 });
 
-	const strip = document.getElementById('proof-strip');
-	if (strip) observer.observe(strip);
+		const strip = document.getElementById('proof-strip');
+		if (strip) observer.observe(strip);
+	});
 </script>
