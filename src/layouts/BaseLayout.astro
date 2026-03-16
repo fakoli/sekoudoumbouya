@@ -33,6 +33,17 @@ const { title, description = "Senior Staff Cloud Systems Engineer | Multi-Region
 				const theme = stored || (prefersDark ? 'dark' : 'light');
 				document.documentElement.setAttribute('data-theme', theme);
 			})();
+
+			// Re-apply theme after View Transitions page swap
+			document.addEventListener('astro:after-swap', function() {
+				const stored = localStorage.getItem('theme');
+				const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+				const theme = stored || (prefersDark ? 'dark' : 'light');
+				document.documentElement.setAttribute('data-theme', theme);
+				if (typeof window.updateAllToggleIcons === 'function') {
+					window.updateAllToggleIcons();
+				}
+			});
 		</script>
 		<SEOHead title={title} description={description} image={image} type={type} publishDate={publishDate} />
 		<JSONLD type={type} title={title} description={description} publishDate={publishDate} breadcrumbs={breadcrumbs} />
