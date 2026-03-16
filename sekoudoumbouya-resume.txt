@@ -7,7 +7,7 @@ linkedin.com/in/sekoudoumbouya/ | github.com/fakoli
 
 Professional Summary
 
-Senior Staff Cloud Systems Engineer and Technical Lead with more than 20 years of in-depth experience architecting scalable, reliable, and cost-effective cloud infrastructure solutions. Expertise includes multi-region networking, disaster recovery, infrastructure-as-code (IaC), Kubernetes, automation, and team leadership. Proven track record in strategic leadership roles — including serving as Director of Network Operations — demonstrating strong leadership, technical depth, and cross-functional influence.
+Senior Staff Cloud Systems Engineer and Technical Lead with more than 20 years of in-depth experience architecting scalable, reliable, and cost-effective cloud infrastructure solutions. Expertise includes multi-region networking, disaster recovery, infrastructure-as-code (IaC), Kubernetes, automation, and team leadership. Proven track record in strategic leadership roles, including serving as Director of Network Operations, demonstrating strong leadership, technical depth, and cross-functional influence.
 
 ⸻
 

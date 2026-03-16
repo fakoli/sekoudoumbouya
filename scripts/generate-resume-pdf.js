@@ -88,7 +88,7 @@ function createResume() {
      .fontSize(9.5)
      .fillColor(colors.text);
 
-  const summary = 'Senior Staff Cloud Systems Engineer and Technical Lead with more than 20 years of in-depth experience architecting scalable, reliable, and cost-effective cloud infrastructure solutions. Expertise includes multi-region networking, disaster recovery, infrastructure-as-code (IaC), Kubernetes, automation, and team leadership. Proven track record in strategic leadership roles—including serving as Director of Network Operations—demonstrating strong leadership, technical depth, and cross-functional influence.';
+  const summary = 'Senior Staff Cloud Systems Engineer and Technical Lead with more than 20 years of in-depth experience architecting scalable, reliable, and cost-effective cloud infrastructure solutions. Expertise includes multi-region networking, disaster recovery, infrastructure-as-code (IaC), Kubernetes, automation, and team leadership. Proven track record in strategic leadership roles, including serving as Director of Network Operations, demonstrating strong leadership, technical depth, and cross-functional influence.';
 
   doc.text(summary, doc.page.margins.left, y, {
     width: pageWidth,

@@ -160,7 +160,7 @@ export async function fetchTopRepos(
 
     const repos = await response.json();
 
-    // Filter out forks — only generate case studies for owned repos
+    // Filter out forks -only generate case studies for owned repos
     const ownedRepos = repos.filter((repo: Record<string, unknown>) => {
       if (repo.fork) {
         console.log(`   🍴 Skipping fork: ${repo.name}`);
@@ -226,7 +226,7 @@ async function enrichRepos(
 
       const repo = await response.json();
 
-      // Skip forks — only generate case studies for owned repos
+      // Skip forks -only generate case studies for owned repos
       if (repo.fork) {
         console.log(`   🍴 Skipping fork: ${name}`);
         continue;
