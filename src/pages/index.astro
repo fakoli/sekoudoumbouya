@@ -88,7 +88,7 @@ const initials = SITE_CONFIG.name.split(' ').map(n => n[0]).join('');
 <PageLayout title={`${SITE_CONFIG.name} | ${SITE_CONFIG.title}`} description={SITE_CONFIG.description}>
 
 	<!-- Hero Section - Editorial Magazine Style -->
-	<section class="py-16 md:py-24 relative" data-hero>
+	<section class="py-16 md:py-24 relative" data-hero style="background: radial-gradient(ellipse 80% 50% at 20% 40%, rgba(45, 212, 191, 0.08) 0%, transparent 60%), radial-gradient(ellipse 60% 80% at 80% 20%, rgba(45, 212, 191, 0.04) 0%, transparent 60%);">
 		<div class="max-w-6xl mx-auto px-4">
 			<!-- Editorial layout with optional photo -->
 			<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
@@ -191,10 +191,10 @@ const initials = SITE_CONFIG.name.split(' ').map(n => n[0]).join('');
 	</section>
 
 	<!-- How I Work Section -->
-	<section class="max-w-6xl mx-auto mb-24 px-4" data-reveal>
+	<section class="max-w-6xl mx-auto mb-24 px-4 scroll-reveal" data-reveal>
 		<div class="flex justify-between items-end mb-6">
 			<div>
-				<p class="kicker">Leadership Philosophy</p>
+				<p class="kicker"><span class="font-mono text-accent opacity-50 mr-1">01.</span> Leadership Philosophy</p>
 				<h2 class="heading-lg text-foreground">How I Work</h2>
 			</div>
 			<a href={`${base}/about#how-i-lead`} class="hidden md:inline-flex items-center link body-sm">
@@ -240,10 +240,10 @@ const initials = SITE_CONFIG.name.split(' ').map(n => n[0]).join('');
 	</section>
 
 	<!-- Featured Case Studies -->
-	<section id="case-studies" class="max-w-6xl mx-auto mb-24 px-4" data-reveal>
+	<section id="case-studies" class="max-w-6xl mx-auto mb-24 px-4 scroll-reveal" data-reveal>
 		<div class="flex justify-between items-end mb-8">
 			<div>
-				<p class="kicker">Proof of Impact</p>
+				<p class="kicker"><span class="font-mono text-accent opacity-50 mr-1">02.</span> Proof of Impact</p>
 				<h2 class="heading-lg text-foreground mb-2">Featured Case Studies</h2>
 				<p class="body-md text-muted">Decision cards showing how problems were solved.</p>
 			</div>
@@ -310,10 +310,10 @@ const initials = SITE_CONFIG.name.split(' ').map(n => n[0]).join('');
 	{artifacts.length > 0 && <ReceiptsWall maxVisible={5} />}
 
 	<!-- Technical Focus Areas -->
-	<section id="focus-areas" class="max-w-6xl mx-auto mb-24 px-4" data-reveal>
+	<section id="focus-areas" class="max-w-6xl mx-auto mb-24 px-4 scroll-reveal" data-reveal>
 		<div class="flex justify-between items-end mb-8">
 			<div>
-				<p class="kicker">Domains</p>
+				<p class="kicker"><span class="font-mono text-accent opacity-50 mr-1">03.</span> Domains</p>
 				<h2 class="heading-lg text-foreground mb-2">Technical Focus Areas</h2>
 				<p class="body-md text-muted">Where I invest my engineering energy.</p>
 			</div>
@@ -343,7 +343,7 @@ const initials = SITE_CONFIG.name.split(' ').map(n => n[0]).join('');
 		<div class="card p-6 md:p-8">
 			<div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
 				<div>
-					<p class="kicker">Community</p>
+					<p class="kicker"><span class="font-mono text-accent opacity-50 mr-1">04.</span> Community</p>
 					<h2 class="heading-md text-foreground mb-1">Beyond the Day Job</h2>
 					<p class="body-sm text-muted">Thought leadership, community, and open source.</p>
 				</div>
@@ -425,7 +425,7 @@ const initials = SITE_CONFIG.name.split(' ').map(n => n[0]).join('');
 		<section id="insights" class="max-w-4xl mx-auto border-t border-[var(--border-default)] pt-20 mb-24 px-4">
 			<div class="flex justify-between items-baseline mb-12">
 				<div>
-					<p class="kicker">Insights</p>
+					<p class="kicker"><span class="font-mono text-accent opacity-50 mr-1">05.</span> Insights</p>
 					<h2 class="heading-lg text-foreground">Latest Writing</h2>
 				</div>
 				<a href={withBasePath('/writing')} class="link body-sm">Read all articles &rarr;</a>
