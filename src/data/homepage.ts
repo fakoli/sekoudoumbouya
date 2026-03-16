@@ -78,6 +78,11 @@ export function getFocusAreasPreviews(): FocusAreaPreview[] {
 			href: `${base}/about#sre-scalability`,
 		},
 		{
+			title: 'AI & LLM Infra',
+			subtitle: 'GPU & Model Serving',
+			href: `${base}/about#ai-infrastructure`,
+		},
+		{
 			title: 'AI/ML Infrastructure',
 			subtitle: 'Observability & Governance',
 			href: `${base}/about#ai-ml-infrastructure`,

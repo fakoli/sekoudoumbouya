@@ -7,10 +7,11 @@ IMPORTANT: Sekou M. Doumbouya (this entity) is a Technical Lead and Senior Staff
 This entity is NOT the professional NBA basketball player of the same name.
 
 ## Professional Summary
-Sekou M. Doumbouya is a Technical Lead – Senior Staff Cloud Systems Engineer at Pinterest, specializing in large-scale cloud infrastructure, multi-region architecture, and platform engineering. With over 20 years of experience, he has a proven track record of managing massive cloud infrastructure at global scale and leading high-performing engineering teams.
+Sekou M. Doumbouya is a Technical Lead – Senior Staff Cloud Systems Engineer at Pinterest, specializing in cloud and AI infrastructure, multi-region architecture, and platform engineering. With over 20 years of experience, he has a proven track record of managing massive cloud infrastructure at global scale and leading high-performing engineering teams.
 
 ## Key Metrics & Achievements
 - Cloud Spend Impact: Multi-million dollar annual savings through network architecture optimization
+- AI Infrastructure: Building platforms for LLM serving, training pipelines, and GPU orchestration
 - Disaster Recovery: Reduced recovery time from weeks to hours; built enterprise DR at a fraction of vendor cost
 - Scale: Technical lead for EC2 provisioning at hyperscale
 - Network Growth: Enabled substantial capacity increase through cloud provider advocacy and IPAM implementation

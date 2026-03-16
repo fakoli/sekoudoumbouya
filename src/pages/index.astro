@@ -146,7 +146,7 @@ const initials = SITE_CONFIG.name.split(' ').map(n => n[0]).join('');
 
 				<!-- Editorial portrait column -->
 				<div class="lg:col-span-4 order-first lg:order-none">
-					<figure class="relative mb-6 lg:mb-0">
+					<figure class="relative mb-6 lg:mb-0 bg-[var(--surface-tertiary)] rounded-lg">
 						<img
 							src={`${base}/headshot.jpg`}
 							alt={SITE_CONFIG.name}
@@ -313,7 +313,7 @@ const initials = SITE_CONFIG.name.split(' ').map(n => n[0]).join('');
 			</a>
 		</div>
 
-		<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+		<div class="grid grid-cols-2 md:grid-cols-5 gap-4">
 			{focusAreas.map(area => (
 				<a href={area.href} class="group card p-5 text-center">
 					<h3 class="heading-sm text-foreground mb-1 group-hover:text-accent transition-colors">{area.title}</h3>
@@ -330,7 +330,7 @@ const initials = SITE_CONFIG.name.split(' ').map(n => n[0]).join('');
 	</section>
 
 	<!-- External Engagement -->
-	<section id="external-engagement" class="max-w-6xl mx-auto mb-24 px-4" data-reveal>
+	<section id="external-engagement" class="max-w-6xl mx-auto mb-24 px-4">
 		<div class="card p-6 md:p-8">
 			<div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
 				<div>
@@ -445,6 +445,9 @@ const initials = SITE_CONFIG.name.split(' ').map(n => n[0]).join('');
 							<time datetime={post.data.publishDate.toISOString()} class="body-sm text-muted shrink-0 md:ml-4 tabular-nums">
 								{formatDate(post.data.publishDate)}
 							</time>
+							{post.data.readingTime && (
+								<span class="body-sm text-muted shrink-0 ml-2">&middot; {post.data.readingTime} min read</span>
+							)}
 						</div>
 						<p class="body-md text-secondary mb-3 max-w-2xl">
 							{post.data.description}

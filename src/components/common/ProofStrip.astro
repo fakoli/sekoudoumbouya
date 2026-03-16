@@ -1,7 +1,7 @@
 ---
 /**
  * ProofStrip Component
- * Editorial ruler bar showing key metrics, sticky on scroll
+ * Editorial ruler bar showing key metrics as a static inline section
  * Enhanced with schematic measurement brackets
  * Uses semantic <dl>/<dt>/<dd> for accessibility
  */
@@ -18,16 +18,12 @@ interface Props {
 	sticky?: boolean;
 }
 
-const { metrics, sticky = true } = Astro.props;
+const { metrics } = Astro.props;
 ---
 
 <div
-	class:list={[
-		'proof-strip',
-		{ 'proof-strip-hidden': sticky }
-	]}
+	class="proof-strip"
 	id="proof-strip"
-	data-sticky={sticky}
 	role="region"
 	aria-label="Key achievements summary"
 >
@@ -47,39 +43,6 @@ const { metrics, sticky = true } = Astro.props;
 		))}
 	</dl>
 </div>
-
-{sticky && (
-	<script>
-		// ProofStrip visibility controller
-		// Shows after scrolling past hero section
-		const proofStrip = document.getElementById('proof-strip');
-
-		if (proofStrip && proofStrip.dataset.sticky === 'true') {
-			const observer = new IntersectionObserver(
-				(entries) => {
-					entries.forEach((entry) => {
-						// Show proof strip when hero is NOT intersecting (scrolled past)
-						if (entry.isIntersecting) {
-							proofStrip.classList.add('proof-strip-hidden');
-						} else {
-							proofStrip.classList.remove('proof-strip-hidden');
-						}
-					});
-				},
-				{
-					threshold: 0,
-					rootMargin: '-72px 0px 0px 0px' // Account for header height
-				}
-			);
-
-			// Observe the hero section
-			const hero = document.querySelector('[data-hero]') || document.querySelector('section:first-of-type');
-			if (hero) {
-				observer.observe(hero);
-			}
-		}
-	</script>
-)}
 
 <style>
 	/* Enhanced proof strip value with measurement brackets */

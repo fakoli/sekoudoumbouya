@@ -43,6 +43,7 @@ Currently at Pinterest, Sekou leads Multi-Region and Multi-Account initiatives, 
 
 ## KEY ACHIEVEMENTS & METRICS
 
+- **AI Infrastructure**: Building platforms for LLM serving, GPU orchestration, and training pipeline infrastructure
 - **Cloud Cost Impact**: Multi-million dollar annual savings through network architecture optimization
 - **Infrastructure Scale**: Led infrastructure at hyperscale
 - **Team Building**: Founded Cloud Architecture team; mentored 20+ engineers
@@ -122,6 +123,7 @@ Key Achievements:
 - Platform Engineering
 - FinOps & Cost Optimization
 - Technical Strategy & Leadership
+- AI & LLM Infrastructure
 
 ### Cloud Platforms
 - Amazon Web Services (AWS) - Expert level
@@ -161,6 +163,12 @@ Key Achievements:
 - Direct Connect
 - Multi-region routing
 - Network security
+
+### AI/ML Infrastructure
+- LLM Serving & Inference Optimization
+- GPU Orchestration & Scheduling
+- Training Pipeline Infrastructure
+- Model Governance & Observability
 
 ### Observability
 - Prometheus

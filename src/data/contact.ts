@@ -36,12 +36,12 @@ export const ENGAGEMENT_TYPES: EngagementType[] = [
 		id: 'conversations',
 		title: 'Technical Conversations',
 		icon: '💬',
-		description: 'Happy to chat with founders and engineers navigating infrastructure challenges. No sales pitch, just sharing what I\'ve learned.',
+		description: 'Happy to chat with founders and engineers navigating infrastructure challenges, from traditional cloud to AI workloads. No sales pitch, just sharing what I\'ve learned.',
 		examples: [
-			'Architecture decision sounding board',
-			'Scaling challenges and patterns',
+			'AI infrastructure and LLM serving architecture',
+			'Cloud-to-AI platform migration patterns',
+			'Scaling challenges and cost optimization',
 			'Platform team strategy discussions',
-			'Technology stack trade-offs',
 		],
 	},
 	{

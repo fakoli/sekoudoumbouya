@@ -50,40 +50,38 @@ const { title, description = "Senior Staff Cloud Systems Engineer | Multi-Region
 	<body class="antialiased">
 		<slot />
 		<script>
-			let revealObserver: IntersectionObserver | null = null;
+			// Mark that JS is available for reveal animations
+			document.documentElement.classList.add('js-reveal');
 
-			function initReveal() {
-				// Signal to CSS that JS is available
-				document.documentElement.classList.add('js-reveal');
-
-				// Disconnect previous observer to prevent accumulation
-				if (revealObserver) {
-					revealObserver.disconnect();
-					revealObserver = null;
-				}
-
-				const revealSections = document.querySelectorAll('[data-reveal]');
-				if (!revealSections.length) return;
-
-				revealObserver = new IntersectionObserver((entries) => {
+			// Scroll reveal observer
+			const revealObserver = new IntersectionObserver(
+				(entries) => {
 					entries.forEach((entry) => {
 						if (entry.isIntersecting) {
-							entry.target.classList.add('fade-up');
-							const children = entry.target.querySelectorAll('[data-reveal-item]');
-							children.forEach((child, i) => {
-								child.classList.add('fade-up', `stagger-${Math.min(i + 1, 5)}`);
+							entry.target.style.opacity = '1';
+							entry.target.style.transform = 'translateY(0)';
+							entry.target.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+
+							// Also reveal child items with stagger
+							const items = entry.target.querySelectorAll('[data-reveal-item]');
+							items.forEach((item, i) => {
+								setTimeout(() => {
+									(item as HTMLElement).style.opacity = '1';
+									(item as HTMLElement).style.transform = 'translateY(0)';
+									(item as HTMLElement).style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+								}, i * 80);
 							});
-							revealObserver?.unobserve(entry.target);
+
+							revealObserver.unobserve(entry.target);
 						}
 					});
-				}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+				},
+				{ threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
+			);
 
-				revealSections.forEach(section => revealObserver!.observe(section));
-			}
-
-			// Run on initial load and Astro page transitions
-			initReveal();
-			document.addEventListener('astro:page-load', initReveal);
+			document.querySelectorAll('[data-reveal]').forEach((el) => {
+				revealObserver.observe(el);
+			});
 		</script>
 	</body>
 </html>
